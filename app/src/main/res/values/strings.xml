@@ -1,0 +1,51 @@
+<!--
+  ~ /*
+  ~  * Copyright (C) 2016 @ Appeiros Mobile Development S.L.
+  ~  *
+  ~  * Developer Fernando Souto
+  ~  *
+  ~  * Licensed under the Apache License, Version 2.0 (the "License");
+  ~  * you may not use this file except in compliance with the License.
+  ~  * You may obtain a copy of the License at
+  ~  *
+  ~  * http://www.apache.org/licenses/LICENSE-2.0
+  ~  *
+  ~  * Unless required by applicable law or agreed to in writing, software
+  ~  * distributed under the License is distributed on an "AS IS" BASIS,
+  ~  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  * See the License for the specific language governing permissions and
+  ~  * limitations under the License.
+  ~  */
+  -->
+
+<resources>
+    <string name="app_name">CUAC FM</string>
+    <string name="gallery">Galería de fotos</string>
+    <string name="navigation_drawer_open">Abrir menu</string>
+    <string name="navigation_drawer_close">Cerrar menu</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="drawer_item_streaming">Escuchar emisión</string>
+    <string name="drawer_item_streaming_stop">Parar emisión</string>
+    <string name="drawer_item_streaming_close">Cerrar app</string>
+
+    <string name="drawer_item_podcasting">Escuchar emisión</string>
+    <string name="drawer_item_podcasting_stop">Detener episodio</string>
+
+    <string name="no_elements">No hay elementos</string>
+
+    <string name="downloading">Descargando...</string>
+    <string name="downloaded">Descargado con éxito del episodio: </string>
+    <string name="error_download">Error en la descarga del episodio: </string>
+
+
+    <string name="action_station">Emisora</string>
+    <string name="action_gallery">Galería</string>
+    <string name="action_streaming">Escuchar emisión</string>
+    <string name="action_news">Noticias</string>
+    <string name="action_podcast">Podcast</string>
+    <string name="action_social">Redes sociales</string>
+    <string name="action_twitter">Twitter</string>
+    <string name="action_facebook">Facebook</string>
+</resources>

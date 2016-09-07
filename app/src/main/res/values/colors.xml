@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ /*
+  ~  * Copyright (C) 2016 @ Appeiros Mobile Development S.L.
+  ~  *
+  ~  * Developer Fernando Souto
+  ~  *
+  ~  * Licensed under the Apache License, Version 2.0 (the "License");
+  ~  * you may not use this file except in compliance with the License.
+  ~  * You may obtain a copy of the License at
+  ~  *
+  ~  * http://www.apache.org/licenses/LICENSE-2.0
+  ~  *
+  ~  * Unless required by applicable law or agreed to in writing, software
+  ~  * distributed under the License is distributed on an "AS IS" BASIS,
+  ~  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  * See the License for the specific language governing permissions and
+  ~  * limitations under the License.
+  ~  */
+  -->
+
+<resources>
+    <color name="colorPrimary">#ff9900</color>
+    <color name="colorPrimaryDark">#a56300</color>
+    <color name="colorAccent">#5f3900</color>
+
+    <color name="colorPrimary85">#D9ff9900</color>
+    <color name="colorPrimaryDark85">#D9a56300</color>
+    <color name="colorAccent85">#D95f3900</color>
+    <color name="colorBlack85">#D9000000</color>
+</resources>
