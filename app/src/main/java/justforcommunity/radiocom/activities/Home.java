@@ -22,6 +22,7 @@ package justforcommunity.radiocom.activities;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -34,6 +35,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -279,6 +281,29 @@ public class Home extends AppCompatActivity
 
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GlobalValues.facebookName));
             startActivity(browserIntent);
+        }
+        else if (id == R.id.nav_cuac) {
+
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GlobalValues.baseURLWEB));
+            startActivity(browserIntent);
+        }
+        else if (id == R.id.nav_dev) {
+
+            AlertDialog.Builder bld = new AlertDialog.Builder(mContext);
+            bld.setTitle(mContext.getString(R.string.titledialog));
+            bld.setMessage(mContext.getString(R.string.msgdialog));
+            bld.setCancelable(true);
+
+            bld.setPositiveButton(
+                    mContext.getString(R.string.okdialog),
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert11 = bld.create();
+            alert11.show();
         }
 
 

@@ -46,7 +46,7 @@
             android:title="@string/action_podcast" />
     </group>
 
-    <item android:title="Social">
+    <item android:title="@string/action_social">
         <menu>
             <item
                 android:id="@+id/nav_twitter"
@@ -56,6 +56,18 @@
                 android:id="@+id/nav_facebook"
                 android:icon="@drawable/facebook"
                 android:title="@string/action_facebook" />
+        </menu>
+    </item>
+    <item android:title="@string/action_thanks">
+        <menu>
+            <item
+                android:id="@+id/nav_cuac"
+                android:icon="@drawable/cuac"
+                android:title="@string/action_cuac" />
+            <item
+                android:id="@+id/nav_dev"
+                android:icon="@drawable/dev"
+                android:title="@string/action_dev" />
         </menu>
     </item>
 
