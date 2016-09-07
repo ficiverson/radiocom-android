@@ -29,15 +29,10 @@ import justforcommunity.radiocom.activities.App;
  */
 public class GlobalValues {
 
-
+    //configurations you con update
     public static String baseURL = "http://radiocom.stamplayapp.com/api/cobject/v1/";
 
     public static String prefName="commradio";
-
-    public static String EXTRA_MESSAGE = "radioStation";
-    public static String EXTRA_PROGRAM = "programme";
-    public static String EXTRA_CONTENT = "webviewContent";
-    public static String EXTRA_TITLE = "webviewTitle";
 
     public static String colorHTML = "#ff9900 !important";
     public static String baseURLWEB ="https://cuacfm.org/";
@@ -46,7 +41,13 @@ public class GlobalValues {
 
     public static String twitterName="cuacfm";
     public static String facebookName="https://www.facebook.com/cuacfm";
+    //end configuration you can update
 
+    //things that you may not cange
+    public static String EXTRA_MESSAGE = "radioStation";
+    public static String EXTRA_PROGRAM = "programme";
+    public static String EXTRA_CONTENT = "webviewContent";
+    public static String EXTRA_TITLE = "webviewTitle";
 
     public static String DOWNLOAD_DIR = Environment.getExternalStorageDirectory().toString()+"/Android/data/" + App.PACKAGE_NAME + "/downloaded/";
 

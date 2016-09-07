@@ -20,12 +20,16 @@
   -->
 
 <resources>
+    <!-- begin color configuration to change -->
     <color name="colorPrimary">#ff9900</color>
     <color name="colorPrimaryDark">#a56300</color>
     <color name="colorAccent">#5f3900</color>
 
+    <!-- same colors wiyh 85% opacity -->
     <color name="colorPrimary85">#D9ff9900</color>
     <color name="colorPrimaryDark85">#D9a56300</color>
     <color name="colorAccent85">#D95f3900</color>
+    <!-- end color configuration to change -->
+
     <color name="colorBlack85">#D9000000</color>
 </resources>

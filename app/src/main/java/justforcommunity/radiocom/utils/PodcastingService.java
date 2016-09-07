@@ -71,7 +71,7 @@ public class PodcastingService extends Service {
 
 
         NotificationCompat.Builder noti = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.drawable.logo_nav_header)
+                .setSmallIcon(R.drawable.ic_launcher)
                 .setContentIntent(localPendingIntent)
                 .setContentTitle(this.title)
                 .setContentText(this.text)
