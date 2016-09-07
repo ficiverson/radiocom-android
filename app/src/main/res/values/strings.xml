@@ -48,4 +48,9 @@
     <string name="action_social">Redes sociales</string>
     <string name="action_twitter">Twitter</string>
     <string name="action_facebook">Facebook</string>
+
+
+    <string name="share">Compartir</string>
+    <string name="share_send_to">Compartir desde app de CUAC FM</string>
+    <string name="share_via">\n\n\na través CUAC FM para Android.</string>
 </resources>

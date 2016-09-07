@@ -23,12 +23,17 @@ package justforcommunity.radiocom.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +53,8 @@ public class ContentDetail extends AppCompatActivity {
     private WebView detail_web;
     private SharedPreferences prefs;
     private SharedPreferences.Editor edit;
+    private ShareActionProvider mShareActionProvider;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +83,7 @@ public class ContentDetail extends AppCompatActivity {
 
         detail_web.setBackgroundColor(Color.WHITE);
 
-        String title = getIntent().getStringExtra(GlobalValues.EXTRA_TITLE);
+        title = getIntent().getStringExtra(GlobalValues.EXTRA_TITLE);
 
         getSupportActionBar().setTitle(title);
 
@@ -124,8 +131,19 @@ public class ContentDetail extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
+        getMenuInflater().inflate(R.menu.share_menu, menu);
+
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+
         return true;
+    }
+
+    // Call to update the share intent
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
     }
 
     @Override
@@ -140,6 +158,23 @@ public class ContentDetail extends AppCompatActivity {
 
             case R.id.home:
                 finish();
+                break;
+            case R.id.menu_item_share:
+
+                Uri imageUri = null;
+                try {
+                    imageUri = Uri.parse(MediaStore.Images.Media.insertImage(this.getContentResolver(),
+                            BitmapFactory.decodeResource(getResources(), R.drawable.logo_nav_header), null, null));
+                } catch (NullPointerException e) {
+                }
+
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, title + " " + getResources().getText(R.string.share_via));
+                shareIntent.setType("image/*");
+                startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.share_send_to)));
+
                 break;
             default:
                 return true;
