@@ -27,6 +27,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.os.IBinder;
@@ -45,6 +46,8 @@ public class StreamingService extends Service {
     private NotificationManager mNM;
     private MediaPlayer mp;
     private int total;
+    public SharedPreferences prefs;
+    public SharedPreferences.Editor edit;
 
     private void showNotification(String paramString1, String paramString2) {
         String str = paramString2;
@@ -96,19 +99,20 @@ public class StreamingService extends Service {
     public void onCreate() {
         this.mp = new MediaPlayer();
         this.mp.setLooping(false);
+
+        prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
+        edit = prefs.edit();
     }
 
     @Override
     public void onDestroy() {
-        if(mp!=null) {
-            this.mp.stop();
-            this.mp.reset();
-            this.mp.release();
-            this.mp = null;
-        }
-        if(mNM!=null) {
-            this.mNM.cancelAll();
-        }
+        destroyMediaPlayerAndNotification();
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        destroyMediaPlayerAndNotification();
+        super.onTaskRemoved(rootIntent);
     }
 
     @Override
@@ -152,6 +156,22 @@ public class StreamingService extends Service {
             showNotification(text, title);
         }
 
+    }
+
+
+    private void destroyMediaPlayerAndNotification() {
+        if(mp!=null) {
+            this.mp.stop();
+            this.mp.reset();
+            this.mp.release();
+            this.mp = null;
+        }
+        if(mNM!=null) {
+            this.mNM.cancelAll();
+        }
+
+        edit.putBoolean("isMediaPlaying", false);
+        edit.commit();
     }
 
 }

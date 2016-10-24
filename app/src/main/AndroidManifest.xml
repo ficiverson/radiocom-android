@@ -80,10 +80,12 @@
         <service
             android:name=".utils.StreamingService"
             android:configChanges="orientation|screenSize"
+            android:stopWithTask="false"
             android:enabled="true" />
         <service
             android:name=".utils.PodcastingService"
             android:configChanges="orientation|screenSize"
+            android:stopWithTask="false"
             android:enabled="true" />
 
     </application>

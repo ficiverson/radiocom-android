@@ -100,19 +100,13 @@ public class PodcastingService extends Service {
 
     @Override
     public void onDestroy() {
-        if(mp!=null) {
-            this.mp.stop();
-            this.mp.reset();
-            this.mp.release();
-            this.mp = null;
-        }
-        if(mNM!=null) {
-            this.mNM.cancelAll();
-        }
+        destroyMediaPlayerAndNotification();
+    }
 
-        //reset preference value
-        edit.putString("currentTitlePlaying","");
-        edit.commit();
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        destroyMediaPlayerAndNotification();
+        super.onTaskRemoved(rootIntent);
     }
 
     @Override
@@ -161,6 +155,23 @@ public class PodcastingService extends Service {
             showNotification(text, title);
         }
 
+    }
+
+    private void destroyMediaPlayerAndNotification() {
+        if(mp!=null) {
+            this.mp.stop();
+            this.mp.reset();
+            this.mp.release();
+            this.mp = null;
+        }
+        if(mNM!=null) {
+            this.mNM.cancelAll();
+        }
+
+        //reset preference value
+        edit.putString("currentTitlePlaying","");
+        edit.putBoolean("isMediaPlaying", false);
+        edit.commit();
     }
 
 }
