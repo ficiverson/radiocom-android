@@ -28,6 +28,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -271,21 +272,50 @@ public class Home extends AppCompatActivity
                 mContext.getPackageManager().getPackageInfo("com.twitter.android", 0);
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name="+GlobalValues.twitterName));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
             } catch (Exception e) {
                 // no Twitter app, revert to browser
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/"+GlobalValues.twitterName));
+                String url = "https://twitter.com/"+GlobalValues.twitterName;
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                builder.addDefaultShareMenuItem();
+                builder.enableUrlBarHiding();
+                builder.setStartAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                builder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(this, Uri.parse(url));
             }
-            startActivity(intent);
-
         }else if (id == R.id.nav_facebook) {
 
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GlobalValues.facebookName));
-            startActivity(browserIntent);
+            try{
+                // get the Twitter app if possible
+                mContext.getPackageManager().getPackageInfo("com.facebook.katana", 0);
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GlobalValues.facebookName));
+                startActivity(browserIntent);
+            }
+            catch(Exception e){
+                String url = GlobalValues.facebookName;
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                builder.addDefaultShareMenuItem();
+                builder.enableUrlBarHiding();
+                builder.setStartAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                builder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(this, Uri.parse(url));
+            }
         }
         else if (id == R.id.nav_cuac) {
 
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GlobalValues.baseURLWEB));
-            startActivity(browserIntent);
+            String url = GlobalValues.baseURLWEB;
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.addDefaultShareMenuItem();
+            builder.enableUrlBarHiding();
+            builder.setStartAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            builder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(this, Uri.parse(url));
         }
         else if (id == R.id.nav_dev) {
 

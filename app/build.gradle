@@ -57,4 +57,5 @@ dependencies {
     compile 'com.pkmmte.pkrss:pkrss:1.2'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.android.support:customtabs:23.3.0'
 }

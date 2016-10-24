@@ -38,6 +38,7 @@
     <string name="drawer_item_podcasting_stop">Detener episodio</string>
 
     <string name="no_elements">No hay elementos</string>
+    <string name="no_content">No hay contenido en este momento</string>
 
     <string name="downloading">Descargando...</string>
     <string name="downloaded">Descargado con éxito del episodio: </string>

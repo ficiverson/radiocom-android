@@ -128,8 +128,17 @@ public class NoticiasPageFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                    String content = noticias.get(position).getContent();
+                    if(noticias.get(position).getContent()==null){
+                        if(noticias.get(position).getDescription()!=null) {
+                            content = noticias.get(position).getDescription();
+                        }
+                        else{
+                            content = getString(R.string.no_content);
+                        }
+                    }
                     Intent intent = new Intent(mActivity, ContentDetail.class);
-                    intent.putExtra(GlobalValues.EXTRA_CONTENT ,noticias.get(position).getContent());
+                    intent.putExtra(GlobalValues.EXTRA_CONTENT ,content);
                     intent.putExtra(GlobalValues.EXTRA_TITLE,noticias.get(position).getTitle());
                     startActivity(intent);
                 }
