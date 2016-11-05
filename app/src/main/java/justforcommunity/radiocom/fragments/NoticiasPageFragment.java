@@ -34,6 +34,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.pkmmte.pkrss.Article;
 import com.pkmmte.pkrss.Callback;
 import com.pkmmte.pkrss.PkRSS;
@@ -43,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import justforcommunity.radiocom.R;
+import justforcommunity.radiocom.activities.App;
 import justforcommunity.radiocom.activities.ContentDetail;
 import justforcommunity.radiocom.activities.Gallery;
 import justforcommunity.radiocom.activities.Home;
@@ -101,6 +104,11 @@ public class NoticiasPageFragment extends Fragment {
         PkRSS.with(mContext).load(station.getNews_rss()).callback(callback).async();
         //habria paginacion con .nextPage()
 
+
+        App appliaction = (App) getActivity().getApplication();
+        Tracker mTracker = appliaction.getDefaultTracker();
+        mTracker.setScreenName(getString(R.string.news_view));
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         return v;
     }

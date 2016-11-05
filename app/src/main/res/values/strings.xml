@@ -76,4 +76,14 @@
 \ncompile \'com.pkmmte.pkrss:pkrss:1.2\'
 \ncompile \'com.squareup.okhttp:okhttp:2.0.0\'
 \ncompile \'com.squareup.okhttp:okhttp-urlconnection:2.0.0\'</string>
+
+    <!--analytics purposes -->
+    <string name="home_activity">Pantalla principal</string>
+    <string name="content_activity">Detalle de contenido</string>
+    <string name="gallery_activity">Galería</string>
+    <string name="podcast_activity">Podcast</string>
+    <string name="splash_activity">Splash</string>
+    <string name="home_view">Home Screen</string>
+    <string name="news_view">News screen</string>
+    <string name="podcast_view">Podcast screen</string>
 </resources>

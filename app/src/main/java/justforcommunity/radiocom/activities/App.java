@@ -26,25 +26,37 @@ import android.app.Application;
 import android.content.Context;
 
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 /**
- * Created by appeiros on 2/05/16.
+ * Created by fernando on 2/05/16.
  */
 public class App extends Application {
 
     public static String PACKAGE_NAME;
-
+    private Tracker mTracker;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
         PACKAGE_NAME = getApplicationContext().getPackageName();
+    }
 
-
+    /**
+     * Gets the default {@link Tracker} for this {@link Application}.
+     * @return tracker
+     */
+    synchronized public Tracker getDefaultTracker() {
+        if (mTracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            mTracker = analytics.newTracker("UA-86927262-1");
+        }
+        return mTracker;
     }
 
 

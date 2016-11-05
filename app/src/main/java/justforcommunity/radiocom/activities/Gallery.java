@@ -35,6 +35,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -124,6 +127,23 @@ public class Gallery extends AppCompatActivity{
             }
         });
 
+        App appliaction = (App) getApplication();
+        Tracker mTracker = appliaction.getDefaultTracker();
+        mTracker.setScreenName(getString(R.string.gallery_activity));
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    public void onStop(){
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
+        super.onStop();
     }
 
 

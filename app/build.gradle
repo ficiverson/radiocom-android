@@ -19,7 +19,7 @@
  */
 
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -58,4 +58,5 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     compile 'com.android.support:customtabs:23.3.0'
+    compile 'com.google.android.gms:play-services-analytics:9.0.0'
 }

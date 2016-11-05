@@ -32,6 +32,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.pkmmte.pkrss.Article;
 import com.pkmmte.pkrss.Callback;
@@ -41,6 +43,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 import java.util.List;
 
 import justforcommunity.radiocom.R;
+import justforcommunity.radiocom.activities.App;
 import justforcommunity.radiocom.activities.ContentDetail;
 import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.activities.Podcast;
@@ -81,6 +84,11 @@ public class PodcastPageFragment extends Fragment {
         GetPrograms gp =  new GetPrograms(mContext,this);
         gp.execute();
 
+
+        App appliaction = (App) getActivity().getApplication();
+        Tracker mTracker = appliaction.getDefaultTracker();
+        mTracker.setScreenName(getString(R.string.podcast_view));
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         return v;
     }

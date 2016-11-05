@@ -40,6 +40,10 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.utils.GlobalValues;
 
@@ -124,7 +128,23 @@ public class ContentDetail extends AppCompatActivity {
         detail_web.getSettings().setDomStorageEnabled(true);
         detail_web.getSettings().setJavaScriptEnabled(true);
 
+        App appliaction = (App) getApplication();
+        Tracker mTracker = appliaction.getDefaultTracker();
+        mTracker.setScreenName(getString(R.string.content_activity));
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    public void onStop(){
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
+        super.onStop();
     }
 
 

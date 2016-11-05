@@ -40,6 +40,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -74,6 +77,23 @@ public class Splash extends AppCompatActivity {
 
         launchGetStations(mContext,mActivity);
 
+        App appliaction = (App) getApplication();
+        Tracker mTracker = appliaction.getDefaultTracker();
+        mTracker.setScreenName(getString(R.string.splash_activity));
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        GoogleAnalytics.getInstance(this).reportActivityStart(this);
+    }
+
+    @Override
+    public void onStop(){
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
+        super.onStop();
     }
 
     public void launchGetStations(Context contex,Splash activity){
