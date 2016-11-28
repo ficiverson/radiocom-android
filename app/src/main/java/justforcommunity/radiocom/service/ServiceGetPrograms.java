@@ -63,7 +63,7 @@ public class ServiceGetPrograms extends ServiceBase {
 
         List<Object> sendValues = new ArrayList<Object>();
 
-        String url = GlobalValues.baseURL+"program" + restQueryString(parameters, theValues, sendValues);
+        String url = GlobalValues.baseURLProgrammes + restQueryString(parameters, theValues, sendValues);
 
         ResponseEntity<ResponseProgramDTO> response = null;
 

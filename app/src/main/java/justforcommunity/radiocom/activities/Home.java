@@ -32,6 +32,7 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -61,7 +62,7 @@ public class Home extends AppCompatActivity
 
     private Context mContext;
     private StationDTO station;
-    private Boolean playing=false;
+    private Boolean playing = false;
     private NavigationView navigationView;
     private SharedPreferences prefs;
     private SharedPreferences.Editor edit;
@@ -78,7 +79,7 @@ public class Home extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
-        mContext= this;
+        mContext = this;
 
         prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         edit = prefs.edit();
@@ -87,13 +88,13 @@ public class Home extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        fab_media =  (FloatingActionButton)findViewById(R.id.fab_media);
+        fab_media = (FloatingActionButton) findViewById(R.id.fab_media);
         fab_media.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,40 +102,33 @@ public class Home extends AppCompatActivity
             }
         });
 
-        if(prefs.getBoolean("isMediaPlaying",false)){//playing is on so we neeed to put menu correctly
+        if (prefs.getBoolean("isMediaPlaying", false)) {//playing is on so we neeed to put menu correctly
             navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming_stop));
             navigationView.getMenu().getItem(2).setIcon(R.drawable.streamingstop);
             fab_media.setImageResource(R.drawable.streamingstopwhite);
-            playing=true;
+            playing = true;
         }
 
 
         String jsonStation = getIntent().getStringExtra(GlobalValues.EXTRA_MESSAGE);
         Gson gson = new Gson();
-        if(jsonStation!=null && jsonStation!="") {
+        if (jsonStation != null && jsonStation != "") {
             station = gson.fromJson(jsonStation, StationDTO.class);
+        } else {
+            station = gson.fromJson(prefs.getString("jsonStation", ""), StationDTO.class);
         }
-        else{
-            station = gson.fromJson(prefs.getString("jsonStation",""),StationDTO.class);
-        }
 
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        HomePageFragment homeFragment = new HomePageFragment();
-        homeFragment.setStation(station);
-        fragmentTransaction.replace(R.id.content_frame, homeFragment);
-        fragmentTransaction.commit();
-
-
-        getSupportActionBar().setTitle(mContext.getString(R.string.action_station));
+        //  Se carga el fragmento home, que es la emisora
+        chargueEmisora();
 
         boolean hasPermissionChange = (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
         if (!hasPermissionChange) {
-            edit.putBoolean("writeSDGranted",true);
+            edit.putBoolean("writeSDGranted", true);
             edit.commit();
         }
 
-        if(prefs.getBoolean("writeSDGranted",true)) {
+        if (prefs.getBoolean("writeSDGranted", true)) {
             boolean hasPermission = (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
             if (!hasPermission) {
@@ -151,13 +145,13 @@ public class Home extends AppCompatActivity
 
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         GoogleAnalytics.getInstance(this).reportActivityStart(this);
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
         super.onStop();
     }
@@ -165,13 +159,11 @@ public class Home extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode)
-        {
+        switch (requestCode) {
             case REQUEST_WRITE_STORAGE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //do no ask again
-                    edit.putBoolean("writeSDGranted",false);
+                    edit.putBoolean("writeSDGranted", false);
                     edit.commit();
                 }
             }
@@ -192,9 +184,9 @@ public class Home extends AppCompatActivity
     @Override
     protected void onNewIntent(Intent intent) {
 
-        if(intent!=null) {//stop media player
-            if(intent.getBooleanExtra("stopService",false)) {
-                if(!intent.getBooleanExtra("notificationSkip",false)) {
+        if (intent != null) {//stop media player
+            if (intent.getBooleanExtra("stopService", false)) {
+                if (!intent.getBooleanExtra("notificationSkip", false)) {
                     Intent i = new Intent(Home.this, StreamingService.class);
                     stopService(i);
                     navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming));
@@ -204,15 +196,14 @@ public class Home extends AppCompatActivity
                     edit.putBoolean("isMediaPlaying", playing);
                     edit.commit();
                 }
-            }
-            else{
+            } else {
                 Intent i = new Intent(Home.this, StreamingService.class);
                 stopService(i);
                 navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming));
                 navigationView.getMenu().getItem(2).setIcon(R.drawable.streaming);
                 fab_media.setImageResource(R.drawable.streamingwhite);
                 playing = false;
-                edit.putBoolean("isMediaPlaying",playing);
+                edit.putBoolean("isMediaPlaying", playing);
                 edit.commit();
                 finish();
             }
@@ -234,7 +225,7 @@ public class Home extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        //int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
     }
@@ -243,130 +234,121 @@ public class Home extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
 
-        if (id == R.id.nav_emisora) {
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            HomePageFragment homeFragment = new HomePageFragment();
-            homeFragment.setStation(station);
-            fragmentTransaction.replace(R.id.content_frame, homeFragment);
-            fragmentTransaction.commit();
-
-            getSupportActionBar().setTitle(mContext.getString(R.string.action_station));
-
-        } else if (id == R.id.nav_galeria) {
-
-            Gson gson = new Gson();
-            String jsonInString = gson.toJson(station);
-
-            Intent intent = new Intent(this, Gallery.class);
-            intent.putExtra(GlobalValues.EXTRA_MESSAGE, jsonInString);
-            startActivity(intent);
-
-
-        } else if (id == R.id.nav_emision) {
-
-            audioController();
-
-        } else if (id == R.id.nav_noticias) {
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            NoticiasPageFragment noticiasFragment = new NoticiasPageFragment();
-            noticiasFragment.setStation(station);
-            fragmentTransaction.replace(R.id.content_frame, noticiasFragment);
-            fragmentTransaction.commit();
-
-            getSupportActionBar().setTitle(mContext.getString(R.string.action_news));
-
-        } else if (id == R.id.nav_podcast) {
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            PodcastPageFragment podcastFragment = new PodcastPageFragment();
-            fragmentTransaction.replace(R.id.content_frame, podcastFragment);
-            fragmentTransaction.commit();
-
-            getSupportActionBar().setTitle(mContext.getString(R.string.action_podcast));
-
-        }else if (id == R.id.nav_twitter) {
-            Intent intent = null;
-            try {
-                // get the Twitter app if possible
-                mContext.getPackageManager().getPackageInfo("com.twitter.android", 0);
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name="+GlobalValues.twitterName));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            } catch (Exception e) {
-                // no Twitter app, revert to browser
-                String url = "https://twitter.com/"+GlobalValues.twitterName;
-                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                builder.addDefaultShareMenuItem();
-                builder.enableUrlBarHiding();
-                builder.setStartAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                builder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
-                CustomTabsIntent customTabsIntent = builder.build();
-                customTabsIntent.launchUrl(this, Uri.parse(url));
-            }
-        }else if (id == R.id.nav_facebook) {
-
-            try{
-                // get the Twitter app if possible
-                mContext.getPackageManager().getPackageInfo("com.facebook.katana", 0);
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GlobalValues.facebookName));
-                startActivity(browserIntent);
-            }
-            catch(Exception e){
-                String url = GlobalValues.facebookName;
-                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                builder.addDefaultShareMenuItem();
-                builder.enableUrlBarHiding();
-                builder.setStartAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                builder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
-                CustomTabsIntent customTabsIntent = builder.build();
-                customTabsIntent.launchUrl(this, Uri.parse(url));
-            }
+        switch (item.getItemId()) {
+            case R.id.nav_emisora:
+                chargueEmisora();
+                break;
+            case R.id.nav_galeria:
+                chargueGaleria();
+                break;
+            case R.id.nav_emision:
+                audioController();
+                break;
+            case R.id.nav_noticias:
+                chargueEmsision();
+                break;
+            case R.id.nav_podcast:
+                charguePodcast();
+                break;
+            case R.id.nav_twitter:
+                chargueTwitter();
+                break;
+            case R.id.nav_facebook:
+                chargueFacebook();
+                break;
+            case R.id.nav_cuac:
+                ProcessBuilder(GlobalValues.baseURLWEB);
+                break;
+            case R.id.nav_dev:
+                chargueDeveloper();
+                break;
         }
-        else if (id == R.id.nav_cuac) {
-
-            String url = GlobalValues.baseURLWEB;
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            builder.addDefaultShareMenuItem();
-            builder.enableUrlBarHiding();
-            builder.setStartAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-            builder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-            builder.setToolbarColor(getResources().getColor(R.color.colorPrimary));
-            CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(this, Uri.parse(url));
-        }
-        else if (id == R.id.nav_dev) {
-
-            AlertDialog.Builder bld = new AlertDialog.Builder(mContext);
-            bld.setTitle(mContext.getString(R.string.titledialog));
-            bld.setMessage(mContext.getString(R.string.msgdialog));
-            bld.setCancelable(true);
-
-            bld.setPositiveButton(
-                    mContext.getString(R.string.okdialog),
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-
-            AlertDialog alert11 = bld.create();
-            alert11.show();
-        }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+
+    public String getCityByCoords(String lat, String longi) {
+        return GlobalValues.city;
+    }
+
+
+    public void chargueGaleria() {
+        Gson gson = new Gson();
+        String jsonInString = gson.toJson(station);
+
+        Intent intent = new Intent(this, Gallery.class);
+        intent.putExtra(GlobalValues.EXTRA_MESSAGE, jsonInString);
+        startActivity(intent);
+    }
+
+    public void chargueEmisora() {
+        HomePageFragment homeFragment = new HomePageFragment();
+        homeFragment.setStation(station);
+        processFragment(homeFragment, mContext.getString(R.string.action_station));
+    }
+
+    public void chargueEmsision() {
+        NoticiasPageFragment noticiasFragment = new NoticiasPageFragment();
+        noticiasFragment.setStation(station);
+        processFragment(noticiasFragment, mContext.getString(R.string.action_news));
+    }
+
+    public void charguePodcast() {
+        PodcastPageFragment podcastFragment = new PodcastPageFragment();
+        processFragment(podcastFragment, mContext.getString(R.string.action_podcast));
+    }
+
+
+    public void chargueTwitter() {
+        try {
+            // get the Twitter app if possible
+            mContext.getPackageManager().getPackageInfo("com.twitter.android", 0);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=" + GlobalValues.twitterName));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } catch (Exception e) {
+            ProcessBuilder("https://twitter.com/" + GlobalValues.twitterName);
+        }
+    }
+
+    public void chargueFacebook() {
+        try {
+            // get the Facebook app if possible
+            mContext.getPackageManager().getPackageInfo("com.facebook.katana", 0);
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GlobalValues.facebookName));
+            startActivity(browserIntent);
+        } catch (Exception e) {
+            ProcessBuilder(GlobalValues.facebookName);
+        }
+    }
+
+    public void chargueDeveloper() {
+        AlertDialog.Builder bld = new AlertDialog.Builder(mContext);
+        bld.setTitle(mContext.getString(R.string.titledialog));
+        bld.setMessage(mContext.getString(R.string.msgdialog));
+        bld.setCancelable(true);
+
+        bld.setPositiveButton(
+                mContext.getString(R.string.okdialog),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = bld.create();
+        alert11.show();
+    }
+
     private void audioController() {
         if (!playing) {
             Intent localIntent2 = new Intent(Home.this, StreamingService.class);
             localIntent2.putExtra("audio", station.getStream_url());
-            localIntent2.putExtra("text", getCityByCoords(station.getLatitude(),station.getLongitude()));
+            localIntent2.putExtra("text", getCityByCoords(station.getLatitude(), station.getLongitude()));
             localIntent2.putExtra("title", station.getStation_name());
             startService(localIntent2);
             navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming_stop));
@@ -387,7 +369,21 @@ public class Home extends AppCompatActivity
         }
     }
 
-    public String getCityByCoords(String lat,String longi){
-        return GlobalValues.city;
+    private void processFragment(Fragment fragment, String title) {
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.content_frame, fragment);
+        fragmentTransaction.commit();
+        getSupportActionBar().setTitle(title);
+    }
+
+    private void ProcessBuilder(String url) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.addDefaultShareMenuItem();
+        builder.enableUrlBarHiding();
+        builder.setStartAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        builder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        builder.setToolbarColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(this, Uri.parse(url));
     }
 }

@@ -63,7 +63,7 @@ public class ServiceGetStation extends ServiceBase {
 
         List<Object> sendValues = new ArrayList<Object>();
 
-        String url = GlobalValues.baseURL+"radiostation" + restQueryString(parameters, theValues, sendValues);
+        String url = GlobalValues.baseURLStation + restQueryString(parameters, theValues, sendValues);
 
         ResponseEntity<ResponseStationDTO> response = null;
 
