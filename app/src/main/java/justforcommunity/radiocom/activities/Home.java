@@ -26,6 +26,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
@@ -39,6 +40,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,6 +49,7 @@ import android.view.View;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 
 import justforcommunity.radiocom.R;
@@ -60,6 +63,7 @@ import justforcommunity.radiocom.utils.StreamingService;
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
     private Context mContext;
     private StationDTO station;
     private Boolean playing = false;
@@ -67,6 +71,7 @@ public class Home extends AppCompatActivity
     private SharedPreferences prefs;
     private SharedPreferences.Editor edit;
     private static final int REQUEST_WRITE_STORAGE = 112;
+    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 112;
     private FloatingActionButton fab_media;
 
     @Override
@@ -251,6 +256,9 @@ public class Home extends AppCompatActivity
             case R.id.nav_podcast:
                 charguePodcast();
                 break;
+            case R.id.nav_map:
+                chargueMap();
+                break;
             case R.id.nav_twitter:
                 chargueTwitter();
                 break;
@@ -300,6 +308,17 @@ public class Home extends AppCompatActivity
     public void charguePodcast() {
         PodcastPageFragment podcastFragment = new PodcastPageFragment();
         processFragment(podcastFragment, mContext.getString(R.string.action_podcast));
+    }
+
+    public void chargueMap() {
+        String label = GlobalValues.pointName;
+        String uriBegin = "geo:" + station.getLatitude() + "," + station.getLongitude();
+        String query = station.getLatitude() + "," + station.getLongitude() + "(" + label + ")";
+        String encodedQuery = Uri.encode(query);
+        String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
+        Uri uri = Uri.parse(uriString);
+        Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+        startActivity(mapIntent);
     }
 
 

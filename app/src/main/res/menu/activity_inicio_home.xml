@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ /*
   ~  * Copyright (C) 2016 @ Fernando Souto González
   ~  *
@@ -21,7 +20,9 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single" android:id="@+id/station">
+    <group
+        android:id="@+id/station"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_emisora"
             android:icon="@drawable/station"
@@ -35,7 +36,10 @@
             android:icon="@drawable/streaming"
             android:title="@string/action_streaming" />
     </group>
-    <group android:checkableBehavior="single" android:id="@+id/rsss">
+
+    <group
+        android:id="@+id/rsss"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_noticias"
             android:icon="@drawable/news"
@@ -58,8 +62,13 @@
                 android:title="@string/action_facebook" />
         </menu>
     </item>
+
     <item android:title="@string/action_thanks">
         <menu>
+            <item
+                android:id="@+id/nav_map"
+                android:icon="@mipmap/map"
+                android:title="@string/action_map" />
             <item
                 android:id="@+id/nav_cuac"
                 android:icon="@drawable/cuac"

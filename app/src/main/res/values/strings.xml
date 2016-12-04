@@ -50,6 +50,7 @@
     <string name="action_streaming">Escuchar emisión</string>
     <string name="action_news">Noticias</string>
     <string name="action_podcast">Podcast</string>
+    <string name="action_map">Ubicación</string>
     <string name="action_social">Redes sociales</string>
     <string name="action_twitter">Twitter</string>
     <string name="action_facebook">Facebook</string>
