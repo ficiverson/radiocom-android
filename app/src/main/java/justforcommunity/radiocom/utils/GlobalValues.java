@@ -31,8 +31,7 @@ public class GlobalValues {
 
     //configurations you con update
     public static String baseURLWEB = "https://cuacfm.org/";
-    public static String baseURLStation = "https://radiocom.stamplayapp.com/api/cobject/v1/radiostation";
-    public static String baseURLProgrammes = "https://cuacfm.org/radioco/api/1/radiocom/programmes";
+    public static String baseURL = "https://cuacfm.org/radioco/api/1/radiocom/";
 
     public static String prefName = "commradio";
 
