@@ -307,11 +307,11 @@ public class Home extends AppCompatActivity
         try {
             // get the Twitter app if possible
             mContext.getPackageManager().getPackageInfo("com.twitter.android", 0);
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=" + GlobalValues.twitterName));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=" + station.getTwitter_user()));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } catch (Exception e) {
-            ProcessBuilder("https://twitter.com/" + GlobalValues.twitterName);
+            ProcessBuilder(station.getTwitter_url());
         }
     }
 
@@ -319,10 +319,10 @@ public class Home extends AppCompatActivity
         try {
             // get the Facebook app if possible
             mContext.getPackageManager().getPackageInfo("com.facebook.katana", 0);
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(GlobalValues.facebookName));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(station.getFacebook_url()));
             startActivity(browserIntent);
         } catch (Exception e) {
-            ProcessBuilder(GlobalValues.facebookName);
+            ProcessBuilder(station.getFacebook_url());
         }
     }
 

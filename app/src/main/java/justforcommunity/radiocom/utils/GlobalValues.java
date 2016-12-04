@@ -39,6 +39,7 @@ public class GlobalValues {
 
     public static String city = "A Coruña";
 
+    public static String twitter = "https://twitter.com/";
     public static String twitterName = "cuacfm";
     public static String facebookName = "https://www.facebook.com/cuacfm";
     //end configuration you can update
