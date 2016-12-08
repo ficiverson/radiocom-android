@@ -119,7 +119,7 @@ public class Home extends AppCompatActivity
             station = gson.fromJson(prefs.getString("jsonStation", ""), StationDTO.class);
         }
 
-        //  Se carga el fragmento home, que es la emisora
+        //Load the station fragment
         loadStation();
 
         boolean hasPermissionChange = (ContextCompat.checkSelfPermission(this,
@@ -260,8 +260,11 @@ public class Home extends AppCompatActivity
             case R.id.nav_facebook:
                 loadFacebook();
                 break;
-            case R.id.nav_cuac:
+            case R.id.nav_webpage:
                 processBuilder(GlobalValues.baseURLWEB);
+                break;
+            case R.id.nav_cuac:
+                processBuilder(GlobalValues.baseURLCUACWEB);
                 break;
             case R.id.nav_dev:
                 loadDeveloperInfo();

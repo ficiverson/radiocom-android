@@ -52,8 +52,10 @@
     <string name="action_podcast">Podcast</string>
     <string name="action_map">Ubicación</string>
     <string name="action_social">Redes sociales</string>
+    <string name="action_contact">Más información</string>
     <string name="action_twitter">Twitter</string>
     <string name="action_facebook">Facebook</string>
+    <string name="action_webpage">Página web</string>
     <string name="action_thanks">Agradecimientos</string>
     <string name="action_cuac">CUAC FM</string>
     <string name="action_dev">Desarrollo</string>
