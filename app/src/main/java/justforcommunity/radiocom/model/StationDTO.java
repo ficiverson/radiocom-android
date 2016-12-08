@@ -22,6 +22,8 @@ package justforcommunity.radiocom.model;
 
 import java.util.List;
 
+import justforcommunity.radiocom.utils.GlobalValues;
+
 /**
  * Created by iver on 2/9/16.
  */
@@ -36,6 +38,8 @@ public class StationDTO {
     private String station_name;
     private List<String> station_photos;
     private String stream_url;
+    private String facebook_url;
+    private String twitter_url;
 
     public String getBig_icon_url() {
         return big_icon_url;
@@ -110,8 +114,36 @@ public class StationDTO {
     }
 
 
+    public String getFacebook_url() {
+        if (facebook_url != null && !facebook_url.isEmpty()) {
+            return facebook_url;
+        } else {
+            return GlobalValues.facebookName;
+        }
+    }
 
+    public void setFacebook_url(String facebook_url) {
+        this.facebook_url = facebook_url;
+    }
 
+    public String getTwitter_url() {
+        if (twitter_url != null && !twitter_url.isEmpty()) {
+            return twitter_url;
+        } else {
+            return GlobalValues.twitter + GlobalValues.twitterName;
+        }
+    }
 
+    public void setTwitter_url(String twitter_url) {
+        this.twitter_url = twitter_url;
+    }
+
+    public String getTwitter_user() {
+        if (!twitter_url.isEmpty()) {
+            return twitter_url.split(GlobalValues.twitter)[1];
+        } else {
+            return GlobalValues.twitterName;
+        }
+    }
 
 }

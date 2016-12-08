@@ -30,17 +30,18 @@ import justforcommunity.radiocom.activities.App;
 public class GlobalValues {
 
     //configurations you con update
-    public static String baseURL = "http://radiocom.stamplayapp.com/api/cobject/v1/";
+    public static String baseURLWEB = "https://cuacfm.org/";
+    public static String baseURL = "https://cuacfm.org/radioco/api/1/radiocom/";
 
-    public static String prefName="commradio";
+    public static String prefName = "commradio";
 
     public static String colorHTML = "#ff9900 !important";
-    public static String baseURLWEB ="https://cuacfm.org/";
 
-    public static String city ="A Coruña";
+    public static String city = "A Coruña";
 
-    public static String twitterName="cuacfm";
-    public static String facebookName="https://www.facebook.com/cuacfm";
+    public static String twitter = "https://twitter.com/";
+    public static String twitterName = "cuacfm";
+    public static String facebookName = "https://www.facebook.com/cuacfm";
     //end configuration you can update
 
     //things that you may not cange
@@ -49,6 +50,6 @@ public class GlobalValues {
     public static String EXTRA_CONTENT = "webviewContent";
     public static String EXTRA_TITLE = "webviewTitle";
 
-    public static String DOWNLOAD_DIR = Environment.getExternalStorageDirectory().toString()+"/Android/data/" + App.PACKAGE_NAME + "/downloaded/";
+    public static String DOWNLOAD_DIR = Environment.getExternalStorageDirectory().toString() + "/Android/data/" + App.PACKAGE_NAME + "/downloaded/";
 
 }
