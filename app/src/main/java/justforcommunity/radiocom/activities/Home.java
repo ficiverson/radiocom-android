@@ -26,7 +26,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
@@ -40,7 +39,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,7 +47,6 @@ import android.view.View;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 
 import justforcommunity.radiocom.R;
@@ -71,7 +68,6 @@ public class Home extends AppCompatActivity
     private SharedPreferences prefs;
     private SharedPreferences.Editor edit;
     private static final int REQUEST_WRITE_STORAGE = 112;
-    private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 112;
     private FloatingActionButton fab_media;
 
     @Override
@@ -124,7 +120,7 @@ public class Home extends AppCompatActivity
         }
 
         //  Se carga el fragmento home, que es la emisora
-        chargueEmisora();
+        loadStation();
 
         boolean hasPermissionChange = (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
@@ -230,7 +226,6 @@ public class Home extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        //int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
     }
@@ -242,34 +237,34 @@ public class Home extends AppCompatActivity
 
         switch (item.getItemId()) {
             case R.id.nav_emisora:
-                chargueEmisora();
+                loadStation();
                 break;
             case R.id.nav_galeria:
-                chargueGaleria();
+                loadGallery();
                 break;
             case R.id.nav_emision:
                 audioController();
                 break;
             case R.id.nav_noticias:
-                chargueEmsision();
+                loadNews();
                 break;
             case R.id.nav_podcast:
-                charguePodcast();
+                loadPodcast();
                 break;
             case R.id.nav_map:
-                chargueMap();
+                loadMap();
                 break;
             case R.id.nav_twitter:
-                chargueTwitter();
+                loadTwitter();
                 break;
             case R.id.nav_facebook:
-                chargueFacebook();
+                loadFacebook();
                 break;
             case R.id.nav_cuac:
-                ProcessBuilder(GlobalValues.baseURLWEB);
+                processBuilder(GlobalValues.baseURLWEB);
                 break;
             case R.id.nav_dev:
-                chargueDeveloper();
+                loadDeveloperInfo();
                 break;
         }
 
@@ -284,7 +279,7 @@ public class Home extends AppCompatActivity
     }
 
 
-    public void chargueGaleria() {
+    public void loadGallery() {
         Gson gson = new Gson();
         String jsonInString = gson.toJson(station);
 
@@ -293,36 +288,38 @@ public class Home extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void chargueEmisora() {
+    public void loadStation() {
         HomePageFragment homeFragment = new HomePageFragment();
         homeFragment.setStation(station);
         processFragment(homeFragment, mContext.getString(R.string.action_station));
     }
 
-    public void chargueEmsision() {
+    public void loadNews() {
         NoticiasPageFragment noticiasFragment = new NoticiasPageFragment();
         noticiasFragment.setStation(station);
         processFragment(noticiasFragment, mContext.getString(R.string.action_news));
     }
 
-    public void charguePodcast() {
+    public void loadPodcast() {
         PodcastPageFragment podcastFragment = new PodcastPageFragment();
         processFragment(podcastFragment, mContext.getString(R.string.action_podcast));
     }
 
-    public void chargueMap() {
-        String label = GlobalValues.pointName;
+    public void loadMap() {
+        // Uri with a marker at the target, in google maps
         String uriBegin = "geo:" + station.getLatitude() + "," + station.getLongitude();
-        String query = station.getLatitude() + "," + station.getLongitude() + "(" + label + ")";
-        String encodedQuery = Uri.encode(query);
-        String uriString = uriBegin + "?q=" + encodedQuery + "&z=16";
-        Uri uri = Uri.parse(uriString);
+        String encodedQuery = Uri.encode(station.getStation_name());
+        Uri uri = Uri.parse(uriBegin + "?q=" + encodedQuery + "&z=16");
+
+        // Uri with the direct route to location, in google maps
+        //Uri uri = Uri.parse("google.navigation:q=" + station.getLatitude() + "," + station.getLongitude());
+
         Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, uri);
         startActivity(mapIntent);
     }
 
 
-    public void chargueTwitter() {
+    public void loadTwitter() {
         try {
             // get the Twitter app if possible
             mContext.getPackageManager().getPackageInfo("com.twitter.android", 0);
@@ -330,22 +327,22 @@ public class Home extends AppCompatActivity
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } catch (Exception e) {
-            ProcessBuilder(station.getTwitter_url());
+            processBuilder(station.getTwitter_url());
         }
     }
 
-    public void chargueFacebook() {
+    public void loadFacebook() {
         try {
             // get the Facebook app if possible
             mContext.getPackageManager().getPackageInfo("com.facebook.katana", 0);
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(station.getFacebook_url()));
             startActivity(browserIntent);
         } catch (Exception e) {
-            ProcessBuilder(station.getFacebook_url());
+            processBuilder(station.getFacebook_url());
         }
     }
 
-    public void chargueDeveloper() {
+    public void loadDeveloperInfo() {
         AlertDialog.Builder bld = new AlertDialog.Builder(mContext);
         bld.setTitle(mContext.getString(R.string.titledialog));
         bld.setMessage(mContext.getString(R.string.msgdialog));
@@ -395,7 +392,7 @@ public class Home extends AppCompatActivity
         getSupportActionBar().setTitle(title);
     }
 
-    private void ProcessBuilder(String url) {
+    private void processBuilder(String url) {
         CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
         builder.addDefaultShareMenuItem();
         builder.enableUrlBarHiding();
