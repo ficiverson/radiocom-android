@@ -68,5 +68,6 @@ Thanks to the creators of the following libraries:
     compile 'com.pkmmte.pkrss:pkrss:1.2'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.google.android.exoplayer:exoplayer:r1.5.3'
 
 
