@@ -54,7 +54,7 @@ import justforcommunity.radiocom.model.StationDTO;
 import justforcommunity.radiocom.utils.GlobalValues;
 
 
-public class NoticiasPageFragment extends Fragment {
+public class NewsPageFragment extends Fragment {
 
     private StationDTO station;
     private Home mActivity;
@@ -140,6 +140,9 @@ public class NoticiasPageFragment extends Fragment {
                     if(noticias.get(position).getContent()==null){
                         if(noticias.get(position).getDescription()!=null) {
                             content = noticias.get(position).getDescription();
+                        }
+                        else if(noticias.get(position).getContent()!=null){
+                            content = noticias.get(position).getContent();
                         }
                         else{
                             content = getString(R.string.no_content);

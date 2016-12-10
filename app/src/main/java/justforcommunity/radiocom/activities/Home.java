@@ -51,7 +51,7 @@ import com.google.gson.Gson;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.fragments.HomePageFragment;
-import justforcommunity.radiocom.fragments.NoticiasPageFragment;
+import justforcommunity.radiocom.fragments.NewsPageFragment;
 import justforcommunity.radiocom.fragments.PodcastPageFragment;
 import justforcommunity.radiocom.model.StationDTO;
 import justforcommunity.radiocom.utils.GlobalValues;
@@ -298,7 +298,7 @@ public class Home extends AppCompatActivity
     }
 
     public void loadNews() {
-        NoticiasPageFragment noticiasFragment = new NoticiasPageFragment();
+        NewsPageFragment noticiasFragment = new NewsPageFragment();
         noticiasFragment.setStation(station);
         processFragment(noticiasFragment, mContext.getString(R.string.action_news));
     }
@@ -309,16 +309,18 @@ public class Home extends AppCompatActivity
     }
 
     public void loadMap() {
-        // Uri with a marker at the target, in google maps
-        String uriBegin = "geo:" + station.getLatitude() + "," + station.getLongitude();
-        String encodedQuery = Uri.encode(station.getStation_name());
-        Uri uri = Uri.parse(uriBegin + "?q=" + encodedQuery + "&z=16");
+        try {
+            // Uri with a marker at the target, in google maps
+            String uriBegin = "geo:" + station.getLatitude() + "," + station.getLongitude();
+            String encodedQuery = Uri.encode(station.getStation_name());
+            Uri uri = Uri.parse(uriBegin + "?q=" + encodedQuery + "&z=16");
 
-        // Uri with the direct route to location, in google maps
-        //Uri uri = Uri.parse("google.navigation:q=" + station.getLatitude() + "," + station.getLongitude());
+            Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, uri);
+            startActivity(mapIntent);
 
-        Intent mapIntent = new Intent(android.content.Intent.ACTION_VIEW, uri);
-        startActivity(mapIntent);
+        } catch (Exception e) {
+            processBuilder(GlobalValues.baseURLWEB);
+        }
     }
 
 

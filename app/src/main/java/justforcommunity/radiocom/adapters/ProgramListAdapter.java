@@ -262,7 +262,15 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
         public void onClick(final View view) {
 
             Intent intent = new Intent(mActivity, ContentDetail.class);
-            intent.putExtra(GlobalValues.EXTRA_CONTENT ,articles.get( getPosition()).getContent());
+            if(articles.get( getPosition()).getContent()!=null) {
+                intent.putExtra(GlobalValues.EXTRA_CONTENT, articles.get(getPosition()).getContent());
+            }
+            else if(articles.get(getPosition()).getDescription()!=null){
+                intent.putExtra(GlobalValues.EXTRA_CONTENT, articles.get(getPosition()).getDescription());
+            }
+            else{
+                intent.putExtra(GlobalValues.EXTRA_CONTENT,  mContext.getString(R.string.no_content));
+            }
             intent.putExtra(GlobalValues.EXTRA_TITLE,articles.get( getPosition()).getTitle());
             mActivity.startActivity(intent);
 

@@ -78,7 +78,8 @@
 \ncompile \'com.squareup.picasso:picasso:2.5.2\'
 \ncompile \'com.pkmmte.pkrss:pkrss:1.2\'
 \ncompile \'com.squareup.okhttp:okhttp:2.0.0\'
-\ncompile \'com.squareup.okhttp:okhttp-urlconnection:2.0.0\'</string>
+\ncompile \'com.squareup.okhttp:okhttp-urlconnection:2.0.0\'
+        \ncompile \'com.google.android.exoplayer:exoplayer:r1.5.3\'</string>
 
     <!--analytics purposes -->
     <string name="home_activity">Pantalla principal</string>

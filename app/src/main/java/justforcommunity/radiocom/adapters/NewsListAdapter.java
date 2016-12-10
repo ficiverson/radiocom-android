@@ -35,7 +35,6 @@ import java.util.List;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.Home;
-import justforcommunity.radiocom.fragments.NoticiasPageFragment;
 import justforcommunity.radiocom.views.CircleTransform;
 
 public class NewsListAdapter extends ArrayAdapter<Article> {
