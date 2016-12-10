@@ -28,8 +28,11 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -70,8 +73,17 @@ public class PodcastingService extends Service {
         PendingIntent pauseIntentPending = PendingIntent.getActivity(this, 3, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
+        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        int smallIconId = 0;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            smallIconId = R.drawable.notification_transparent;
+        } else {
+            smallIconId = R.drawable.notification;
+        }
+
         NotificationCompat.Builder noti = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(smallIconId)
+                .setLargeIcon(myIcon)
                 .setContentIntent(localPendingIntent)
                 .setContentTitle(this.title)
                 .setContentText(this.text)
