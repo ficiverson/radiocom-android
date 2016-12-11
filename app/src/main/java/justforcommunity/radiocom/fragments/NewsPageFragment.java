@@ -102,8 +102,6 @@ public class NewsPageFragment extends Fragment {
         };
 
         PkRSS.with(mContext).load(station.getNews_rss()).callback(callback).async();
-        //habria paginacion con .nextPage()
-
 
         App appliaction = (App) getActivity().getApplication();
         Tracker mTracker = appliaction.getDefaultTracker();

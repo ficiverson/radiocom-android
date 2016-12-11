@@ -116,7 +116,6 @@ public class DownloadEpisode extends AsyncTask<Boolean, Float, Boolean>{
 
 
     private Boolean saveFile(String urldownload,String filename) throws Exception {
-        Log.v("laurldedescarga",urldownload);
 
         InputStream input = null;
         OutputStream output = null;
@@ -126,8 +125,23 @@ public class DownloadEpisode extends AsyncTask<Boolean, Float, Boolean>{
             connection = (HttpURLConnection) url.openConnection();
             connection.connect();
 
+            boolean redirect=false;
+
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                return false;
+                if (connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP
+                            || connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_PERM
+                            || connection.getResponseCode() == HttpURLConnection.HTTP_SEE_OTHER) {
+                    redirect = true;
+                }
+                else{
+                    return false;
+                }
+            }
+
+            if (redirect) {
+                String newUrl = connection.getHeaderField("Location");
+                String cookies = connection.getHeaderField("Set-Cookie");
+                connection = (HttpURLConnection) new URL(newUrl).openConnection();
             }
 
             int fileLength = connection.getContentLength();
