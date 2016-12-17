@@ -28,11 +28,24 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
+import android.net.Uri;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import com.google.android.exoplayer.ExoPlayer;
+import com.google.android.exoplayer.MediaCodecAudioTrackRenderer;
+import com.google.android.exoplayer.extractor.ExtractorSampleSource;
+import com.google.android.exoplayer.upstream.Allocator;
+import com.google.android.exoplayer.upstream.DataSource;
+import com.google.android.exoplayer.upstream.DefaultAllocator;
+import com.google.android.exoplayer.upstream.DefaultUriDataSource;
+import com.google.android.exoplayer.util.Util;
 
 import java.io.IOException;
 
@@ -44,10 +57,14 @@ public class PodcastingService extends Service {
     private String audio;
     private String title, text;
     private NotificationManager mNM;
-    private MediaPlayer mp;
     private int total;
     public SharedPreferences prefs;
     public SharedPreferences.Editor edit;
+
+    private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
+    private static final int BUFFER_SEGMENT_COUNT = 256;
+    private MediaCodecAudioTrackRenderer audioRenderer;
+    private ExoPlayer exoPlayer;
 
     private void showNotification(String paramString1, String paramString2) {
         String str = paramString2;
@@ -69,9 +86,17 @@ public class PodcastingService extends Service {
         pauseIntent.putExtra("stopService", true);
         PendingIntent pauseIntentPending = PendingIntent.getActivity(this, 3, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        int smallIconId = 0;
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            smallIconId = R.drawable.notification_transparent;
+        } else {
+            smallIconId = R.drawable.notification;
+        }
 
         NotificationCompat.Builder noti = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.drawable.ic_launcher)
+                .setSmallIcon(smallIconId)
+                .setLargeIcon(myIcon)
                 .setContentIntent(localPendingIntent)
                 .setContentTitle(this.title)
                 .setContentText(this.text)
@@ -80,7 +105,6 @@ public class PodcastingService extends Service {
                 .addAction(R.drawable.stoppodcast, getResources().getString(R.string.drawer_item_podcasting_stop), pauseIntentPending);
 
         this.mNM.notify(this.NOTIFICATION, noti.build());
-
 
     }
 
@@ -91,8 +115,7 @@ public class PodcastingService extends Service {
 
     @Override
     public void onCreate() {
-        this.mp = new MediaPlayer();
-        this.mp.setLooping(false);
+        exoPlayer = ExoPlayer.Factory.newInstance(1);
 
         prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         edit = prefs.edit();
@@ -125,32 +148,24 @@ public class PodcastingService extends Service {
             this.mNM = ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE));
 
 
-            new Thread(new Runnable() {
-                public void run() {
-                    //set up MediaPlayer
-                    try {
-                        mp.reset();
-                        mp.setDataSource(audio);
-                        mp.prepare();
-                        mp.start();
+            try {
+                // String with the url of the radio you want to play
+                Uri radioUri = Uri.parse(audio);
+                // Settings for exoPlayer
+                Allocator allocator = new DefaultAllocator(BUFFER_SEGMENT_SIZE);
+                String userAgent = Util.getUserAgent(this, "ComRadioPlayer");
+                DataSource dataSource = new DefaultUriDataSource(this, null, userAgent,true);
+                ExtractorSampleSource sampleSource = new ExtractorSampleSource(radioUri, dataSource, allocator, BUFFER_SEGMENT_SIZE * BUFFER_SEGMENT_COUNT);
+                audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource);
+                // Prepare ExoPlayer
+                exoPlayer.prepare(audioRenderer);
+                exoPlayer.setPlayWhenReady(true);
 
-                    } catch (IllegalArgumentException e) {
-                        e.printStackTrace();
-                    } catch (IllegalStateException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
+                showNotification(text, title);
+            }
+            catch (Exception e){
 
-            mp.setOnPreparedListener(new OnPreparedListener() {
-
-                public void onPrepared(MediaPlayer mp) {
-                    total = mp.getDuration();
-                }
-            });
-
+            }
 
             showNotification(text, title);
         }
@@ -158,11 +173,10 @@ public class PodcastingService extends Service {
     }
 
     private void destroyMediaPlayerAndNotification() {
-        if(mp!=null) {
-            this.mp.stop();
-            this.mp.reset();
-            this.mp.release();
-            this.mp = null;
+        if(exoPlayer!=null) {
+            exoPlayer.stop();
+            exoPlayer.release();
+            exoPlayer=null;
         }
         if(mNM!=null) {
             this.mNM.cancelAll();

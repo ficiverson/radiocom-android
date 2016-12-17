@@ -63,12 +63,21 @@
         </menu>
     </item>
 
-    <item android:title="@string/action_thanks">
+    <item android:title="@string/action_contact">
         <menu>
             <item
+                android:id="@+id/nav_webpage"
+                android:icon="@drawable/webpage"
+                android:title="@string/action_webpage" />
+            <item
                 android:id="@+id/nav_map"
-                android:icon="@mipmap/map"
+                android:icon="@drawable/map_marker"
                 android:title="@string/action_map" />
+        </menu>
+    </item>
+
+    <item android:title="@string/action_thanks">
+        <menu>
             <item
                 android:id="@+id/nav_cuac"
                 android:icon="@drawable/cuac"

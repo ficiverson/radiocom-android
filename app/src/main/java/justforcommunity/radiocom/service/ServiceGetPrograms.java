@@ -24,11 +24,13 @@ package justforcommunity.radiocom.service;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -63,7 +65,9 @@ public class ServiceGetPrograms extends ServiceBase {
 
         List<Object> sendValues = new ArrayList<Object>();
 
-        String url = GlobalValues.baseURL + "programmes" + restQueryString(parameters, theValues, sendValues);
+        //String url = GlobalValues.baseURL + "programmes" + restQueryString(parameters, theValues, sendValues);
+        //temporary we use stamplay
+        String url = GlobalValues.baseURL + "program" + restQueryString(parameters, theValues, sendValues);
 
         ResponseEntity<ResponseProgramDTO> response = null;
 
@@ -72,7 +76,9 @@ public class ServiceGetPrograms extends ServiceBase {
             HttpEntity<?> request;
             request = new HttpEntity<Object>(getRequestHeaders());
 
-            getRestTemplate().getMessageConverters().add(new GsonHttpMessageConverter());
+            GsonHttpMessageConverter converter = new GsonHttpMessageConverter();
+            converter.setSupportedMediaTypes(Collections.singletonList(MediaType.TEXT_PLAIN));
+            getRestTemplate().getMessageConverters().add(converter);
 
             response = getRestTemplate().exchange(url, HttpMethod.GET, request, ResponseProgramDTO.class, sendValues.toArray());
             if (response.getStatusCode() != HttpStatus.OK)

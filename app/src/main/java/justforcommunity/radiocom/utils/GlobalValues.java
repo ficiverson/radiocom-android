@@ -30,9 +30,11 @@ import justforcommunity.radiocom.activities.App;
 public class GlobalValues {
 
     //configurations you con update
+    public static String baseURLCUACWEB = "https://cuacfm.org/asociacion-cuac/historia/";
     public static String baseURLWEB = "https://cuacfm.org/";
-    public static String baseURL = "https://cuacfm.org/radioco/api/1/radiocom/";
-
+    public static String baseURL = "http://radiocom.stamplayapp.com/api/cobject/v1/";
+    //this will be the final url when we make changes on RADIOCO
+    //public static String baseURL = "https://cuacfm.org/radioco/api/1/radiocom/";
     public static String prefName = "commradio";
 
     public static String colorHTML = "#ff9900 !important";

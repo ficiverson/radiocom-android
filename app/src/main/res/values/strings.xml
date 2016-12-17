@@ -52,8 +52,10 @@
     <string name="action_podcast">Podcast</string>
     <string name="action_map">Ubicación</string>
     <string name="action_social">Redes sociales</string>
+    <string name="action_contact">Más información</string>
     <string name="action_twitter">Twitter</string>
     <string name="action_facebook">Facebook</string>
+    <string name="action_webpage">Página web</string>
     <string name="action_thanks">Agradecimientos</string>
     <string name="action_cuac">CUAC FM</string>
     <string name="action_dev">Desarrollo</string>
@@ -76,7 +78,8 @@
 \ncompile \'com.squareup.picasso:picasso:2.5.2\'
 \ncompile \'com.pkmmte.pkrss:pkrss:1.2\'
 \ncompile \'com.squareup.okhttp:okhttp:2.0.0\'
-\ncompile \'com.squareup.okhttp:okhttp-urlconnection:2.0.0\'</string>
+\ncompile \'com.squareup.okhttp:okhttp-urlconnection:2.0.0\'
+        \ncompile \'com.google.android.exoplayer:exoplayer:r1.5.3\'</string>
 
     <!--analytics purposes -->
     <string name="home_activity">Pantalla principal</string>
