@@ -152,6 +152,18 @@ public class Home extends AppCompatActivity
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        //refresh state after changing from podcasting status
+        if (prefs.getBoolean("isMediaPlaying", false)==false) {//playing is off so we neeed to put menu correctly
+            navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming));
+            navigationView.getMenu().getItem(2).setIcon(R.drawable.streaming);
+            fab_media.setImageResource(R.drawable.streamingwhite);
+            playing = false;
+        }
+    }
+
+    @Override
     public void onStop() {
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
         super.onStop();
@@ -198,6 +210,7 @@ public class Home extends AppCompatActivity
                     edit.commit();
                 }
             } else {
+
                 Intent i = new Intent(Home.this, StreamingService.class);
                 stopService(i);
                 navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming));
@@ -338,9 +351,17 @@ public class Home extends AppCompatActivity
 
     public void loadFacebook() {
         try {
-            // get the Facebook app if possible
             mContext.getPackageManager().getPackageInfo("com.facebook.katana", 0);
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(station.getFacebook_url()));
+            int versionCode = mContext.getPackageManager().getPackageInfo("com.facebook.katana", 0).versionCode;
+            // get the Facebook app if possible
+            String facebookUri = "";
+            if (versionCode >= 3002850) {
+                facebookUri = "fb://facewebmodal/f?href=" + station.getFacebook_url();
+            }
+            else {
+                facebookUri = "fb://page/" + GlobalValues.facebookId;
+            }
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookUri));
             startActivity(browserIntent);
         } catch (Exception e) {
             processBuilder(station.getFacebook_url());

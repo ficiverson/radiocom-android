@@ -135,6 +135,10 @@ public class PodcastingService extends Service {
     @Override
     public void onStart(Intent paramIntent, int paramInt) {
 
+        //stop the streaming
+        Intent i = new Intent(PodcastingService.this, StreamingService.class);
+        stopService(i);
+
         if(paramIntent!=null) {
             this.audio = paramIntent.getStringExtra("audio");
             this.title = paramIntent.getStringExtra("title");
@@ -179,7 +183,7 @@ public class PodcastingService extends Service {
             exoPlayer=null;
         }
         if(mNM!=null) {
-            this.mNM.cancelAll();
+            this.mNM.cancel(1035);
         }
 
         //reset preference value
