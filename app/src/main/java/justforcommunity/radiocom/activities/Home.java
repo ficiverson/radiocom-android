@@ -119,8 +119,15 @@ public class Home extends AppCompatActivity
             station = gson.fromJson(prefs.getString("jsonStation", ""), StationDTO.class);
         }
 
-        //Load the station fragment
-        loadStation();
+        //Load the fragment with the server configuration
+        switch (station.getLaunch_screen()){
+            case 0:
+                loadStation();
+            case 1:
+                loadNews();
+            case 2:
+                loadPodcast();
+        }
 
         boolean hasPermissionChange = (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);

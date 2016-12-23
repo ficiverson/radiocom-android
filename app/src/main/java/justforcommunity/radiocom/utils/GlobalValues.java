@@ -44,7 +44,7 @@ public class GlobalValues {
     public static String twitter = "https://twitter.com/";
     public static String twitterName = "cuacfm";
     public static String facebookName = "https://www.facebook.com/cuacfm";
-    public static String facebookId = "209865152388997"; //ondacolo 172399249440065
+    public static String facebookId = "209865152388997";
     //end configuration you can update
 
     //things that you may not cange
