@@ -60,4 +60,5 @@ dependencies {
     compile 'com.android.support:customtabs:23.3.0'
     compile 'com.google.android.gms:play-services-analytics:9.0.0'
     compile 'com.google.android.exoplayer:exoplayer:r1.5.3'
+
 }

@@ -24,7 +24,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -48,6 +51,8 @@ import com.pkmmte.pkrss.Callback;
 import com.pkmmte.pkrss.PkRSS;
 import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -77,6 +82,9 @@ public class Podcast extends AppCompatActivity{
     private Podcast mActivity;
     private ImageView image_podcast_bck;
     private Dialog myDialog;
+    private BottomSheetBehavior mBottomSheetBehavior;
+    private FloatingActionButton fab_info;
+    private TextView description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +127,23 @@ public class Podcast extends AppCompatActivity{
             program = gson.fromJson(prefs.getString("jsonPodcast",""),ProgramDTO.class);
         }
 
+        View bottomSheet = findViewById(R.id.bottom_sheet);
+        mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        description = (TextView)bottomSheet.findViewById(R.id.info_data);
+
+        fab_info = (FloatingActionButton) findViewById(R.id.fab_info);
+        fab_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mBottomSheetBehavior.getState()==BottomSheetBehavior.STATE_COLLAPSED){
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+                else{
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
+        });
+
         if(program!=null) {
             getSupportActionBar().setTitle(program.getTitle());
 
@@ -126,6 +151,9 @@ public class Podcast extends AppCompatActivity{
             noElements = (TextView) findViewById(R.id.no_elements);
             image_podcast_bck  = (ImageView)findViewById(R.id.image_podcast_bck);
 
+            if(program.getDescription()!= null) {
+                description.setText(program.getDescription());
+            }
 
             Picasso.with(mContext).load(program.getLogo_url()).into(image_podcast_bck);
 

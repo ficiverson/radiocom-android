@@ -44,6 +44,8 @@
     <string name="downloaded">Descargado con éxito del episodio: </string>
     <string name="error_download">Error en la descarga del episodio: </string>
 
+    <string name="podcast_info_title">Descripción del programa:</string>
+
 
     <string name="action_station">Emisora</string>
     <string name="action_gallery">Galería</string>

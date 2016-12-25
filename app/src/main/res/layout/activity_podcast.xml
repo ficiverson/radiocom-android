@@ -70,5 +70,16 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_podcast_scrolling" />
+    <include layout="@layout/content_podcast_info" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_info"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_anchor="@+id/bottom_sheet"
+        app:layout_anchorGravity="top|center_horizontal"
+        android:src="@drawable/infowhite" />
 
 </android.support.design.widget.CoordinatorLayout>
