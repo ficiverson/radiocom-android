@@ -1,0 +1,8 @@
+title: Radiocom-android
+description: This is an Android application for Community Media Stations.
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-tactile
+
+gems:
+  - jekyll-mentions
