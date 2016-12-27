@@ -105,7 +105,6 @@ public class Splash extends AppCompatActivity {
     public void resultOK(StationDTO stationDTO){
         avi.hide();
 
-
         //serialize objecy station
         Gson gson = new Gson();
         String jsonInString = gson.toJson(stationDTO);
@@ -115,11 +114,18 @@ public class Splash extends AppCompatActivity {
         SharedPreferences.Editor edit = prefs.edit();
         edit.putString("jsonStation",jsonInString);
         edit.commit();
-
-        //launch next activity
-        Intent intent = new Intent(this, Home.class);
-        intent.putExtra(GlobalValues.EXTRA_MESSAGE, jsonInString);
-        startActivity(intent);
+        if(prefs.getBoolean("showTutorial",true)) {
+            //launch next activity
+            Intent intent = new Intent(this, Tutorial.class);
+            intent.putExtra(GlobalValues.EXTRA_MESSAGE, jsonInString);
+            startActivity(intent);
+        }
+        else{
+            //launch next activity
+            Intent intent = new Intent(this, Home.class);
+            intent.putExtra(GlobalValues.EXTRA_MESSAGE, jsonInString);
+            startActivity(intent);
+        }
     }
 
     public void resultKO(){

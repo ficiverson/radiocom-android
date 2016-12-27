@@ -24,6 +24,13 @@
     <string name="station_name">CUAC FM</string>
     <string name="contact_mail">comunicacion@cuacfm.org</string>
 
+    <string name="tutorial_programa">Queres facer un programa?</string>
+    <string name="tutorial_programa_1">En CUAC FM podes.</string>
+    <string name="tutorial_programa_2">Ter a posibilidade a comunicar é o teu dereito según a Declaración Universal dos Dereitos Humanos.</string>
+    <string name="tutorial_programa_3">Artigo 19. Toda persoa ten dereito á liberdade de opinión e de expresión; este dereito inclúe a liberdade de ter opinións sen interferencia e de buscar, recibir e transmitir información e ideas por calquera medio e sen limitación de fronteiras.</string>
+    <string name="tutorial_programa_4">Mira a nosa grella de programación, para ver que horas libres hai. Se tes algunha dúbida ou non atopas a hora que buscas, non te preocupes, manda un correo a comunicacion@cuacfm.org ou chama aó 981 14 00 45</string>
+    <string name="tutorial_programa_5">A qué esperas?</string>
+
     <string name="gallery">Galería de fotos</string>
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="navigation_drawer_close">Cerrar menu</string>
@@ -81,7 +88,8 @@
 \ncompile \'com.pkmmte.pkrss:pkrss:1.2\'
 \ncompile \'com.squareup.okhttp:okhttp:2.0.0\'
 \ncompile \'com.squareup.okhttp:okhttp-urlconnection:2.0.0\'
-        \ncompile \'com.google.android.exoplayer:exoplayer:r1.5.3\'</string>
+        \ncompile \'com.google.android.exoplayer:exoplayer:r1.5.3\'
+    \ncompile \'com.github.flavienlaurent.discrollview:library:0.0.2@aar\'</string>
 
     <!--analytics purposes -->
     <string name="home_activity">Pantalla principal</string>
@@ -89,6 +97,7 @@
     <string name="gallery_activity">Galería</string>
     <string name="podcast_activity">Podcast</string>
     <string name="splash_activity">Splash</string>
+    <string name="tutorial_activity">Tutorial</string>
     <string name="home_view">Home Screen</string>
     <string name="news_view">News screen</string>
     <string name="podcast_view">Podcast screen</string>

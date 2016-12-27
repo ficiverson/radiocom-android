@@ -1,0 +1,238 @@
+<!--
+  ~ /*
+  ~  * Copyright (C) 2016 @ Appeiros Mobile Development S.L.
+  ~  *
+  ~  * Developer Fernando Souto
+  ~  *
+  ~  * Licensed under the Apache License, Version 2.0 (the "License");
+  ~  * you may not use this file except in compliance with the License.
+  ~  * You may obtain a copy of the License at
+  ~  *
+  ~  * http://www.apache.org/licenses/LICENSE-2.0
+  ~  *
+  ~  * Unless required by applicable law or agreed to in writing, software
+  ~  * distributed under the License is distributed on an "AS IS" BASIS,
+  ~  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  * See the License for the specific language governing permissions and
+  ~  * limitations under the License.
+  ~  */
+  -->
+
+<com.flavienlaurent.discrollview.lib.DiscrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:discrollve="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorSecondary"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.flavienlaurent.discrollview.lib.DiscrollViewContent
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@android:color/white"
+            android:padding="25dp"
+            android:textSize="55sp"
+            tools:visibility="gone"
+            android:gravity="center"
+            android:fontFamily="serif"
+            android:text="@string/tutorial_programa" />
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="120dp"
+            discrollve:discrollve_alpha="true"
+            discrollve:discrollve_translation="fromLeft|fromBottom"
+            android:src="@drawable/parrulo_azul" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            discrollve:discrollve_fromBgColor="@color/colorSecondary"
+            discrollve:discrollve_toBgColor="@color/colorOther" >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorSecondary"
+                android:padding="25dp"
+                android:textSize="35sp"
+                android:gravity="center"
+                android:fontFamily="serif"
+                android:text="@string/tutorial_programa_1" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="220dp"
+            android:layout_height="110dp"
+            android:layout_gravity="right"
+            android:src="@drawable/parrulo_naranja"
+            discrollve:discrollve_translation="fromRight" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:fontFamily="serif"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:text="@string/tutorial_programa_2"
+            android:textSize="18sp"
+            discrollve:discrollve_alpha="true"
+            discrollve:discrollve_translation="fromBottom" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/cuaclogo"
+            discrollve:discrollve_scaleX="true"
+            discrollve:discrollve_scaleY="true"  />
+
+        <justforcommunity.radiocom.tutorial.DiscrollvableYellow2Layout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorThird"
+            android:orientation="vertical"
+            tools:visibility="gone">
+
+            <ImageView
+                android:id="@+id/purpleView1"
+                android:alpha="0"
+                android:layout_width="200dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="25dp"
+                android:src="@drawable/parrulo_rojo"
+                android:translationX="-150dp" />
+
+            <ImageView
+                android:id="@+id/purpleView2"
+                android:alpha="0"
+                android:layout_width="220dp"
+                android:layout_height="110dp"
+                android:layout_gravity="right"
+                android:layout_marginBottom="25dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/parrulo_violeta"
+                android:translationX="100dp" />
+
+        </justforcommunity.radiocom.tutorial.DiscrollvableYellow2Layout>
+
+        <justforcommunity.radiocom.tutorial.DiscrollvablePathLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/black"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/pathView"
+                android:padding="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:fontFamily="serif"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:text="@string/tutorial_programa_3"
+                android:textSize="18sp" />
+
+        </justforcommunity.radiocom.tutorial.DiscrollvablePathLayout>
+
+        <justforcommunity.radiocom.tutorial.DiscrollvableRedLayout
+            android:layout_width="match_parent"
+            android:layout_height="450dp"
+            android:background="@color/coloFourth"
+            tools:visibility="gone">
+
+            <TextView
+                android:id="@+id/redView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="serif"
+                android:gravity="center"
+                android:padding="20dp"
+                android:text="@string/tutorial_programa_4"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/redView2"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:alpha="0.0"
+                android:src="@drawable/cuac"
+                android:scaleX="0.1"
+                android:scaleY="0.1"
+                android:translationY="50dp" />
+
+        </justforcommunity.radiocom.tutorial.DiscrollvableRedLayout>
+
+        <justforcommunity.radiocom.tutorial.DiscrollvableYellowLayout
+            android:layout_width="match_parent"
+            tools:visibility="gone"
+            android:layout_height="wrap_content"
+            android:background="@color/colorThird">
+
+            <TextView
+                android:id="@+id/greenView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="50dp"
+                android:fontFamily="serif"
+                android:translationY="-50dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="@string/tutorial_programa_5"
+                android:textSize="36sp" />
+
+        </justforcommunity.radiocom.tutorial.DiscrollvableYellowLayout>
+
+        <justforcommunity.radiocom.tutorial.DiscrollvableLastLayout
+            android:id="@+id/continuetutorial"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/lastView1"
+                android:translationX="-200dp"
+                android:translationY="-200dp"
+                android:alpha="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/love" />
+
+            <ImageView
+                android:id="@+id/lastView2"
+                android:translationX="200dp"
+                android:translationY="200dp"
+                android:alpha="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/lastView3"
+                android:src="@drawable/next" />
+
+            <ImageView
+                android:id="@+id/lastView3"
+                android:translationY="200dp"
+                android:alpha="0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_below="@+id/lastView1"
+                android:src="@drawable/cuac_banner" />
+
+        </justforcommunity.radiocom.tutorial.DiscrollvableLastLayout>
+
+    </com.flavienlaurent.discrollview.lib.DiscrollViewContent>
+
+</com.flavienlaurent.discrollview.lib.DiscrollView>
