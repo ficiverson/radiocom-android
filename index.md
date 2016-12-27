@@ -29,8 +29,12 @@ We need two server call to work properly.
 
 ### Some screenshots
 
-![](https://dl.dropboxusercontent.com/u/30278258/radiocom/compo1.png)
-![](https://dl.dropboxusercontent.com/u/30278258/radiocom/compo2.png)
+![Alt text](https://dl.dropboxusercontent.com/u/30278258/radiocom/compo1.png?raw=true "News, station, etc.")
+
+![Alt text](https://dl.dropboxusercontent.com/u/30278258/radiocom/compo2.png?raw=true "Streaming, podcasting")
+
+![Alt text](https://dl.dropboxusercontent.com/u/30278258/radiocom/giftuto.gif?raw=true "Tutorial first launch")
+
 
 ## Contributing
 
@@ -67,5 +71,4 @@ Thanks to the creators of the following libraries:
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     compile 'com.google.android.exoplayer:exoplayer:r1.5.3'
-
-
+    compile 'com.github.flavienlaurent.discrollview:library:0.0.2@aar'
