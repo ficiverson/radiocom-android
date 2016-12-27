@@ -65,8 +65,6 @@ public class Tutorial extends AppCompatActivity {
                 edit.putBoolean("showTutorial",false);
                 edit.commit();
 
-                Log.v("eljson",jsonStation);
-
                 //launch next activity
                 Intent intent = new Intent(mContext, Home.class);
                 intent.putExtra(GlobalValues.EXTRA_MESSAGE, jsonStation);

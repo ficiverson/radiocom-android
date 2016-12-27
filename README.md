@@ -69,5 +69,5 @@ Thanks to the creators of the following libraries:
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     compile 'com.google.android.exoplayer:exoplayer:r1.5.3'
-
+    compile 'com.github.flavienlaurent.discrollview:library:0.0.2@aar'
 
