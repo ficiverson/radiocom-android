@@ -33,6 +33,8 @@ We need two server call to work properly.
 
 ![Alt text](https://dl.dropboxusercontent.com/u/30278258/radiocom/compo2.png?raw=true "Streaming, podcasting")
 
+![Alt text](https://dl.dropboxusercontent.com/u/30278258/radiocom/giftuto.gif?raw=true "Tutorial first launch")
+
 
 ## Contributing
 
