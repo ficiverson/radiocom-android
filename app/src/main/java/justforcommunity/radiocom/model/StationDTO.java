@@ -40,7 +40,7 @@ public class StationDTO {
     private String stream_url;
     private String facebook_url;
     private String twitter_url;
-    private int launch_screen=2;
+    private int launch_screen=0;
 
     public String getBig_icon_url() {
         return big_icon_url;

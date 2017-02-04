@@ -168,7 +168,7 @@
                 android:layout_height="200dp"
                 android:layout_gravity="center"
                 android:alpha="0.0"
-                android:src="@drawable/cuac"
+                android:src="@drawable/cuactots"
                 android:scaleX="0.1"
                 android:scaleY="0.1"
                 android:translationY="50dp" />

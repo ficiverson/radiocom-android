@@ -35,10 +35,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -69,6 +71,9 @@ public class Home extends AppCompatActivity
     private SharedPreferences.Editor edit;
     private static final int REQUEST_WRITE_STORAGE = 112;
     private FloatingActionButton fab_media;
+    private Boolean isSearchable = false;
+    private SearchView mSearchView;
+    private String mSearchQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,10 +128,16 @@ public class Home extends AppCompatActivity
         switch (station.getLaunch_screen()){
             case 0:
                 loadStation();
+                break;
             case 1:
                 loadNews();
+                break;
             case 2:
                 loadPodcast();
+                break;
+            default:
+                loadStation();
+                break;
         }
 
         boolean hasPermissionChange = (ContextCompat.checkSelfPermission(this,
@@ -237,8 +248,70 @@ public class Home extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
+        if(!isSearchable) {
+            getMenuInflater().inflate(R.menu.home, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.home_search, menu);
+
+            final MenuItem searchMenuItem = menu.findItem(R.id.menu_item_search);
+            mSearchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+            mSearchView.setQueryHint(getString(R.string.search));
+
+
+            final View closeButton = mSearchView.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
+            closeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mSearchQuery = "";
+                    mSearchView.setQuery("", false);
+                    filterSearch("");
+                }
+            });
+
+            MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
+                @Override
+                public boolean onMenuItemActionCollapse(MenuItem item) {
+                    return true;
+                }
+                @Override
+                public boolean onMenuItemActionExpand(MenuItem item) {
+                    if (mSearchQuery != null && !mSearchQuery.isEmpty()) {
+                        mSearchView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                mSearchView.setQuery(mSearchQuery, false);
+                            }
+                        });
+                        filterSearch(mSearchQuery);
+                    }
+                    return true;
+                }
+            });
+
+            mSearchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    mSearchQuery = query;
+                    filterSearch(mSearchQuery);
+                    mSearchView.setQuery(mSearchQuery, false);
+                    return false;
+                }
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return true;
+                }
+            });
+        }
+
+
         return true;
+    }
+
+    public void filterSearch(String query){
+        PodcastPageFragment currentFragment = (PodcastPageFragment)getSupportFragmentManager().findFragmentByTag(mContext.getString(R.string.action_podcast));
+        if (currentFragment != null && currentFragment.isVisible()) {
+            currentFragment.filterDataSearch(query);
+        }
     }
 
     @Override
@@ -312,18 +385,24 @@ public class Home extends AppCompatActivity
     }
 
     public void loadStation() {
+        isSearchable = false;
+        invalidateOptionsMenu();
         HomePageFragment homeFragment = new HomePageFragment();
         homeFragment.setStation(station);
         processFragment(homeFragment, mContext.getString(R.string.action_station));
     }
 
     public void loadNews() {
+        isSearchable = false;
+        invalidateOptionsMenu();
         NewsPageFragment noticiasFragment = new NewsPageFragment();
         noticiasFragment.setStation(station);
         processFragment(noticiasFragment, mContext.getString(R.string.action_news));
     }
 
     public void loadPodcast() {
+        isSearchable = true;
+        invalidateOptionsMenu();
         PodcastPageFragment podcastFragment = new PodcastPageFragment();
         processFragment(podcastFragment, mContext.getString(R.string.action_podcast));
     }
@@ -420,7 +499,7 @@ public class Home extends AppCompatActivity
 
     private void processFragment(Fragment fragment, String title) {
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, fragment);
+        fragmentTransaction.replace(R.id.content_frame, fragment,title);
         fragmentTransaction.commit();
         getSupportActionBar().setTitle(title);
     }
