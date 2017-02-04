@@ -26,12 +26,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pkmmte.pkrss.Article;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import justforcommunity.radiocom.R;
@@ -39,21 +42,20 @@ import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.model.ProgramDTO;
 import justforcommunity.radiocom.views.CircleTransform;
 
-public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> {
+public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filterable {
 
     private Context mContext;
     private Home mActivity;
-
-    public PodcastListAdapter(Home mActivity, Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
-        this.mContext = context;
-        this.mActivity=mActivity;
-    }
+    private ItemFilter mFilter = new ItemFilter();
+    private List<ProgramDTO>originalData = null;
+    private List<ProgramDTO>filteredData = null;
 
     public PodcastListAdapter(Home mActivity, Context context, int resource, List<ProgramDTO> podcast) {
         super(context, resource, podcast);
         this.mContext = context;
         this.mActivity=mActivity;
+        originalData = podcast;
+        filteredData = podcast;
     }
 
     static class ViewHolder{
@@ -61,6 +63,16 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> {
         ImageView photoImageView;
         View viewtrans;
     }
+
+    @Override
+    public int getCount() {
+        return filteredData.size();
+    }
+    @Override
+    public ProgramDTO getItem(int position) {
+        return filteredData.get(position);
+    }
+
 
 
     @Override
@@ -114,6 +126,45 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> {
         }
 
         return v;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return mFilter;
+    }
+
+
+    private class ItemFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            String filterString = constraint.toString().toLowerCase();
+            FilterResults results = new FilterResults();
+            final List<ProgramDTO> list = originalData;
+            int count = list.size();
+            final ArrayList<ProgramDTO> nlist = new ArrayList<ProgramDTO>(count);
+            ProgramDTO filterableString ;
+
+            for (int i = 0; i < count; i++) {
+                filterableString = list.get(i);
+                if (filterableString.getTitle().toLowerCase().contains(filterString)) {
+                    nlist.add(filterableString);
+                }
+            }
+
+            results.values = nlist;
+            results.count = nlist.size();
+
+            return results;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            filteredData = (ArrayList<ProgramDTO>) results.values;
+            notifyDataSetChanged();
+        }
+
     }
 
 }

@@ -100,6 +100,12 @@ public class PodcastPageFragment extends Fragment {
         avi.setVisibility(View.GONE);
     }
 
+    public void filterDataSearch(String query){
+        if(myAdapterPodcast!=null) {
+            myAdapterPodcast.getFilter().filter(query);
+        }
+    }
+
 
     public void listChannels(final List<ProgramDTO> programas) {
         avi.hide();
