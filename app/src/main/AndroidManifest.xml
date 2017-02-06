@@ -82,9 +82,6 @@
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-
-
-
         <service
             android:name=".utils.StreamingService"
             android:configChanges="orientation|screenSize"
@@ -95,7 +92,6 @@
             android:configChanges="orientation|screenSize"
             android:stopWithTask="false"
             android:enabled="true" />
-
     </application>
 
 </manifest>

@@ -27,9 +27,8 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.flavienlaurent.discrollview.lib.Discrollvable;
-
 import justforcommunity.radiocom.R;
+import justforcommunity.radiocom.views.discrollview.Discrollvable;
 
 
 /**

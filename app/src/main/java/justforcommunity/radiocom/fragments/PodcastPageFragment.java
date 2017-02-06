@@ -130,7 +130,7 @@ public class PodcastPageFragment extends Fragment {
 
                     //serialize objecy station
                     Gson gson = new Gson();
-                    String jsonInString = gson.toJson(programas.get(position));
+                    String jsonInString = gson.toJson(myAdapterPodcast.getItem(position));
 
 
                     //save station object on prefs
