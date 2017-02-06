@@ -18,7 +18,7 @@
   ~  */
   -->
 
-<com.flavienlaurent.discrollview.lib.DiscrollView
+<justforcommunity.radiocom.views.discrollview.DiscrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:discrollve="http://schemas.android.com/apk/res-auto"
@@ -26,7 +26,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.flavienlaurent.discrollview.lib.DiscrollViewContent
+    <justforcommunity.radiocom.views.discrollview.DiscrollViewContent
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -34,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="600dp"
             android:background="@color/colorPrimaryDark"
+            android:drawableBottom="@drawable/down"
             android:textColor="@android:color/white"
             android:padding="25dp"
             android:textSize="55sp"
@@ -233,6 +234,6 @@
 
         </justforcommunity.radiocom.tutorial.DiscrollvableLastLayout>
 
-    </com.flavienlaurent.discrollview.lib.DiscrollViewContent>
+    </justforcommunity.radiocom.views.discrollview.DiscrollViewContent>
 
-</com.flavienlaurent.discrollview.lib.DiscrollView>
+</justforcommunity.radiocom.views.discrollview.DiscrollView>

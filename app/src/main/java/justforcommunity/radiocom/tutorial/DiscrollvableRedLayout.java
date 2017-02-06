@@ -26,7 +26,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import justforcommunity.radiocom.R;
-import com.flavienlaurent.discrollview.lib.Discrollvable;
+import justforcommunity.radiocom.views.discrollview.Discrollvable;
 
 /**
  *
