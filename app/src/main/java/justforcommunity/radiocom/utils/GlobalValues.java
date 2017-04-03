@@ -22,6 +22,8 @@ package justforcommunity.radiocom.utils;
 
 import android.os.Environment;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import justforcommunity.radiocom.activities.App;
 
 /**
@@ -36,6 +38,10 @@ public class GlobalValues {
     //this will be the final url when we make changes on RADIOCO
     //public static String baseURL = "https://cuacfm.org/radioco/api/1/radiocom/";
     public static String prefName = "commradio";
+
+    // Sign up, real and localhost
+    // public static String signupURL = "https://cuacfm.org/members/signup";
+    public static String signupURL = "http://10.0.2.2:8080/members/signup";
 
     public static String colorHTML = "#ff9900 !important";
 
@@ -54,5 +60,8 @@ public class GlobalValues {
     public static String EXTRA_TITLE = "webviewTitle";
 
     public static String DOWNLOAD_DIR = Environment.getExternalStorageDirectory().toString() + "/Android/data/" + App.PACKAGE_NAME + "/downloaded/";
+
+    // Name of constant firebase user
+    public static String FIREBASEUSER = "FirebaseUser";
 
 }

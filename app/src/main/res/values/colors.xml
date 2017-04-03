@@ -35,6 +35,5 @@
     <color name="colorOther">#D9D9D9</color>
     <color name="colorThird">#FFCC00</color>
     <color name="coloFourth">#FA0004</color>
-
-    <color name="colorBlack85">#D9000000</color>
+    <color name="yellow">#edfd05</color>
 </resources>

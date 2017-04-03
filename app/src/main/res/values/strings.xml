@@ -68,6 +68,8 @@
     <string name="action_thanks">Agradecimientos</string>
     <string name="action_cuac">CUAC FM</string>
     <string name="action_dev">Desarrollo</string>
+    <string name="action_management">Gestión</string>
+    <string name="action_incidence">Incidencias</string>
 
     <string name="search">Buscar</string>
     <string name="share">Compartir</string>
@@ -101,4 +103,27 @@
     <string name="home_view">Home Screen</string>
     <string name="news_view">News screen</string>
     <string name="podcast_view">Podcast screen</string>
+
+    <string name="auth_failed">Autenticación fallida</string>
+    <string name="auth_success">Autenticación correcta</string>
+    <string name="google_services_failed">Error de Google Play Services</string>
+    <string name="required">Obligatorio</string>
+    <string name="required_email">Introduce el email</string>
+    <string name="authenticate">Autenticarse</string>
+    <string name="reset_password">Reinciar Contraseña</string>
+    <string name="resend_password">Resetear Contraseña</string>
+    <string name="resend_password_fail">!Se ha enviado un email para resetear la contraseña¡</string>
+    <string name="resend_password_success">¡Hubo un fallo al enviar el email para resetear la contraseña!</string>
+
+    <string name="signin">Autenticarse</string>
+    <string name="back">Atras</string>
+    <string name="signout">Desconectarse</string>
+    <string name="signup">¿Eres nuevo? Registrate</string>
+    <string name="verify_email">Verificar email</string>
+    <string name="email_input">Email</string>
+    <string name="password_input">Contraseña</string>
+    <string name="forgot_password">¿Olvidaste la contraseña?</string>
+    <string name="forgot_password_info">¿Contraseña olvidada?</string>
+    <string name="forgot_password_msg">Se enviará un email al correo indicado</string>
+
 </resources>

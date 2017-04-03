@@ -45,10 +45,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 
 import justforcommunity.radiocom.R;
@@ -56,8 +58,11 @@ import justforcommunity.radiocom.fragments.HomePageFragment;
 import justforcommunity.radiocom.fragments.NewsPageFragment;
 import justforcommunity.radiocom.fragments.PodcastPageFragment;
 import justforcommunity.radiocom.model.StationDTO;
+import justforcommunity.radiocom.model.UserDTO;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.StreamingService;
+
+import static justforcommunity.radiocom.utils.GlobalValues.FIREBASEUSER;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -74,6 +79,8 @@ public class Home extends AppCompatActivity
     private Boolean isSearchable = false;
     private SearchView mSearchView;
     private String mSearchQuery;
+    private ImageView nav_authenticate;
+    private UserDTO userDTO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +93,6 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         mContext = this;
-
         prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         edit = prefs.edit();
 
@@ -108,6 +114,7 @@ public class Home extends AppCompatActivity
             }
         });
 
+
         if (prefs.getBoolean("isMediaPlaying", false)) {//playing is on so we neeed to put menu correctly
             navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming_stop));
             navigationView.getMenu().getItem(2).setIcon(R.drawable.streamingstop);
@@ -125,7 +132,7 @@ public class Home extends AppCompatActivity
         }
 
         //Load the fragment with the server configuration
-        switch (station.getLaunch_screen()){
+        switch (station.getLaunch_screen()) {
             case 0:
                 loadStation();
                 break;
@@ -156,8 +163,8 @@ public class Home extends AppCompatActivity
             }
         }
 
-        App appliaction = (App) getApplication();
-        Tracker mTracker = appliaction.getDefaultTracker();
+        App application = (App) getApplication();
+        Tracker mTracker = application.getDefaultTracker();
         mTracker.setScreenName(getString(R.string.home_activity));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
@@ -167,13 +174,14 @@ public class Home extends AppCompatActivity
     public void onStart() {
         super.onStart();
         GoogleAnalytics.getInstance(this).reportActivityStart(this);
+        updateUserInfo();
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         //refresh state after changing from podcasting status
-        if (prefs.getBoolean("isMediaPlaying", false)==false) {//playing is off so we neeed to put menu correctly
+        if (prefs.getBoolean("isMediaPlaying", false) == false) {//playing is off so we neeed to put menu correctly
             navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming));
             navigationView.getMenu().getItem(2).setIcon(R.drawable.streaming);
             fab_media.setImageResource(R.drawable.streamingwhite);
@@ -248,7 +256,7 @@ public class Home extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        if(!isSearchable) {
+        if (!isSearchable) {
             getMenuInflater().inflate(R.menu.home, menu);
         } else {
             getMenuInflater().inflate(R.menu.home_search, menu);
@@ -273,6 +281,7 @@ public class Home extends AppCompatActivity
                 public boolean onMenuItemActionCollapse(MenuItem item) {
                     return true;
                 }
+
                 @Override
                 public boolean onMenuItemActionExpand(MenuItem item) {
                     if (mSearchQuery != null && !mSearchQuery.isEmpty()) {
@@ -296,6 +305,7 @@ public class Home extends AppCompatActivity
                     mSearchView.setQuery(mSearchQuery, false);
                     return false;
                 }
+
                 @Override
                 public boolean onQueryTextChange(String newText) {
                     return true;
@@ -303,12 +313,19 @@ public class Home extends AppCompatActivity
             });
         }
 
-
+        //Set the ontouch listener nav_authenticate
+        nav_authenticate = (ImageView) findViewById(R.id.nav_authenticate);
+        nav_authenticate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadAuthenticate();
+            }
+        });
         return true;
     }
 
-    public void filterSearch(String query){
-        PodcastPageFragment currentFragment = (PodcastPageFragment)getSupportFragmentManager().findFragmentByTag(mContext.getString(R.string.action_podcast));
+    public void filterSearch(String query) {
+        PodcastPageFragment currentFragment = (PodcastPageFragment) getSupportFragmentManager().findFragmentByTag(mContext.getString(R.string.action_podcast));
         if (currentFragment != null && currentFragment.isVisible()) {
             currentFragment.filterDataSearch(query);
         }
@@ -384,6 +401,11 @@ public class Home extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void loadAuthenticate() {
+        Intent intent = new Intent(this, Authenticate.class);
+        startActivity(intent);
+    }
+
     public void loadStation() {
         isSearchable = false;
         invalidateOptionsMenu();
@@ -443,8 +465,7 @@ public class Home extends AppCompatActivity
             String facebookUri = "";
             if (versionCode >= 3002850) {
                 facebookUri = "fb://facewebmodal/f?href=" + station.getFacebook_url();
-            }
-            else {
+            } else {
                 facebookUri = "fb://page/" + GlobalValues.facebookId;
             }
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookUri));
@@ -499,7 +520,7 @@ public class Home extends AppCompatActivity
 
     private void processFragment(Fragment fragment, String title) {
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.content_frame, fragment,title);
+        fragmentTransaction.replace(R.id.content_frame, fragment, title);
         fragmentTransaction.commit();
         getSupportActionBar().setTitle(title);
     }
@@ -513,5 +534,28 @@ public class Home extends AppCompatActivity
         builder.setToolbarColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(this, Uri.parse(url));
+    }
+
+    private void updateUserInfo() {
+        Gson gson = new Gson();
+        userDTO = gson.fromJson(prefs.getString(FIREBASEUSER, ""), UserDTO.class);
+
+        if (userDTO != null) {
+            navigationView.getMenu().findItem(R.id.management).setVisible(true);
+            navigationView.getMenu().findItem(R.id.management).setEnabled(true);
+        } else {
+            navigationView.getMenu().findItem(R.id.management).setVisible(false);
+            navigationView.getMenu().findItem(R.id.management).setEnabled(false);
+        }
+
+        if (nav_authenticate != null) {
+            if (userDTO != null) {
+                // Maybe put personal photo user
+                //userDTO.getPhotoUrl();
+                nav_authenticate.setImageResource(R.drawable.user_active);
+            } else {
+                nav_authenticate.setImageResource(R.drawable.user_inactive);
+            }
+        }
     }
 }

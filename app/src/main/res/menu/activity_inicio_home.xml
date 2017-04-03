@@ -50,6 +50,18 @@
             android:title="@string/action_podcast" />
     </group>
 
+    <item android:title="@string/action_management"
+        android:id="@+id/management"
+        android:visibility="gone"
+        android:enabled="false">
+        <menu>
+            <item
+                android:id="@+id/nav_incidence"
+                android:icon="@drawable/pen"
+                android:title="@string/action_incidence" />
+        </menu>
+    </item>
+
     <item android:title="@string/action_social">
         <menu>
             <item
