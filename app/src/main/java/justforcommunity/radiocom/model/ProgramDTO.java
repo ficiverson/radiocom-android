@@ -25,10 +25,34 @@ package justforcommunity.radiocom.model;
  */
 public class ProgramDTO {
 
+    private String title;
+    private String name;
     private String description;
     private String logo_url;
     private String rss_url;
-    private String title;
+
+    public ProgramDTO() {
+    }
+
+    public ProgramDTO(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getDescription() {
         return description;
@@ -53,15 +77,5 @@ public class ProgramDTO {
     public void setRss_url(String rss_url) {
         this.rss_url = rss_url;
     }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-
 
 }

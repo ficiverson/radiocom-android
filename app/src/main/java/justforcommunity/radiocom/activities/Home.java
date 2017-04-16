@@ -50,19 +50,18 @@ import android.widget.ImageView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.fragments.HomePageFragment;
+import justforcommunity.radiocom.fragments.IncidencesPageFragment;
 import justforcommunity.radiocom.fragments.NewsPageFragment;
 import justforcommunity.radiocom.fragments.PodcastPageFragment;
 import justforcommunity.radiocom.model.StationDTO;
-import justforcommunity.radiocom.model.UserDTO;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.StreamingService;
-
-import static justforcommunity.radiocom.utils.GlobalValues.FIREBASEUSER;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -80,7 +79,7 @@ public class Home extends AppCompatActivity
     private SearchView mSearchView;
     private String mSearchQuery;
     private ImageView nav_authenticate;
-    private UserDTO userDTO;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -321,6 +320,7 @@ public class Home extends AppCompatActivity
                 loadAuthenticate();
             }
         });
+        changeUserImage();
         return true;
     }
 
@@ -360,6 +360,9 @@ public class Home extends AppCompatActivity
                 break;
             case R.id.nav_podcast:
                 loadPodcast();
+                break;
+            case R.id.nav_incidence:
+                loadIncidence();
                 break;
             case R.id.nav_map:
                 loadMap();
@@ -427,6 +430,13 @@ public class Home extends AppCompatActivity
         invalidateOptionsMenu();
         PodcastPageFragment podcastFragment = new PodcastPageFragment();
         processFragment(podcastFragment, mContext.getString(R.string.action_podcast));
+    }
+
+    public void loadIncidence() {
+        isSearchable = true;
+        invalidateOptionsMenu();
+        IncidencesPageFragment incidencesPageFragment = new IncidencesPageFragment();
+        processFragment(incidencesPageFragment, mContext.getString(R.string.action_incidence));
     }
 
     public void loadMap() {
@@ -537,10 +547,11 @@ public class Home extends AppCompatActivity
     }
 
     private void updateUserInfo() {
-        Gson gson = new Gson();
-        userDTO = gson.fromJson(prefs.getString(FIREBASEUSER, ""), UserDTO.class);
 
-        if (userDTO != null) {
+        // Get firebase user
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
             navigationView.getMenu().findItem(R.id.management).setVisible(true);
             navigationView.getMenu().findItem(R.id.management).setEnabled(true);
         } else {
@@ -548,8 +559,12 @@ public class Home extends AppCompatActivity
             navigationView.getMenu().findItem(R.id.management).setEnabled(false);
         }
 
+        changeUserImage();
+    }
+
+    private void changeUserImage() {
         if (nav_authenticate != null) {
-            if (userDTO != null) {
+            if (user != null) {
                 // Maybe put personal photo user
                 //userDTO.getPhotoUrl();
                 nav_authenticate.setImageResource(R.drawable.user_active);
@@ -558,4 +573,6 @@ public class Home extends AppCompatActivity
             }
         }
     }
+
+
 }

@@ -28,24 +28,24 @@ import org.springframework.web.client.RestClientException;
 import java.util.List;
 import java.util.Locale;
 
+import justforcommunity.radiocom.activities.CreateIncidence;
 import justforcommunity.radiocom.fragments.PodcastPageFragment;
 import justforcommunity.radiocom.model.ProgramDTO;
 import justforcommunity.radiocom.service.ServiceGetPrograms;
 import justforcommunity.radiocom.utils.ConexionInternet;
 
 
-public class GetPrograms extends AsyncTask<Boolean, Float, Boolean> {
+public class GetProgramsUser extends AsyncTask<Boolean, Float, Boolean> {
 
     private Context mContext;
-    private PodcastPageFragment fragment;
+    private CreateIncidence mActivity;
     private ServiceGetPrograms serviceGetPrograms;
     private Locale locale;
     private List<ProgramDTO> programsDTO;
 
-    public GetPrograms(Context context, PodcastPageFragment fragment) {
-        this.fragment = fragment;
-        this.mContext = context;
-
+    public GetProgramsUser(Context mContext, CreateIncidence mActivity) {
+        this.mActivity = mActivity;
+        this.mContext = mContext;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
         serviceGetPrograms = new ServiceGetPrograms(locale);
     }
@@ -58,7 +58,7 @@ public class GetPrograms extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                programsDTO = serviceGetPrograms.getPrograms().getData();
+                programsDTO = serviceGetPrograms.getProgramsUser();
                 res = true;
 
             } catch (RestClientException e) {
@@ -76,9 +76,9 @@ public class GetPrograms extends AsyncTask<Boolean, Float, Boolean> {
     protected void onPostExecute(Boolean result) {
 
         if (result) {
-            fragment.listChannels(programsDTO);
+            mActivity.setProgramsUser(programsDTO);
         } else {
-            fragment.resultKO();
+            mActivity.resultKO();
         }
     }
 

@@ -21,6 +21,8 @@
 package justforcommunity.radiocom.service;
 
 
+import android.util.Log;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -35,38 +37,22 @@ import java.util.List;
 import java.util.Locale;
 
 import justforcommunity.radiocom.model.ResponseStationDTO;
-import justforcommunity.radiocom.model.StationDTO;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
 import justforcommunity.radiocom.utils.GlobalValues;
 
-/**
- * Created by iver on 7/3/16.
- */
 public class ServiceGetStation extends ServiceBase {
 
-    public ServiceGetStation(Locale idioma) {
-        super(idioma);
-
+    public ServiceGetStation(Locale language) {
+        super(language);
     }
 
-    /**
+    public ResponseStationDTO getStation() throws RestClientException, WebServiceStatusFailException {
 
-     */
-    public ResponseStationDTO getStation()
-            throws RestClientException, WebServiceStatusFailException
-    {
+        Object[] theValues = {};
+        String[] parameters = {};
 
-
-        Object[] theValues = {
-        };
-        String[] parameters = {
-        };
-
-
-        List<Object> sendValues = new ArrayList<Object>();
-
+        List<Object> sendValues = new ArrayList<>();
         String url = GlobalValues.baseURL + "radiostation" + restQueryString(parameters, theValues, sendValues);
-
         ResponseEntity<ResponseStationDTO> response = null;
 
         try {
@@ -79,11 +65,11 @@ public class ServiceGetStation extends ServiceBase {
             getRestTemplate().getMessageConverters().add(converter);
 
             response = getRestTemplate().exchange(url, HttpMethod.GET, request, ResponseStationDTO.class, sendValues.toArray());
-            if (response.getStatusCode() != HttpStatus.OK)
-            {
+            if (response.getStatusCode() != HttpStatus.OK) {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
+            Log.e("ServiceGetStation", "getStation", e);
             throw e;
         }
 

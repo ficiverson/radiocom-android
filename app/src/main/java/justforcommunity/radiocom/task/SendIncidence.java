@@ -1,8 +1,8 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
+ *  * Copyright (C) 2017 @ Pablo Grela
  *  *
- *  * Developer Fernando Souto
+ *  * Developer Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -22,64 +22,61 @@ package justforcommunity.radiocom.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.springframework.web.client.RestClientException;
 
-import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.fragments.PodcastPageFragment;
-import justforcommunity.radiocom.model.ProgramDTO;
-import justforcommunity.radiocom.service.ServiceGetPrograms;
+import justforcommunity.radiocom.activities.CreateIncidence;
+import justforcommunity.radiocom.model.IncidenceDTO;
+import justforcommunity.radiocom.service.ServiceGetIncidences;
 import justforcommunity.radiocom.utils.ConexionInternet;
 
 
-public class GetPrograms extends AsyncTask<Boolean, Float, Boolean> {
+public class SendIncidence extends AsyncTask<Boolean, Float, Boolean> {
 
+    private static final String TAG = "GetIncidences";
     private Context mContext;
-    private PodcastPageFragment fragment;
-    private ServiceGetPrograms serviceGetPrograms;
+    private CreateIncidence activity;
+    private ServiceGetIncidences serviceGetIncidences;
     private Locale locale;
-    private List<ProgramDTO> programsDTO;
+    private IncidenceDTO incidence;
 
-    public GetPrograms(Context context, PodcastPageFragment fragment) {
-        this.fragment = fragment;
+    public SendIncidence(Context context, CreateIncidence activity, IncidenceDTO incidence) {
+        this.activity = activity;
         this.mContext = context;
-
+        this.incidence = incidence;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        serviceGetPrograms = new ServiceGetPrograms(locale);
+        serviceGetIncidences = new ServiceGetIncidences(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
         boolean res = false;
-
         ConexionInternet cnn = new ConexionInternet();
 
         if (cnn.isConnected(mContext)) {
 
             try {
-                programsDTO = serviceGetPrograms.getPrograms().getData();
+                incidence = serviceGetIncidences.sendIncidence(incidence);
                 res = true;
-
             } catch (RestClientException e) {
-                programsDTO = null;
+                Log.e(TAG, "doInBackground()", e);
                 res = false;
             } catch (Exception e) {
-                programsDTO = null;
+                Log.e(TAG, "doInBackground()", e);
                 res = false;
             }
         }
         return res;
     }
 
-
     protected void onPostExecute(Boolean result) {
 
         if (result) {
-            fragment.listChannels(programsDTO);
+            activity.resultOK(incidence);
         } else {
-            fragment.resultKO();
+            activity.resultKO();
         }
     }
-
 }

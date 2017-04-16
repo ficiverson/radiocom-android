@@ -1,8 +1,8 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
+ *  * Copyright (C) 2016 @ Pablo Grela
  *  *
- *  * Developer Fernando Souto
+ *  * Developer Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,46 +42,58 @@ import java.util.List;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.App;
+import justforcommunity.radiocom.activities.CreateIncidence;
 import justforcommunity.radiocom.activities.Home;
-import justforcommunity.radiocom.activities.Podcast;
-import justforcommunity.radiocom.adapters.PodcastListAdapter;
-import justforcommunity.radiocom.model.ProgramDTO;
-import justforcommunity.radiocom.task.GetPrograms;
+import justforcommunity.radiocom.activities.Incidence;
+import justforcommunity.radiocom.adapters.IncidenceListAdapter;
+import justforcommunity.radiocom.model.IncidenceDTO;
+import justforcommunity.radiocom.task.GetIncidences;
 import justforcommunity.radiocom.utils.GlobalValues;
 
+import static justforcommunity.radiocom.utils.GlobalValues.INCIDENCE_JSON;
 
-public class PodcastPageFragment extends Fragment {
+
+public class IncidencesPageFragment extends Fragment {
 
     private Home mActivity;
     private Context mContext;
-    private ListView podcastlist;
+    private ListView incidenceList;
     private TextView noElements;
-    private PodcastListAdapter myAdapterPodcast;
+    private IncidenceListAdapter myAdapterIncidences;
     private AVLoadingIndicatorView avi;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_podcast, container, false);
+        View v = inflater.inflate(R.layout.fragment_incidences, container, false);
 
         mActivity = (Home) getActivity();
         mContext = getContext();
 
-        podcastlist = (ListView) v.findViewById(R.id.podcastlist);
+        incidenceList = (ListView) v.findViewById(R.id.incidenceList);
         noElements = (TextView) v.findViewById(R.id.no_elements);
 
         avi = (AVLoadingIndicatorView) v.findViewById(R.id.avi);
         avi.show();
 
-
-        GetPrograms gp = new GetPrograms(mContext, this);
+        // Get Incidences
+        GetIncidences gp = new GetIncidences(mContext, this);
         gp.execute();
 
+        // Float button to create new incidence
+        FloatingActionButton button_create = (FloatingActionButton) v.findViewById(R.id.button_create);
+        button_create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //launch next activity
+                Intent intent = new Intent(mActivity, CreateIncidence.class);
+                startActivity(intent);
+            }
+        });
 
-        App appliaction = (App) getActivity().getApplication();
-        Tracker mTracker = appliaction.getDefaultTracker();
-        mTracker.setScreenName(getString(R.string.podcast_view));
+        App application = (App) getActivity().getApplication();
+        Tracker mTracker = application.getDefaultTracker();
+        mTracker.setScreenName(getString(R.string.incidence_view));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         return v;
@@ -89,51 +102,48 @@ public class PodcastPageFragment extends Fragment {
     public void resultKO() {
         avi.hide();
         noElements.setVisibility(View.VISIBLE);
-        podcastlist.setVisibility(View.GONE);
+        incidenceList.setVisibility(View.GONE);
         avi.setVisibility(View.GONE);
     }
 
     public void filterDataSearch(String query) {
-        if (myAdapterPodcast != null) {
-            myAdapterPodcast.getFilter().filter(query);
+        if (myAdapterIncidences != null) {
+            myAdapterIncidences.getFilter().filter(query);
         }
     }
 
-
-    public void listChannels(final List<ProgramDTO> programas) {
+    public void setIncidenceList(final List<IncidenceDTO> incidences) {
         avi.hide();
-        if (programas == null || programas.size() == 0) {
+
+        if (incidences == null || incidences.size() == 0) {
             noElements.setVisibility(View.VISIBLE);
-            podcastlist.setVisibility(View.GONE);
+            incidenceList.setVisibility(View.GONE);
             avi.setVisibility(View.GONE);
         } else {
             noElements.setVisibility(View.GONE);
-            podcastlist.setVisibility(View.VISIBLE);
+            incidenceList.setVisibility(View.VISIBLE);
             avi.setVisibility(View.GONE);
 
+            myAdapterIncidences = new IncidenceListAdapter(mActivity, mContext, R.layout.listitem_new, incidences);
+            incidenceList.setAdapter(myAdapterIncidences);
 
-            myAdapterPodcast = new PodcastListAdapter(mActivity, mContext, R.layout.listitem_new, programas);
-            podcastlist.setAdapter(myAdapterPodcast);
-
-
-            podcastlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            incidenceList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    //serialize objecy station
+                    //serialize object station
                     Gson gson = new Gson();
-                    String jsonInString = gson.toJson(myAdapterPodcast.getItem(position));
-
+                    String jsonInString = gson.toJson(myAdapterIncidences.getItem(position));
 
                     //save station object on prefs
                     SharedPreferences prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = prefs.edit();
-                    edit.putString("jsonPodcast", jsonInString);
-                    edit.commit();
+                    edit.putString("jsonIncidence", jsonInString);
+                    edit.apply();
 
                     //launch next activity
-                    Intent intent = new Intent(mActivity, Podcast.class);
-                    intent.putExtra(GlobalValues.EXTRA_PROGRAM, jsonInString);
+                    Intent intent = new Intent(mActivity, Incidence.class);
+                    intent.putExtra(INCIDENCE_JSON, jsonInString);
                     startActivity(intent);
                 }
             });

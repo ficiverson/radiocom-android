@@ -32,36 +32,41 @@ import justforcommunity.radiocom.activities.App;
 public class GlobalValues {
 
     //configurations you con update
-    public static String baseURLCUACWEB = "https://cuacfm.org/asociacion-cuac/historia/";
-    public static String baseURLWEB = "https://cuacfm.org/";
-    public static String baseURL = "http://radiocom.stamplayapp.com/api/cobject/v1/";
+    public static final String baseURLCUACWEB = "https://cuacfm.org/asociacion-cuac/historia/";
+    public static final String baseURLWEB = "https://cuacfm.org/";
+    public static final String baseURL = "http://radiocom.stamplayapp.com/api/cobject/v1/";
     //this will be the final url when we make changes on RADIOCO
-    //public static String baseURL = "https://cuacfm.org/radioco/api/1/radiocom/";
-    public static String prefName = "commradio";
+    //public static final String baseURL = "https://cuacfm.org/radioco/api/1/radiocom/";
+    public static final String prefName = "commradio";
 
-    // Sign up, real and localhost
-    // public static String signupURL = "https://cuacfm.org/members/signup";
-    public static String signupURL = "http://10.0.2.2:8080/members/signup";
+    // Test 10.0.2.2:8080, Real cuacfm.org
+    // public static String membersURL = "https://cuacfm.org/members/";
+    public static final String membersURL = "http://10.0.2.2:8080/members/";
+    public static final String signupURL = membersURL + "signup";
+    public static final String incidencesURL = membersURL + "api/incidenceList/";
+    public static final String createIncidenceURL = incidencesURL + "incidenceCreate";
+    public static final String programsURL = membersURL + "api/programList/";
 
-    public static String colorHTML = "#ff9900 !important";
+    public static final String colorHTML = "#ff9900 !important";
 
-    public static String city = "A Coruña";
+    public static final String city = "A Coruña";
 
-    public static String twitter = "https://twitter.com/";
-    public static String twitterName = "cuacfm";
-    public static String facebookName = "https://www.facebook.com/cuacfm";
-    public static String facebookId = "209865152388997";
+    public static final String twitter = "https://twitter.com/";
+    public static final String twitterName = "cuacfm";
+    public static final String facebookName = "https://www.facebook.com/cuacfm";
+    public static final String facebookId = "209865152388997";
     //end configuration you can update
 
-    //things that you may not cange
-    public static String EXTRA_MESSAGE = "radioStation";
-    public static String EXTRA_PROGRAM = "programme";
-    public static String EXTRA_CONTENT = "webviewContent";
-    public static String EXTRA_TITLE = "webviewTitle";
+    //things that you may not change
+    public static final String EXTRA_MESSAGE = "radioStation";
+    public static final String EXTRA_PROGRAM = "programme";
+    public static final String EXTRA_CONTENT = "webviewContent";
+    public static final String EXTRA_TITLE = "webviewTitle";
+    public static final String INCIDENCE_JSON = "incidenceJson";
 
-    public static String DOWNLOAD_DIR = Environment.getExternalStorageDirectory().toString() + "/Android/data/" + App.PACKAGE_NAME + "/downloaded/";
+    public static final String DOWNLOAD_DIR = Environment.getExternalStorageDirectory().toString() + "/Android/data/" + App.PACKAGE_NAME + "/downloaded/";
 
     // Name of constant firebase user
-    public static String FIREBASEUSER = "FirebaseUser";
+    // public static final String FIREBASEUSER = "FirebaseUser";
 
 }

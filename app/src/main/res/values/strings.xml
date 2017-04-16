@@ -52,7 +52,29 @@
     <string name="error_download">Error en la descarga del episodio: </string>
 
     <string name="podcast_info_title">Descripción del programa:</string>
+    <string name="incidence_info_title">Descripción de la incidencia:</string>
 
+
+    <string name="create_incidence_activity">Crear incidencia</string>
+    <string name="incidence_activity">Incidencia</string>
+    <string name="incidence_active">Activo:</string>
+    <string name="incidence_answer">Respuesta: </string>
+    <string name="incidence_dateCreate">Fecha de creación:</string>
+    <string name="incidence_dateRevision">Fecha de revisión:</string>
+    <string name="incidence_tidy">Suciedad:</string>
+    <string name="incidence_dirt">Ordenación:</string>
+    <string name="incidence_configuration">Configuración:</string>
+    <string name="incidence_configuration_full">Configuración de los equipos:</string>
+    <string name="incidence_openDoor">¿Estaba abierta la emisora cuando llegaste?</string>
+    <string name="incidence_viewMembers">¿Llegaste a ver la/s persona/s que hacen el siguiente programa? </string>
+    <string name="incidence_photos">Fotos de las incidencias: </string>
+    <string name="incidence_description">Descripción: </string>
+    <string name="incidence_programName">Programa:</string>
+    <string name="incidence_send">Enviar</string>
+    <string name="incidence_send_success">!Se ha enviado la incidencia¡</string>
+    <string name="incidence_send_fail">¡Hubo un fallo al enviar la incidencia!</string>
+    <string name="incidence_complete_fields">¡Rellena todos los campos!</string>
+    <string name="default_value">0</string>
 
     <string name="action_station">Emisora</string>
     <string name="action_gallery">Galería</string>
@@ -103,6 +125,7 @@
     <string name="home_view">Home Screen</string>
     <string name="news_view">News screen</string>
     <string name="podcast_view">Podcast screen</string>
+    <string name="incidence_view">Incidence screen</string>
 
     <string name="auth_failed">Autenticación fallida</string>
     <string name="auth_success">Autenticación correcta</string>
@@ -112,8 +135,8 @@
     <string name="authenticate">Autenticarse</string>
     <string name="reset_password">Reinciar Contraseña</string>
     <string name="resend_password">Resetear Contraseña</string>
-    <string name="resend_password_fail">!Se ha enviado un email para resetear la contraseña¡</string>
-    <string name="resend_password_success">¡Hubo un fallo al enviar el email para resetear la contraseña!</string>
+    <string name="resend_password_success">!Se ha enviado un email para resetear la contraseña¡</string>
+    <string name="resend_password_fail">¡Hubo un fallo al enviar el email para resetear la contraseña!</string>
 
     <string name="signin">Autenticarse</string>
     <string name="back">Atras</string>
@@ -126,4 +149,6 @@
     <string name="forgot_password_info">¿Contraseña olvidada?</string>
     <string name="forgot_password_msg">Se enviará un email al correo indicado</string>
 
+    <string name="true_value">Sí</string>
+    <string name="false_value">No</string>
 </resources>

@@ -24,6 +24,7 @@
     <color name="colorPrimary">#ff9900</color>
     <color name="colorPrimaryDark">#a56300</color>
     <color name="colorAccent">#5f3900</color>
+    <color name="colorCreate">#0adf3f</color>
 
     <!-- same colors wiyh 85% opacity -->
     <color name="colorPrimary85">#D9ff9900</color>
