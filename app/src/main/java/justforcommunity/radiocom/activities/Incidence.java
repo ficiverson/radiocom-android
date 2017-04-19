@@ -46,9 +46,10 @@ import justforcommunity.radiocom.task.FirebaseUtils;
 import justforcommunity.radiocom.utils.DateUtils;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.PodcastingService;
-import justforcommunity.radiocom.utils.StringUtils;
+import justforcommunity.radiocom.utils.FileUtils;
 
 import static justforcommunity.radiocom.utils.GlobalValues.INCIDENCE_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.imageIncidenceURL;
 
 public class Incidence extends FirebaseActivity {
 
@@ -133,11 +134,11 @@ public class Incidence extends FirebaseActivity {
             tidy.setText(String.valueOf(incidence.getTidy()));
             dirt.setText(String.valueOf(incidence.getDirt()));
             configuration.setText(String.valueOf(incidence.getConfiguration()));
-            openDoor.setText(StringUtils.formatBoolean(mContext, incidence.isOpenDoor()));
-            viewMembers.setText(StringUtils.formatBoolean(mContext, incidence.isViewMembers()));
+            openDoor.setText(FileUtils.formatBoolean(mContext, incidence.isOpenDoor()));
+            viewMembers.setText(FileUtils.formatBoolean(mContext, incidence.isViewMembers()));
             description.setText(incidence.getDescription());
             dateRevision.setText(DateUtils.formatDate(incidence.getDateRevision(), DateUtils.FORMAT_DISPLAY));
-            active.setText(StringUtils.formatBoolean(mContext, incidence.isActive()));
+            active.setText(FileUtils.formatBoolean(mContext, incidence.isActive()));
             answer.setText(incidence.getAnswer());
             imagesIncidence = (LinearLayout) findViewById(R.id.images_incidence);
 
@@ -158,7 +159,7 @@ public class Incidence extends FirebaseActivity {
     @Override
     public void setToken(String token) {
         for (String nameFile : incidence.getFiles()) {
-            String url = GlobalValues.membersURL + "api/incidenceList/image/" + incidence.getId() + "?imageName=" + nameFile + "&token=" + token;
+            String url = imageIncidenceURL + incidence.getId() + "?imageName=" + nameFile + "&token=" + token;
 
             // ImageView image = new ImageView(this);
             ImageView image = newImageView();
@@ -168,15 +169,15 @@ public class Incidence extends FirebaseActivity {
     }
 
     // Create new ImageView with parameters
-    // Error, cut height image
     private ImageView newImageView() {
         ImageView imageView = new ImageView(this);
 //        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 //        lp.setMargins(0, 0, 0, 10);
-//        // lp.gravity = Gravity.FILL_HORIZONTAL;
+//        lp.gravity = Gravity.FILL_HORIZONTAL;
 //        imageView.setLayoutParams(lp);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setMinimumHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        imageView.setAdjustViewBounds(true);
+//        imageView.setMinimumHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
 //        imageView.setScaleType(ImageView.ScaleType.CENTER);
         return imageView;
     }

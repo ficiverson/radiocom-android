@@ -23,9 +23,6 @@ package justforcommunity.radiocom.model;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by pablo.grela on 11/04/17.
- */
 public class IncidenceDTO {
 
     private Long id;

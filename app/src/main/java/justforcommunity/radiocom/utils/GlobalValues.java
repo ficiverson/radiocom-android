@@ -45,6 +45,7 @@ public class GlobalValues {
     public static final String signupURL = membersURL + "signup";
     public static final String incidencesURL = membersURL + "api/incidenceList/";
     public static final String createIncidenceURL = incidencesURL + "incidenceCreate";
+    public static final String imageIncidenceURL = incidencesURL + "image/";
     public static final String programsURL = membersURL + "api/programList/";
 
     public static final String colorHTML = "#ff9900 !important";
@@ -66,7 +67,5 @@ public class GlobalValues {
 
     public static final String DOWNLOAD_DIR = Environment.getExternalStorageDirectory().toString() + "/Android/data/" + App.PACKAGE_NAME + "/downloaded/";
 
-    // Name of constant firebase user
-    // public static final String FIREBASEUSER = "FirebaseUser";
-
+    public static final int MAX_FILES = 10;
 }

@@ -68,13 +68,21 @@
     <string name="incidence_openDoor">¿Estaba abierta la emisora cuando llegaste?</string>
     <string name="incidence_viewMembers">¿Llegaste a ver la/s persona/s que hacen el siguiente programa? </string>
     <string name="incidence_photos">Fotos de las incidencias: </string>
+    <string name="incidence_add_photos">Añadir fotos: </string>
+    <string name="incidence_add_photos_info">Puedes añadir fotos si hay algún desperfecto</string>
     <string name="incidence_description">Descripción: </string>
     <string name="incidence_programName">Programa:</string>
     <string name="incidence_send">Enviar</string>
     <string name="incidence_send_success">!Se ha enviado la incidencia¡</string>
     <string name="incidence_send_fail">¡Hubo un fallo al enviar la incidencia!</string>
+    <string name="incidence_remove_success">!Se ha eliminado la imagen¡</string>
     <string name="incidence_complete_fields">¡Rellena todos los campos!</string>
+    <string name="incidence_max_photos">¡Alcanzado el número máximo de fotos!</string>
+    <string name="programs_user_fail">¡No se han recuperado los programas!</string>
     <string name="default_value">0</string>
+    <string name="take_photo">Sacar foto</string>
+    <string name="choose_photo">Buscar foto</string>
+
 
     <string name="action_station">Emisora</string>
     <string name="action_gallery">Galería</string>

@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Locale;
 
 import justforcommunity.radiocom.activities.CreateIncidence;
-import justforcommunity.radiocom.fragments.PodcastPageFragment;
 import justforcommunity.radiocom.model.ProgramDTO;
 import justforcommunity.radiocom.service.ServiceGetPrograms;
 import justforcommunity.radiocom.utils.ConexionInternet;
@@ -78,7 +77,7 @@ public class GetProgramsUser extends AsyncTask<Boolean, Float, Boolean> {
         if (result) {
             mActivity.setProgramsUser(programsDTO);
         } else {
-            mActivity.resultKO();
+            mActivity.failProgramUsers();
         }
     }
 

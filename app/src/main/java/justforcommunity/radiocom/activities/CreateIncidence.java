@@ -20,11 +20,14 @@
 
 package justforcommunity.radiocom.activities;
 
-import android.app.Dialog;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.Toolbar;
@@ -34,9 +37,11 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,24 +49,34 @@ import android.widget.Toast;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.model.IncidenceDTO;
 import justforcommunity.radiocom.model.ProgramDTO;
 import justforcommunity.radiocom.task.GetProgramsUser;
 import justforcommunity.radiocom.task.SendIncidence;
-import justforcommunity.radiocom.utils.StringUtils;
+import justforcommunity.radiocom.utils.FileUtils;
+
+import static justforcommunity.radiocom.utils.FileUtils.bitmapToByte;
+import static justforcommunity.radiocom.utils.GlobalValues.MAX_FILES;
 
 
 public class CreateIncidence extends AppCompatActivity {
 
+    private static final int CAMERA_REQUEST = 1000;
+    private static final int EXTERNAL_REQUEST = 2000;
+
     private IncidenceDTO incidence;
     private Context mContext;
     private CreateIncidence mActivity;
-
+    private Map<Integer, byte[]> photosMap;
     private Spinner programName;
     private RadioGroup tidy_radioButtons;
     private RadioGroup dirt_radioButtons;
@@ -69,12 +84,9 @@ public class CreateIncidence extends AppCompatActivity {
     private RadioGroup openDoor_radioButtons;
     private RadioGroup viewMembers_radioButtons;
     private EditText description;
-
     private LinearLayout imagesIncidence;
-
-    private Dialog myDialog;
     private Button send;
-
+    private int imageId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,11 +134,75 @@ public class CreateIncidence extends AppCompatActivity {
         openDoor_radioButtons = (RadioGroup) findViewById(R.id.openDoor_radioButtons);
         viewMembers_radioButtons = (RadioGroup) findViewById(R.id.viewMembers_radioButtons);
         description = (EditText) findViewById(R.id.description);
+        imagesIncidence = (LinearLayout) findViewById(R.id.images_incidence);
+        photosMap = new HashMap<>();
+        imageId = 0;
+
+        //take picture from camera
+        Button photoButton = (Button) this.findViewById(R.id.camera_button);
+        photoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (photosMap.size() >= MAX_FILES) {
+                    Toast.makeText(mContext, getResources().getString(R.string.incidence_max_photos), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            }
+        });
+
+        //select picture from external storage
+        Button chooseButton = (Button) this.findViewById(R.id.choose_button);
+        chooseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (photosMap.size() >= MAX_FILES) {
+                    Toast.makeText(mContext, getResources().getString(R.string.incidence_max_photos), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, EXTERNAL_REQUEST);
+            }
+        });
 
         App application = (App) getApplication();
         Tracker mTracker = application.getDefaultTracker();
         mTracker.setScreenName(getString(R.string.incidence_activity));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        // Retrieve photo
+        Bitmap photo = null;
+        if (requestCode == EXTERNAL_REQUEST) {
+            photo = null;
+            try {
+                photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (requestCode == CAMERA_REQUEST) {
+            photo = (Bitmap) data.getExtras().get("data");
+        }
+
+        // Add photo to view and list
+        if (requestCode == EXTERNAL_REQUEST || requestCode == CAMERA_REQUEST) {
+            photosMap.put(imageId, bitmapToByte(photo));
+
+            RelativeLayout view = new RelativeLayout(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            view.setLayoutParams(lp);
+            view.addView(newImageView(photo));
+            view.addView(newButtonDelete());
+            imagesIncidence.addView(view);
+            imageId++;
+        }
     }
 
     @Override
@@ -144,14 +220,18 @@ public class CreateIncidence extends AppCompatActivity {
     // Show toast if send incidence is success
     public void resultOK(IncidenceDTO incidence) {
         Toast.makeText(this, getResources().getString(R.string.incidence_send_success), Toast.LENGTH_SHORT).show();
-        // TODO Maybe pass value incidence to incideceFragments
+        // TODO Maybe pass value incidence to incideceFragments, to refresh incidence List
         onBackPressed();
-        //new Home().loadIncidence();
     }
 
     // Show toast if send incidence is fail
     public void resultKO() {
         Toast.makeText(this, getResources().getString(R.string.incidence_send_fail), Toast.LENGTH_SHORT).show();
+    }
+
+    // Show toast if programs users is not avalable
+    public void failProgramUsers() {
+        Toast.makeText(this, getResources().getString(R.string.programs_user_fail), Toast.LENGTH_SHORT).show();
     }
 
     // Add programsUser to view
@@ -182,6 +262,33 @@ public class CreateIncidence extends AppCompatActivity {
         }
     }
 
+    // Create new ImageView with parameters
+    private ImageView newImageView(Bitmap photo) {
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        ImageView imageView = new ImageView(this);
+        imageView.setLayoutParams(lp);
+        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        imageView.setAdjustViewBounds(true);
+        imageView.setImageBitmap(photo);
+        return imageView;
+    }
+
+    // Create new Button to delete image
+    private Button newButtonDelete() {
+        Button button = new Button(this);
+        button.setId(imageId);
+        button.setBackground(mContext.getResources().getDrawable(R.drawable.delete));
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, getResources().getString(R.string.incidence_remove_success), Toast.LENGTH_SHORT).show();
+                photosMap.remove(v.getId());
+                imagesIncidence.removeView((View) v.getParent());
+            }
+        });
+        return button;
+    }
+
     // Create new incidence with form
     private void createIncidence() {
 
@@ -189,11 +296,14 @@ public class CreateIncidence extends AppCompatActivity {
         boolean isValid = true;
 
         int pos = programName.getChildCount() - 1;
-        if (!TextUtils.isEmpty(programName.getSelectedItem().toString())) {
+        if (programName.getSelectedItem() != null && !TextUtils.isEmpty(programName.getSelectedItem().toString())) {
             incidence.setProgram(new ProgramDTO(programName.getSelectedItem().toString()));
             ((TextView) programName.getChildAt(pos)).setError(null);
         } else {
-            ((TextView) programName.getChildAt(pos)).setError(getResources().getString(R.string.required));
+            if (programName.getChildAt(pos) != null) {
+                ((TextView) programName.getChildAt(pos)).setError(getResources().getString(R.string.required));
+            }
+            isValid = false;
         }
 
         pos = tidy_radioButtons.getChildCount() - 1;
@@ -234,7 +344,7 @@ public class CreateIncidence extends AppCompatActivity {
         if (openDoor_radioButtons.getCheckedRadioButtonId() != -1) {
             int radioButtonID_openDoor = openDoor_radioButtons.getCheckedRadioButtonId();
             RadioButton radioButton_openDoor = (RadioButton) openDoor_radioButtons.findViewById(radioButtonID_openDoor);
-            incidence.setOpenDoor(StringUtils.formatBoolean(mContext, radioButton_openDoor.getText().toString()));
+            incidence.setOpenDoor(FileUtils.formatBoolean(mContext, radioButton_openDoor.getText().toString()));
             ((RadioButton) openDoor_radioButtons.getChildAt(pos)).setError(null);
         } else {
             ((RadioButton) openDoor_radioButtons.getChildAt(pos)).setError(getResources().getString(R.string.required));
@@ -245,7 +355,7 @@ public class CreateIncidence extends AppCompatActivity {
         if (viewMembers_radioButtons.getCheckedRadioButtonId() != -1) {
             int radioButtonID_viewMembers = viewMembers_radioButtons.getCheckedRadioButtonId();
             RadioButton radioButton_viewMembers = (RadioButton) viewMembers_radioButtons.findViewById(radioButtonID_viewMembers);
-            incidence.setViewMembers(StringUtils.formatBoolean(mContext, radioButton_viewMembers.getText().toString()));
+            incidence.setViewMembers(FileUtils.formatBoolean(mContext, radioButton_viewMembers.getText().toString()));
             ((RadioButton) viewMembers_radioButtons.getChildAt(pos)).setError(null);
         } else {
             ((RadioButton) viewMembers_radioButtons.getChildAt(pos)).setError(getResources().getString(R.string.required));
@@ -258,7 +368,10 @@ public class CreateIncidence extends AppCompatActivity {
             Toast.makeText(this, getResources().getString(R.string.incidence_complete_fields), Toast.LENGTH_SHORT).show();
         } else {
             // Send Incidence
-            SendIncidence sendIncidence = new SendIncidence(mContext, mActivity, incidence);
+            List<byte[]> photos = new ArrayList<>();
+            photos.addAll(photosMap.values());
+            String photosGson = new Gson().toJson(photos);
+            SendIncidence sendIncidence = new SendIncidence(mContext, mActivity, incidence, photosGson);
             sendIncidence.execute();
         }
     }

@@ -42,11 +42,13 @@ public class SendIncidence extends AsyncTask<Boolean, Float, Boolean> {
     private ServiceGetIncidences serviceGetIncidences;
     private Locale locale;
     private IncidenceDTO incidence;
+    private String photosGson;
 
-    public SendIncidence(Context context, CreateIncidence activity, IncidenceDTO incidence) {
+    public SendIncidence(Context context, CreateIncidence activity, IncidenceDTO incidence, String photosGson) {
         this.activity = activity;
         this.mContext = context;
         this.incidence = incidence;
+        this.photosGson = photosGson;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
         serviceGetIncidences = new ServiceGetIncidences(locale);
     }
@@ -58,7 +60,7 @@ public class SendIncidence extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                incidence = serviceGetIncidences.sendIncidence(incidence);
+                incidence = serviceGetIncidences.sendIncidence(incidence, photosGson);
                 res = true;
             } catch (RestClientException e) {
                 Log.e(TAG, "doInBackground()", e);

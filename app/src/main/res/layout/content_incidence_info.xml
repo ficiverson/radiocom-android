@@ -34,13 +34,13 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="720dp"
+            android:layout_height="700dp"
             android:src="@drawable/bk_nav_header"
             android:scaleType="centerCrop"
             />
         <View
             android:layout_width="match_parent"
-            android:layout_height="720dp"
+            android:layout_height="700dp"
             android:background="@color/colorPrimaryDark85"
             />
 

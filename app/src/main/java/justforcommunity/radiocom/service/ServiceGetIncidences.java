@@ -76,14 +76,15 @@ public class ServiceGetIncidences extends ServiceBase {
             throw e;
         }
 
-        Type listType = new TypeToken<ArrayList<IncidenceDTO>>(){}.getType();
+        Type listType = new TypeToken<ArrayList<IncidenceDTO>>() {
+        }.getType();
         List<IncidenceDTO> incidencesDTO = new Gson().fromJson(response.getBody(), listType);
 
         return incidencesDTO;
     }
 
     // Send incidence to members
-    public IncidenceDTO sendIncidence(IncidenceDTO incidence) throws RestClientException, WebServiceStatusFailException {
+    public IncidenceDTO sendIncidence(IncidenceDTO incidence, String photosGson) throws RestClientException, WebServiceStatusFailException {
 
         Object[] theValues = {};
         String[] parameters = {};
@@ -101,6 +102,7 @@ public class ServiceGetIncidences extends ServiceBase {
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("token", getTokenFirebase());
             body.add(INCIDENCE_JSON, new Gson().toJson(incidence));
+            body.add("photos", photosGson);
             request = new HttpEntity<Object>(body, getRequestHeaders());
 
             response = getRestTemplate().exchange(url, HttpMethod.POST, request, String.class, sendValues.toArray());
@@ -117,4 +119,5 @@ public class ServiceGetIncidences extends ServiceBase {
         }
         return incidence;
     }
+
 }

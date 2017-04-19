@@ -22,26 +22,39 @@ package justforcommunity.radiocom.utils;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import justforcommunity.radiocom.R;
 
 
-public class StringUtils {
-
+public class FileUtils {
 
     public static String formatBoolean(Context mContext, boolean value) {
-
         String true_value = mContext.getString(R.string.true_value);
         String false_value = mContext.getString(R.string.false_value);
-
         return value ? true_value : false_value;
     }
 
     public static Boolean formatBoolean(Context mContext, String value) {
-
         String true_value = mContext.getString(R.string.true_value);
-
         return value.equals(true_value) ? true : false;
     }
 
+    public static List<byte[]> bitmapToByte(List<Bitmap> photos) {
+        List<byte[]> strings = new ArrayList<>();
+        for (Bitmap bitmap : photos) {
+            strings.add(bitmapToByte(bitmap));
+        }
+        return strings;
+    }
+
+    public static byte[] bitmapToByte(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
 }

@@ -101,42 +101,15 @@ public class IncidenceListAdapter extends ArrayAdapter<IncidenceDTO> implements 
 
         IncidenceDTO incidenceDTO = getItem(position);
 
-
         if (incidenceDTO != null) {
-
             holder.programName.setText(String.valueOf(incidenceDTO.getProgram().getName()));
             holder.dateCreate.setText(DateUtils.formatDate(incidenceDTO.getDateCreate(), DateUtils.FORMAT_DISPLAY));
             holder.tidy.setText(String.valueOf(incidenceDTO.getTidy()));
             holder.dirt.setText(String.valueOf(incidenceDTO.getDirt()));
             holder.configuration.setText(String.valueOf(incidenceDTO.getConfiguration()));
-
-
-//            if (holder.nameTextView != null) {
-//                if (incidenceDTO.getDescription() == null) {
-//                    holder.nameTextView.setText("");
-//                } else {
-//                    holder.nameTextView.setText(incidenceDTO.getDescription());
-//                }
-//            }
-
-//            if (holder.photoImageView != null) {
-//                if (incidenceDTO.getLogo_url() == null) {
-//                    Picasso.with(mContext).load(R.drawable.logo_nav_header).into(holder.photoImageView);
-//                } else {
-//                    if (incidenceDTO.getLogo_url() == "") {
-//                        Picasso.with(mContext).load(R.drawable.logo_nav_header).into(holder.photoImageView);
-//                    } else {
-//                        Picasso.with(mContext).load(incidenceDTO.getLogo_url()).into(holder.photoImageView);
-//                    }
-//                }
-//
-//            }
-
         }
-
         return v;
     }
-
 
     @Override
     public Filter getFilter() {
