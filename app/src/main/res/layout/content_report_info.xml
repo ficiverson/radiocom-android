@@ -45,7 +45,7 @@
             />
 
         <RelativeLayout
-            android:id="@+id/incidence_info"
+            android:id="@+id/report_info"
             android:background="@android:color/transparent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:text="@string/incidence_programName"
+                android:text="@string/report_programName"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -77,7 +77,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="@string/incidence_dateCreate"
+                android:text="@string/report_dateCreate"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -90,7 +90,7 @@
                 android:layout_toRightOf="@+id/dateCreate_head"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
-                android:text="@string/incidence_dateCreate"
+                android:text="@string/report_dateCreate"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dateCreate"
                 android:layout_marginLeft="10dp"
-                android:text="@string/incidence_tidy"
+                android:text="@string/report_tidy"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tidy_head"
                 android:layout_marginLeft="10dp"
-                android:text="@string/incidence_dirt"
+                android:text="@string/report_dirt"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -145,7 +145,7 @@
                 android:layout_below="@+id/dirt_head"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="@string/incidence_configuration"
+                android:text="@string/report_configuration"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -167,7 +167,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/configuration_head"
-                android:text="@string/incidence_openDoor"
+                android:text="@string/report_openDoor"
                 android:layout_marginLeft="10dp"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
@@ -191,7 +191,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/openDoor"
                 android:layout_marginLeft="10dp"
-                android:text="@string/incidence_viewMembers"
+                android:text="@string/report_viewMembers"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -209,14 +209,40 @@
 
 
             <TextView
-                android:id="@+id/description_head"
+                android:id="@+id/location_head"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/viewMembers"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="@string/report_location"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/viewMembers"
+                android:layout_toRightOf="@+id/location_head"
+                android:layout_marginBottom="10dp"
+                android:textColor="@android:color/white"
+                android:text="@string/default_value"
+                android:textSize="20sp"/>
+
+
+            <TextView
+                android:id="@+id/description_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/location_head"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:layout_marginLeft="10dp"
-                android:text="@string/incidence_description"
+                android:text="@string/report_description"
                 android:textSize="20sp"/>
 
             <TextView
@@ -239,7 +265,7 @@
                 android:layout_below="@+id/description"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="@string/incidence_dateRevision"
+                android:text="@string/report_dateRevision"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -251,7 +277,7 @@
                 android:layout_below="@+id/description"
                 android:layout_toRightOf="@+id/dateRevision_head"
                 android:layout_marginLeft="10dp"
-                android:text="@string/incidence_dateRevision"
+                android:text="@string/report_dateRevision"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
@@ -262,7 +288,7 @@
                 android:layout_below="@+id/dateRevision_head"
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="@string/incidence_active"
+                android:text="@string/report_active"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -286,7 +312,7 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:layout_marginLeft="10dp"
-                android:text="@string/incidence_answer"
+                android:text="@string/report_answer"
                 android:textSize="20sp"/>
 
             <TextView
@@ -310,16 +336,16 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:layout_marginLeft="10dp"
-                android:text="@string/incidence_photos"
+                android:text="@string/report_photos"
                 android:textSize="20sp"/>
 
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/images_incidence"
+            android:id="@+id/images_report"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/incidence_info"
+            android:layout_below="@+id/report_info"
             android:orientation="vertical"/>
 
     </RelativeLayout>

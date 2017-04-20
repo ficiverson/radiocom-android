@@ -56,9 +56,9 @@
         android:enabled="false">
         <menu>
             <item
-                android:id="@+id/nav_incidence"
+                android:id="@+id/nav_report"
                 android:icon="@drawable/pen"
-                android:title="@string/action_incidence" />
+                android:title="@string/action_report" />
         </menu>
     </item>
 

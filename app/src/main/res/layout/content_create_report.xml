@@ -41,7 +41,7 @@
             android:background="@color/colorPrimaryDark85" />
 
         <RelativeLayout
-            android:id="@+id/incidence_info"
+            android:id="@+id/report_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -57,7 +57,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="@string/incidence_programName"
+                android:text="@string/report_programName"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/program_head"
                 android:layout_marginLeft="20dp"
-                android:text="@string/incidence_programName"
+                android:text="@string/report_programName"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
@@ -80,7 +80,7 @@
             <!--android:layout_marginBottom="10dp"-->
             <!--android:layout_marginLeft="10dp"-->
             <!--android:layout_marginTop="10dp"-->
-            <!--android:text="@string/incidence_dateCreate"-->
+            <!--android:text="@string/report_dateCreate"-->
             <!--android:textColor="@android:color/white"-->
             <!--android:textSize="20sp"-->
             <!--android:textStyle="bold" />-->
@@ -93,7 +93,7 @@
             <!--android:layout_marginLeft="10dp"-->
             <!--android:layout_marginTop="10dp"-->
             <!--android:layout_toRightOf="@+id/dateCreate_head"-->
-            <!--android:text="@string/incidence_dateCreate"-->
+            <!--android:text="@string/report_dateCreate"-->
             <!--android:textColor="@android:color/white"-->
             <!--android:textSize="20sp" />-->
 
@@ -104,7 +104,7 @@
                 android:layout_below="@+id/programName"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/incidence_tidy"
+                android:text="@string/report_tidy"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -137,7 +137,7 @@
                 android:layout_below="@+id/tidy_radioButtons"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/incidence_dirt"
+                android:text="@string/report_dirt"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -168,7 +168,7 @@
                 android:layout_below="@+id/dirt_radioButtons"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/incidence_configuration_full"
+                android:text="@string/report_configuration_full"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -199,7 +199,7 @@
                 android:layout_below="@+id/configuration_radioButtons"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/incidence_openDoor"
+                android:text="@string/report_openDoor"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -246,7 +246,7 @@
                 android:layout_below="@+id/openDoor_radioButtons"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/incidence_viewMembers"
+                android:text="@string/report_viewMembers"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -268,6 +268,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/viewMembers_head"
                 android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -286,13 +287,37 @@
             </RadioGroup>
 
             <TextView
-                android:id="@+id/description_head"
+                android:id="@+id/location_head"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/viewMembers_radioButtons"
                 android:layout_marginLeft="10dp"
+                android:text="@string/report_location"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:maxLength="50"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewMembers_radioButtons"
+                android:layout_toRightOf="@+id/location_head"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/white"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/description_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/location_head"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/incidence_description"
+                android:text="@string/report_description"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -304,7 +329,6 @@
                 android:layout_below="@+id/description_head"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-
                 android:background="@android:color/white"
                 android:gravity="top|left"
                 android:inputType="textMultiLine"
@@ -312,6 +336,7 @@
                 android:maxLines="10"
                 android:minLines="6"
                 android:scrollbars="vertical"
+                android:maxLength="500"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
@@ -323,7 +348,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/incidence_add_photos"
+                android:text="@string/report_add_photos"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -335,7 +360,7 @@
                 android:layout_below="@+id/photos_head"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
-                android:text="@string/incidence_add_photos_info"
+                android:text="@string/report_add_photos_info"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -370,7 +395,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/images_incidence"
+                android:id="@+id/images_report"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/photos_buttons"
@@ -380,10 +405,10 @@
                 android:id="@+id/send"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/images_incidence"
+                android:layout_below="@+id/images_report"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="@string/incidence_send"
+                android:text="@string/report_send"
                 android:theme="@style/ThemeOverlay.ButtonApp" />
 
         </RelativeLayout>

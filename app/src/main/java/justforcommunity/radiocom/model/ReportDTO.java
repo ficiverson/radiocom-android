@@ -23,7 +23,7 @@ package justforcommunity.radiocom.model;
 import java.util.Date;
 import java.util.List;
 
-public class IncidenceDTO {
+public class ReportDTO {
 
     private Long id;
     // private AccountDTO account;
@@ -33,6 +33,7 @@ public class IncidenceDTO {
     private int configuration;
     private boolean openDoor;
     private boolean viewMembers;
+    private String location;
     private String description;
     private List<String> files;
     private String answer;
@@ -95,6 +96,14 @@ public class IncidenceDTO {
 
     public void setViewMembers(boolean viewMembers) {
         this.viewMembers = viewMembers;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getDescription() {

@@ -28,29 +28,29 @@ import org.springframework.web.client.RestClientException;
 
 import java.util.Locale;
 
-import justforcommunity.radiocom.activities.CreateIncidence;
-import justforcommunity.radiocom.model.IncidenceDTO;
-import justforcommunity.radiocom.service.ServiceGetIncidences;
+import justforcommunity.radiocom.activities.CreateReport;
+import justforcommunity.radiocom.model.ReportDTO;
+import justforcommunity.radiocom.service.ServiceGetReports;
 import justforcommunity.radiocom.utils.ConexionInternet;
 
 
-public class SendIncidence extends AsyncTask<Boolean, Float, Boolean> {
+public class SendReport extends AsyncTask<Boolean, Float, Boolean> {
 
-    private static final String TAG = "GetIncidences";
+    private static final String TAG = "GetReports";
     private Context mContext;
-    private CreateIncidence activity;
-    private ServiceGetIncidences serviceGetIncidences;
+    private CreateReport activity;
+    private ServiceGetReports serviceGetReports;
     private Locale locale;
-    private IncidenceDTO incidence;
+    private ReportDTO report;
     private String photosGson;
 
-    public SendIncidence(Context context, CreateIncidence activity, IncidenceDTO incidence, String photosGson) {
+    public SendReport(Context context, CreateReport activity, ReportDTO report, String photosGson) {
         this.activity = activity;
         this.mContext = context;
-        this.incidence = incidence;
+        this.report = report;
         this.photosGson = photosGson;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        serviceGetIncidences = new ServiceGetIncidences(locale);
+        serviceGetReports = new ServiceGetReports(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
@@ -60,7 +60,7 @@ public class SendIncidence extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                incidence = serviceGetIncidences.sendIncidence(incidence, photosGson);
+                report = serviceGetReports.sendReport(report, photosGson);
                 res = true;
             } catch (RestClientException e) {
                 Log.e(TAG, "doInBackground()", e);
@@ -76,7 +76,7 @@ public class SendIncidence extends AsyncTask<Boolean, Float, Boolean> {
     protected void onPostExecute(Boolean result) {
 
         if (result) {
-            activity.resultOK(incidence);
+            activity.resultOK(report);
         } else {
             activity.resultKO();
         }

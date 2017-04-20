@@ -52,32 +52,37 @@
     <string name="error_download">Error en la descarga del episodio: </string>
 
     <string name="podcast_info_title">Descripción del programa:</string>
-    <string name="incidence_info_title">Descripción de la incidencia:</string>
 
+    
 
-    <string name="create_incidence_activity">Crear incidencia</string>
-    <string name="incidence_activity">Incidencia</string>
-    <string name="incidence_active">Activo:</string>
-    <string name="incidence_answer">Respuesta: </string>
-    <string name="incidence_dateCreate">Fecha de creación:</string>
-    <string name="incidence_dateRevision">Fecha de revisión:</string>
-    <string name="incidence_tidy">Suciedad:</string>
-    <string name="incidence_dirt">Ordenación:</string>
-    <string name="incidence_configuration">Configuración:</string>
-    <string name="incidence_configuration_full">Configuración de los equipos:</string>
-    <string name="incidence_openDoor">¿Estaba abierta la emisora cuando llegaste?</string>
-    <string name="incidence_viewMembers">¿Llegaste a ver la/s persona/s que hacen el siguiente programa? </string>
-    <string name="incidence_photos">Fotos de las incidencias: </string>
-    <string name="incidence_add_photos">Añadir fotos: </string>
-    <string name="incidence_add_photos_info">Puedes añadir fotos si hay algún desperfecto</string>
-    <string name="incidence_description">Descripción: </string>
-    <string name="incidence_programName">Programa:</string>
-    <string name="incidence_send">Enviar</string>
-    <string name="incidence_send_success">!Se ha enviado la incidencia¡</string>
-    <string name="incidence_send_fail">¡Hubo un fallo al enviar la incidencia!</string>
-    <string name="incidence_remove_success">!Se ha eliminado la imagen¡</string>
-    <string name="incidence_complete_fields">¡Rellena todos los campos!</string>
-    <string name="incidence_max_photos">¡Alcanzado el número máximo de fotos!</string>
+    <string name="report_activity">Informe</string>
+    <string name="report_activity_create">Crear informe</string>
+    <string name="report_active">Activo:</string>
+    <string name="report_answer">Respuesta: </string>
+    <string name="report_dateCreate">Fecha de creación:</string>
+    <string name="report_dateRevision">Fecha de revisión:</string>
+    <string name="report_tidy">Suciedad:</string>
+    <string name="report_dirt">Ordenación:</string>
+    <string name="report_configuration">Configuración:</string>
+    <string name="report_configuration_full">Configuración de los equipos:</string>
+    <string name="report_openDoor">¿Estaba abierta la emisora cuando llegaste?</string>
+    <string name="report_viewMembers">¿Llegaste a ver la/s persona/s que hacen el siguiente programa? </string>
+    <string name="report_photos">Fotos de las informes: </string>
+    <string name="report_add_photos">Añadir fotos: </string>
+    <string name="report_add_photos_info">Puedes añadir fotos si hay algún desperfecto</string>
+    <string name="report_location">Ubicación: </string>
+    <string name="report_description">Descripción: </string>
+    <string name="report_programName">Programa:</string>
+    <string name="report_send">Enviar</string>
+    <string name="report_send_success">!Se ha enviado el informe¡</string>
+    <string name="report_send_fail">¡Hubo un fallo al enviar el informe!</string>
+    <string name="report_remove_success">!Se ha eliminado la imagen¡</string>
+    <string name="report_complete_fields">¡Rellena todos los campos!</string>
+    <string name="report_low_tidy">Nivel bajo de ordenación</string>
+    <string name="report_low_dirt">Nivel bajo de limpieza</string>
+    <string name="report_low_configration">Nivel bajo de configuración de los equipos</string>
+    <string name="report_max_photos">¡Alcanzado el número máximo de fotos!</string>
+    <string name="report_info_title">Descripción de la informe:</string>
     <string name="programs_user_fail">¡No se han recuperado los programas!</string>
     <string name="default_value">0</string>
     <string name="take_photo">Sacar foto</string>
@@ -99,7 +104,7 @@
     <string name="action_cuac">CUAC FM</string>
     <string name="action_dev">Desarrollo</string>
     <string name="action_management">Gestión</string>
-    <string name="action_incidence">Incidencias</string>
+    <string name="action_report">Informes</string>
 
     <string name="search">Buscar</string>
     <string name="share">Compartir</string>
@@ -133,7 +138,7 @@
     <string name="home_view">Home Screen</string>
     <string name="news_view">News screen</string>
     <string name="podcast_view">Podcast screen</string>
-    <string name="incidence_view">Incidence screen</string>
+    <string name="report_view">Report screen</string>
 
     <string name="auth_failed">Autenticación fallida</string>
     <string name="auth_success">Autenticación correcta</string>

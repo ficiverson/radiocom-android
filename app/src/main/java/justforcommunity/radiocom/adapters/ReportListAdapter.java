@@ -35,23 +35,23 @@ import java.util.List;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.Home;
-import justforcommunity.radiocom.model.IncidenceDTO;
+import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.utils.DateUtils;
 
-public class IncidenceListAdapter extends ArrayAdapter<IncidenceDTO> implements Filterable {
+public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filterable {
 
     private Context mContext;
     private Home mActivity;
     private ItemFilter mFilter = new ItemFilter();
-    private List<IncidenceDTO> originalData = null;
-    private List<IncidenceDTO> filteredData = null;
+    private List<ReportDTO> originalData = null;
+    private List<ReportDTO> filteredData = null;
 
-    public IncidenceListAdapter(Home mActivity, Context context, int resource, List<IncidenceDTO> incidenceDTOs) {
-        super(context, resource, incidenceDTOs);
+    public ReportListAdapter(Home mActivity, Context context, int resource, List<ReportDTO> reportDTOs) {
+        super(context, resource, reportDTOs);
         this.mContext = context;
         this.mActivity = mActivity;
-        originalData = incidenceDTOs;
-        filteredData = incidenceDTOs;
+        originalData = reportDTOs;
+        filteredData = reportDTOs;
     }
 
     static class ViewHolder {
@@ -70,7 +70,7 @@ public class IncidenceListAdapter extends ArrayAdapter<IncidenceDTO> implements 
     }
 
     @Override
-    public IncidenceDTO getItem(int position) {
+    public ReportDTO getItem(int position) {
         return filteredData.get(position);
     }
 
@@ -83,7 +83,7 @@ public class IncidenceListAdapter extends ArrayAdapter<IncidenceDTO> implements 
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.listitem_incidence, null);
+            v = vi.inflate(R.layout.listitem_report, null);
 
             holder = new ViewHolder();
             holder.programName = (TextView) v.findViewById(R.id.programName);
@@ -99,14 +99,14 @@ public class IncidenceListAdapter extends ArrayAdapter<IncidenceDTO> implements 
             holder = (ViewHolder) v.getTag();
         }
 
-        IncidenceDTO incidenceDTO = getItem(position);
+        ReportDTO reportDTO = getItem(position);
 
-        if (incidenceDTO != null) {
-            holder.programName.setText(String.valueOf(incidenceDTO.getProgram().getName()));
-            holder.dateCreate.setText(DateUtils.formatDate(incidenceDTO.getDateCreate(), DateUtils.FORMAT_DISPLAY));
-            holder.tidy.setText(String.valueOf(incidenceDTO.getTidy()));
-            holder.dirt.setText(String.valueOf(incidenceDTO.getDirt()));
-            holder.configuration.setText(String.valueOf(incidenceDTO.getConfiguration()));
+        if (reportDTO != null) {
+            holder.programName.setText(String.valueOf(reportDTO.getProgram().getName()));
+            holder.dateCreate.setText(DateUtils.formatDate(reportDTO.getDateCreate(), DateUtils.FORMAT_DISPLAY));
+            holder.tidy.setText(String.valueOf(reportDTO.getTidy()));
+            holder.dirt.setText(String.valueOf(reportDTO.getDirt()));
+            holder.configuration.setText(String.valueOf(reportDTO.getConfiguration()));
         }
         return v;
     }
@@ -123,10 +123,10 @@ public class IncidenceListAdapter extends ArrayAdapter<IncidenceDTO> implements 
 
             String filterString = constraint.toString().toLowerCase();
             FilterResults results = new FilterResults();
-            final List<IncidenceDTO> list = originalData;
+            final List<ReportDTO> list = originalData;
             int count = list.size();
-            final ArrayList<IncidenceDTO> nlist = new ArrayList<>(count);
-            IncidenceDTO filterableString;
+            final ArrayList<ReportDTO> nlist = new ArrayList<>(count);
+            ReportDTO filterableString;
 
             for (int i = 0; i < count; i++) {
                 filterableString = list.get(i);
@@ -144,7 +144,7 @@ public class IncidenceListAdapter extends ArrayAdapter<IncidenceDTO> implements 
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            filteredData = (ArrayList<IncidenceDTO>) results.values;
+            filteredData = (ArrayList<ReportDTO>) results.values;
             notifyDataSetChanged();
         }
     }

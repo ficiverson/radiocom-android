@@ -38,27 +38,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.model.IncidenceDTO;
+import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
 
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
-import static justforcommunity.radiocom.utils.GlobalValues.INCIDENCE_JSON;
-import static justforcommunity.radiocom.utils.GlobalValues.createIncidenceURL;
-import static justforcommunity.radiocom.utils.GlobalValues.incidencesURL;
+import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.createReportURL;
+import static justforcommunity.radiocom.utils.GlobalValues.reportsUserURL;
 
-public class ServiceGetIncidences extends ServiceBase {
+public class ServiceGetReports extends ServiceBase {
 
-    public ServiceGetIncidences(Locale language) {
+    public ServiceGetReports(Locale language) {
         super(language);
     }
 
-    public List<IncidenceDTO> getIncidences() throws RestClientException, WebServiceStatusFailException {
+    public List<ReportDTO> getReports() throws RestClientException, WebServiceStatusFailException {
 
         Object[] theValues = {};
         String[] parameters = {};
 
         List<Object> sendValues = new ArrayList<>();
-        String url = incidencesURL + "?token=" + getTokenFirebase() + restQueryString(parameters, theValues, sendValues);
+        String url = reportsUserURL + "?token=" + getTokenFirebase() + restQueryString(parameters, theValues, sendValues);
         ResponseEntity<String> response;
 
         try {
@@ -72,25 +72,25 @@ public class ServiceGetIncidences extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
-            Log.e("ServiceGetIncidences", "getIncidences()", e);
+            Log.e("ServiceGetReports", "getReports()", e);
             throw e;
         }
 
-        Type listType = new TypeToken<ArrayList<IncidenceDTO>>() {
+        Type listType = new TypeToken<ArrayList<ReportDTO>>() {
         }.getType();
-        List<IncidenceDTO> incidencesDTO = new Gson().fromJson(response.getBody(), listType);
+        List<ReportDTO> reportsDTO = new Gson().fromJson(response.getBody(), listType);
 
-        return incidencesDTO;
+        return reportsDTO;
     }
 
-    // Send incidence to members
-    public IncidenceDTO sendIncidence(IncidenceDTO incidence, String photosGson) throws RestClientException, WebServiceStatusFailException {
+    // Send report to members
+    public ReportDTO sendReport(ReportDTO report, String photosGson) throws RestClientException, WebServiceStatusFailException {
 
         Object[] theValues = {};
         String[] parameters = {};
 
         List<Object> sendValues = new ArrayList<>();
-        String url = createIncidenceURL + restQueryString(parameters, theValues, sendValues);
+        String url = createReportURL + restQueryString(parameters, theValues, sendValues);
         ResponseEntity<String> response;
 
         try {
@@ -101,7 +101,7 @@ public class ServiceGetIncidences extends ServiceBase {
             // Create the request body as a MultiValueMap
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("token", getTokenFirebase());
-            body.add(INCIDENCE_JSON, new Gson().toJson(incidence));
+            body.add(REPORT_JSON, new Gson().toJson(report));
             body.add("photos", photosGson);
             request = new HttpEntity<Object>(body, getRequestHeaders());
 
@@ -111,13 +111,13 @@ public class ServiceGetIncidences extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
 
-            incidence = new Gson().fromJson(response.getBody(), IncidenceDTO.class);
+            report = new Gson().fromJson(response.getBody(), ReportDTO.class);
 
         } catch (RestClientException e) {
-            Log.e("ServiceGetIncidences", "sendIncidence()", e);
+            Log.e("ServiceGetReports", "sendReport()", e);
             throw e;
         }
-        return incidence;
+        return report;
     }
 
 }

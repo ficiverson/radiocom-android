@@ -46,7 +46,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:text="@string/incidence_programName"
+        android:text="@string/report_programName"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:textSize="20sp" />
@@ -59,7 +59,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
-        android:text="@string/incidence_dateCreate"
+        android:text="@string/report_dateCreate"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:textSize="20sp" />
@@ -73,7 +73,7 @@
         android:layout_below="@+id/programName"
         android:layout_toRightOf="@+id/dateCreate_head"
         android:layout_marginTop="10dp"
-        android:text="@string/incidence_dateCreate"
+        android:text="@string/report_dateCreate"
         android:textColor="@android:color/white"
         android:textSize="20sp" />
 
@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_below="@+id/dateCreate"
-        android:text="@string/incidence_tidy"
+        android:text="@string/report_tidy"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:textSize="20sp" />
@@ -105,7 +105,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_below="@+id/tidy_head"
-        android:text="@string/incidence_dirt"
+        android:text="@string/report_dirt"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:textSize="20sp" />
@@ -127,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_below="@+id/dirt_head"
-        android:text="@string/incidence_configuration"
+        android:text="@string/report_configuration"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:textSize="20sp" />

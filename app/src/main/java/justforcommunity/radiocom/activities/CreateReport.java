@@ -58,24 +58,26 @@ import java.util.List;
 import java.util.Map;
 
 import justforcommunity.radiocom.R;
-import justforcommunity.radiocom.model.IncidenceDTO;
 import justforcommunity.radiocom.model.ProgramDTO;
+import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.task.GetProgramsUser;
-import justforcommunity.radiocom.task.SendIncidence;
+import justforcommunity.radiocom.task.SendReport;
 import justforcommunity.radiocom.utils.FileUtils;
 
 import static justforcommunity.radiocom.utils.FileUtils.bitmapToByte;
 import static justforcommunity.radiocom.utils.GlobalValues.MAX_FILES;
+import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.SEND_REPORT_REQUEST;
 
 
-public class CreateIncidence extends AppCompatActivity {
+public class CreateReport extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST = 1000;
     private static final int EXTERNAL_REQUEST = 2000;
 
-    private IncidenceDTO incidence;
+    private ReportDTO report;
     private Context mContext;
-    private CreateIncidence mActivity;
+    private CreateReport mActivity;
     private Map<Integer, byte[]> photosMap;
     private Spinner programName;
     private RadioGroup tidy_radioButtons;
@@ -83,8 +85,10 @@ public class CreateIncidence extends AppCompatActivity {
     private RadioGroup configuration_radioButtons;
     private RadioGroup openDoor_radioButtons;
     private RadioGroup viewMembers_radioButtons;
+    private EditText location;
     private EditText description;
-    private LinearLayout imagesIncidence;
+    private String[] descriptionAux;
+    private LinearLayout imagesReport;
     private Button send;
     private int imageId;
 
@@ -93,7 +97,7 @@ public class CreateIncidence extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_incidence);
+        setContentView(R.layout.activity_create_report);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -108,12 +112,12 @@ public class CreateIncidence extends AppCompatActivity {
             }
         });
 
-        // Listener send incidence
+        // Listener send report
         send = (Button) findViewById(R.id.send);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createIncidence();
+                createReport();
             }
         });
 
@@ -125,16 +129,40 @@ public class CreateIncidence extends AppCompatActivity {
         programsUser.execute();
         programName = (Spinner) findViewById(R.id.programName);
 
-        tidy_radioButtons = (RadioGroup) findViewById(R.id.tidy_radioButtons);
-        addRadioButton(tidy_radioButtons);
         dirt_radioButtons = (RadioGroup) findViewById(R.id.dirt_radioButtons);
+        dirt_radioButtons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                evaluateRadioGroup(0, checkedId, getResources().getString(R.string.report_low_dirt));
+            }
+        });
         addRadioButton(dirt_radioButtons);
+
+        tidy_radioButtons = (RadioGroup) findViewById(R.id.tidy_radioButtons);
+        tidy_radioButtons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                evaluateRadioGroup(1, checkedId, getResources().getString(R.string.report_low_tidy));
+            }
+        });
+        addRadioButton(tidy_radioButtons);
+
+
         configuration_radioButtons = (RadioGroup) findViewById(R.id.configuration_radioButtons);
+        configuration_radioButtons.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                evaluateRadioGroup(2, checkedId, getResources().getString(R.string.report_low_configration));
+            }
+        });
         addRadioButton(configuration_radioButtons);
+
         openDoor_radioButtons = (RadioGroup) findViewById(R.id.openDoor_radioButtons);
-        viewMembers_radioButtons = (RadioGroup) findViewById(R.id.viewMembers_radioButtons);
+        viewMembers_radioButtons =  (RadioGroup) findViewById(R.id.viewMembers_radioButtons);
+        location = (EditText) findViewById(R.id.location);
         description = (EditText) findViewById(R.id.description);
-        imagesIncidence = (LinearLayout) findViewById(R.id.images_incidence);
+        descriptionAux = new String [3];
+        imagesReport = (LinearLayout) findViewById(R.id.images_report);
         photosMap = new HashMap<>();
         imageId = 0;
 
@@ -144,7 +172,7 @@ public class CreateIncidence extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (photosMap.size() >= MAX_FILES) {
-                    Toast.makeText(mContext, getResources().getString(R.string.incidence_max_photos), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getResources().getString(R.string.report_max_photos), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -158,7 +186,7 @@ public class CreateIncidence extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (photosMap.size() >= MAX_FILES) {
-                    Toast.makeText(mContext, getResources().getString(R.string.incidence_max_photos), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getResources().getString(R.string.report_max_photos), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -168,10 +196,11 @@ public class CreateIncidence extends AppCompatActivity {
 
         App application = (App) getApplication();
         Tracker mTracker = application.getDefaultTracker();
-        mTracker.setScreenName(getString(R.string.incidence_activity));
+        mTracker.setScreenName(getString(R.string.report_activity));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (resultCode != Activity.RESULT_OK) {
@@ -200,7 +229,7 @@ public class CreateIncidence extends AppCompatActivity {
             view.setLayoutParams(lp);
             view.addView(newImageView(photo));
             view.addView(newButtonDelete());
-            imagesIncidence.addView(view);
+            imagesReport.addView(view);
             imageId++;
         }
     }
@@ -217,19 +246,36 @@ public class CreateIncidence extends AppCompatActivity {
         super.onStop();
     }
 
-    // Show toast if send incidence is success
-    public void resultOK(IncidenceDTO incidence) {
-        Toast.makeText(this, getResources().getString(R.string.incidence_send_success), Toast.LENGTH_SHORT).show();
-        // TODO Maybe pass value incidence to incideceFragments, to refresh incidence List
-        onBackPressed();
+    // Show toast if send report is success
+    public void resultOK(ReportDTO report) {
+        Toast.makeText(this, getResources().getString(R.string.report_send_success), Toast.LENGTH_SHORT).show();
+        // TODO Maybe pass value report to incideceFragments, to refresh report List
+        //onBackPressed();
+
+        //Si se crea a Home funciona, pero tiene que ir al fragment
+        Intent intent = new Intent(this, Home.class);
+        // Intent intent = new Intent(this, ReportPageFragment.class);
+        intent.putExtra(REPORT_JSON, new Gson().toJson(report));
+        startActivityForResult(intent, SEND_REPORT_REQUEST);
+
+
+//        Intent intent = new Intent(this, ReportPageFragment.class);
+//        ReportPageFragment reportsPageFragment = new ReportPageFragment();
+//        reportsPageFragment.putExtra(REPORT_JSON, new Gson().toJson(report));
+//        startActivityForResult(reportsPageFragment, SEND_INCIDENCE_REQUEST);
+
+//        Intent returnIntent = new Intent();
+//        returnIntent.putExtra(REPORT_JSON, new Gson().toJson(report));
+//        setResult(Activity.RESULT_OK, returnIntent);
+//        finish();
     }
 
-    // Show toast if send incidence is fail
+    // Show toast if send report is fail
     public void resultKO() {
-        Toast.makeText(this, getResources().getString(R.string.incidence_send_fail), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.report_send_fail), Toast.LENGTH_SHORT).show();
     }
 
-    // Show toast if programs users is not avalable
+    // Show toast if programs users is not available
     public void failProgramUsers() {
         Toast.makeText(this, getResources().getString(R.string.programs_user_fail), Toast.LENGTH_SHORT).show();
     }
@@ -281,23 +327,41 @@ public class CreateIncidence extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, getResources().getString(R.string.incidence_remove_success), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getResources().getString(R.string.report_remove_success), Toast.LENGTH_SHORT).show();
                 photosMap.remove(v.getId());
-                imagesIncidence.removeView((View) v.getParent());
+                imagesReport.removeView((View) v.getParent());
             }
         });
         return button;
     }
 
-    // Create new incidence with form
-    private void createIncidence() {
+    // Evaluate Radio Group to put message in description
+    private void evaluateRadioGroup(int pos, int checkedId, String message) {
+        RadioButton rb = (RadioButton) findViewById(checkedId);
+        int value = Integer.valueOf(rb.getText().toString());
+        if (value < 3) {
+            descriptionAux[pos] = message;
+        } else {
+            descriptionAux[pos] = "";
+        }
+        // Put text in Hint
+        description.setHint("");
+        for (String aux : descriptionAux){
+            if (aux != null && !aux.isEmpty()) {
+                description.setHint(description.getHint() + aux + "\n");
+            }
+        }
+    }
 
-        incidence = new IncidenceDTO();
+    // Create new report with form
+    private void createReport() {
+
+        report = new ReportDTO();
         boolean isValid = true;
 
         int pos = programName.getChildCount() - 1;
         if (programName.getSelectedItem() != null && !TextUtils.isEmpty(programName.getSelectedItem().toString())) {
-            incidence.setProgram(new ProgramDTO(programName.getSelectedItem().toString()));
+            report.setProgram(new ProgramDTO(programName.getSelectedItem().toString()));
             ((TextView) programName.getChildAt(pos)).setError(null);
         } else {
             if (programName.getChildAt(pos) != null) {
@@ -310,7 +374,7 @@ public class CreateIncidence extends AppCompatActivity {
         if (tidy_radioButtons.getCheckedRadioButtonId() != -1) {
             int radioButtonID_tidy = tidy_radioButtons.getCheckedRadioButtonId();
             RadioButton radioButton_tidy = (RadioButton) tidy_radioButtons.findViewById(radioButtonID_tidy);
-            incidence.setDirt(Integer.valueOf(radioButton_tidy.getText().toString()));
+            report.setDirt(Integer.valueOf(radioButton_tidy.getText().toString()));
             radioButton_tidy.setError(null);
             ((RadioButton) tidy_radioButtons.getChildAt(pos)).setError(null);
         } else {
@@ -322,7 +386,7 @@ public class CreateIncidence extends AppCompatActivity {
         if (dirt_radioButtons.getCheckedRadioButtonId() != -1) {
             int radioButtonID_dirt = dirt_radioButtons.getCheckedRadioButtonId();
             RadioButton radioButton_dirt = (RadioButton) dirt_radioButtons.findViewById(radioButtonID_dirt);
-            incidence.setTidy(Integer.valueOf(radioButton_dirt.getText().toString()));
+            report.setTidy(Integer.valueOf(radioButton_dirt.getText().toString()));
             ((RadioButton) dirt_radioButtons.getChildAt(pos)).setError(null);
         } else {
             ((RadioButton) dirt_radioButtons.getChildAt(pos)).setError(getResources().getString(R.string.required));
@@ -333,7 +397,7 @@ public class CreateIncidence extends AppCompatActivity {
         if (configuration_radioButtons.getCheckedRadioButtonId() != -1) {
             int radioButtonID_configuration = configuration_radioButtons.getCheckedRadioButtonId();
             RadioButton radioButton_configuration = (RadioButton) configuration_radioButtons.findViewById(radioButtonID_configuration);
-            incidence.setConfiguration(Integer.valueOf(radioButton_configuration.getText().toString()));
+            report.setConfiguration(Integer.valueOf(radioButton_configuration.getText().toString()));
             ((RadioButton) configuration_radioButtons.getChildAt(pos)).setError(null);
         } else {
             ((RadioButton) configuration_radioButtons.getChildAt(pos)).setError(getResources().getString(R.string.required));
@@ -344,7 +408,7 @@ public class CreateIncidence extends AppCompatActivity {
         if (openDoor_radioButtons.getCheckedRadioButtonId() != -1) {
             int radioButtonID_openDoor = openDoor_radioButtons.getCheckedRadioButtonId();
             RadioButton radioButton_openDoor = (RadioButton) openDoor_radioButtons.findViewById(radioButtonID_openDoor);
-            incidence.setOpenDoor(FileUtils.formatBoolean(mContext, radioButton_openDoor.getText().toString()));
+            report.setOpenDoor(FileUtils.formatBoolean(mContext, radioButton_openDoor.getText().toString()));
             ((RadioButton) openDoor_radioButtons.getChildAt(pos)).setError(null);
         } else {
             ((RadioButton) openDoor_radioButtons.getChildAt(pos)).setError(getResources().getString(R.string.required));
@@ -355,24 +419,28 @@ public class CreateIncidence extends AppCompatActivity {
         if (viewMembers_radioButtons.getCheckedRadioButtonId() != -1) {
             int radioButtonID_viewMembers = viewMembers_radioButtons.getCheckedRadioButtonId();
             RadioButton radioButton_viewMembers = (RadioButton) viewMembers_radioButtons.findViewById(radioButtonID_viewMembers);
-            incidence.setViewMembers(FileUtils.formatBoolean(mContext, radioButton_viewMembers.getText().toString()));
+            report.setViewMembers(FileUtils.formatBoolean(mContext, radioButton_viewMembers.getText().toString()));
             ((RadioButton) viewMembers_radioButtons.getChildAt(pos)).setError(null);
         } else {
             ((RadioButton) viewMembers_radioButtons.getChildAt(pos)).setError(getResources().getString(R.string.required));
             isValid = false;
         }
 
-        incidence.setDescription(description.getText().toString());
+        report.setLocation(location.getText().toString());
+
+        // To members, the values is evaluate in server
+        // report.setDescription(description.getHint() + description.getText().toString());
+        report.setDescription(description.getText().toString());
 
         if (!isValid) {
-            Toast.makeText(this, getResources().getString(R.string.incidence_complete_fields), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.report_complete_fields), Toast.LENGTH_SHORT).show();
         } else {
-            // Send Incidence
+            // Send Report
             List<byte[]> photos = new ArrayList<>();
             photos.addAll(photosMap.values());
-            String photosGson = new Gson().toJson(photos);
-            SendIncidence sendIncidence = new SendIncidence(mContext, mActivity, incidence, photosGson);
-            sendIncidence.execute();
+            String photosJson = new Gson().toJson(photos);
+            SendReport sendReport = new SendReport(mContext, mActivity, report, photosJson);
+            sendReport.execute();
         }
     }
 }

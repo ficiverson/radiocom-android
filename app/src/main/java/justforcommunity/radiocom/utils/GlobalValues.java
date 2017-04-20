@@ -43,9 +43,10 @@ public class GlobalValues {
     // public static String membersURL = "https://cuacfm.org/members/";
     public static final String membersURL = "http://10.0.2.2:8080/members/";
     public static final String signupURL = membersURL + "signup";
-    public static final String incidencesURL = membersURL + "api/incidenceList/";
-    public static final String createIncidenceURL = incidencesURL + "incidenceCreate";
-    public static final String imageIncidenceURL = incidencesURL + "image/";
+    public static final String reportsURL = membersURL + "api/reportList/";
+    public static final String reportsUserURL = membersURL + "api/reportUserList/";
+    public static final String createReportURL = reportsURL + "reportCreate";
+    public static final String imageReportURL = reportsURL + "image/";
     public static final String programsURL = membersURL + "api/programList/";
 
     public static final String colorHTML = "#ff9900 !important";
@@ -63,9 +64,10 @@ public class GlobalValues {
     public static final String EXTRA_PROGRAM = "programme";
     public static final String EXTRA_CONTENT = "webviewContent";
     public static final String EXTRA_TITLE = "webviewTitle";
-    public static final String INCIDENCE_JSON = "incidenceJson";
+    public static final String REPORT_JSON = "reportJson";
 
     public static final String DOWNLOAD_DIR = Environment.getExternalStorageDirectory().toString() + "/Android/data/" + App.PACKAGE_NAME + "/downloaded/";
 
+    public static final int SEND_REPORT_REQUEST = 3000;
     public static final int MAX_FILES = 10;
 }

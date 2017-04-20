@@ -56,7 +56,7 @@ import com.google.gson.Gson;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.fragments.HomePageFragment;
-import justforcommunity.radiocom.fragments.IncidencesPageFragment;
+import justforcommunity.radiocom.fragments.ReportPageFragment;
 import justforcommunity.radiocom.fragments.NewsPageFragment;
 import justforcommunity.radiocom.fragments.PodcastPageFragment;
 import justforcommunity.radiocom.model.StationDTO;
@@ -361,8 +361,8 @@ public class Home extends AppCompatActivity
             case R.id.nav_podcast:
                 loadPodcast();
                 break;
-            case R.id.nav_incidence:
-                loadIncidence();
+            case R.id.nav_report:
+                loadReport();
                 break;
             case R.id.nav_map:
                 loadMap();
@@ -389,6 +389,11 @@ public class Home extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Maybe to redirect Fragments Report
+    }
 
     public String getCityByCoords(String lat, String longi) {
         return GlobalValues.city;
@@ -432,11 +437,11 @@ public class Home extends AppCompatActivity
         processFragment(podcastFragment, mContext.getString(R.string.action_podcast));
     }
 
-    public void loadIncidence() {
+    public void loadReport() {
         isSearchable = true;
         invalidateOptionsMenu();
-        IncidencesPageFragment incidencesPageFragment = new IncidencesPageFragment();
-        processFragment(incidencesPageFragment, mContext.getString(R.string.action_incidence));
+        ReportPageFragment reportsPageFragment = new ReportPageFragment();
+        processFragment(reportsPageFragment, mContext.getString(R.string.action_report));
     }
 
     public void loadMap() {

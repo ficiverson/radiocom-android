@@ -28,7 +28,7 @@ import org.springframework.web.client.RestClientException;
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.activities.CreateIncidence;
+import justforcommunity.radiocom.activities.CreateReport;
 import justforcommunity.radiocom.model.ProgramDTO;
 import justforcommunity.radiocom.service.ServiceGetPrograms;
 import justforcommunity.radiocom.utils.ConexionInternet;
@@ -37,12 +37,12 @@ import justforcommunity.radiocom.utils.ConexionInternet;
 public class GetProgramsUser extends AsyncTask<Boolean, Float, Boolean> {
 
     private Context mContext;
-    private CreateIncidence mActivity;
+    private CreateReport mActivity;
     private ServiceGetPrograms serviceGetPrograms;
     private Locale locale;
     private List<ProgramDTO> programsDTO;
 
-    public GetProgramsUser(Context mContext, CreateIncidence mActivity) {
+    public GetProgramsUser(Context mContext, CreateReport mActivity) {
         this.mActivity = mActivity;
         this.mContext = mContext;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());

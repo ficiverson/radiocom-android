@@ -90,16 +90,16 @@
         </activity>
 
         <activity
-            android:name=".activities.Incidence"
-            android:label="@string/incidence_activity"
+            android:name=".activities.Report"
+            android:label="@string/report_activity"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".activities.CreateIncidence"
-            android:label="@string/create_incidence_activity"
+            android:name=".activities.CreateReport"
+            android:label="@string/report_activity_create"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">

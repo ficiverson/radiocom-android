@@ -27,25 +27,25 @@ import org.springframework.web.client.RestClientException;
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.fragments.IncidencesPageFragment;
-import justforcommunity.radiocom.model.IncidenceDTO;
-import justforcommunity.radiocom.service.ServiceGetIncidences;
+import justforcommunity.radiocom.fragments.ReportPageFragment;
+import justforcommunity.radiocom.model.ReportDTO;
+import justforcommunity.radiocom.service.ServiceGetReports;
 import justforcommunity.radiocom.utils.ConexionInternet;
 
-public class GetIncidences extends AsyncTask<Boolean, Float, Boolean> {
+public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
 
-    private static final String TAG = "GetIncidences";
+    private static final String TAG = "GetReports";
     private Context mContext;
-    private IncidencesPageFragment fragment;
-    private ServiceGetIncidences serviceGetIncidences;
+    private ReportPageFragment fragment;
+    private ServiceGetReports serviceGetReports;
     private Locale locale;
-    private List<IncidenceDTO> incidencesDTO;
+    private List<ReportDTO> reportsDTO;
 
-    public GetIncidences(Context context, IncidencesPageFragment fragment) {
+    public GetReports(Context context, ReportPageFragment fragment) {
         this.fragment = fragment;
         this.mContext = context;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        serviceGetIncidences = new ServiceGetIncidences(locale);
+        serviceGetReports = new ServiceGetReports(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
@@ -55,16 +55,16 @@ public class GetIncidences extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                incidencesDTO = serviceGetIncidences.getIncidences();
+                reportsDTO = serviceGetReports.getReports();
                 res = true;
 
             } catch (RestClientException e) {
                 Log.e(TAG, "doInBackground()", e);
-                incidencesDTO = null;
+                reportsDTO = null;
                 res = false;
             } catch (Exception e) {
                 Log.e(TAG, "doInBackground()", e);
-                incidencesDTO = null;
+                reportsDTO = null;
                 res = false;
             }
         }
@@ -74,7 +74,7 @@ public class GetIncidences extends AsyncTask<Boolean, Float, Boolean> {
     protected void onPostExecute(Boolean result) {
 
         if (result) {
-            fragment.setIncidenceList(incidencesDTO);
+            fragment.setReportList(reportsDTO);
         } else {
             fragment.resultKO();
         }

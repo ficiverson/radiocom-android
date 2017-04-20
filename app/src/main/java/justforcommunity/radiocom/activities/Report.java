@@ -41,25 +41,25 @@ import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import justforcommunity.radiocom.R;
-import justforcommunity.radiocom.model.IncidenceDTO;
+import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.task.FirebaseUtils;
 import justforcommunity.radiocom.utils.DateUtils;
+import justforcommunity.radiocom.utils.FileUtils;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.PodcastingService;
-import justforcommunity.radiocom.utils.FileUtils;
 
-import static justforcommunity.radiocom.utils.GlobalValues.INCIDENCE_JSON;
-import static justforcommunity.radiocom.utils.GlobalValues.imageIncidenceURL;
+import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.imageReportURL;
 
-public class Incidence extends FirebaseActivity {
+public class Report extends FirebaseActivity {
 
     public SharedPreferences prefs;
     public SharedPreferences.Editor edit;
-    private IncidenceDTO incidence;
+    private ReportDTO report;
     private AVLoadingIndicatorView avi;
     private Context mContext;
-    private Incidence mActivity;
-    private LinearLayout imagesIncidence;
+    private Report mActivity;
+    private LinearLayout imagesReport;
     private Dialog myDialog;
 
     private TextView dateCreate;
@@ -69,6 +69,7 @@ public class Incidence extends FirebaseActivity {
     private TextView openDoor;
     private TextView viewMembers;
     private TextView configuration;
+    private TextView location;
     private TextView description;
     private TextView dateRevision;
     private TextView active;
@@ -78,10 +79,8 @@ public class Incidence extends FirebaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_incidence);
+        setContentView(R.layout.activity_report);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -102,14 +101,14 @@ public class Incidence extends FirebaseActivity {
         edit = prefs.edit();
 
 
-        String jsonIncidence = getIntent().getStringExtra(INCIDENCE_JSON);
+        String jsonReport = getIntent().getStringExtra(REPORT_JSON);
         Gson gson = new Gson();
 
-        if (jsonIncidence != null && jsonIncidence != "") {
-            incidence = gson.fromJson(jsonIncidence, IncidenceDTO.class);
+        if (jsonReport != null && jsonReport != "") {
+            report = gson.fromJson(jsonReport, ReportDTO.class);
         } else {
-            //take last incidence selected
-            incidence = gson.fromJson(prefs.getString(INCIDENCE_JSON, ""), IncidenceDTO.class);
+            //take last report selected
+            report = gson.fromJson(prefs.getString(REPORT_JSON, ""), ReportDTO.class);
         }
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
@@ -121,26 +120,28 @@ public class Incidence extends FirebaseActivity {
         configuration = (TextView) bottomSheet.findViewById(R.id.configuration);
         openDoor = (TextView) bottomSheet.findViewById(R.id.openDoor);
         viewMembers = (TextView) bottomSheet.findViewById(R.id.viewMembers);
+        location = (TextView) bottomSheet.findViewById(R.id.location);
         description = (TextView) bottomSheet.findViewById(R.id.description);
         dateRevision = (TextView) bottomSheet.findViewById(R.id.dateRevision);
         active = (TextView) bottomSheet.findViewById(R.id.active);
         answer = (TextView) bottomSheet.findViewById(R.id.answer);
 
-        if (incidence != null) {
-            getSupportActionBar().setTitle(DateUtils.formatDate(incidence.getDateCreate(), DateUtils.FORMAT_DISPLAY));
+        if (report != null) {
+            getSupportActionBar().setTitle(DateUtils.formatDate(report.getDateCreate(), DateUtils.FORMAT_DISPLAY));
 
-            dateCreate.setText(DateUtils.formatDate(incidence.getDateCreate(), DateUtils.FORMAT_DISPLAY));
-            programName.setText(String.valueOf(incidence.getProgram().getName()));
-            tidy.setText(String.valueOf(incidence.getTidy()));
-            dirt.setText(String.valueOf(incidence.getDirt()));
-            configuration.setText(String.valueOf(incidence.getConfiguration()));
-            openDoor.setText(FileUtils.formatBoolean(mContext, incidence.isOpenDoor()));
-            viewMembers.setText(FileUtils.formatBoolean(mContext, incidence.isViewMembers()));
-            description.setText(incidence.getDescription());
-            dateRevision.setText(DateUtils.formatDate(incidence.getDateRevision(), DateUtils.FORMAT_DISPLAY));
-            active.setText(FileUtils.formatBoolean(mContext, incidence.isActive()));
-            answer.setText(incidence.getAnswer());
-            imagesIncidence = (LinearLayout) findViewById(R.id.images_incidence);
+            dateCreate.setText(DateUtils.formatDate(report.getDateCreate(), DateUtils.FORMAT_DISPLAY));
+            programName.setText(String.valueOf(report.getProgram().getName()));
+            tidy.setText(String.valueOf(report.getTidy()));
+            dirt.setText(String.valueOf(report.getDirt()));
+            configuration.setText(String.valueOf(report.getConfiguration()));
+            openDoor.setText(FileUtils.formatBoolean(mContext, report.isOpenDoor()));
+            viewMembers.setText(FileUtils.formatBoolean(mContext, report.isViewMembers()));
+            location.setText(report.getLocation());
+            description.setText(report.getDescription());
+            dateRevision.setText(DateUtils.formatDate(report.getDateRevision(), DateUtils.FORMAT_DISPLAY));
+            active.setText(FileUtils.formatBoolean(mContext, report.isActive()));
+            answer.setText(report.getAnswer());
+            imagesReport = (LinearLayout) findViewById(R.id.images_report);
 
             // get token firebase
             FirebaseUtils firebase = new FirebaseUtils(this);
@@ -152,18 +153,18 @@ public class Incidence extends FirebaseActivity {
 
         App application = (App) getApplication();
         Tracker mTracker = application.getDefaultTracker();
-        mTracker.setScreenName(getString(R.string.incidence_activity));
+        mTracker.setScreenName(getString(R.string.report_activity));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
     public void setToken(String token) {
-        for (String nameFile : incidence.getFiles()) {
-            String url = imageIncidenceURL + incidence.getId() + "?imageName=" + nameFile + "&token=" + token;
+        for (String nameFile : report.getFiles()) {
+            String url = imageReportURL + report.getId() + "?imageName=" + nameFile + "&token=" + token;
 
             // ImageView image = new ImageView(this);
             ImageView image = newImageView();
-            imagesIncidence.addView(image);
+            imagesReport.addView(image);
             Picasso.with(mContext).load(url).into(image);
         }
     }
@@ -171,14 +172,8 @@ public class Incidence extends FirebaseActivity {
     // Create new ImageView with parameters
     private ImageView newImageView() {
         ImageView imageView = new ImageView(this);
-//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//        lp.setMargins(0, 0, 0, 10);
-//        lp.gravity = Gravity.FILL_HORIZONTAL;
-//        imageView.setLayoutParams(lp);
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         imageView.setAdjustViewBounds(true);
-//        imageView.setMinimumHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-//        imageView.setScaleType(ImageView.ScaleType.CENTER);
         return imageView;
     }
 
@@ -201,7 +196,7 @@ public class Incidence extends FirebaseActivity {
         if (intent != null) {//stop media player
             if (intent.getBooleanExtra("stopService", false)) {
                 if (!intent.getBooleanExtra("notificationSkip", false)) {
-                    Intent i = new Intent(Incidence.this, PodcastingService.class);
+                    Intent i = new Intent(Report.this, PodcastingService.class);
                     stopService(i);
                     //notifyAdapterToRefresh();
                 }
