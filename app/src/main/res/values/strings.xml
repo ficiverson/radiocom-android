@@ -104,6 +104,7 @@
     <string name="action_cuac">CUAC FM</string>
     <string name="action_dev">Desarrollo</string>
     <string name="action_management">Gestión</string>
+    <string name="action_user_report">Mis informes</string>
     <string name="action_report">Informes</string>
 
     <string name="search">Buscar</string>

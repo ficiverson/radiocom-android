@@ -26,7 +26,7 @@ import java.util.List;
 public class ReportDTO {
 
     private Long id;
-    // private AccountDTO account;
+    private AccountDTO account;
     private ProgramDTO program;
     private int dirt;
     private int tidy;
@@ -48,6 +48,14 @@ public class ReportDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public AccountDTO getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountDTO account) {
+        this.account = account;
     }
 
     public ProgramDTO getProgram() {

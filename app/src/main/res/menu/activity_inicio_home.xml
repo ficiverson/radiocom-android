@@ -55,11 +55,18 @@
         android:visibility="gone"
         android:enabled="false">
         <menu>
+            <group android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_user_report"
+                android:icon="@drawable/pen"
+                android:title="@string/action_user_report" />
             <item
                 android:id="@+id/nav_report"
-                android:icon="@drawable/pen"
+                android:icon="@drawable/manage_report"
                 android:title="@string/action_report" />
+            </group>
         </menu>
+
     </item>
 
     <item android:title="@string/action_social">

@@ -130,7 +130,10 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
 
             for (int i = 0; i < count; i++) {
                 filterableString = list.get(i);
-                if (filterableString.getDescription().toLowerCase().contains(filterString)) {
+                if (filterableString.getProgram().getName().toLowerCase().contains(filterString)) {
+                    nlist.add(filterableString);
+                }
+                if (filterableString.getAccount().getName().toLowerCase().contains(filterString)) {
                     nlist.add(filterableString);
                 }
             }

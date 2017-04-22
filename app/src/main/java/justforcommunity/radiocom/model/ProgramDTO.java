@@ -20,9 +20,6 @@
 
 package justforcommunity.radiocom.model;
 
-/**
- * Created by iver on 5/9/16.
- */
 public class ProgramDTO {
 
     private String title;
@@ -30,9 +27,6 @@ public class ProgramDTO {
     private String description;
     private String logo_url;
     private String rss_url;
-
-    public ProgramDTO() {
-    }
 
     public ProgramDTO(String name) {
         this.name = name;

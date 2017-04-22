@@ -325,9 +325,15 @@ public class Home extends AppCompatActivity
     }
 
     public void filterSearch(String query) {
-        PodcastPageFragment currentFragment = (PodcastPageFragment) getSupportFragmentManager().findFragmentByTag(mContext.getString(R.string.action_podcast));
-        if (currentFragment != null && currentFragment.isVisible()) {
-            currentFragment.filterDataSearch(query);
+        PodcastPageFragment podcastFragment = (PodcastPageFragment) getSupportFragmentManager().findFragmentByTag(mContext.getString(R.string.action_podcast));
+        if (podcastFragment != null && podcastFragment.isVisible()) {
+            podcastFragment.filterDataSearch(query);
+            return;
+        }
+        ReportPageFragment reportPageFragment = (ReportPageFragment) getSupportFragmentManager().findFragmentByTag(mContext.getString(R.string.action_user_report));
+        if (reportPageFragment != null && reportPageFragment.isVisible()) {
+            reportPageFragment.filterDataSearch(query);
+            return;
         }
     }
 
@@ -360,6 +366,9 @@ public class Home extends AppCompatActivity
                 break;
             case R.id.nav_podcast:
                 loadPodcast();
+                break;
+            case R.id.nav_user_report:
+                loadUserReport();
                 break;
             case R.id.nav_report:
                 loadReport();
@@ -435,6 +444,13 @@ public class Home extends AppCompatActivity
         invalidateOptionsMenu();
         PodcastPageFragment podcastFragment = new PodcastPageFragment();
         processFragment(podcastFragment, mContext.getString(R.string.action_podcast));
+    }
+
+    public void loadUserReport() {
+        isSearchable = true;
+        invalidateOptionsMenu();
+        ReportPageFragment reportsPageFragment = new ReportPageFragment();
+        processFragment(reportsPageFragment, mContext.getString(R.string.action_user_report));
     }
 
     public void loadReport() {
@@ -556,6 +572,8 @@ public class Home extends AppCompatActivity
         // Get firebase user
         user = FirebaseAuth.getInstance().getCurrentUser();
 
+        // Wee need getUser of members
+
         if (user != null) {
             navigationView.getMenu().findItem(R.id.management).setVisible(true);
             navigationView.getMenu().findItem(R.id.management).setEnabled(true);
@@ -571,7 +589,7 @@ public class Home extends AppCompatActivity
         if (nav_authenticate != null) {
             if (user != null) {
                 // Maybe put personal photo user
-                //userDTO.getPhotoUrl();
+                //accountDTO.getPhotoUrl();
                 nav_authenticate.setImageResource(R.drawable.user_active);
             } else {
                 nav_authenticate.setImageResource(R.drawable.user_inactive);
