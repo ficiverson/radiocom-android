@@ -49,9 +49,9 @@ import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
 import static justforcommunity.radiocom.utils.GlobalValues.programsURL;
 
 
-public class ServiceGetPrograms extends ServiceBase {
+public class ServicePrograms extends ServiceBase {
 
-    public ServiceGetPrograms(Locale language) {
+    public ServicePrograms(Locale language) {
         super(language);
     }
 
@@ -79,7 +79,7 @@ public class ServiceGetPrograms extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
-            Log.e("ServiceGetPrograms", "getPrograms", e);
+            Log.e("ServicePrograms", "getPrograms", e);
             throw e;
         }
 
@@ -106,11 +106,12 @@ public class ServiceGetPrograms extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
-            Log.e("ServiceGetPrograms", "getProgramsUser", e);
+            Log.e("ServicePrograms", "getProgramsUser", e);
             throw e;
         }
 
-        Type listType = new TypeToken<ArrayList<ProgramDTO>>(){}.getType();
+        Type listType = new TypeToken<ArrayList<ProgramDTO>>() {
+        }.getType();
         List<ProgramDTO> programsDTO = new Gson().fromJson(response.getBody(), listType);
 
         return programsDTO;

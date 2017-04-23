@@ -20,6 +20,7 @@
 
 package justforcommunity.radiocom.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,6 +52,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import justforcommunity.radiocom.R;
+import justforcommunity.radiocom.task.GetAccount;
 
 import static justforcommunity.radiocom.utils.GlobalValues.signupURL;
 
@@ -58,6 +60,8 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
 
     private static final String TAG = "Authenticate";
     private static final int RC_SIGN_IN = 9001;
+
+    private Context mContext;
 
     private AVLoadingIndicatorView avi;
     private EditText mEmailField;
@@ -85,6 +89,8 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
                 onBackPressed();
             }
         });
+
+        mContext = this;
 
         // Views
         mEmailField = (EditText) findViewById(R.id.field_email);
@@ -120,12 +126,14 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                //Gson gson = new Gson();
+                //GetAccount getAccount = new GetAccount(mContext);
                 if (user != null) {
-                    // User is signed in
+                    // User is signed in, getAccount of Members
+                    //getAccount.execute();
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user);
                 } else {
-                    // User is signed out
+                    // User is signed out, removeAccount of Members
+                    //getAccount.removeAccount();
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
                 updateUI(user);
@@ -222,12 +230,14 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
 
-                        if (!task.isSuccessful()) {
+                        if (task.isSuccessful()) {
+                            // User is signed in, getAccount of Members
+                            GetAccount getAccount = new GetAccount(mContext);
+                            getAccount.execute();
+                            Toast.makeText(Authenticate.this, R.string.auth_success, Toast.LENGTH_SHORT).show();
+                        } else {
                             Log.w(TAG, "signInWithCredential", task.getException());
                             Toast.makeText(Authenticate.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
-                        }
-                        if (task.isSuccessful()) {
-                            Toast.makeText(Authenticate.this, R.string.auth_success, Toast.LENGTH_SHORT).show();
                         }
                         avi.hide();
                     }
@@ -256,14 +266,17 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
 
-                        if (!task.isSuccessful()) {
+                        if (task.isSuccessful()) {
+                            // User is signed in, getAccount of Members
+                            GetAccount getAccount = new GetAccount(mContext);
+                            getAccount.execute();
+                            Toast.makeText(Authenticate.this, R.string.auth_success, Toast.LENGTH_SHORT).show();
+                        } else {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
                             Toast.makeText(Authenticate.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
                         }
 
-                        if (task.isSuccessful()) {
-                            Toast.makeText(Authenticate.this, R.string.auth_success, Toast.LENGTH_SHORT).show();
-                        }
+
                         avi.hide();
                     }
                 });
@@ -271,12 +284,15 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
 
     // sign out
     private void signOut() {
+        GetAccount getAccount = new GetAccount(mContext);
+        getAccount.removeAccount();
         mAuth.signOut();
         updateUI(null);
     }
 
     // Verified email
     private void sendEmailVerification() {
+
         // Disable button
         findViewById(R.id.verify_email_button).setEnabled(false);
 

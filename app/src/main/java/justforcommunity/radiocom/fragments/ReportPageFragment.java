@@ -48,11 +48,11 @@ import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.activities.Report;
 import justforcommunity.radiocom.adapters.ReportListAdapter;
 import justforcommunity.radiocom.model.ReportDTO;
-import justforcommunity.radiocom.task.GetReports;
+import justforcommunity.radiocom.task.Report.GetReports;
 import justforcommunity.radiocom.utils.GlobalValues;
 
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
-import static justforcommunity.radiocom.utils.GlobalValues.SEND_REPORT_REQUEST;
+import static justforcommunity.radiocom.utils.GlobalValues.REPORT_REQUEST;
 
 
 public class ReportPageFragment extends Fragment {
@@ -105,7 +105,7 @@ public class ReportPageFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO revisar, no entra, cuando funcione añadir el resto de logicas
         //super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SEND_REPORT_REQUEST && resultCode == Activity.RESULT_OK) {
+        if (requestCode == REPORT_REQUEST && resultCode == Activity.RESULT_OK) {
             Report report = new Gson().fromJson((String) data.getExtras().get(REPORT_JSON), Report.class);
             //reportList.addView(report);
         }
@@ -150,7 +150,7 @@ public class ReportPageFragment extends Fragment {
                     //save station object on prefs
                     SharedPreferences prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = prefs.edit();
-                    edit.putString("jsonReport", jsonInString);
+                    edit.putString(REPORT_JSON, jsonInString);
                     edit.apply();
 
                     //launch next activity

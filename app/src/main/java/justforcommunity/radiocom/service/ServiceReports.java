@@ -45,10 +45,11 @@ import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.createReportURL;
 import static justforcommunity.radiocom.utils.GlobalValues.reportsUserURL;
+import static justforcommunity.radiocom.utils.GlobalValues.sendAnswerReportURL;
 
-public class ServiceGetReports extends ServiceBase {
+public class ServiceReports extends ServiceBase {
 
-    public ServiceGetReports(Locale language) {
+    public ServiceReports(Locale language) {
         super(language);
     }
 
@@ -72,7 +73,7 @@ public class ServiceGetReports extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
-            Log.e("ServiceGetReports", "getReports()", e);
+            Log.e("ServiceReports", "getReports()", e);
             throw e;
         }
 
@@ -114,10 +115,47 @@ public class ServiceGetReports extends ServiceBase {
             report = new Gson().fromJson(response.getBody(), ReportDTO.class);
 
         } catch (RestClientException e) {
-            Log.e("ServiceGetReports", "sendReport()", e);
+            Log.e("ServiceReports", "sendReport()", e);
             throw e;
         }
         return report;
     }
 
+
+    // Send answer to members
+    public ReportDTO SendAnswerReport(Long reportId, String answer) throws RestClientException, WebServiceStatusFailException {
+
+        ReportDTO report;
+        Object[] theValues = {};
+        String[] parameters = {};
+
+        List<Object> sendValues = new ArrayList<>();
+        String url = sendAnswerReportURL + reportId + restQueryString(parameters, theValues, sendValues);
+        ResponseEntity<String> response;
+
+        try {
+
+            agregarCabeceras(getRequestHeaders());
+            HttpEntity<?> request;
+
+            // Create the request body as a MultiValueMap
+            MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+            body.add("token", getTokenFirebase());
+            body.add("answer", answer);
+            request = new HttpEntity<Object>(body, getRequestHeaders());
+
+            response = getRestTemplate().exchange(url, HttpMethod.POST, request, String.class, sendValues.toArray());
+
+            if (response.getStatusCode() != HttpStatus.CREATED) {
+                throw new WebServiceStatusFailException();
+            }
+
+             report = new Gson().fromJson(response.getBody(), ReportDTO.class);
+
+        } catch (RestClientException e) {
+            Log.e("ServiceReports", "sendReport()", e);
+            throw e;
+        }
+        return report;
+    }
 }

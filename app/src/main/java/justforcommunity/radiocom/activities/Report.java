@@ -27,11 +27,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -43,12 +47,14 @@ import com.wang.avi.AVLoadingIndicatorView;
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.task.FirebaseUtils;
+import justforcommunity.radiocom.task.Report.SendAnswerReport;
 import justforcommunity.radiocom.utils.DateUtils;
 import justforcommunity.radiocom.utils.FileUtils;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.PodcastingService;
 
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.REPORT_REQUEST;
 import static justforcommunity.radiocom.utils.GlobalValues.imageReportURL;
 
 public class Report extends FirebaseActivity {
@@ -60,6 +66,7 @@ public class Report extends FirebaseActivity {
     private Context mContext;
     private Report mActivity;
     private LinearLayout imagesReport;
+    private Button answer_button;
     private Dialog myDialog;
 
     private TextView dateCreate;
@@ -74,6 +81,8 @@ public class Report extends FirebaseActivity {
     private TextView dateRevision;
     private TextView active;
     private TextView answer;
+    private TextView photos_head;
+    private EditText answer_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +122,15 @@ public class Report extends FirebaseActivity {
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
 
+        // Listener send report
+        answer_button = (Button) findViewById(R.id.answer_button);
+        answer_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createAnswer();
+            }
+        });
+
         dateCreate = (TextView) bottomSheet.findViewById(R.id.dateCreate);
         programName = (TextView) bottomSheet.findViewById(R.id.programName);
         tidy = (TextView) bottomSheet.findViewById(R.id.tidy);
@@ -125,6 +143,9 @@ public class Report extends FirebaseActivity {
         dateRevision = (TextView) bottomSheet.findViewById(R.id.dateRevision);
         active = (TextView) bottomSheet.findViewById(R.id.active);
         answer = (TextView) bottomSheet.findViewById(R.id.answer);
+        answer_view = (EditText) bottomSheet.findViewById(R.id.answer_new);
+        imagesReport = (LinearLayout) findViewById(R.id.images_report);
+        photos_head = (TextView) bottomSheet.findViewById(R.id.photos_head);
 
         if (report != null) {
             getSupportActionBar().setTitle(DateUtils.formatDate(report.getDateCreate(), DateUtils.FORMAT_DISPLAY));
@@ -141,14 +162,14 @@ public class Report extends FirebaseActivity {
             dateRevision.setText(DateUtils.formatDate(report.getDateRevision(), DateUtils.FORMAT_DISPLAY));
             active.setText(FileUtils.formatBoolean(mContext, report.isActive()));
             answer.setText(report.getAnswer());
-            imagesReport = (LinearLayout) findViewById(R.id.images_report);
 
             // get token firebase
             FirebaseUtils firebase = new FirebaseUtils(this);
             firebase.execute();
 
             avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
-            avi.show();
+            //avi.show();
+            avi.hide();
         }
 
         App application = (App) getApplication();
@@ -159,10 +180,13 @@ public class Report extends FirebaseActivity {
 
     @Override
     public void setToken(String token) {
+
+        //Put visiblilty photos head
+        if (report.getFiles() != null && !report.getFiles().isEmpty()) {
+            photos_head.setVisibility(View.VISIBLE);
+        }
         for (String nameFile : report.getFiles()) {
             String url = imageReportURL + report.getId() + "?imageName=" + nameFile + "&token=" + token;
-
-            // ImageView image = new ImageView(this);
             ImageView image = newImageView();
             imagesReport.addView(image);
             Picasso.with(mContext).load(url).into(image);
@@ -222,6 +246,47 @@ public class Report extends FirebaseActivity {
     public void hideDialog() {
         //closing loading asyncTask message
         myDialog.dismiss();
+    }
+
+    // Show toast if send report is success
+    public void resultOK(ReportDTO report) {
+        Toast.makeText(this, getResources().getString(R.string.report_send_answer_success), Toast.LENGTH_SHORT).show();
+        // TODO Maybe pass value report to incideceFragments, to refresh report List
+        //onBackPressed();
+
+        //Si se crea a Home funciona, pero tiene que ir al fragment
+        Intent intent = new Intent(this, Home.class);
+        // Intent intent = new Intent(this, ReportPageFragment.class);
+        intent.putExtra(REPORT_JSON, new Gson().toJson(report));
+        startActivityForResult(intent, REPORT_REQUEST);
+
+
+//        Intent intent = new Intent(this, ReportPageFragment.class);
+//        ReportPageFragment reportsPageFragment = new ReportPageFragment();
+//        reportsPageFragment.putExtra(REPORT_JSON, new Gson().toJson(report));
+//        startActivityForResult(reportsPageFragment, SEND_INCIDENCE_REQUEST);
+
+//        Intent returnIntent = new Intent();
+//        returnIntent.putExtra(REPORT_JSON, new Gson().toJson(report));
+//        setResult(Activity.RESULT_OK, returnIntent);
+//        finish();
+    }
+
+    // Show toast if send report is fail
+    public void resultKO() {
+        Toast.makeText(this, getResources().getString(R.string.report_send_answer_fail), Toast.LENGTH_SHORT).show();
+    }
+
+    // Create new answer with form
+    private void createAnswer() {
+
+        if (TextUtils.isEmpty(answer_view.getText().toString())) {
+            programName.setError(getResources().getString(R.string.required));
+            Toast.makeText(this, getResources().getString(R.string.report_complete_fields), Toast.LENGTH_SHORT).show();
+        } else {
+            SendAnswerReport sendAnswerReport = new SendAnswerReport(mContext, mActivity, report.getId(), answer_view.getText().toString());
+            sendAnswerReport.execute();
+        }
     }
 
 }

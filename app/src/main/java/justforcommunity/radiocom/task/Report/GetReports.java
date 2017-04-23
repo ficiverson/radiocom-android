@@ -1,8 +1,8 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
+ *  * Copyright (C) 2017 @ Pablo Grela
  *  *
- *  * Developer Fernando Souto
+ *  * Developer Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -18,68 +18,65 @@
  *
  */
 
-package justforcommunity.radiocom.task;
+package justforcommunity.radiocom.task.Report;
 
 import android.content.Context;
 import android.os.AsyncTask;
-
+import android.util.Log;
 import org.springframework.web.client.RestClientException;
-
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.fragments.PodcastPageFragment;
-import justforcommunity.radiocom.model.ProgramDTO;
-import justforcommunity.radiocom.service.ServicePrograms;
+import justforcommunity.radiocom.fragments.ReportPageFragment;
+import justforcommunity.radiocom.model.ReportDTO;
+import justforcommunity.radiocom.service.ServiceReports;
 import justforcommunity.radiocom.utils.ConexionInternet;
 
+public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
 
-public class GetPrograms extends AsyncTask<Boolean, Float, Boolean> {
-
+    private static final String TAG = "GetReports";
     private Context mContext;
-    private PodcastPageFragment fragment;
-    private ServicePrograms servicePrograms;
+    private ReportPageFragment fragment;
+    private ServiceReports serviceReports;
     private Locale locale;
-    private List<ProgramDTO> programsDTO;
+    private List<ReportDTO> reportsDTO;
 
-    public GetPrograms(Context context, PodcastPageFragment fragment) {
+    public GetReports(Context context, ReportPageFragment fragment) {
         this.fragment = fragment;
         this.mContext = context;
-
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        servicePrograms = new ServicePrograms(locale);
+        serviceReports = new ServiceReports(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
         boolean res = false;
-
         ConexionInternet cnn = new ConexionInternet();
 
         if (cnn.isConnected(mContext)) {
 
             try {
-                programsDTO = servicePrograms.getPrograms().getData();
+                reportsDTO = serviceReports.getReports();
                 res = true;
 
             } catch (RestClientException e) {
-                programsDTO = null;
+                Log.e(TAG, "doInBackground()", e);
+                reportsDTO = null;
                 res = false;
             } catch (Exception e) {
-                programsDTO = null;
+                Log.e(TAG, "doInBackground()", e);
+                reportsDTO = null;
                 res = false;
             }
         }
         return res;
     }
 
-
     protected void onPostExecute(Boolean result) {
 
         if (result) {
-            fragment.listChannels(programsDTO);
+            fragment.setReportList(reportsDTO);
         } else {
             fragment.resultKO();
         }
     }
-
 }

@@ -18,34 +18,40 @@
  *
  */
 
-package justforcommunity.radiocom.task;
+package justforcommunity.radiocom.task.Report;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
 import org.springframework.web.client.RestClientException;
-import java.util.List;
+
 import java.util.Locale;
 
-import justforcommunity.radiocom.fragments.ReportPageFragment;
+import justforcommunity.radiocom.activities.Report;
 import justforcommunity.radiocom.model.ReportDTO;
-import justforcommunity.radiocom.service.ServiceGetReports;
+import justforcommunity.radiocom.service.ServiceReports;
 import justforcommunity.radiocom.utils.ConexionInternet;
 
-public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
+
+public class SendAnswerReport extends AsyncTask<Boolean, Float, Boolean> {
 
     private static final String TAG = "GetReports";
     private Context mContext;
-    private ReportPageFragment fragment;
-    private ServiceGetReports serviceGetReports;
+    private Report activity;
+    private ServiceReports serviceReports;
     private Locale locale;
-    private List<ReportDTO> reportsDTO;
+    private ReportDTO report;
+    private Long reportId;
+    private String answer;
 
-    public GetReports(Context context, ReportPageFragment fragment) {
-        this.fragment = fragment;
+    public SendAnswerReport(Context context, Report activity, Long reportId, String answer) {
+        this.activity = activity;
         this.mContext = context;
+        this.reportId = reportId;
+        this.answer = answer;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        serviceGetReports = new ServiceGetReports(locale);
+        serviceReports = new ServiceReports(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
@@ -55,16 +61,13 @@ public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                reportsDTO = serviceGetReports.getReports();
+                report = serviceReports.SendAnswerReport(reportId, answer);
                 res = true;
-
             } catch (RestClientException e) {
                 Log.e(TAG, "doInBackground()", e);
-                reportsDTO = null;
                 res = false;
             } catch (Exception e) {
                 Log.e(TAG, "doInBackground()", e);
-                reportsDTO = null;
                 res = false;
             }
         }
@@ -74,9 +77,9 @@ public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
     protected void onPostExecute(Boolean result) {
 
         if (result) {
-            fragment.setReportList(reportsDTO);
+            activity.resultOK(report);
         } else {
-            fragment.resultKO();
+            activity.resultKO();
         }
     }
 }

@@ -50,6 +50,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -61,13 +62,13 @@ import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.model.ProgramDTO;
 import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.task.GetProgramsUser;
-import justforcommunity.radiocom.task.SendReport;
+import justforcommunity.radiocom.task.Report.SendReport;
 import justforcommunity.radiocom.utils.FileUtils;
 
 import static justforcommunity.radiocom.utils.FileUtils.bitmapToByte;
 import static justforcommunity.radiocom.utils.GlobalValues.MAX_FILES;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
-import static justforcommunity.radiocom.utils.GlobalValues.SEND_REPORT_REQUEST;
+import static justforcommunity.radiocom.utils.GlobalValues.REPORT_REQUEST;
 
 
 public class CreateReport extends AppCompatActivity {
@@ -75,9 +76,11 @@ public class CreateReport extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1000;
     private static final int EXTERNAL_REQUEST = 2000;
 
-    private ReportDTO report;
     private Context mContext;
     private CreateReport mActivity;
+
+    private ReportDTO report;
+    private AVLoadingIndicatorView avi;
     private Map<Integer, byte[]> photosMap;
     private Spinner programName;
     private RadioGroup tidy_radioButtons;
@@ -89,7 +92,7 @@ public class CreateReport extends AppCompatActivity {
     private EditText description;
     private String[] descriptionAux;
     private LinearLayout imagesReport;
-    private Button send;
+    private Button send_button;
     private int imageId;
 
     @Override
@@ -113,8 +116,8 @@ public class CreateReport extends AppCompatActivity {
         });
 
         // Listener send report
-        send = (Button) findViewById(R.id.send);
-        send.setOnClickListener(new View.OnClickListener() {
+        send_button = (Button) findViewById(R.id.send);
+        send_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createReport();
@@ -157,6 +160,7 @@ public class CreateReport extends AppCompatActivity {
         });
         addRadioButton(configuration_radioButtons);
 
+        avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
         openDoor_radioButtons = (RadioGroup) findViewById(R.id.openDoor_radioButtons);
         viewMembers_radioButtons =  (RadioGroup) findViewById(R.id.viewMembers_radioButtons);
         location = (EditText) findViewById(R.id.location);
@@ -248,6 +252,7 @@ public class CreateReport extends AppCompatActivity {
 
     // Show toast if send report is success
     public void resultOK(ReportDTO report) {
+        avi.hide();
         Toast.makeText(this, getResources().getString(R.string.report_send_success), Toast.LENGTH_SHORT).show();
         // TODO Maybe pass value report to incideceFragments, to refresh report List
         //onBackPressed();
@@ -256,7 +261,7 @@ public class CreateReport extends AppCompatActivity {
         Intent intent = new Intent(this, Home.class);
         // Intent intent = new Intent(this, ReportPageFragment.class);
         intent.putExtra(REPORT_JSON, new Gson().toJson(report));
-        startActivityForResult(intent, SEND_REPORT_REQUEST);
+        startActivityForResult(intent, REPORT_REQUEST);
 
 
 //        Intent intent = new Intent(this, ReportPageFragment.class);
@@ -272,6 +277,7 @@ public class CreateReport extends AppCompatActivity {
 
     // Show toast if send report is fail
     public void resultKO() {
+        avi.hide();
         Toast.makeText(this, getResources().getString(R.string.report_send_fail), Toast.LENGTH_SHORT).show();
     }
 
@@ -439,6 +445,7 @@ public class CreateReport extends AppCompatActivity {
             List<byte[]> photos = new ArrayList<>();
             photos.addAll(photosMap.values());
             String photosJson = new Gson().toJson(photos);
+            avi.show();
             SendReport sendReport = new SendReport(mContext, mActivity, report, photosJson);
             sendReport.execute();
         }

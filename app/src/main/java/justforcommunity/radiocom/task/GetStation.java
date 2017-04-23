@@ -21,9 +21,7 @@
 package justforcommunity.radiocom.task;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.util.Log;
 
 
 import org.springframework.web.client.RestClientException;
@@ -32,9 +30,8 @@ import java.util.Locale;
 
 import justforcommunity.radiocom.activities.Splash;
 import justforcommunity.radiocom.model.StationDTO;
-import justforcommunity.radiocom.service.ServiceGetStation;
+import justforcommunity.radiocom.service.ServiceStation;
 import justforcommunity.radiocom.utils.ConexionInternet;
-import justforcommunity.radiocom.utils.GlobalValues;
 
 
 public class GetStation extends AsyncTask<Boolean, Float, Boolean>{
@@ -42,7 +39,7 @@ public class GetStation extends AsyncTask<Boolean, Float, Boolean>{
 
 	private Context mContext;
 	private Splash mActivity;
-	private ServiceGetStation serviceGetStation;
+	private ServiceStation serviceStation;
 	private Locale locale;
 	private StationDTO stationDTO;
 
@@ -51,7 +48,7 @@ public class GetStation extends AsyncTask<Boolean, Float, Boolean>{
 		this.mContext = context;
 
 		locale= new Locale(mContext.getResources().getConfiguration().locale.toString());
-		serviceGetStation = new ServiceGetStation(locale);
+		serviceStation = new ServiceStation(locale);
 		
 	}
 
@@ -67,7 +64,7 @@ public class GetStation extends AsyncTask<Boolean, Float, Boolean>{
 		if (cnn.isConnected(mContext)) {
 
 				try {
-					stationDTO = serviceGetStation.getStation().getData().get(0);//get first station
+					stationDTO = serviceStation.getStation().getData().get(0);//get first station
 					res = true;
 
 				} catch (RestClientException e) {

@@ -1,8 +1,8 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
+ *  * Copyright (C) 2017 @ Pablo Grela
  *  *
- *  * Developer Fernando Souto
+ *  * Developer Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -18,68 +18,67 @@
  *
  */
 
-package justforcommunity.radiocom.task;
+package justforcommunity.radiocom.task.Report;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.springframework.web.client.RestClientException;
 
-import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.fragments.PodcastPageFragment;
-import justforcommunity.radiocom.model.ProgramDTO;
-import justforcommunity.radiocom.service.ServicePrograms;
+import justforcommunity.radiocom.activities.CreateReport;
+import justforcommunity.radiocom.model.ReportDTO;
+import justforcommunity.radiocom.service.ServiceReports;
 import justforcommunity.radiocom.utils.ConexionInternet;
 
 
-public class GetPrograms extends AsyncTask<Boolean, Float, Boolean> {
+public class SendReport extends AsyncTask<Boolean, Float, Boolean> {
 
+    private static final String TAG = "SendReport";
     private Context mContext;
-    private PodcastPageFragment fragment;
-    private ServicePrograms servicePrograms;
+    private CreateReport activity;
+    private ServiceReports serviceReports;
     private Locale locale;
-    private List<ProgramDTO> programsDTO;
+    private ReportDTO report;
+    private String photosGson;
 
-    public GetPrograms(Context context, PodcastPageFragment fragment) {
-        this.fragment = fragment;
+    public SendReport(Context context, CreateReport activity, ReportDTO report, String photosGson) {
+        this.activity = activity;
         this.mContext = context;
-
+        this.report = report;
+        this.photosGson = photosGson;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        servicePrograms = new ServicePrograms(locale);
+        serviceReports = new ServiceReports(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
         boolean res = false;
-
         ConexionInternet cnn = new ConexionInternet();
 
         if (cnn.isConnected(mContext)) {
 
             try {
-                programsDTO = servicePrograms.getPrograms().getData();
+                report = serviceReports.sendReport(report, photosGson);
                 res = true;
-
             } catch (RestClientException e) {
-                programsDTO = null;
+                Log.e(TAG, "doInBackground()", e);
                 res = false;
             } catch (Exception e) {
-                programsDTO = null;
+                Log.e(TAG, "doInBackground()", e);
                 res = false;
             }
         }
         return res;
     }
 
-
     protected void onPostExecute(Boolean result) {
 
         if (result) {
-            fragment.listChannels(programsDTO);
+            activity.resultOK(report);
         } else {
-            fragment.resultKO();
+            activity.resultKO();
         }
     }
-
 }

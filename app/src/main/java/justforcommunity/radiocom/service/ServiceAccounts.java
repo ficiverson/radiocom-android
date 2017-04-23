@@ -1,8 +1,8 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
+ *  * Copyright (C) 2017 @ Pablo Grela
  *  *
- *  * Developer Fernando Souto
+ *  * Developer Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -20,59 +20,66 @@
 
 package justforcommunity.radiocom.service;
 
-
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.model.ResponseStationDTO;
+import justforcommunity.radiocom.model.AccountDTO;
+import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
-import justforcommunity.radiocom.utils.GlobalValues;
 
-public class ServiceGetStation extends ServiceBase {
+import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
+import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.accountURL;
+import static justforcommunity.radiocom.utils.GlobalValues.createReportURL;
+import static justforcommunity.radiocom.utils.GlobalValues.reportsUserURL;
+import static justforcommunity.radiocom.utils.GlobalValues.sendAnswerReportURL;
 
-    public ServiceGetStation(Locale language) {
+public class ServiceAccounts extends ServiceBase {
+
+    public ServiceAccounts(Locale language) {
         super(language);
     }
 
-    public ResponseStationDTO getStation() throws RestClientException, WebServiceStatusFailException {
+    public AccountDTO getAccount() throws RestClientException, WebServiceStatusFailException {
 
         Object[] theValues = {};
         String[] parameters = {};
 
         List<Object> sendValues = new ArrayList<>();
-        String url = GlobalValues.baseURL + "radiostation" + restQueryString(parameters, theValues, sendValues);
-        ResponseEntity<ResponseStationDTO> response = null;
+        String url = accountURL + "?token=" + getTokenFirebase() + restQueryString(parameters, theValues, sendValues);
+        ResponseEntity<AccountDTO> response;
 
         try {
             agregarCabeceras(getRequestHeaders());
             HttpEntity<?> request;
             request = new HttpEntity<Object>(getRequestHeaders());
 
-            GsonHttpMessageConverter converter = new GsonHttpMessageConverter();
-            converter.setSupportedMediaTypes(Collections.singletonList(MediaType.TEXT_PLAIN));
-            getRestTemplate().getMessageConverters().add(converter);
+            response = getRestTemplate().exchange(url, HttpMethod.GET, request, AccountDTO.class, sendValues.toArray());
 
-            response = getRestTemplate().exchange(url, HttpMethod.GET, request, ResponseStationDTO.class, sendValues.toArray());
             if (response.getStatusCode() != HttpStatus.OK) {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
-            Log.e("ServiceGetStation", "getStation", e);
+            Log.e("ServiceReports", "getReports()", e);
             throw e;
         }
 
         return response.getBody();
     }
+
 }

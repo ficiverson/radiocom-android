@@ -30,7 +30,7 @@ import java.util.Locale;
 
 import justforcommunity.radiocom.activities.CreateReport;
 import justforcommunity.radiocom.model.ProgramDTO;
-import justforcommunity.radiocom.service.ServiceGetPrograms;
+import justforcommunity.radiocom.service.ServicePrograms;
 import justforcommunity.radiocom.utils.ConexionInternet;
 
 
@@ -38,7 +38,7 @@ public class GetProgramsUser extends AsyncTask<Boolean, Float, Boolean> {
 
     private Context mContext;
     private CreateReport mActivity;
-    private ServiceGetPrograms serviceGetPrograms;
+    private ServicePrograms servicePrograms;
     private Locale locale;
     private List<ProgramDTO> programsDTO;
 
@@ -46,7 +46,7 @@ public class GetProgramsUser extends AsyncTask<Boolean, Float, Boolean> {
         this.mActivity = mActivity;
         this.mContext = mContext;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        serviceGetPrograms = new ServiceGetPrograms(locale);
+        servicePrograms = new ServicePrograms(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
@@ -57,7 +57,7 @@ public class GetProgramsUser extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                programsDTO = serviceGetPrograms.getProgramsUser();
+                programsDTO = servicePrograms.getProgramsUser();
                 res = true;
 
             } catch (RestClientException e) {

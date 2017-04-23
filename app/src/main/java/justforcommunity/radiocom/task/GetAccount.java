@@ -21,36 +21,40 @@
 package justforcommunity.radiocom.task;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.google.gson.Gson;
 
 import org.springframework.web.client.RestClientException;
 
 import java.util.Locale;
 
-import justforcommunity.radiocom.activities.CreateReport;
-import justforcommunity.radiocom.model.ReportDTO;
-import justforcommunity.radiocom.service.ServiceGetReports;
+import justforcommunity.radiocom.activities.Authenticate;
+import justforcommunity.radiocom.model.AccountDTO;
+import justforcommunity.radiocom.service.ServiceAccounts;
 import justforcommunity.radiocom.utils.ConexionInternet;
+import justforcommunity.radiocom.utils.GlobalValues;
 
+import static justforcommunity.radiocom.utils.GlobalValues.ACCOUNT_JSON;
 
-public class SendReport extends AsyncTask<Boolean, Float, Boolean> {
+public class GetAccount extends AsyncTask<Boolean, Float, Boolean> {
 
-    private static final String TAG = "GetReports";
+    private static final String TAG = "GetAccount";
     private Context mContext;
-    private CreateReport activity;
-    private ServiceGetReports serviceGetReports;
+    private ServiceAccounts serviceAccounts;
     private Locale locale;
-    private ReportDTO report;
-    private String photosGson;
+    private AccountDTO accountDTO;
+    private SharedPreferences prefs;
+    private SharedPreferences.Editor edit;
 
-    public SendReport(Context context, CreateReport activity, ReportDTO report, String photosGson) {
-        this.activity = activity;
+    public GetAccount(Context context) {
         this.mContext = context;
-        this.report = report;
-        this.photosGson = photosGson;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        serviceGetReports = new ServiceGetReports(locale);
+        serviceAccounts = new ServiceAccounts(locale);
+        prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
+        edit = prefs.edit();
     }
 
     protected Boolean doInBackground(Boolean... urls) {
@@ -60,13 +64,16 @@ public class SendReport extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                report = serviceGetReports.sendReport(report, photosGson);
+                accountDTO = serviceAccounts.getAccount();
                 res = true;
+
             } catch (RestClientException e) {
                 Log.e(TAG, "doInBackground()", e);
+                accountDTO = null;
                 res = false;
             } catch (Exception e) {
                 Log.e(TAG, "doInBackground()", e);
+                accountDTO = null;
                 res = false;
             }
         }
@@ -74,11 +81,17 @@ public class SendReport extends AsyncTask<Boolean, Float, Boolean> {
     }
 
     protected void onPostExecute(Boolean result) {
-
         if (result) {
-            activity.resultOK(report);
+            String accountJon = new Gson().toJson(accountDTO);
+            edit.putString(ACCOUNT_JSON, accountJon);
+            edit.apply();
         } else {
-            activity.resultKO();
+            // todo....
         }
+    }
+
+    public void removeAccount (){
+        edit.remove(ACCOUNT_JSON);
+        edit.apply();
     }
 }

@@ -67,12 +67,15 @@
     <string name="report_configuration_full">Configuración de los equipos:</string>
     <string name="report_openDoor">¿Estaba abierta la emisora cuando llegaste?</string>
     <string name="report_viewMembers">¿Llegaste a ver la/s persona/s que hacen el siguiente programa? </string>
-    <string name="report_photos">Fotos de las informes: </string>
+    <string name="report_photos">Fotos de las incidencias: </string>
     <string name="report_add_photos">Añadir fotos: </string>
     <string name="report_add_photos_info">Puedes añadir fotos si hay algún desperfecto</string>
     <string name="report_location">Ubicación: </string>
     <string name="report_description">Descripción: </string>
     <string name="report_programName">Programa:</string>
+    <string name="report_send_answer">Responder</string>
+    <string name="report_send_answer_success">!Se ha enviado la respueste¡</string>
+    <string name="report_send_answer_fail">¡Hubo un fallo al enviar la respuesta!</string>
     <string name="report_send">Enviar</string>
     <string name="report_send_success">!Se ha enviado el informe¡</string>
     <string name="report_send_fail">¡Hubo un fallo al enviar el informe!</string>

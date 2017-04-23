@@ -59,9 +59,16 @@ import justforcommunity.radiocom.fragments.HomePageFragment;
 import justforcommunity.radiocom.fragments.ReportPageFragment;
 import justforcommunity.radiocom.fragments.NewsPageFragment;
 import justforcommunity.radiocom.fragments.PodcastPageFragment;
+import justforcommunity.radiocom.model.AccountDTO;
+import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.model.StationDTO;
+import justforcommunity.radiocom.task.GetAccount;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.StreamingService;
+
+import static justforcommunity.radiocom.utils.GlobalValues.ACCOUNT_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.ROLE_REPORT;
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -121,7 +128,6 @@ public class Home extends AppCompatActivity
             playing = true;
         }
 
-
         String jsonStation = getIntent().getStringExtra(GlobalValues.EXTRA_MESSAGE);
         Gson gson = new Gson();
         if (jsonStation != null && jsonStation != "") {
@@ -160,6 +166,12 @@ public class Home extends AppCompatActivity
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
             }
+        }
+
+        // Refresh info account of user
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            GetAccount getAccount = new GetAccount(mContext);
+            getAccount.execute();
         }
 
         App application = (App) getApplication();
@@ -571,12 +583,19 @@ public class Home extends AppCompatActivity
 
         // Get firebase user
         user = FirebaseAuth.getInstance().getCurrentUser();
-
-        // Wee need getUser of members
+        // Get account of members
+        AccountDTO accountDTO = new Gson().fromJson(prefs.getString(ACCOUNT_JSON, ""), AccountDTO.class);
 
         if (user != null) {
             navigationView.getMenu().findItem(R.id.management).setVisible(true);
             navigationView.getMenu().findItem(R.id.management).setEnabled(true);
+            if (accountDTO != null && accountDTO.getPermissions().contains(ROLE_REPORT)){
+                navigationView.getMenu().findItem(R.id.nav_report).setVisible(true);
+                navigationView.getMenu().findItem(R.id.nav_report).setEnabled(true);
+            } else {
+                navigationView.getMenu().findItem(R.id.nav_report).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_report).setEnabled(false);
+            }
         } else {
             navigationView.getMenu().findItem(R.id.management).setVisible(false);
             navigationView.getMenu().findItem(R.id.management).setEnabled(false);
@@ -596,6 +615,5 @@ public class Home extends AppCompatActivity
             }
         }
     }
-
 
 }
