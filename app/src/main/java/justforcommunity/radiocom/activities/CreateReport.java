@@ -61,7 +61,7 @@ import java.util.Map;
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.model.ProgramDTO;
 import justforcommunity.radiocom.model.ReportDTO;
-import justforcommunity.radiocom.task.GetProgramsUser;
+import justforcommunity.radiocom.task.GetProgramsMembers;
 import justforcommunity.radiocom.task.Report.SendReport;
 import justforcommunity.radiocom.utils.FileUtils;
 
@@ -69,6 +69,7 @@ import static justforcommunity.radiocom.utils.FileUtils.bitmapToByte;
 import static justforcommunity.radiocom.utils.GlobalValues.MAX_FILES;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_REQUEST;
+import static justforcommunity.radiocom.utils.GlobalValues.programsURL;
 
 
 public class CreateReport extends AppCompatActivity {
@@ -94,6 +95,7 @@ public class CreateReport extends AppCompatActivity {
     private LinearLayout imagesReport;
     private Button send_button;
     private int imageId;
+    private String restURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,8 +129,11 @@ public class CreateReport extends AppCompatActivity {
         mActivity = this;
         mContext = this;
 
+        // restURL
+        restURL = getIntent().getExtras().getString("restURL");
+
         // Get programs of user
-        GetProgramsUser programsUser = new GetProgramsUser(mContext, mActivity);
+        GetProgramsMembers programsUser = new GetProgramsMembers(mContext, mActivity, restURL);
         programsUser.execute();
         programName = (Spinner) findViewById(R.id.programName);
 

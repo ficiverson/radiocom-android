@@ -53,6 +53,7 @@ public class GlobalValues {
 
     // Programs
     public static final String programsURL = membersURL + "api/programList/";
+    public static final String programsUserURL = membersURL + "api/programUserList/";
 
     // Accounts
     public static final String accountsURL = membersURL + "api/accountList/";

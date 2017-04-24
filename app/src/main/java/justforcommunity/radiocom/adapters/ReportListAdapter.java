@@ -45,6 +45,7 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
     private ItemFilter mFilter = new ItemFilter();
     private List<ReportDTO> originalData = null;
     private List<ReportDTO> filteredData = null;
+    private boolean management;
 
     public ReportListAdapter(Home mActivity, Context context, int resource, List<ReportDTO> reportDTOs) {
         super(context, resource, reportDTOs);
@@ -54,8 +55,18 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
         filteredData = reportDTOs;
     }
 
+    public ReportListAdapter(Home mActivity, Context context, int resource, List<ReportDTO> reportDTOs, boolean management) {
+        super(context, resource, reportDTOs);
+        this.mContext = context;
+        this.mActivity = mActivity;
+        originalData = reportDTOs;
+        filteredData = reportDTOs;
+        this.management = management;
+    }
+
     static class ViewHolder {
         TextView programName;
+        TextView accountName;
         TextView dateCreate;
         TextView tidy;
         TextView dirt;
@@ -87,6 +98,7 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
 
             holder = new ViewHolder();
             holder.programName = (TextView) v.findViewById(R.id.programName);
+            holder.accountName = (TextView) v.findViewById(R.id.accountName);
             holder.dateCreate = (TextView) v.findViewById(R.id.dateCreate);
             holder.tidy = (TextView) v.findViewById(R.id.tidy);
             holder.dirt = (TextView) v.findViewById(R.id.dirt);
@@ -94,6 +106,11 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
             holder.photoImageView = (ImageView) v.findViewById(R.id.channel_image);
             holder.viewtrans = (View) v.findViewById(R.id.viewtrans);
 
+            if (management) {
+                holder.accountName.setVisibility(View.VISIBLE);
+            } else {
+                holder.accountName.setVisibility(View.GONE);
+            }
             v.setTag(holder);
         } else {
             holder = (ViewHolder) v.getTag();
@@ -103,6 +120,7 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
 
         if (reportDTO != null) {
             holder.programName.setText(String.valueOf(reportDTO.getProgram().getName()));
+            holder.accountName.setText(String.valueOf(reportDTO.getAccount().getFullName()));
             holder.dateCreate.setText(DateUtils.formatDate(reportDTO.getDateCreate(), DateUtils.FORMAT_DISPLAY));
             holder.tidy.setText(String.valueOf(reportDTO.getTidy()));
             holder.dirt.setText(String.valueOf(reportDTO.getDirt()));
@@ -115,7 +133,6 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
     public Filter getFilter() {
         return mFilter;
     }
-
 
     private class ItemFilter extends Filter {
         @Override
@@ -133,7 +150,7 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
                 if (filterableString.getProgram().getName().toLowerCase().contains(filterString)) {
                     nlist.add(filterableString);
                 }
-                if (filterableString.getAccount().getName().toLowerCase().contains(filterString)) {
+                if (filterableString.getAccount().getFullName().toLowerCase().contains(filterString)) {
                     nlist.add(filterableString);
                 }
             }

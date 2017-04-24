@@ -53,8 +53,8 @@
 
     <string name="podcast_info_title">Descripción del programa:</string>
 
-    
 
+    <string name="account">Account</string>
     <string name="report_activity">Informe</string>
     <string name="report_activity_create">Crear informe</string>
     <string name="report_active">Activo:</string>

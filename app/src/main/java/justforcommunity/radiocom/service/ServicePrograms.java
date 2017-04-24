@@ -87,13 +87,13 @@ public class ServicePrograms extends ServiceBase {
     }
 
 
-    public List<ProgramDTO> getProgramsUser() throws RestClientException, WebServiceStatusFailException {
+    public List<ProgramDTO> getPrograms(String restURL) throws RestClientException, WebServiceStatusFailException {
 
         Object[] theValues = {};
         String[] parameters = {};
 
         List<Object> sendValues = new ArrayList<>();
-        String url = programsURL + "?token=" + getTokenFirebase() + restQueryString(parameters, theValues, sendValues);
+        String url = restURL + "?token=" + getTokenFirebase() + restQueryString(parameters, theValues, sendValues);
         ResponseEntity<String> response;
 
         try {

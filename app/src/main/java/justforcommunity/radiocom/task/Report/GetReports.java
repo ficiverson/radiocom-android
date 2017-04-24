@@ -23,14 +23,19 @@ package justforcommunity.radiocom.task.Report;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
 import org.springframework.web.client.RestClientException;
+
 import java.util.List;
 import java.util.Locale;
 
 import justforcommunity.radiocom.fragments.ReportPageFragment;
+import justforcommunity.radiocom.fragments.ReportUserPageFragment;
 import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.service.ServiceReports;
 import justforcommunity.radiocom.utils.ConexionInternet;
+
+import static justforcommunity.radiocom.utils.GlobalValues.reportsUserURL;
 
 public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
 
@@ -39,13 +44,15 @@ public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
     private ReportPageFragment fragment;
     private ServiceReports serviceReports;
     private Locale locale;
+    private String restURL;
     private List<ReportDTO> reportsDTO;
 
-    public GetReports(Context context, ReportPageFragment fragment) {
+    public GetReports(Context context, ReportPageFragment fragment, String restURL) {
         this.fragment = fragment;
         this.mContext = context;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
         serviceReports = new ServiceReports(locale);
+        this.restURL = restURL;
     }
 
     protected Boolean doInBackground(Boolean... urls) {
@@ -55,7 +62,7 @@ public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                reportsDTO = serviceReports.getReports();
+                reportsDTO = serviceReports.getReports(restURL);
                 res = true;
 
             } catch (RestClientException e) {

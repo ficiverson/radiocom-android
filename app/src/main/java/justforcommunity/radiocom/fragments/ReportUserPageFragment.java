@@ -26,11 +26,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -53,11 +53,11 @@ import justforcommunity.radiocom.utils.GlobalValues;
 
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_REQUEST;
-import static justforcommunity.radiocom.utils.GlobalValues.programsURL;
-import static justforcommunity.radiocom.utils.GlobalValues.reportsURL;
+import static justforcommunity.radiocom.utils.GlobalValues.programsUserURL;
+import static justforcommunity.radiocom.utils.GlobalValues.reportsUserURL;
 
 
-public class ReportPageFragment extends Fragment {
+public class ReportUserPageFragment extends ReportPageFragment {
 
     private Home mActivity;
     private Context mContext;
@@ -81,8 +81,12 @@ public class ReportPageFragment extends Fragment {
         avi.show();
 
         // Get Reports
-        GetReports gp = new GetReports(mContext, this, reportsURL);
+        GetReports gp = new GetReports(mContext, this, reportsUserURL);
         gp.execute();
+
+        // Deberia ponerlo en el frente
+        LinearLayout create_layout = (LinearLayout) v.findViewById(R.id.create_layout);
+        create_layout.bringToFront();
 
         // Float button to create new report
         FloatingActionButton button_create = (FloatingActionButton) v.findViewById(R.id.button_create);
@@ -90,7 +94,7 @@ public class ReportPageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, CreateReport.class);
-                intent.putExtra("restURL", programsURL);
+                intent.putExtra("restURL", programsUserURL);
                 startActivity(intent);
             }
         });
@@ -138,7 +142,7 @@ public class ReportPageFragment extends Fragment {
             reportList.setVisibility(View.VISIBLE);
             avi.setVisibility(View.GONE);
 
-            myAdapterReports = new ReportListAdapter(mActivity, mContext, R.layout.listitem_new, reports, true);
+            myAdapterReports = new ReportListAdapter(mActivity, mContext, R.layout.listitem_new, reports);
             reportList.setAdapter(myAdapterReports);
 
             reportList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

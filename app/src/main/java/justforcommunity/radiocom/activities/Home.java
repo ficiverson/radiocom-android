@@ -59,6 +59,7 @@ import justforcommunity.radiocom.fragments.HomePageFragment;
 import justforcommunity.radiocom.fragments.ReportPageFragment;
 import justforcommunity.radiocom.fragments.NewsPageFragment;
 import justforcommunity.radiocom.fragments.PodcastPageFragment;
+import justforcommunity.radiocom.fragments.ReportUserPageFragment;
 import justforcommunity.radiocom.model.AccountDTO;
 import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.model.StationDTO;
@@ -86,7 +87,8 @@ public class Home extends AppCompatActivity
     private SearchView mSearchView;
     private String mSearchQuery;
     private ImageView nav_authenticate;
-    private FirebaseUser user;
+    // private FirebaseUser user;
+    private AccountDTO accountDTO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +171,8 @@ public class Home extends AppCompatActivity
         }
 
         // Refresh info account of user
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+        AccountDTO accountDTO = new Gson().fromJson(prefs.getString(ACCOUNT_JSON, ""), AccountDTO.class);
+        if (accountDTO != null) {
             GetAccount getAccount = new GetAccount(mContext);
             getAccount.execute();
         }
@@ -461,8 +464,8 @@ public class Home extends AppCompatActivity
     public void loadUserReport() {
         isSearchable = true;
         invalidateOptionsMenu();
-        ReportPageFragment reportsPageFragment = new ReportPageFragment();
-        processFragment(reportsPageFragment, mContext.getString(R.string.action_user_report));
+        ReportUserPageFragment reportsUserPageFragment = new ReportUserPageFragment();
+        processFragment(reportsUserPageFragment, mContext.getString(R.string.action_user_report));
     }
 
     public void loadReport() {
@@ -582,11 +585,11 @@ public class Home extends AppCompatActivity
     private void updateUserInfo() {
 
         // Get firebase user
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        // user = FirebaseAuth.getInstance().getCurrentUser();
         // Get account of members
-        AccountDTO accountDTO = new Gson().fromJson(prefs.getString(ACCOUNT_JSON, ""), AccountDTO.class);
+        accountDTO = new Gson().fromJson(prefs.getString(ACCOUNT_JSON, ""), AccountDTO.class);
 
-        if (user != null) {
+        if (accountDTO != null) {
             navigationView.getMenu().findItem(R.id.management).setVisible(true);
             navigationView.getMenu().findItem(R.id.management).setEnabled(true);
             if (accountDTO != null && accountDTO.getPermissions().contains(ROLE_REPORT)){
@@ -606,7 +609,7 @@ public class Home extends AppCompatActivity
 
     private void changeUserImage() {
         if (nav_authenticate != null) {
-            if (user != null) {
+            if (accountDTO != null) {
                 // Maybe put personal photo user
                 //accountDTO.getPhotoUrl();
                 nav_authenticate.setImageResource(R.drawable.user_active);

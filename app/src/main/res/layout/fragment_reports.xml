@@ -54,23 +54,26 @@
         app:indicatorColor="@color/colorPrimary"
         app:indicatorName="LineScalePulseOutIndicator" />
 
-
     <!--Layout of button create-->
     <LinearLayout
+        android:id="@+id/create_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="62dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/button_create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
+            android:layout_gravity="bottom|right"
             android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/create"
-            app:backgroundTint="@color/colorCreate" />
+            app:backgroundTint="@color/colorPrimary"/>
     </LinearLayout>
 
 </RelativeLayout>

@@ -53,13 +53,9 @@ public class ServiceReports extends ServiceBase {
         super(language);
     }
 
-    public List<ReportDTO> getReports() throws RestClientException, WebServiceStatusFailException {
+    public List<ReportDTO> getReports(String restURL) throws RestClientException, WebServiceStatusFailException {
 
-        Object[] theValues = {};
-        String[] parameters = {};
-
-        List<Object> sendValues = new ArrayList<>();
-        String url = reportsUserURL + "?token=" + getTokenFirebase() + restQueryString(parameters, theValues, sendValues);
+        String url = restURL + "?token=" + getTokenFirebase();
         ResponseEntity<String> response;
 
         try {
@@ -67,7 +63,7 @@ public class ServiceReports extends ServiceBase {
             HttpEntity<?> request;
             request = new HttpEntity<Object>(getRequestHeaders());
 
-            response = getRestTemplate().exchange(url, HttpMethod.GET, request, String.class, sendValues.toArray());
+            response = getRestTemplate().exchange(url, HttpMethod.GET, request, String.class);
 
             if (response.getStatusCode() != HttpStatus.OK) {
                 throw new WebServiceStatusFailException();

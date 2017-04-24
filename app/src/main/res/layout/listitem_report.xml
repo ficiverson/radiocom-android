@@ -30,13 +30,11 @@
     android:scaleType="centerCrop"
     android:src="@drawable/logo_nav_header" />
 
-
     <View
         android:id="@+id/viewtrans"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="@color/colorPrimaryDark85"
-        />
+        android:background="@color/colorPrimaryDark85"/>
 
     <TextView
         android:id="@+id/programName"
@@ -52,10 +50,24 @@
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/accountName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone"
+        android:layout_below="@+id/programName"
+        android:gravity="center"
+        android:text="@string/account"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+    <TextView
         android:id="@+id/dateCreate_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/programName"
+        android:layout_below="@+id/accountName"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
@@ -70,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_below="@+id/programName"
+        android:layout_below="@+id/accountName"
         android:layout_toRightOf="@+id/dateCreate_head"
         android:layout_marginTop="10dp"
         android:text="@string/report_dateCreate"

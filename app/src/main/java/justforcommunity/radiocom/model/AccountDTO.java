@@ -63,6 +63,10 @@ public class AccountDTO {
         this.surname = surname;
     }
 
+    public String getFullName() {
+        return name + " " + surname;
+    }
+
     public String getNickName() {
         return nickName;
     }

@@ -71,6 +71,7 @@ public class Report extends FirebaseActivity {
 
     private TextView dateCreate;
     private TextView programName;
+    private TextView accountName;
     private TextView tidy;
     private TextView dirt;
     private TextView openDoor;
@@ -109,7 +110,6 @@ public class Report extends FirebaseActivity {
         prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         edit = prefs.edit();
 
-
         String jsonReport = getIntent().getStringExtra(REPORT_JSON);
         Gson gson = new Gson();
 
@@ -133,6 +133,7 @@ public class Report extends FirebaseActivity {
 
         dateCreate = (TextView) bottomSheet.findViewById(R.id.dateCreate);
         programName = (TextView) bottomSheet.findViewById(R.id.programName);
+        accountName = (TextView) bottomSheet.findViewById(R.id.accountName);
         tidy = (TextView) bottomSheet.findViewById(R.id.tidy);
         dirt = (TextView) bottomSheet.findViewById(R.id.dirt);
         configuration = (TextView) bottomSheet.findViewById(R.id.configuration);
@@ -152,6 +153,7 @@ public class Report extends FirebaseActivity {
 
             dateCreate.setText(DateUtils.formatDate(report.getDateCreate(), DateUtils.FORMAT_DISPLAY));
             programName.setText(String.valueOf(report.getProgram().getName()));
+            accountName.setText(String.valueOf(report.getAccount().getFullName()));
             tidy.setText(String.valueOf(report.getTidy()));
             dirt.setText(String.valueOf(report.getDirt()));
             configuration.setText(String.valueOf(report.getConfiguration()));
