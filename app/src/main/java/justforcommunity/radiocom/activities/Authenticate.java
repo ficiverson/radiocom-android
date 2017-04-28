@@ -53,7 +53,9 @@ import com.wang.avi.AVLoadingIndicatorView;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.task.GetAccount;
+import justforcommunity.radiocom.utils.GlobalValues;
 
+import static justforcommunity.radiocom.utils.FileUtils.processBuilder;
 import static justforcommunity.radiocom.utils.GlobalValues.signupURL;
 
 public class Authenticate extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
@@ -69,6 +71,7 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private TextView accountEmail;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,6 +98,7 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
         // Views
         mEmailField = (EditText) findViewById(R.id.field_email);
         mPasswordField = (EditText) findViewById(R.id.field_password);
+        accountEmail = (TextView) findViewById(R.id.accountEmail);
 
         // Buttons
         findViewById(R.id.signin_email_button).setOnClickListener(this);
@@ -128,12 +132,9 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 //GetAccount getAccount = new GetAccount(mContext);
                 if (user != null) {
-                    // User is signed in, getAccount of Members
-                    //getAccount.execute();
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user);
+                    accountEmail.setText(user.getEmail());
                 } else {
-                    // User is signed out, removeAccount of Members
-                    //getAccount.removeAccount();
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
                 updateUI(user);
@@ -198,7 +199,8 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
                 startActivity(new Intent(this, ResetPassword.class));
                 break;
             case R.id.signup_button:
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(signupURL)));
+                processBuilder(mContext, this, signupURL);
+                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(signupURL)));
                 break;
         }
     }

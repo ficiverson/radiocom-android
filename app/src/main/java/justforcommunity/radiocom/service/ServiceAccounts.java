@@ -22,32 +22,21 @@ package justforcommunity.radiocom.service;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import justforcommunity.radiocom.model.AccountDTO;
-import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
 
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.accountURL;
-import static justforcommunity.radiocom.utils.GlobalValues.createReportURL;
-import static justforcommunity.radiocom.utils.GlobalValues.reportsUserURL;
-import static justforcommunity.radiocom.utils.GlobalValues.sendAnswerReportURL;
 
 public class ServiceAccounts extends ServiceBase {
 

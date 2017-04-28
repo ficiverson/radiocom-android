@@ -21,8 +21,12 @@
 package justforcommunity.radiocom.utils;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -56,5 +60,16 @@ public class FileUtils {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         return byteArrayOutputStream.toByteArray();
+    }
+
+    public static void processBuilder(Context mContext, Activity mActivity, String url) {
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.addDefaultShareMenuItem();
+        builder.enableUrlBarHiding();
+        builder.setStartAnimations(mActivity, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        builder.setExitAnimations(mActivity, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        builder.setToolbarColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(mActivity, Uri.parse(url));
     }
 }

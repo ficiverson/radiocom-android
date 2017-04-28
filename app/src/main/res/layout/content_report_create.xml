@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ /*
-  ~  * Copyright (C) 2016 @ Pablo Grela
+  ~  * Copyright (C) 2017 @ Pablo Grela
   ~  *
   ~  * Developer Pablo Grela
   ~  *
@@ -72,43 +72,37 @@
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
-            <!--<TextView-->
-            <!--android:id="@+id/dateCreate_head"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/programName"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:text="@string/report_dateCreate"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="20sp"-->
-            <!--android:textStyle="bold" />-->
+            <TextView
+                android:id="@+id/dirt_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/programName"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/report_dirt"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-            <!--<TextView-->
-            <!--android:id="@+id/dateCreate"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/programName"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:layout_toRightOf="@+id/dateCreate_head"-->
-            <!--android:text="@string/report_dateCreate"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="20sp" />-->
+            <RadioGroup
+                android:id="@+id/dirt_radioButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dirt_head"
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal" />
 
             <TextView
                 android:id="@+id/tidy_head"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/programName"
+                android:layout_below="@+id/dirt_radioButtons"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/report_tidy"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
 
             <RadioGroup
                 android:id="@+id/tidy_radioButtons"
@@ -118,54 +112,11 @@
                 android:layout_marginLeft="20dp"
                 android:orientation="horizontal" />
 
-            <!--<TextView-->
-            <!--android:id="@+id/tidy"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/dateCreate"-->
-            <!--android:layout_toRightOf="@+id/tidy_head"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:text="@string/default_value"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="20sp" />-->
-
-
-            <TextView
-                android:id="@+id/dirt_head"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tidy_radioButtons"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/report_dirt"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-
-            <RadioGroup
-                android:id="@+id/dirt_radioButtons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dirt_head"
-                android:layout_marginLeft="20dp"
-                android:orientation="horizontal" />
-            <!--<TextView-->
-            <!--android:id="@+id/dirt"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/tidy_radioButtons"-->
-            <!--android:layout_toRightOf="@+id/dirt_head"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:text="@string/default_value"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="20sp" />-->
-
             <TextView
                 android:id="@+id/configuration_head"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/dirt_radioButtons"
+                android:layout_below="@+id/tidy_radioButtons"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/report_configuration_full"
@@ -180,17 +131,6 @@
                 android:layout_below="@+id/configuration_head"
                 android:layout_marginLeft="20dp"
                 android:orientation="horizontal" />
-            <!--<TextView-->
-            <!--android:id="@+id/configuration"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/dirt_head"-->
-            <!--android:layout_toRightOf="@+id/configuration_head"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:text="@string/default_value"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="20sp" />-->
-
 
             <TextView
                 android:id="@+id/openDoor_head"
@@ -227,18 +167,6 @@
                     android:textColor="@android:color/white" />
             </RadioGroup>
 
-            <!--<TextView-->
-            <!--android:id="@+id/openDoor"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/openDoor_head"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:text="@string/default_value"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="20sp" />-->
-
-
             <TextView
                 android:id="@+id/viewMembers_head"
                 android:layout_width="wrap_content"
@@ -250,17 +178,6 @@
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
-
-            <!--<TextView-->
-            <!--android:id="@+id/viewMembers"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_below="@+id/viewMembers_head"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:text="@string/default_value"-->
-            <!--android:textColor="@android:color/white"-->
-            <!--android:textSize="20sp" />-->
 
             <RadioGroup
                 android:id="@+id/viewMembers_radioButtons"

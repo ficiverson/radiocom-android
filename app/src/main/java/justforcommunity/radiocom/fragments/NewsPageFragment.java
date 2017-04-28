@@ -22,14 +22,11 @@ package justforcommunity.radiocom.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,13 +38,11 @@ import com.pkmmte.pkrss.Callback;
 import com.pkmmte.pkrss.PkRSS;
 import com.wang.avi.AVLoadingIndicatorView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.App;
 import justforcommunity.radiocom.activities.ContentDetail;
-import justforcommunity.radiocom.activities.Gallery;
 import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.adapters.NewsListAdapter;
 import justforcommunity.radiocom.model.StationDTO;
@@ -64,8 +59,8 @@ public class NewsPageFragment extends Fragment {
     private NewsListAdapter myAdapterNews;
     private AVLoadingIndicatorView avi;
 
-    public void setStation(StationDTO station){
-        this.station=station;
+    public void setStation(StationDTO station) {
+        this.station = station;
     }
 
     @Override
@@ -73,13 +68,13 @@ public class NewsPageFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_noticias, container, false);
 
-        mActivity = (Home)getActivity();
+        mActivity = (Home) getActivity();
         mContext = getContext();
 
-        newslist = (ListView)v.findViewById(R.id.newslist);
+        newslist = (ListView) v.findViewById(R.id.newslist);
         noElements = (TextView) v.findViewById(R.id.no_elements);
 
-        avi = (AVLoadingIndicatorView)v.findViewById(R.id.avi);
+        avi = (AVLoadingIndicatorView) v.findViewById(R.id.avi);
         avi.show();
 
         Callback callback = new Callback() {
@@ -91,36 +86,31 @@ public class NewsPageFragment extends Fragment {
             @Override
             public void onLoaded(List<Article> newArticles) {
                 listChannels(newArticles);
-
             }
 
             @Override
             public void onLoadFailed() {
                 listChannels(null);
-
             }
         };
 
         PkRSS.with(mContext).load(station.getNews_rss()).callback(callback).async();
 
-        App appliaction = (App) getActivity().getApplication();
-        Tracker mTracker = appliaction.getDefaultTracker();
+        App application = (App) getActivity().getApplication();
+        Tracker mTracker = application.getDefaultTracker();
         mTracker.setScreenName(getString(R.string.news_view));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         return v;
     }
 
-
-
     public void listChannels(final List<Article> noticias) {
         avi.hide();
-        if(noticias==null || noticias.size()==0){
+        if (noticias == null || noticias.size() == 0) {
             noElements.setVisibility(View.VISIBLE);
             newslist.setVisibility(View.GONE);
             avi.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             noElements.setVisibility(View.GONE);
             newslist.setVisibility(View.VISIBLE);
             avi.setVisibility(View.GONE);
@@ -135,20 +125,18 @@ public class NewsPageFragment extends Fragment {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     String content = noticias.get(position).getContent();
-                    if(noticias.get(position).getContent()==null){
-                        if(noticias.get(position).getDescription()!=null) {
+                    if (noticias.get(position).getContent() == null) {
+                        if (noticias.get(position).getDescription() != null) {
                             content = noticias.get(position).getDescription();
-                        }
-                        else if(noticias.get(position).getContent()!=null){
+                        } else if (noticias.get(position).getContent() != null) {
                             content = noticias.get(position).getContent();
-                        }
-                        else{
+                        } else {
                             content = getString(R.string.no_content);
                         }
                     }
                     Intent intent = new Intent(mActivity, ContentDetail.class);
-                    intent.putExtra(GlobalValues.EXTRA_CONTENT ,content);
-                    intent.putExtra(GlobalValues.EXTRA_TITLE,noticias.get(position).getTitle());
+                    intent.putExtra(GlobalValues.EXTRA_CONTENT, content);
+                    intent.putExtra(GlobalValues.EXTRA_TITLE, noticias.get(position).getTitle());
                     startActivity(intent);
                 }
             });

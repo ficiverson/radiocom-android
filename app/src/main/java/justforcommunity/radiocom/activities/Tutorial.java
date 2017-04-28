@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -52,17 +51,17 @@ public class Tutorial extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_tutorial);
-        mContext =  this;
+        mContext = this;
         jsonStation = getIntent().getStringExtra(GlobalValues.EXTRA_MESSAGE);
 
-        DiscrollvableLastLayout continuetutorial = (DiscrollvableLastLayout)findViewById(R.id.continuetutorial);
+        DiscrollvableLastLayout continuetutorial = (DiscrollvableLastLayout) findViewById(R.id.continuetutorial);
         continuetutorial.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //do not show again
                 SharedPreferences prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
                 SharedPreferences.Editor edit = prefs.edit();
-                edit.putBoolean("showTutorial",false);
+                edit.putBoolean("showTutorial", false);
                 edit.commit();
 
                 //launch next activity
@@ -80,13 +79,13 @@ public class Tutorial extends AppCompatActivity {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         GoogleAnalytics.getInstance(this).reportActivityStart(this);
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
         super.onStop();
     }

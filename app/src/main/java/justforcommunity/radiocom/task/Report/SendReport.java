@@ -74,7 +74,6 @@ public class SendReport extends AsyncTask<Boolean, Float, Boolean> {
     }
 
     protected void onPostExecute(Boolean result) {
-
         if (result) {
             activity.resultOK(report);
         } else {

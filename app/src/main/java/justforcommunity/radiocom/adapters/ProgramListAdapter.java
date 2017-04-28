@@ -25,15 +25,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pkmmte.pkrss.Article;
 import com.squareup.picasso.Picasso;
@@ -47,18 +44,12 @@ import java.util.List;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.ContentDetail;
-import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.activities.Podcast;
 import justforcommunity.radiocom.task.DownloadEpisode;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.PodcastingService;
-import justforcommunity.radiocom.utils.StreamingService;
 import justforcommunity.radiocom.utils.TaskHelper;
 import justforcommunity.radiocom.views.CircleTransform;
-
-/**
- * Created by iver on 5/9/16.
- */
 
 
 public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.ViewHolder> {
@@ -67,11 +58,10 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
     private Podcast mActivity;
     private List<Article> articles;
 
-
     public ProgramListAdapter(Podcast mActivity, Context context, List<Article> articles) {
         this.mContext = context;
-        this.mActivity=mActivity;
-        this.articles=articles;
+        this.mActivity = mActivity;
+        this.articles = articles;
     }
 
     @Override
@@ -89,17 +79,17 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
 
 
             if (holder.nameTextView != null) {
-                if(article.getTitle() == null){
+                if (article.getTitle() == null) {
                     holder.nameTextView.setText("");
-                }else{
+                } else {
                     holder.nameTextView.setText(article.getTitle());
                 }
             }
 
             if (holder.photoImageView != null) {
-                if(article.getImage() == null) {
+                if (article.getImage() == null) {
                     Picasso.with(mContext).load(R.drawable.logo_nav_header).transform(new CircleTransform()).into(holder.photoImageView);
-                }else{
+                } else {
                     if (article.getImage().toString() == "") {
                         Picasso.with(mContext).load(R.drawable.logo_nav_header).transform(new CircleTransform()).into(holder.photoImageView);
                     } else {
@@ -109,29 +99,28 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
 
             }
 
-            if(holder.playView!=null && holder.downloadView!=null){
-                final File f = new File(GlobalValues.DOWNLOAD_DIR+getFileName(articles.get(position).getEnclosure().getUrl()));
+            if (holder.playView != null && holder.downloadView != null) {
+                final File f = new File(GlobalValues.DOWNLOAD_DIR + getFileName(articles.get(position).getEnclosure().getUrl()));
 
                 RelativeLayout.LayoutParams layoutParams =
                         (RelativeLayout.LayoutParams) holder.playView.getLayoutParams();
 
-                if(f.exists()){
+                if (f.exists()) {
                     holder.playView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
-                            if(mActivity.prefs.getString("currentTitlePlaying","").equals(articles.get(position).getTitle())){
+                            if (mActivity.prefs.getString("currentTitlePlaying", "").equals(articles.get(position).getTitle())) {
                                 Intent i = new Intent(mActivity, PodcastingService.class);
                                 mActivity.stopService(i);
 
-                                mActivity.edit.putString("currentTitlePlaying","");
+                                mActivity.edit.putString("currentTitlePlaying", "");
                                 mActivity.edit.commit();
 
                                 holder.playView.setBackground(mContext.getResources().getDrawable(R.drawable.play));
                                 holder.downloadView.setBackground(mContext.getResources().getDrawable(R.drawable.download));//play
                                 holder.nameTextView.setTextColor(Color.BLACK);
-                            }
-                            else {
+                            } else {
 
                                 Intent localIntent2 = new Intent(mActivity, PodcastingService.class);
                                 localIntent2.putExtra("audio", f.toString());
@@ -155,8 +144,7 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
                     layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
                     holder.playView.setLayoutParams(layoutParams);
 
-                }
-                else{
+                } else {
                     layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT, 0);
                     holder.playView.setLayoutParams(layoutParams);
 
@@ -165,21 +153,20 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
                         @Override
                         public void onClick(View v) {
 
-                            if(mActivity.prefs.getString("currentTitlePlaying","").equals(articles.get(position).getTitle())){
+                            if (mActivity.prefs.getString("currentTitlePlaying", "").equals(articles.get(position).getTitle())) {
                                 Intent i = new Intent(mActivity, PodcastingService.class);
                                 mActivity.stopService(i);
 
-                                mActivity.edit.putString("currentTitlePlaying","");
+                                mActivity.edit.putString("currentTitlePlaying", "");
                                 mActivity.edit.commit();
 
                                 holder.playView.setBackground(mContext.getResources().getDrawable(R.drawable.play));
                                 holder.downloadView.setBackground(mContext.getResources().getDrawable(R.drawable.download));//play
                                 holder.nameTextView.setTextColor(Color.BLACK);
-                            }
-                            else {
+                            } else {
                                 Intent localIntent2 = new Intent(mActivity, PodcastingService.class);
                                 localIntent2.putExtra("audio", articles.get(position).getEnclosure().getUrl());
-                                localIntent2.putExtra("text",  getDate(articles.get(position).getDate()));
+                                localIntent2.putExtra("text", getDate(articles.get(position).getDate()));
                                 localIntent2.putExtra("title", articles.get(position).getTitle());
                                 mActivity.startService(localIntent2);
 
@@ -200,19 +187,18 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
                             holder.avi.setVisibility(View.VISIBLE);
                             holder.avi.show();
                             //launch task
-                            TaskHelper.execute(new DownloadEpisode(holder.downloadView,holder.avi,mActivity,mContext,articles.get(position).getTitle(),articles.get(position).getEnclosure().getUrl(),getFileName(articles.get(position).getEnclosure().getUrl())));
+                            TaskHelper.execute(new DownloadEpisode(holder.downloadView, holder.avi, mActivity, mContext, articles.get(position).getTitle(), articles.get(position).getEnclosure().getUrl(), getFileName(articles.get(position).getEnclosure().getUrl())));
                         }
                     });
                 }
             }
 
             //default paint
-            if(mActivity.prefs.getString("currentTitlePlaying","").equals(articles.get(position).getTitle())){
+            if (mActivity.prefs.getString("currentTitlePlaying", "").equals(articles.get(position).getTitle())) {
                 holder.playView.setBackground(mContext.getResources().getDrawable(R.drawable.stopcolored));
                 holder.downloadView.setBackground(mContext.getResources().getDrawable(R.drawable.downloadcolored));//stop
                 holder.nameTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
-            }
-            else{
+            } else {
                 holder.playView.setBackground(mContext.getResources().getDrawable(R.drawable.play));
                 holder.downloadView.setBackground(mContext.getResources().getDrawable(R.drawable.download));//play
                 holder.nameTextView.setTextColor(Color.BLACK);
@@ -228,10 +214,9 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
     }
 
 
+    public String getDate(long date) {
 
-    public String  getDate(long date){
-
-        try{
+        try {
             DateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             Date netDate = (new Date(date));
             return sdf.format(netDate);
@@ -253,8 +238,8 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
             photoImageView = (ImageView) itemView.findViewById(R.id.channel_image);
             nameTextView = (TextView) itemView.findViewById(R.id.channel_name);
             downloadView = (ImageView) itemView.findViewById(R.id.download_image);
-            playView = (ImageView)itemView.findViewById(R.id.play_image);
-            avi = (AVLoadingIndicatorView)itemView.findViewById(R.id.avi);
+            playView = (ImageView) itemView.findViewById(R.id.play_image);
+            avi = (AVLoadingIndicatorView) itemView.findViewById(R.id.avi);
 
         }
 
@@ -262,21 +247,20 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
         public void onClick(final View view) {
 
             Intent intent = new Intent(mActivity, ContentDetail.class);
-            if(articles.get( getPosition()).getContent()!=null) {
+            if (articles.get(getPosition()).getContent() != null) {
                 intent.putExtra(GlobalValues.EXTRA_CONTENT, articles.get(getPosition()).getContent());
-            }
-            else if(articles.get(getPosition()).getDescription()!=null){
+            } else if (articles.get(getPosition()).getDescription() != null) {
                 intent.putExtra(GlobalValues.EXTRA_CONTENT, articles.get(getPosition()).getDescription());
+            } else {
+                intent.putExtra(GlobalValues.EXTRA_CONTENT, mContext.getString(R.string.no_content));
             }
-            else{
-                intent.putExtra(GlobalValues.EXTRA_CONTENT,  mContext.getString(R.string.no_content));
-            }
-            intent.putExtra(GlobalValues.EXTRA_TITLE,articles.get( getPosition()).getTitle());
+            intent.putExtra(GlobalValues.EXTRA_TITLE, articles.get(getPosition()).getTitle());
             mActivity.startActivity(intent);
 
         }
     }
-    public String getFileName(String url){
+
+    public String getFileName(String url) {
 
         Uri uri = Uri.parse(url);
         String filename = uri.getLastPathSegment();

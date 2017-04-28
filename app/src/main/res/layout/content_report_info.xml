@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ /*
-  ~  * Copyright (C) 2016 @ Pablo Grela
+  ~  * Copyright (C) 2017 @ Pablo Grela
   ~  *
   ~  * Developer Pablo Grela
   ~  *
@@ -42,21 +42,21 @@
                 android:id="@+id/programName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="@string/report_programName"
-                android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/accountName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/programName"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/account"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -66,45 +66,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/accountName"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/report_dateCreate"
-                android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/dateCreate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/accountName"
-                android:layout_toRightOf="@+id/dateCreate_head"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/dateCreate_head"
                 android:text="@string/report_dateCreate"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/tidy_head"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dateCreate"
-                android:layout_marginLeft="10dp"
-                android:text="@string/report_tidy"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/tidy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dateCreate"
-                android:layout_toRightOf="@+id/tidy_head"
-                android:layout_marginLeft="10dp"
-                android:text="@string/default_value"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
@@ -112,20 +90,42 @@
                 android:id="@+id/dirt_head"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tidy_head"
+                android:layout_below="@+id/dateCreate"
                 android:layout_marginLeft="10dp"
                 android:text="@string/report_dirt"
-                android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/dirt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tidy_head"
-                android:layout_toRightOf="@+id/dirt_head"
+                android:layout_below="@+id/dateCreate"
                 android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/dirt_head"
+                android:text="@string/default_value"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tidy_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dirt_head"
+                android:layout_marginLeft="10dp"
+                android:text="@string/report_tidy"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tidy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dirt_head"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/tidy_head"
                 android:text="@string/default_value"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -134,21 +134,21 @@
                 android:id="@+id/configuration_head"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/dirt_head"
-                android:layout_marginLeft="10dp"
+                android:layout_below="@+id/tidy_head"
                 android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
                 android:text="@string/report_configuration"
-                android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/configuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/dirt_head"
-                android:layout_toRightOf="@+id/configuration_head"
+                android:layout_below="@+id/tidy_head"
                 android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/configuration_head"
                 android:text="@string/default_value"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -159,19 +159,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/configuration_head"
-                android:text="@string/report_openDoor"
                 android:layout_marginLeft="10dp"
-                android:textStyle="bold"
+                android:text="@string/report_openDoor"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/openDoor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/openDoor_head"
-                android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
                 android:text="@string/default_value"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -184,17 +184,17 @@
                 android:layout_below="@+id/openDoor"
                 android:layout_marginLeft="10dp"
                 android:text="@string/report_viewMembers"
-                android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/viewMembers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_below="@+id/viewMembers_head"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
                 android:text="@string/default_value"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -208,22 +208,22 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
                 android:text="@string/report_location"
-                android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/location"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/viewMembers"
-                android:layout_toRightOf="@+id/location_head"
                 android:layout_marginBottom="10dp"
-                android:textColor="@android:color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@+id/location_head"
                 android:text="@string/default_value"
-                android:textSize="20sp"/>
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
 
 
             <TextView
@@ -231,23 +231,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/location_head"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
                 android:layout_marginLeft="10dp"
                 android:text="@string/report_description"
-                android:textSize="20sp"/>
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/description"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/description_head"
                 android:layout_marginBottom="10dp"
-                android:textColor="@android:color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:text="@string/no_content"
-                android:textSize="20sp"/>
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
 
 
             <TextView
@@ -255,20 +255,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/description"
-                android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
                 android:text="@string/report_dateRevision"
-                android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/dateRevision"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/description"
-                android:layout_toRightOf="@+id/dateRevision_head"
                 android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/dateRevision_head"
                 android:text="@string/report_dateRevision"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
@@ -278,19 +278,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dateRevision_head"
-                android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
                 android:text="@string/report_active"
-                android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/active"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_below="@+id/dateRevision_head"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/active_head"
                 android:text="@string/default_value"
                 android:textColor="@android:color/white"
@@ -301,11 +301,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/active_head"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
                 android:layout_marginLeft="10dp"
                 android:text="@string/report_answer"
-                android:textSize="20sp"/>
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/answer_new"
@@ -318,22 +318,22 @@
                 android:gravity="top|left"
                 android:inputType="textMultiLine"
                 android:lines="6"
+                android:maxLength="500"
                 android:maxLines="10"
                 android:minLines="6"
                 android:scrollbars="vertical"
-                android:maxLength="500"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/answer"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/answer_new"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/answer_button"
@@ -348,15 +348,15 @@
                 android:id="@+id/photos_head"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:layout_below="@+id/answer_button"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/report_photos"
-                android:textSize="20sp"/>
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -365,7 +365,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/report_info"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
 
     </RelativeLayout>
 

@@ -30,7 +30,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,6 +38,7 @@ import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import justforcommunity.radiocom.R;
@@ -51,8 +51,10 @@ import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.task.Report.GetReports;
 import justforcommunity.radiocom.utils.GlobalValues;
 
+import static justforcommunity.radiocom.utils.GlobalValues.REPORT_ANSWER_REQUEST;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_REQUEST;
+import static justforcommunity.radiocom.utils.GlobalValues.REST_URL;
 import static justforcommunity.radiocom.utils.GlobalValues.programsUserURL;
 import static justforcommunity.radiocom.utils.GlobalValues.reportsUserURL;
 
@@ -65,6 +67,7 @@ public class ReportUserPageFragment extends ReportPageFragment {
     private TextView noElements;
     private ReportListAdapter myAdapterReports;
     private AVLoadingIndicatorView avi;
+    private List<ReportDTO> reports;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,18 +87,15 @@ public class ReportUserPageFragment extends ReportPageFragment {
         GetReports gp = new GetReports(mContext, this, reportsUserURL);
         gp.execute();
 
-        // Deberia ponerlo en el frente
-        LinearLayout create_layout = (LinearLayout) v.findViewById(R.id.create_layout);
-        create_layout.bringToFront();
-
         // Float button to create new report
+        mActivity.fab_media_hide();
         FloatingActionButton button_create = (FloatingActionButton) v.findViewById(R.id.button_create);
         button_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, CreateReport.class);
-                intent.putExtra("restURL", programsUserURL);
-                startActivity(intent);
+                intent.putExtra(REST_URL, programsUserURL);
+                startActivityForResult(intent, REPORT_REQUEST);
             }
         });
 
@@ -109,11 +109,17 @@ public class ReportUserPageFragment extends ReportPageFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO revisar, no entra, cuando funcione añadir el resto de logicas
-        //super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REPORT_REQUEST && resultCode == Activity.RESULT_OK) {
-            Report report = new Gson().fromJson((String) data.getExtras().get(REPORT_JSON), Report.class);
-            //reportList.addView(report);
+        if (resultCode == Activity.RESULT_OK && (requestCode == REPORT_REQUEST || requestCode == REPORT_ANSWER_REQUEST)) {
+            ReportDTO report = new Gson().fromJson((String) data.getExtras().get(REPORT_JSON), ReportDTO.class);
+            if (requestCode == REPORT_ANSWER_REQUEST) {
+                for (ReportDTO aux : new ArrayList<>(reports)) {
+                    if (aux.getId().equals(report.getId())) {
+                        reports.remove(aux);
+                    }
+                }
+            }
+            reports.add(0, report);
+            setReportList(reports);
         }
     }
 
@@ -132,6 +138,7 @@ public class ReportUserPageFragment extends ReportPageFragment {
 
     public void setReportList(final List<ReportDTO> reports) {
         avi.hide();
+        this.reports = reports;
 
         if (reports == null || reports.size() == 0) {
             noElements.setVisibility(View.VISIBLE);
@@ -162,7 +169,8 @@ public class ReportUserPageFragment extends ReportPageFragment {
                     //launch next activity
                     Intent intent = new Intent(mActivity, Report.class);
                     intent.putExtra(REPORT_JSON, jsonInString);
-                    startActivity(intent);
+                    startActivityForResult(intent, REPORT_ANSWER_REQUEST);
+
                 }
             });
         }

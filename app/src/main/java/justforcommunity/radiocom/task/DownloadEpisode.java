@@ -22,41 +22,33 @@
 package justforcommunity.radiocom.task;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-
 import com.wang.avi.AVLoadingIndicatorView;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-import java.nio.charset.Charset;
 
 import justforcommunity.radiocom.R;
-import justforcommunity.radiocom.activities.App;
 import justforcommunity.radiocom.activities.Podcast;
 import justforcommunity.radiocom.utils.ConexionInternet;
 import justforcommunity.radiocom.utils.GlobalValues;
 
 
-public class DownloadEpisode extends AsyncTask<Boolean, Float, Boolean>{
+public class DownloadEpisode extends AsyncTask<Boolean, Float, Boolean> {
 
 
-	private Context mContext;
-	private Podcast mActivity;
+    private Context mContext;
+    private Podcast mActivity;
     private String title;
     private String fileName;
     private String url;
@@ -64,40 +56,40 @@ public class DownloadEpisode extends AsyncTask<Boolean, Float, Boolean>{
     private ImageView downloadView;
 
 
-	public DownloadEpisode(ImageView downloadView,AVLoadingIndicatorView avi, Podcast activity, Context context, String title, String url, String filename){
-		this.mActivity = activity;
-		this.mContext = context;
+    public DownloadEpisode(ImageView downloadView, AVLoadingIndicatorView avi, Podcast activity, Context context, String title, String url, String filename) {
+        this.mActivity = activity;
+        this.mContext = context;
         this.title = title;
         this.url = url;
-        this.fileName=filename;
+        this.fileName = filename;
         this.avi = avi;
-        this.downloadView=downloadView;
-	}
+        this.downloadView = downloadView;
+    }
 
     @Override
-    protected void onPreExecute(){
+    protected void onPreExecute() {
 
     }
-	
-	protected Boolean doInBackground(Boolean... urls) {
+
+    protected Boolean doInBackground(Boolean... urls) {
 
         Boolean res = false;
 
         ConexionInternet cnn = new ConexionInternet();
-        if(cnn.isConnected(mContext)) {
+        if (cnn.isConnected(mContext)) {
             try {
 
                 try {
                     File file = new File(GlobalValues.DOWNLOAD_DIR, fileName);
-                    if(!file.exists()) {
-                       file.delete();
+                    if (!file.exists()) {
+                        file.delete();
                     }
                     file.getParentFile().mkdirs();
                     file.createNewFile();
 
-                    res = saveFile(url,GlobalValues.DOWNLOAD_DIR+fileName);
+                    res = saveFile(url, GlobalValues.DOWNLOAD_DIR + fileName);
 
-                    if(!res){//if trouble we delete the file
+                    if (!res) {//if trouble we delete the file
                         file.delete();
                     }
 
@@ -112,10 +104,10 @@ public class DownloadEpisode extends AsyncTask<Boolean, Float, Boolean>{
 
 
         return res;
-	}
+    }
 
 
-    private Boolean saveFile(String urldownload,String filename) throws Exception {
+    private Boolean saveFile(String urldownload, String filename) throws Exception {
 
         InputStream input = null;
         OutputStream output = null;
@@ -125,15 +117,14 @@ public class DownloadEpisode extends AsyncTask<Boolean, Float, Boolean>{
             connection = (HttpURLConnection) url.openConnection();
             connection.connect();
 
-            boolean redirect=false;
+            boolean redirect = false;
 
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                 if (connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP
-                            || connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_PERM
-                            || connection.getResponseCode() == HttpURLConnection.HTTP_SEE_OTHER) {
+                        || connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_PERM
+                        || connection.getResponseCode() == HttpURLConnection.HTTP_SEE_OTHER) {
                     redirect = true;
-                }
-                else{
+                } else {
                     return false;
                 }
             }
@@ -176,29 +167,27 @@ public class DownloadEpisode extends AsyncTask<Boolean, Float, Boolean>{
     }
 
 
+    protected void onPostExecute(Boolean result) {
 
-	protected void onPostExecute(Boolean result){
-
-        if(avi!=null) {
+        if (avi != null) {
             avi.hide();
             avi.setVisibility(View.GONE);
         }
 
         if (result) {
 
-            if(mActivity!=null) {
+            if (mActivity != null) {
                 mActivity.notifyAdapterToRefresh();
-                Toast.makeText(mContext, mContext.getResources().getString(R.string.downloaded)+title, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.downloaded) + title, Toast.LENGTH_SHORT).show();
             }
 
-        }else{
-            if(downloadView!=null) {
+        } else {
+            if (downloadView != null) {
                 downloadView.setVisibility(View.VISIBLE);
-                Toast.makeText(mContext, mContext.getResources().getString(R.string.error_download)+title, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.error_download) + title, Toast.LENGTH_SHORT).show();
             }
         }
-	}
-
+    }
 
 
 }

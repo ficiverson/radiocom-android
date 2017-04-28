@@ -23,7 +23,6 @@ package justforcommunity.radiocom.task;
 import android.content.Context;
 import android.os.AsyncTask;
 
-
 import org.springframework.web.client.RestClientException;
 
 import java.util.Locale;
@@ -34,64 +33,54 @@ import justforcommunity.radiocom.service.ServiceStation;
 import justforcommunity.radiocom.utils.ConexionInternet;
 
 
-public class GetStation extends AsyncTask<Boolean, Float, Boolean>{
+public class GetStation extends AsyncTask<Boolean, Float, Boolean> {
 
 
-	private Context mContext;
-	private Splash mActivity;
-	private ServiceStation serviceStation;
-	private Locale locale;
-	private StationDTO stationDTO;
+    private Context mContext;
+    private Splash mActivity;
+    private ServiceStation serviceStation;
+    private Locale locale;
+    private StationDTO stationDTO;
 
-	public GetStation(Context context, Splash activity){
-		this.mActivity = activity;
-		this.mContext = context;
+    public GetStation(Context context, Splash activity) {
+        this.mActivity = activity;
+        this.mContext = context;
 
-		locale= new Locale(mContext.getResources().getConfiguration().locale.toString());
-		serviceStation = new ServiceStation(locale);
-		
-	}
-
-	
-	protected Boolean doInBackground(Boolean... urls) {
-		boolean res = false;
+        locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
+        serviceStation = new ServiceStation(locale);
+    }
 
 
+    protected Boolean doInBackground(Boolean... urls) {
+        boolean res = false;
+
+        ConexionInternet cnn = new ConexionInternet();
+
+        if (cnn.isConnected(mContext)) {
+
+            try {
+                stationDTO = serviceStation.getStation().getData().get(0);//get first station
+                res = true;
+
+            } catch (RestClientException e) {
+                stationDTO = null;
+                res = false;
+            } catch (Exception e) {
+                stationDTO = null;
+                res = false;
+            }
+        }
+
+        return res;
+    }
 
 
-		ConexionInternet cnn = new ConexionInternet();
+    protected void onPostExecute(Boolean result) {
+        if (result) {
+            mActivity.resultOK(stationDTO);
+        } else {
+            mActivity.resultKO();
+        }
+    }
 
-		if (cnn.isConnected(mContext)) {
-
-				try {
-					stationDTO = serviceStation.getStation().getData().get(0);//get first station
-					res = true;
-
-				} catch (RestClientException e) {
-					stationDTO = null;
-					res = false;
-				} catch (Exception e) {
-					stationDTO = null;
-					res = false;
-				}
-		}
-
-		return res;
-	}
-	
-	
-	
-	protected void onPostExecute(Boolean result){
-
-			if(result) {
-				mActivity.resultOK(stationDTO);
-			}
-			else{
-				mActivity.resultKO();
-			}
-
-	}
-	
-
-	
 }

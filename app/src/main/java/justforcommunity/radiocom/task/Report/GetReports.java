@@ -30,12 +30,9 @@ import java.util.List;
 import java.util.Locale;
 
 import justforcommunity.radiocom.fragments.ReportPageFragment;
-import justforcommunity.radiocom.fragments.ReportUserPageFragment;
 import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.service.ServiceReports;
 import justforcommunity.radiocom.utils.ConexionInternet;
-
-import static justforcommunity.radiocom.utils.GlobalValues.reportsUserURL;
 
 public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
 

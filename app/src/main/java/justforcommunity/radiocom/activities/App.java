@@ -21,21 +21,13 @@
 
 package justforcommunity.radiocom.activities;
 
-import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
-
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
-/**
- * Created by fernando on 2/05/16.
- */
 public class App extends Application {
 
     public static String PACKAGE_NAME;
@@ -49,6 +41,7 @@ public class App extends Application {
 
     /**
      * Gets the default {@link Tracker} for this {@link Application}.
+     *
      * @return tracker
      */
     synchronized public Tracker getDefaultTracker() {
@@ -58,7 +51,6 @@ public class App extends Application {
         }
         return mTracker;
     }
-
 
 
 }

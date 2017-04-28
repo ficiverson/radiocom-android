@@ -61,8 +61,8 @@
     <string name="report_answer">Respuesta: </string>
     <string name="report_dateCreate">Fecha de creación:</string>
     <string name="report_dateRevision">Fecha de revisión:</string>
-    <string name="report_tidy">Suciedad:</string>
-    <string name="report_dirt">Ordenación:</string>
+    <string name="report_tidy">Ordenación:</string>
+    <string name="report_dirt">Suciedad:</string>
     <string name="report_configuration">Configuración:</string>
     <string name="report_configuration_full">Configuración de los equipos:</string>
     <string name="report_openDoor">¿Estaba abierta la emisora cuando llegaste?</string>
@@ -74,7 +74,7 @@
     <string name="report_description">Descripción: </string>
     <string name="report_programName">Programa:</string>
     <string name="report_send_answer">Responder</string>
-    <string name="report_send_answer_success">!Se ha enviado la respueste¡</string>
+    <string name="report_send_answer_success">!Se ha enviado la respuesta¡</string>
     <string name="report_send_answer_fail">¡Hubo un fallo al enviar la respuesta!</string>
     <string name="report_send">Enviar</string>
     <string name="report_send_success">!Se ha enviado el informe¡</string>

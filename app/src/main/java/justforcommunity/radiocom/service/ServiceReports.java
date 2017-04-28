@@ -44,7 +44,6 @@ import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailExceptio
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.createReportURL;
-import static justforcommunity.radiocom.utils.GlobalValues.reportsUserURL;
 import static justforcommunity.radiocom.utils.GlobalValues.sendAnswerReportURL;
 
 public class ServiceReports extends ServiceBase {
@@ -83,15 +82,9 @@ public class ServiceReports extends ServiceBase {
     // Send report to members
     public ReportDTO sendReport(ReportDTO report, String photosGson) throws RestClientException, WebServiceStatusFailException {
 
-        Object[] theValues = {};
-        String[] parameters = {};
-
-        List<Object> sendValues = new ArrayList<>();
-        String url = createReportURL + restQueryString(parameters, theValues, sendValues);
         ResponseEntity<String> response;
 
         try {
-
             agregarCabeceras(getRequestHeaders());
             HttpEntity<?> request;
 
@@ -102,7 +95,7 @@ public class ServiceReports extends ServiceBase {
             body.add("photos", photosGson);
             request = new HttpEntity<Object>(body, getRequestHeaders());
 
-            response = getRestTemplate().exchange(url, HttpMethod.POST, request, String.class, sendValues.toArray());
+            response = getRestTemplate().exchange(createReportURL, HttpMethod.POST, request, String.class);
 
             if (response.getStatusCode() != HttpStatus.CREATED) {
                 throw new WebServiceStatusFailException();
@@ -122,15 +115,11 @@ public class ServiceReports extends ServiceBase {
     public ReportDTO SendAnswerReport(Long reportId, String answer) throws RestClientException, WebServiceStatusFailException {
 
         ReportDTO report;
-        Object[] theValues = {};
-        String[] parameters = {};
 
-        List<Object> sendValues = new ArrayList<>();
-        String url = sendAnswerReportURL + reportId + restQueryString(parameters, theValues, sendValues);
+        String url = sendAnswerReportURL + reportId;
         ResponseEntity<String> response;
 
         try {
-
             agregarCabeceras(getRequestHeaders());
             HttpEntity<?> request;
 
@@ -140,13 +129,13 @@ public class ServiceReports extends ServiceBase {
             body.add("answer", answer);
             request = new HttpEntity<Object>(body, getRequestHeaders());
 
-            response = getRestTemplate().exchange(url, HttpMethod.POST, request, String.class, sendValues.toArray());
+            response = getRestTemplate().exchange(url, HttpMethod.POST, request, String.class);
 
             if (response.getStatusCode() != HttpStatus.CREATED) {
                 throw new WebServiceStatusFailException();
             }
 
-             report = new Gson().fromJson(response.getBody(), ReportDTO.class);
+            report = new Gson().fromJson(response.getBody(), ReportDTO.class);
 
         } catch (RestClientException e) {
             Log.e("ServiceReports", "sendReport()", e);

@@ -21,6 +21,7 @@
 package justforcommunity.radiocom.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,6 +43,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,30 +52,25 @@ import android.widget.ImageView;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.fragments.HomePageFragment;
-import justforcommunity.radiocom.fragments.ReportPageFragment;
 import justforcommunity.radiocom.fragments.NewsPageFragment;
 import justforcommunity.radiocom.fragments.PodcastPageFragment;
+import justforcommunity.radiocom.fragments.ReportPageFragment;
 import justforcommunity.radiocom.fragments.ReportUserPageFragment;
 import justforcommunity.radiocom.model.AccountDTO;
-import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.model.StationDTO;
 import justforcommunity.radiocom.task.GetAccount;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.StreamingService;
 
+import static justforcommunity.radiocom.utils.FileUtils.processBuilder;
 import static justforcommunity.radiocom.utils.GlobalValues.ACCOUNT_JSON;
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.ROLE_REPORT;
 
-public class Home extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Context mContext;
     private StationDTO station;
@@ -398,10 +395,10 @@ public class Home extends AppCompatActivity
                 loadFacebook();
                 break;
             case R.id.nav_webpage:
-                processBuilder(GlobalValues.baseURLWEB);
+                processBuilder(mContext, this, GlobalValues.baseURLWEB);
                 break;
             case R.id.nav_cuac:
-                processBuilder(GlobalValues.baseURLCUACWEB);
+                processBuilder(mContext, this, GlobalValues.baseURLCUACWEB);
                 break;
             case R.id.nav_dev:
                 loadDeveloperInfo();
@@ -414,9 +411,8 @@ public class Home extends AppCompatActivity
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // Maybe to redirect Fragments Report
     }
 
     public String getCityByCoords(String lat, String longi) {
@@ -486,7 +482,7 @@ public class Home extends AppCompatActivity
             startActivity(mapIntent);
 
         } catch (Exception e) {
-            processBuilder(GlobalValues.baseURLWEB);
+            processBuilder(mContext, this, GlobalValues.baseURLWEB);
         }
     }
 
@@ -499,7 +495,7 @@ public class Home extends AppCompatActivity
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         } catch (Exception e) {
-            processBuilder(station.getTwitter_url());
+            processBuilder(mContext, this, station.getTwitter_url());
         }
     }
 
@@ -517,7 +513,7 @@ public class Home extends AppCompatActivity
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookUri));
             startActivity(browserIntent);
         } catch (Exception e) {
-            processBuilder(station.getFacebook_url());
+            processBuilder(mContext, this, station.getFacebook_url());
         }
     }
 
@@ -564,22 +560,19 @@ public class Home extends AppCompatActivity
         }
     }
 
+    public void fab_media_hide() {
+        fab_media.setVisibility(View.GONE);
+    }
+
+    public void fab_media_show() {
+        fab_media.setVisibility(View.VISIBLE);
+    }
+
     private void processFragment(Fragment fragment, String title) {
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.content_frame, fragment, title);
         fragmentTransaction.commit();
         getSupportActionBar().setTitle(title);
-    }
-
-    private void processBuilder(String url) {
-        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-        builder.addDefaultShareMenuItem();
-        builder.enableUrlBarHiding();
-        builder.setStartAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-        builder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-        builder.setToolbarColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
-        CustomTabsIntent customTabsIntent = builder.build();
-        customTabsIntent.launchUrl(this, Uri.parse(url));
     }
 
     private void updateUserInfo() {
@@ -592,7 +585,7 @@ public class Home extends AppCompatActivity
         if (accountDTO != null) {
             navigationView.getMenu().findItem(R.id.management).setVisible(true);
             navigationView.getMenu().findItem(R.id.management).setEnabled(true);
-            if (accountDTO != null && accountDTO.getPermissions().contains(ROLE_REPORT)){
+            if (accountDTO != null && accountDTO.getPermissions().contains(ROLE_REPORT)) {
                 navigationView.getMenu().findItem(R.id.nav_report).setVisible(true);
                 navigationView.getMenu().findItem(R.id.nav_report).setEnabled(true);
             } else {
@@ -618,5 +611,4 @@ public class Home extends AppCompatActivity
             }
         }
     }
-
 }

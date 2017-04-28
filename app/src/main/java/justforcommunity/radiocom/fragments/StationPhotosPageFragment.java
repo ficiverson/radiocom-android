@@ -21,27 +21,18 @@
 package justforcommunity.radiocom.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.Gallery;
-import justforcommunity.radiocom.activities.Home;
-import justforcommunity.radiocom.views.CircleTransform;
 import justforcommunity.radiocom.views.TouchImageView;
 
-/**
- * Created by appeiros on 8/03/16.
- */
 public class StationPhotosPageFragment extends Fragment {
 
     private Context mContext;
@@ -50,24 +41,20 @@ public class StationPhotosPageFragment extends Fragment {
     private TouchImageView photo_fragment_image;
     private static StationPhotosPageFragment fragment;
 
-
-
-    public static StationPhotosPageFragment newInstance(Context mContext,
-                                                     String photo, Gallery photAct) {
-
+    public static StationPhotosPageFragment newInstance(String photo, Gallery photoActivity) {
         fragment = new StationPhotosPageFragment();
         fragment.photo = photo;
-        fragment.mActivity=photAct;
+        fragment.mActivity = photoActivity;
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_station_photos,container,false);
+        View v = inflater.inflate(R.layout.fragment_station_photos, container, false);
 
         mContext = container.getContext();
-        mActivity = (Gallery)getActivity();
+        mActivity = (Gallery) getActivity();
 
         photo_fragment_image = (TouchImageView) v.findViewById(R.id.photo_fragment_image);
 
@@ -75,7 +62,4 @@ public class StationPhotosPageFragment extends Fragment {
 
         return v;
     }
-
-
-
 }

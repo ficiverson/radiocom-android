@@ -31,7 +31,6 @@ import org.springframework.web.client.RestClientException;
 
 import java.util.Locale;
 
-import justforcommunity.radiocom.activities.Authenticate;
 import justforcommunity.radiocom.model.AccountDTO;
 import justforcommunity.radiocom.service.ServiceAccounts;
 import justforcommunity.radiocom.utils.ConexionInternet;
@@ -90,7 +89,7 @@ public class GetAccount extends AsyncTask<Boolean, Float, Boolean> {
         }
     }
 
-    public void removeAccount (){
+    public void removeAccount() {
         edit.remove(ACCOUNT_JSON);
         edit.apply();
     }

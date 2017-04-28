@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import justforcommunity.radiocom.R;
@@ -51,8 +53,10 @@ import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.task.Report.GetReports;
 import justforcommunity.radiocom.utils.GlobalValues;
 
+import static justforcommunity.radiocom.utils.GlobalValues.REPORT_ANSWER_REQUEST;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_REQUEST;
+import static justforcommunity.radiocom.utils.GlobalValues.REST_URL;
 import static justforcommunity.radiocom.utils.GlobalValues.programsURL;
 import static justforcommunity.radiocom.utils.GlobalValues.reportsURL;
 
@@ -65,6 +69,7 @@ public class ReportPageFragment extends Fragment {
     private TextView noElements;
     private ReportListAdapter myAdapterReports;
     private AVLoadingIndicatorView avi;
+    private List<ReportDTO> reports;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,13 +90,14 @@ public class ReportPageFragment extends Fragment {
         gp.execute();
 
         // Float button to create new report
+        mActivity.fab_media_hide();
         FloatingActionButton button_create = (FloatingActionButton) v.findViewById(R.id.button_create);
         button_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mActivity, CreateReport.class);
-                intent.putExtra("restURL", programsURL);
-                startActivity(intent);
+                intent.putExtra(REST_URL, programsURL);
+                startActivityForResult(intent, REPORT_REQUEST);
             }
         });
 
@@ -105,11 +111,17 @@ public class ReportPageFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO revisar, no entra, cuando funcione añadir el resto de logicas
-        //super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REPORT_REQUEST && resultCode == Activity.RESULT_OK) {
-            Report report = new Gson().fromJson((String) data.getExtras().get(REPORT_JSON), Report.class);
-            //reportList.addView(report);
+        if (resultCode == Activity.RESULT_OK && (requestCode == REPORT_REQUEST || requestCode == REPORT_ANSWER_REQUEST)) {
+            ReportDTO report = new Gson().fromJson((String) data.getExtras().get(REPORT_JSON), ReportDTO.class);
+            if (requestCode == REPORT_ANSWER_REQUEST) {
+                for (ReportDTO aux : new ArrayList<>(reports)) {
+                    if (aux.getId().equals(report.getId())) {
+                        reports.remove(aux);
+                    }
+                }
+            }
+            reports.add(0, report);
+            setReportList(reports);
         }
     }
 
@@ -128,6 +140,7 @@ public class ReportPageFragment extends Fragment {
 
     public void setReportList(final List<ReportDTO> reports) {
         avi.hide();
+        this.reports = reports;
 
         if (reports == null || reports.size() == 0) {
             noElements.setVisibility(View.VISIBLE);
@@ -158,7 +171,7 @@ public class ReportPageFragment extends Fragment {
                     //launch next activity
                     Intent intent = new Intent(mActivity, Report.class);
                     intent.putExtra(REPORT_JSON, jsonInString);
-                    startActivity(intent);
+                    startActivityForResult(intent, REPORT_ANSWER_REQUEST);
                 }
             });
         }

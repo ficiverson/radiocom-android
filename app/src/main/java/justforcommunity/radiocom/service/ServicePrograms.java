@@ -46,7 +46,6 @@ import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailExceptio
 import justforcommunity.radiocom.utils.GlobalValues;
 
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
-import static justforcommunity.radiocom.utils.GlobalValues.programsURL;
 
 
 public class ServicePrograms extends ServiceBase {
@@ -89,11 +88,7 @@ public class ServicePrograms extends ServiceBase {
 
     public List<ProgramDTO> getPrograms(String restURL) throws RestClientException, WebServiceStatusFailException {
 
-        Object[] theValues = {};
-        String[] parameters = {};
-
-        List<Object> sendValues = new ArrayList<>();
-        String url = restURL + "?token=" + getTokenFirebase() + restQueryString(parameters, theValues, sendValues);
+        String url = restURL + "?token=" + getTokenFirebase();
         ResponseEntity<String> response;
 
         try {
@@ -101,7 +96,7 @@ public class ServicePrograms extends ServiceBase {
             HttpEntity<?> request;
             request = new HttpEntity<Object>(getRequestHeaders());
 
-            response = getRestTemplate().exchange(url, HttpMethod.GET, request, String.class, sendValues.toArray());
+            response = getRestTemplate().exchange(url, HttpMethod.GET, request, String.class);
             if (response.getStatusCode() != HttpStatus.OK) {
                 throw new WebServiceStatusFailException();
             }

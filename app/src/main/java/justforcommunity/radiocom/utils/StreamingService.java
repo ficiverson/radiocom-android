@@ -30,14 +30,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.res.ResourcesCompat;
-
 
 import com.google.android.exoplayer.ExoPlayer;
 import com.google.android.exoplayer.MediaCodecAudioTrackRenderer;
@@ -47,8 +43,6 @@ import com.google.android.exoplayer.upstream.DataSource;
 import com.google.android.exoplayer.upstream.DefaultAllocator;
 import com.google.android.exoplayer.upstream.DefaultUriDataSource;
 import com.google.android.exoplayer.util.Util;
-
-import java.io.IOException;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.Home;
@@ -148,7 +142,7 @@ public class StreamingService extends Service {
         Intent i = new Intent(StreamingService.this, PodcastingService.class);
         stopService(i);
 
-        if(paramIntent!=null) {
+        if (paramIntent != null) {
             this.audio = paramIntent.getStringExtra("audio");
             this.title = paramIntent.getStringExtra("title");
             this.text = paramIntent.getStringExtra("text");
@@ -168,8 +162,7 @@ public class StreamingService extends Service {
                 exoPlayer.setPlayWhenReady(true);
 
                 showNotification(text, title);
-            }
-            catch (Exception e){
+            } catch (Exception e) {
 
             }
         }
@@ -178,12 +171,12 @@ public class StreamingService extends Service {
 
 
     private void destroyMediaPlayerAndNotification() {
-        if(exoPlayer!=null) {
+        if (exoPlayer != null) {
             exoPlayer.stop();
             exoPlayer.release();
-            exoPlayer=null;
+            exoPlayer = null;
         }
-        if(mNM!=null) {
+        if (mNM != null) {
             this.mNM.cancel(1034);
         }
 

@@ -75,7 +75,6 @@ public class GetProgramsMembers extends AsyncTask<Boolean, Float, Boolean> {
 
 
     protected void onPostExecute(Boolean result) {
-
         if (result) {
             mActivity.setProgramsUser(programsDTO);
         } else {

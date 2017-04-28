@@ -33,9 +33,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-/**
- * Created by iver on 7/3/16.
- */
+
 
 public class ServiceBase {
 

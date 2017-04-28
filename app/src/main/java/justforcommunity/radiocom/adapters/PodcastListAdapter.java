@@ -21,7 +21,6 @@
 package justforcommunity.radiocom.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.pkmmte.pkrss.Article;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -40,25 +38,24 @@ import java.util.List;
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.model.ProgramDTO;
-import justforcommunity.radiocom.views.CircleTransform;
 
 public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filterable {
 
     private Context mContext;
     private Home mActivity;
     private ItemFilter mFilter = new ItemFilter();
-    private List<ProgramDTO>originalData = null;
-    private List<ProgramDTO>filteredData = null;
+    private List<ProgramDTO> originalData = null;
+    private List<ProgramDTO> filteredData = null;
 
     public PodcastListAdapter(Home mActivity, Context context, int resource, List<ProgramDTO> podcast) {
         super(context, resource, podcast);
         this.mContext = context;
-        this.mActivity=mActivity;
+        this.mActivity = mActivity;
         originalData = podcast;
         filteredData = podcast;
     }
 
-    static class ViewHolder{
+    static class ViewHolder {
         TextView nameTextView;
         ImageView photoImageView;
         View viewtrans;
@@ -68,11 +65,11 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
     public int getCount() {
         return filteredData.size();
     }
+
     @Override
     public ProgramDTO getItem(int position) {
         return filteredData.get(position);
     }
-
 
 
     @Override
@@ -85,14 +82,14 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
 
-            v=vi.inflate(R.layout.listitem_podcast, null);
+            v = vi.inflate(R.layout.listitem_podcast, null);
             holder = new ViewHolder();
             holder.nameTextView = (TextView) v.findViewById(R.id.channel_name);
             holder.photoImageView = (ImageView) v.findViewById(R.id.channel_image);
-            holder.viewtrans = (View)v.findViewById(R.id.viewtrans);
+            holder.viewtrans = (View) v.findViewById(R.id.viewtrans);
             v.setTag(holder);
 
-        }else{
+        } else {
             holder = (ViewHolder) v.getTag();
         }
 
@@ -103,17 +100,17 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
 
 
             if (holder.nameTextView != null) {
-                if(programDTO.getTitle() == null){
+                if (programDTO.getTitle() == null) {
                     holder.nameTextView.setText("");
-                }else{
+                } else {
                     holder.nameTextView.setText(programDTO.getTitle());
                 }
             }
 
             if (holder.photoImageView != null) {
-                if(programDTO.getLogo_url() == null) {
+                if (programDTO.getLogo_url() == null) {
                     Picasso.with(mContext).load(R.drawable.logo_nav_header).into(holder.photoImageView);
-                }else{
+                } else {
                     if (programDTO.getLogo_url() == "") {
                         Picasso.with(mContext).load(R.drawable.logo_nav_header).into(holder.photoImageView);
                     } else {
@@ -122,9 +119,7 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
                 }
 
             }
-
         }
-
         return v;
     }
 
@@ -143,7 +138,7 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
             final List<ProgramDTO> list = originalData;
             int count = list.size();
             final ArrayList<ProgramDTO> nlist = new ArrayList<ProgramDTO>(count);
-            ProgramDTO filterableString ;
+            ProgramDTO filterableString;
 
             for (int i = 0; i < count; i++) {
                 filterableString = list.get(i);

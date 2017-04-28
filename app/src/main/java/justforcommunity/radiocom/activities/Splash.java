@@ -25,20 +25,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -73,9 +64,9 @@ public class Splash extends AppCompatActivity {
         avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
         avi.show();
 
-        snackView = (View)findViewById(R.id.snackView);
+        snackView = (View) findViewById(R.id.snackView);
 
-        launchGetStations(mContext,mActivity);
+        launchGetStations(mContext, mActivity);
 
         App appliaction = (App) getApplication();
         Tracker mTracker = appliaction.getDefaultTracker();
@@ -85,42 +76,42 @@ public class Splash extends AppCompatActivity {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         GoogleAnalytics.getInstance(this).reportActivityStart(this);
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
         super.onStop();
     }
 
-    public void launchGetStations(Context contex,Splash activity){
-        GetStation stationTask = new GetStation(contex,activity);
+    public void launchGetStations(Context contex, Splash activity) {
+        GetStation stationTask = new GetStation(contex, activity);
         stationTask.execute();
     }
 
 
-    public void resultOK(StationDTO stationDTO){
+    public void resultOK(StationDTO stationDTO) {
         avi.hide();
 
-        //serialize objecy station
+        //serialize object station
         Gson gson = new Gson();
         String jsonInString = gson.toJson(stationDTO);
 
         //save station object on prefs
         SharedPreferences prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = prefs.edit();
-        edit.putString("jsonStation",jsonInString);
+        edit.putString("jsonStation", jsonInString);
         edit.commit();
-        if(prefs.getBoolean("showTutorial",true)) {
+
+        if (prefs.getBoolean("showTutorial", true)) {
             //launch next activity
             Intent intent = new Intent(this, Tutorial.class);
             intent.putExtra(GlobalValues.EXTRA_MESSAGE, jsonInString);
             startActivity(intent);
-        }
-        else{
+        } else {
             //launch next activity
             Intent intent = new Intent(this, Home.class);
             intent.putExtra(GlobalValues.EXTRA_MESSAGE, jsonInString);
@@ -128,7 +119,7 @@ public class Splash extends AppCompatActivity {
         }
     }
 
-    public void resultKO(){
+    public void resultKO() {
 
         Snackbar snackbar = Snackbar
                 .make(snackView, "No internet connection!", Snackbar.LENGTH_LONG)
@@ -136,7 +127,7 @@ public class Splash extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        launchGetStations(mContext,mActivity);
+                        launchGetStations(mContext, mActivity);
                     }
                 });
 

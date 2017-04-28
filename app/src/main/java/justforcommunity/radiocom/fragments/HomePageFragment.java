@@ -32,7 +32,6 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -49,8 +48,8 @@ public class HomePageFragment extends Fragment {
     private Home mActivity;
     private Context mContext;
 
-    public void setStation(StationDTO station){
-        this.station=station;
+    public void setStation(StationDTO station) {
+        this.station = station;
     }
 
     @Override
@@ -58,7 +57,7 @@ public class HomePageFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
-        mActivity = (Home)getActivity();
+        mActivity = (Home) getActivity();
         mContext = getContext();
 
 
@@ -66,7 +65,7 @@ public class HomePageFragment extends Fragment {
             station.getHistory().replace("<body", "<body style=\'text-align:justify;color:gray;background-color:black;\'");
             station.getHistory().replaceAll("style=\".+?\"", "");
 
-        }catch (Exception e) {
+        } catch (Exception e) {
 
         }
 
@@ -74,10 +73,10 @@ public class HomePageFragment extends Fragment {
         wb.setBackgroundColor(Color.WHITE);
 
 //        String fontscript = "<style>@font-face {font-family : 'HelveticaNeue-Light';src:url('file:///android_asset/fonts/"+VariablesGlobalesActivity.GENERICFONT+"');}</style>";
-        String fontscript="";
-        String script = "<style type='text/css' >p{width:100%;}img{width:100%;height:auto;-webkit-transform: translate3d(0px,0px,0px);}a,h1,h2,h3,h4,h5,h6{color:"+ GlobalValues.colorHTML+";}div,p,span,a {max-width: 100%;}iframe{width:100%;height:auto;}</style>";
+        String fontscript = "";
+        String script = "<style type='text/css' >p{width:100%;}img{width:100%;height:auto;-webkit-transform: translate3d(0px,0px,0px);}a,h1,h2,h3,h4,h5,h6{color:" + GlobalValues.colorHTML + ";}div,p,span,a {max-width: 100%;}iframe{width:100%;height:auto;}</style>";
 
-        wb.setWebViewClient(new WebViewClient(){
+        wb.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -86,7 +85,7 @@ public class HomePageFragment extends Fragment {
             }
         });
 
-        wb.loadDataWithBaseURL("","<html><head>"+fontscript+script+"</head><body style=\"font-family:HelveticaNeue-Light; \">"+station.getHistory()+"</body></html>", "text/html", "utf-8","");
+        wb.loadDataWithBaseURL("", "<html><head>" + fontscript + script + "</head><body style=\"font-family:HelveticaNeue-Light; \">" + station.getHistory() + "</body></html>", "text/html", "utf-8", "");
 
         wb.getSettings().setDomStorageEnabled(true);
         wb.getSettings().setJavaScriptEnabled(true);

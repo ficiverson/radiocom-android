@@ -41,7 +41,8 @@ public class GlobalValues {
 
     // Test 10.0.2.2:8080, Real cuacfm.org
     // public static String membersURL = "https://cuacfm.org/members/";
-    public static final String membersURL = "http://10.0.2.2:8080/members/";
+    // public static final String membersURL = "http://10.0.2.2:8080/members/";
+    public static final String membersURL = "http://192.168.137.111:8080/members/";
     public static final String signupURL = membersURL + "signup";
 
     // Reports
@@ -80,6 +81,9 @@ public class GlobalValues {
     public static final String DOWNLOAD_DIR = Environment.getExternalStorageDirectory().toString() + "/Android/data/" + App.PACKAGE_NAME + "/downloaded/";
 
     public static final int REPORT_REQUEST = 3000;
+    public static final int REPORT_ANSWER_REQUEST = 3001;
     public static final int MAX_FILES = 10;
     public static final String ROLE_REPORT = "ROLE_REPORT";
+    public static final String REST_URL = "REST_URL";
+
 }

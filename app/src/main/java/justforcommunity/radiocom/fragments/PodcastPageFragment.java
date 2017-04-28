@@ -78,8 +78,8 @@ public class PodcastPageFragment extends Fragment {
         gp.execute();
 
 
-        App appliaction = (App) getActivity().getApplication();
-        Tracker mTracker = appliaction.getDefaultTracker();
+        App application = (App) getActivity().getApplication();
+        Tracker mTracker = application.getDefaultTracker();
         mTracker.setScreenName(getString(R.string.podcast_view));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
@@ -98,7 +98,6 @@ public class PodcastPageFragment extends Fragment {
             myAdapterPodcast.getFilter().filter(query);
         }
     }
-
 
     public void listChannels(final List<ProgramDTO> programas) {
         avi.hide();
@@ -120,12 +119,11 @@ public class PodcastPageFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    //serialize objecy station
+                    //serialize object station
                     Gson gson = new Gson();
                     String jsonInString = gson.toJson(myAdapterPodcast.getItem(position));
 
-
-                    //save station object on prefs
+                    //save json object on prefs
                     SharedPreferences prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = prefs.edit();
                     edit.putString("jsonPodcast", jsonInString);

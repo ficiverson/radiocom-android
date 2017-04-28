@@ -23,69 +23,59 @@ package justforcommunity.radiocom.adapters;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import justforcommunity.radiocom.activities.Gallery;
-import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.fragments.StationPhotosPageFragment;
 
 /**
  * Created by appeiros on 8/03/16.
  */
-    public class StationPhotosPagerAdapter extends FragmentPagerAdapter {
+public class StationPhotosPagerAdapter extends FragmentPagerAdapter {
 
-        protected List<String> photos;
-        private Context mContext;
-        private int mCount;
-        //we must store fragment to restore pan zoom in /out
-        private ArrayList<StationPhotosPageFragment> fragments;
-        private Gallery mActivity;
+    protected List<String> photos;
+    private Context mContext;
+    private int mCount;
+    //we must store fragment to restore pan zoom in /out
+    private ArrayList<StationPhotosPageFragment> fragments;
+    private Gallery mActivity;
 
-        public StationPhotosPagerAdapter(FragmentManager fm, Gallery activity,
-                                         List<String> photos) {
-            super(fm);
-            this.photos = photos;
-            mContext = activity;
-            mActivity = activity;
-            mCount = photos.size();
+    public StationPhotosPagerAdapter(FragmentManager fm, Gallery activity,
+                                     List<String> photos) {
+        super(fm);
+        this.photos = photos;
+        mContext = activity;
+        mActivity = activity;
+        mCount = photos.size();
 
-            fragments = new ArrayList<StationPhotosPageFragment>();
+        fragments = new ArrayList<StationPhotosPageFragment>();
 
-            for(int i = 0;i<photos.size();i++){
-                StationPhotosPageFragment f =
-                        StationPhotosPageFragment.newInstance(mContext,photos.get(i),mActivity);
-
-                fragments.add(f);
-            }
+        for (int i = 0; i < photos.size(); i++) {
+            StationPhotosPageFragment f = StationPhotosPageFragment.newInstance(photos.get(i), mActivity);
+            fragments.add(f);
         }
-
-        @Override
-        public StationPhotosPageFragment getItem(int position) {
-
-            return StationPhotosPageFragment.newInstance(mContext,photos.get(position),mActivity);
-
-        }
-
-        @Override
-        public int getCount() {
-            return mCount;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-
-            return null;
-        }
-
-        public void setCount(int count) {
-
-            mCount = count;
-
-        }
-
-
-
-
     }
+
+    @Override
+    public StationPhotosPageFragment getItem(int position) {
+        return StationPhotosPageFragment.newInstance(photos.get(position), mActivity);
+    }
+
+    @Override
+    public int getCount() {
+        return mCount;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return null;
+    }
+
+    public void setCount(int count) {
+        mCount = count;
+    }
+
+
+}

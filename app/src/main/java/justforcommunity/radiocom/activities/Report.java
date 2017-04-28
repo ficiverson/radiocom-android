@@ -20,6 +20,7 @@
 
 package justforcommunity.radiocom.activities;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -183,7 +184,7 @@ public class Report extends FirebaseActivity {
     @Override
     public void setToken(String token) {
 
-        //Put visiblilty photos head
+        //Put visibility photos head
         if (report.getFiles() != null && !report.getFiles().isEmpty()) {
             photos_head.setVisibility(View.VISIBLE);
         }
@@ -233,7 +234,7 @@ public class Report extends FirebaseActivity {
 
 
     /**
-     * function to show a dialog popup while asynctask is working
+     * function to show a dialog popup while async task is working
      *
      * @param stringId
      */
@@ -253,25 +254,10 @@ public class Report extends FirebaseActivity {
     // Show toast if send report is success
     public void resultOK(ReportDTO report) {
         Toast.makeText(this, getResources().getString(R.string.report_send_answer_success), Toast.LENGTH_SHORT).show();
-        // TODO Maybe pass value report to incideceFragments, to refresh report List
-        //onBackPressed();
-
-        //Si se crea a Home funciona, pero tiene que ir al fragment
-        Intent intent = new Intent(this, Home.class);
-        // Intent intent = new Intent(this, ReportPageFragment.class);
-        intent.putExtra(REPORT_JSON, new Gson().toJson(report));
-        startActivityForResult(intent, REPORT_REQUEST);
-
-
-//        Intent intent = new Intent(this, ReportPageFragment.class);
-//        ReportPageFragment reportsPageFragment = new ReportPageFragment();
-//        reportsPageFragment.putExtra(REPORT_JSON, new Gson().toJson(report));
-//        startActivityForResult(reportsPageFragment, SEND_INCIDENCE_REQUEST);
-
-//        Intent returnIntent = new Intent();
-//        returnIntent.putExtra(REPORT_JSON, new Gson().toJson(report));
-//        setResult(Activity.RESULT_OK, returnIntent);
-//        finish();
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra(REPORT_JSON, new Gson().toJson(report));
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
     }
 
     // Show toast if send report is fail

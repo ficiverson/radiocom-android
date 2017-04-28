@@ -68,8 +68,7 @@ import justforcommunity.radiocom.utils.FileUtils;
 import static justforcommunity.radiocom.utils.FileUtils.bitmapToByte;
 import static justforcommunity.radiocom.utils.GlobalValues.MAX_FILES;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_REQUEST;
-import static justforcommunity.radiocom.utils.GlobalValues.programsURL;
+import static justforcommunity.radiocom.utils.GlobalValues.REST_URL;
 
 
 public class CreateReport extends AppCompatActivity {
@@ -130,7 +129,7 @@ public class CreateReport extends AppCompatActivity {
         mContext = this;
 
         // restURL
-        restURL = getIntent().getExtras().getString("restURL");
+        restURL = getIntent().getExtras().getString(REST_URL);
 
         // Get programs of user
         GetProgramsMembers programsUser = new GetProgramsMembers(mContext, mActivity, restURL);
@@ -167,10 +166,10 @@ public class CreateReport extends AppCompatActivity {
 
         avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
         openDoor_radioButtons = (RadioGroup) findViewById(R.id.openDoor_radioButtons);
-        viewMembers_radioButtons =  (RadioGroup) findViewById(R.id.viewMembers_radioButtons);
+        viewMembers_radioButtons = (RadioGroup) findViewById(R.id.viewMembers_radioButtons);
         location = (EditText) findViewById(R.id.location);
         description = (EditText) findViewById(R.id.description);
-        descriptionAux = new String [3];
+        descriptionAux = new String[3];
         imagesReport = (LinearLayout) findViewById(R.id.images_report);
         photosMap = new HashMap<>();
         imageId = 0;
@@ -259,25 +258,11 @@ public class CreateReport extends AppCompatActivity {
     public void resultOK(ReportDTO report) {
         avi.hide();
         Toast.makeText(this, getResources().getString(R.string.report_send_success), Toast.LENGTH_SHORT).show();
-        // TODO Maybe pass value report to incideceFragments, to refresh report List
-        //onBackPressed();
 
-        //Si se crea a Home funciona, pero tiene que ir al fragment
-        Intent intent = new Intent(this, Home.class);
-        // Intent intent = new Intent(this, ReportPageFragment.class);
-        intent.putExtra(REPORT_JSON, new Gson().toJson(report));
-        startActivityForResult(intent, REPORT_REQUEST);
-
-
-//        Intent intent = new Intent(this, ReportPageFragment.class);
-//        ReportPageFragment reportsPageFragment = new ReportPageFragment();
-//        reportsPageFragment.putExtra(REPORT_JSON, new Gson().toJson(report));
-//        startActivityForResult(reportsPageFragment, SEND_INCIDENCE_REQUEST);
-
-//        Intent returnIntent = new Intent();
-//        returnIntent.putExtra(REPORT_JSON, new Gson().toJson(report));
-//        setResult(Activity.RESULT_OK, returnIntent);
-//        finish();
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra(REPORT_JSON, new Gson().toJson(report));
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
     }
 
     // Show toast if send report is fail
@@ -357,7 +342,7 @@ public class CreateReport extends AppCompatActivity {
         }
         // Put text in Hint
         description.setHint("");
-        for (String aux : descriptionAux){
+        for (String aux : descriptionAux) {
             if (aux != null && !aux.isEmpty()) {
                 description.setHint(description.getHint() + aux + "\n");
             }
@@ -385,7 +370,7 @@ public class CreateReport extends AppCompatActivity {
         if (tidy_radioButtons.getCheckedRadioButtonId() != -1) {
             int radioButtonID_tidy = tidy_radioButtons.getCheckedRadioButtonId();
             RadioButton radioButton_tidy = (RadioButton) tidy_radioButtons.findViewById(radioButtonID_tidy);
-            report.setDirt(Integer.valueOf(radioButton_tidy.getText().toString()));
+            report.setTidy(Integer.valueOf(radioButton_tidy.getText().toString()));
             radioButton_tidy.setError(null);
             ((RadioButton) tidy_radioButtons.getChildAt(pos)).setError(null);
         } else {
@@ -397,7 +382,7 @@ public class CreateReport extends AppCompatActivity {
         if (dirt_radioButtons.getCheckedRadioButtonId() != -1) {
             int radioButtonID_dirt = dirt_radioButtons.getCheckedRadioButtonId();
             RadioButton radioButton_dirt = (RadioButton) dirt_radioButtons.findViewById(radioButtonID_dirt);
-            report.setTidy(Integer.valueOf(radioButton_dirt.getText().toString()));
+            report.setDirt(Integer.valueOf(radioButton_dirt.getText().toString()));
             ((RadioButton) dirt_radioButtons.getChildAt(pos)).setError(null);
         } else {
             ((RadioButton) dirt_radioButtons.getChildAt(pos)).setError(getResources().getString(R.string.required));
@@ -437,7 +422,12 @@ public class CreateReport extends AppCompatActivity {
             isValid = false;
         }
 
-        report.setLocation(location.getText().toString());
+        if (!TextUtils.isEmpty(location.getText().toString())) {
+            report.setLocation(location.getText().toString());
+        } else {
+            location.setError(getResources().getString(R.string.required));
+            isValid = false;
+        }
 
         // To members, the values is evaluate in server
         // report.setDescription(description.getHint() + description.getText().toString());
