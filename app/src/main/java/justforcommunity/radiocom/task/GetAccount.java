@@ -33,7 +33,7 @@ import java.util.Locale;
 
 import justforcommunity.radiocom.model.AccountDTO;
 import justforcommunity.radiocom.service.ServiceAccounts;
-import justforcommunity.radiocom.utils.ConexionInternet;
+import justforcommunity.radiocom.utils.InternetConnection;
 import justforcommunity.radiocom.utils.GlobalValues;
 
 import static justforcommunity.radiocom.utils.GlobalValues.ACCOUNT_JSON;
@@ -58,7 +58,7 @@ public class GetAccount extends AsyncTask<Boolean, Float, Boolean> {
 
     protected Boolean doInBackground(Boolean... urls) {
         boolean res = false;
-        ConexionInternet cnn = new ConexionInternet();
+        InternetConnection cnn = new InternetConnection();
 
         if (cnn.isConnected(mContext)) {
 

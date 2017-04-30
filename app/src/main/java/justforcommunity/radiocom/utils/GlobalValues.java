@@ -40,11 +40,10 @@ public class GlobalValues {
     public static final String prefName = "commradio";
 
     // Test 10.0.2.2:8080, Real cuacfm.org
-    // public static String membersURL = "https://cuacfm.org/members/";
-    // public static final String membersURL = "http://10.0.2.2:8080/members/";
-    public static final String membersURL = "http://192.168.137.111:8080/members/";
+    // public static final String membersURL = "https://cuacfm.org/members/";
+    public static final String membersURL = "http://10.0.2.2:8080/members/";
     public static final String signupURL = membersURL + "signup";
-
+    public static final String membersAPI = membersURL + "api/";
     // Reports
     public static final String reportsURL = membersURL + "api/reportList/";
     public static final String reportsUserURL = membersURL + "api/reportUserList/";
@@ -52,9 +51,18 @@ public class GlobalValues {
     public static final String imageReportURL = reportsURL + "image/";
     public static final String sendAnswerReportURL = reportsURL + "reportAnswer/";
 
+    // Reserves
+    public static final String reservesURL = membersURL + "api/reserveList/";
+    public static final String reservesUserURL = membersURL + "api/reserveUserList/";
+    public static final String createReserveURL = reservesURL + "reserveCreate";
+    public static final String sendAnswerReserveURL = reservesURL + "reserveAnswer/";
+
     // Programs
     public static final String programsURL = membersURL + "api/programList/";
     public static final String programsUserURL = membersURL + "api/programUserList/";
+
+    // Elements
+    public static final String elementsURL = membersURL + "api/elementList/";
 
     // Accounts
     public static final String accountsURL = membersURL + "api/accountList/";
@@ -76,14 +84,18 @@ public class GlobalValues {
     public static final String EXTRA_CONTENT = "webviewContent";
     public static final String EXTRA_TITLE = "webviewTitle";
     public static final String REPORT_JSON = "reportJson";
+    public static final String RESERVE_JSON = "reserveJson";
     public static final String ACCOUNT_JSON = "accountJson";
+    public static final String MANAGE = "manage";
 
     public static final String DOWNLOAD_DIR = Environment.getExternalStorageDirectory().toString() + "/Android/data/" + App.PACKAGE_NAME + "/downloaded/";
 
     public static final int REPORT_REQUEST = 3000;
     public static final int REPORT_ANSWER_REQUEST = 3001;
+    public static final int RESERVE_REQUEST = 3010;
+    public static final int RESERVE_ANSWER_REQUEST = 3011;
     public static final int MAX_FILES = 10;
     public static final String ROLE_REPORT = "ROLE_REPORT";
+    public static final String ROLE_RESERVE = "ROLE_RESERVE";
     public static final String REST_URL = "REST_URL";
-
 }

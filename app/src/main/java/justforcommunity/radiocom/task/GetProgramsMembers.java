@@ -31,7 +31,7 @@ import java.util.Locale;
 import justforcommunity.radiocom.activities.CreateReport;
 import justforcommunity.radiocom.model.ProgramDTO;
 import justforcommunity.radiocom.service.ServicePrograms;
-import justforcommunity.radiocom.utils.ConexionInternet;
+import justforcommunity.radiocom.utils.InternetConnection;
 
 
 public class GetProgramsMembers extends AsyncTask<Boolean, Float, Boolean> {
@@ -54,7 +54,7 @@ public class GetProgramsMembers extends AsyncTask<Boolean, Float, Boolean> {
     protected Boolean doInBackground(Boolean... urls) {
         boolean res = false;
 
-        ConexionInternet cnn = new ConexionInternet();
+        InternetConnection cnn = new InternetConnection();
 
         if (cnn.isConnected(mContext)) {
 

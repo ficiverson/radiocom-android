@@ -18,7 +18,7 @@
  *
  */
 
-package justforcommunity.radiocom.task.Report;
+package justforcommunity.radiocom.task.Reserve.Reserve;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -29,26 +29,26 @@ import org.springframework.web.client.RestClientException;
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.fragments.ReportPageFragment;
-import justforcommunity.radiocom.model.ReportDTO;
-import justforcommunity.radiocom.service.ServiceReports;
+import justforcommunity.radiocom.fragments.ReservePageFragment;
+import justforcommunity.radiocom.model.ReserveDTO;
+import justforcommunity.radiocom.service.ServiceReserves;
 import justforcommunity.radiocom.utils.InternetConnection;
 
-public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
+public class GetReserves extends AsyncTask<Boolean, Float, Boolean> {
 
     private static final String TAG = "GetReserves";
     private Context mContext;
-    private ReportPageFragment fragment;
-    private ServiceReports serviceReports;
+    private ReservePageFragment fragment;
+    private ServiceReserves serviceReserves;
     private Locale locale;
     private String restURL;
-    private List<ReportDTO> reportsDTO;
+    private List<ReserveDTO> reservesDTO;
 
-    public GetReports(Context context, ReportPageFragment fragment, String restURL) {
+    public GetReserves(Context context, ReservePageFragment fragment, String restURL) {
         this.fragment = fragment;
         this.mContext = context;
         this.locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        this.serviceReports = new ServiceReports(locale);
+        this.serviceReserves = new ServiceReserves(locale);
         this.restURL = restURL;
     }
 
@@ -59,16 +59,16 @@ public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                reportsDTO = serviceReports.getReports(restURL);
+                reservesDTO = serviceReserves.getReserves(restURL);
                 res = true;
 
             } catch (RestClientException e) {
                 Log.e(TAG, "doInBackground()", e);
-                reportsDTO = null;
+                reservesDTO = null;
                 res = false;
             } catch (Exception e) {
                 Log.e(TAG, "doInBackground()", e);
-                reportsDTO = null;
+                reservesDTO = null;
                 res = false;
             }
         }
@@ -76,9 +76,8 @@ public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
     }
 
     protected void onPostExecute(Boolean result) {
-
         if (result) {
-            fragment.setReportList(reportsDTO);
+            fragment.setReserveList(reservesDTO);
         } else {
             fragment.resultKO();
         }

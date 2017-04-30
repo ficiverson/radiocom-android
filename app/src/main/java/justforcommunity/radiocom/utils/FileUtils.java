@@ -1,6 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @ Pablo Grela
+ *  * Copyright (C) 2017 @ Pablo Grela
  *  *
  *  * Developer Pablo Grela
  *  *
@@ -37,6 +37,10 @@ import justforcommunity.radiocom.R;
 
 public class FileUtils {
 
+    public enum states {
+        NO_PAY, PAY, MANAGEMENT, RETURN_BILL, CANCEL, ACCEPT, DENY
+    }
+
     public static String formatBoolean(Context mContext, boolean value) {
         String true_value = mContext.getString(R.string.true_value);
         String false_value = mContext.getString(R.string.false_value);
@@ -71,5 +75,16 @@ public class FileUtils {
         builder.setToolbarColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
         CustomTabsIntent customTabsIntent = builder.build();
         customTabsIntent.launchUrl(mActivity, Uri.parse(url));
+    }
+
+    public static String getState(Context mContext, String value) {
+        if (value.equals(states.MANAGEMENT.toString())) {
+            return mContext.getString(R.string.MANAGEMENT);
+        } else if (value.equals(states.DENY.toString())) {
+            return mContext.getString(R.string.DENY);
+        } else if (value.equals(states.ACCEPT.toString())) {
+            return mContext.getString(R.string.ACCEPT);
+        }
+        return "";
     }
 }

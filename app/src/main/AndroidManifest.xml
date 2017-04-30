@@ -106,6 +106,22 @@
         </activity>
 
         <activity
+            android:name=".activities.Reserve"
+            android:label="@string/reserve_activity"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".activities.CreateReserve"
+            android:label="@string/reserve_activity_create"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
             android:name=".activities.Authenticate"
             android:label="@string/authenticate"
             android:launchMode="singleTask"

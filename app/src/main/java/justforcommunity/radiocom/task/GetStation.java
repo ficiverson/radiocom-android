@@ -30,7 +30,7 @@ import java.util.Locale;
 import justforcommunity.radiocom.activities.Splash;
 import justforcommunity.radiocom.model.StationDTO;
 import justforcommunity.radiocom.service.ServiceStation;
-import justforcommunity.radiocom.utils.ConexionInternet;
+import justforcommunity.radiocom.utils.InternetConnection;
 
 
 public class GetStation extends AsyncTask<Boolean, Float, Boolean> {
@@ -54,7 +54,7 @@ public class GetStation extends AsyncTask<Boolean, Float, Boolean> {
     protected Boolean doInBackground(Boolean... urls) {
         boolean res = false;
 
-        ConexionInternet cnn = new ConexionInternet();
+        InternetConnection cnn = new InternetConnection();
 
         if (cnn.isConnected(mContext)) {
 

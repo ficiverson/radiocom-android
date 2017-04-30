@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,68 +43,69 @@ import java.util.List;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.App;
-import justforcommunity.radiocom.activities.CreateReport;
+import justforcommunity.radiocom.activities.CreateReserve;
 import justforcommunity.radiocom.activities.Home;
-import justforcommunity.radiocom.activities.Report;
-import justforcommunity.radiocom.adapters.ReportListAdapter;
-import justforcommunity.radiocom.model.ReportDTO;
-import justforcommunity.radiocom.task.Report.GetReports;
+import justforcommunity.radiocom.activities.Reserve;
+import justforcommunity.radiocom.adapters.ReserveListAdapter;
+import justforcommunity.radiocom.model.ReserveDTO;
+import justforcommunity.radiocom.task.Reserve.Reserve.GetReserves;
+import justforcommunity.radiocom.utils.FileUtils;
 import justforcommunity.radiocom.utils.GlobalValues;
 
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_ANSWER_REQUEST;
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_REQUEST;
+import static justforcommunity.radiocom.utils.GlobalValues.RESERVE_ANSWER_REQUEST;
+import static justforcommunity.radiocom.utils.GlobalValues.RESERVE_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.RESERVE_REQUEST;
 import static justforcommunity.radiocom.utils.GlobalValues.REST_URL;
-import static justforcommunity.radiocom.utils.GlobalValues.programsURL;
-import static justforcommunity.radiocom.utils.GlobalValues.reportsURL;
+import static justforcommunity.radiocom.utils.GlobalValues.elementsURL;
+import static justforcommunity.radiocom.utils.GlobalValues.reservesURL;
 
 
-public class ReportPageFragment extends FilterFragment {
+public class ReservePageFragment extends FilterFragment {
 
     protected Home mActivity;
     protected Context mContext;
-    protected ListView reportList;
+    protected ListView reserveList;
     protected TextView noElements;
-    protected ReportListAdapter myAdapterReports;
+    protected ReserveListAdapter myAdapterReserves;
     protected AVLoadingIndicatorView avi;
-    protected List<ReportDTO> reports;
+    protected List<ReserveDTO> reserves;
     protected boolean manage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_reports, container, false);
+        View v = inflater.inflate(R.layout.fragment_reserves, container, false);
 
         mActivity = (Home) getActivity();
         mContext = getContext();
 
-        reportList = (ListView) v.findViewById(R.id.reportList);
+        reserveList = (ListView) v.findViewById(R.id.reserveList);
         noElements = (TextView) v.findViewById(R.id.no_elements);
 
         avi = (AVLoadingIndicatorView) v.findViewById(R.id.avi);
         avi.show();
 
-        // Get Reports
-        manage = true;
-        GetReports gp = new GetReports(mContext, this, reportsURL);
+        // Get Reserves
+        this.manage = true;
+        GetReserves gp = new GetReserves(mContext, this, reservesURL);
         gp.execute();
 
-        // Float button to create new report
+        // Float button to create new reserve
         mActivity.fab_media_hide();
         FloatingActionButton button_create = (FloatingActionButton) v.findViewById(R.id.button_create);
         button_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity, CreateReport.class);
-                intent.putExtra(REST_URL, programsURL);
-                startActivityForResult(intent, REPORT_REQUEST);
+                Intent intent = new Intent(mActivity, CreateReserve.class);
+                intent.putExtra(REST_URL, elementsURL);
+                startActivityForResult(intent, RESERVE_REQUEST);
             }
         });
 
         App application = (App) getActivity().getApplication();
         Tracker mTracker = application.getDefaultTracker();
-        mTracker.setScreenName(getString(R.string.report_view));
+        mTracker.setScreenName(getString(R.string.reserve_view));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         return v;
@@ -113,69 +113,71 @@ public class ReportPageFragment extends FilterFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && (requestCode == REPORT_REQUEST || requestCode == REPORT_ANSWER_REQUEST)) {
-            ReportDTO report = new Gson().fromJson((String) data.getExtras().get(REPORT_JSON), ReportDTO.class);
-            if (requestCode == REPORT_ANSWER_REQUEST) {
-                for (ReportDTO aux : new ArrayList<>(reports)) {
-                    if (aux.getId().equals(report.getId())) {
-                        reports.remove(aux);
+        if (resultCode == Activity.RESULT_OK && (requestCode == RESERVE_REQUEST || requestCode == RESERVE_ANSWER_REQUEST)) {
+            ReserveDTO reserve = new Gson().fromJson((String) data.getExtras().get(RESERVE_JSON), ReserveDTO.class);
+            if (requestCode == RESERVE_ANSWER_REQUEST) {
+                for (ReserveDTO aux : new ArrayList<>(reserves)) {
+                    if (aux.getId().equals(reserve.getId())) {
+                        reserves.remove(aux);
                     }
                 }
             }
-            reports.add(0, report);
-            setReportList(reports);
+            if (!manage || reserve.getState().equals(FileUtils.states.MANAGEMENT.toString())) {
+                reserves.add(0, reserve);
+            }
+            setReserveList(reserves);
         }
     }
 
     @Override
     public void filterDataSearch(String query) {
-        if (myAdapterReports != null) {
-            myAdapterReports.getFilter().filter(query);
+        if (myAdapterReserves != null) {
+            myAdapterReserves.getFilter().filter(query);
         }
     }
 
     public void resultKO() {
         avi.hide();
         noElements.setVisibility(View.VISIBLE);
-        reportList.setVisibility(View.GONE);
+        reserveList.setVisibility(View.GONE);
         avi.setVisibility(View.GONE);
     }
 
-    public void setReportList(final List<ReportDTO> reports) {
+    public void setReserveList(final List<ReserveDTO> reserves) {
         avi.hide();
-        this.reports = reports;
+        this.reserves = reserves;
 
-        if (reports == null || reports.size() == 0) {
+        if (reserves == null || reserves.size() == 0) {
             noElements.setVisibility(View.VISIBLE);
-            reportList.setVisibility(View.GONE);
+            reserveList.setVisibility(View.GONE);
             avi.setVisibility(View.GONE);
         } else {
             noElements.setVisibility(View.GONE);
-            reportList.setVisibility(View.VISIBLE);
+            reserveList.setVisibility(View.VISIBLE);
             avi.setVisibility(View.GONE);
 
-            myAdapterReports = new ReportListAdapter(mActivity, mContext, R.layout.listitem_new, reports, true);
-            reportList.setAdapter(myAdapterReports);
+            myAdapterReserves = new ReserveListAdapter(mActivity, mContext, R.layout.listitem_new, reserves, manage);
+            reserveList.setAdapter(myAdapterReserves);
 
-            reportList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            reserveList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    //serialize object report
+                    //serialize object reserve
                     Gson gson = new Gson();
-                    String jsonInString = gson.toJson(myAdapterReports.getItem(position));
+                    String jsonInString = gson.toJson(myAdapterReserves.getItem(position));
 
-                    //save report object on prefs
+                    //save reserve object on prefs
                     SharedPreferences prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = prefs.edit();
-                    edit.putString(REPORT_JSON, jsonInString);
+                    edit.putString(RESERVE_JSON, jsonInString);
                     edit.apply();
 
                     //launch next activity
-                    Intent intent = new Intent(mActivity, Report.class);
-                    intent.putExtra(REPORT_JSON, jsonInString);
+                    Intent intent = new Intent(mActivity, Reserve.class);
+                    intent.putExtra(RESERVE_JSON, jsonInString);
                     intent.putExtra(MANAGE, manage);
-                    startActivityForResult(intent, REPORT_ANSWER_REQUEST);
+                    startActivityForResult(intent, RESERVE_ANSWER_REQUEST);
                 }
             });
         }

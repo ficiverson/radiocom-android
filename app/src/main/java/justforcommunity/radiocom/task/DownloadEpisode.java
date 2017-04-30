@@ -40,7 +40,7 @@ import java.net.URL;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.Podcast;
-import justforcommunity.radiocom.utils.ConexionInternet;
+import justforcommunity.radiocom.utils.InternetConnection;
 import justforcommunity.radiocom.utils.GlobalValues;
 
 
@@ -75,7 +75,7 @@ public class DownloadEpisode extends AsyncTask<Boolean, Float, Boolean> {
 
         Boolean res = false;
 
-        ConexionInternet cnn = new ConexionInternet();
+        InternetConnection cnn = new InternetConnection();
         if (cnn.isConnected(mContext)) {
             try {
 

@@ -38,22 +38,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.model.ReportDTO;
+import justforcommunity.radiocom.model.ReserveDTO;
+import justforcommunity.radiocom.service.exceptions.UserAlreadyReserveException;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
 
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
-import static justforcommunity.radiocom.utils.GlobalValues.createReportURL;
-import static justforcommunity.radiocom.utils.GlobalValues.sendAnswerReportURL;
+import static justforcommunity.radiocom.utils.GlobalValues.RESERVE_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.createReserveURL;
+import static justforcommunity.radiocom.utils.GlobalValues.sendAnswerReserveURL;
 
-public class ServiceReports extends ServiceBase {
+public class ServiceReserves extends ServiceBase {
 
-    public ServiceReports(Locale language) {
+    public ServiceReserves(Locale language) {
         super(language);
     }
 
-    public List<ReportDTO> getReports(String restURL) throws RestClientException, WebServiceStatusFailException {
+    public List<ReserveDTO> getReserves(String restURL) throws RestClientException, WebServiceStatusFailException {
 
         String url = restURL + "?token=" + getTokenFirebase();
         ResponseEntity<String> response;
@@ -69,19 +70,19 @@ public class ServiceReports extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
-            Log.e("ServiceReports", "getReports()", e);
+            Log.e("ServiceReserves", "getReserves", e);
             throw e;
         }
 
-        Type listType = new TypeToken<ArrayList<ReportDTO>>() {
+        Type listType = new TypeToken<ArrayList<ReserveDTO>>() {
         }.getType();
-        List<ReportDTO> reportsDTO = new Gson().fromJson(response.getBody(), listType);
+        List<ReserveDTO> reservesDTO = new Gson().fromJson(response.getBody(), listType);
 
-        return reportsDTO;
+        return reservesDTO;
     }
 
-    // Send report to members
-    public ReportDTO sendReport(ReportDTO report, String photosGson) throws RestClientException, WebServiceStatusFailException {
+    // Send reserve to members
+    public ReserveDTO sendReserve(ReserveDTO reserve) throws Exception {
 
         ResponseEntity<String> response;
 
@@ -92,32 +93,33 @@ public class ServiceReports extends ServiceBase {
             // Create the request body as a MultiValueMap
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("token", getTokenFirebase());
-            body.add(REPORT_JSON, new Gson().toJson(report));
-            body.add("photos", photosGson);
+            body.add(RESERVE_JSON, new Gson().toJson(reserve));
             request = new HttpEntity<Object>(body, getRequestHeaders());
 
-            response = getRestTemplate().exchange(createReportURL, HttpMethod.POST, request, String.class);
+            response = getRestTemplate().exchange(createReserveURL, HttpMethod.POST, request, String.class);
 
-            if (response.getStatusCode() != HttpStatus.CREATED) {
+            if (response.getStatusCode() == HttpStatus.ALREADY_REPORTED) {
+                throw new UserAlreadyReserveException();
+            } else if (response.getStatusCode() != HttpStatus.CREATED) {
                 throw new WebServiceStatusFailException();
             }
 
-            report = new Gson().fromJson(response.getBody(), ReportDTO.class);
+            reserve = new Gson().fromJson(response.getBody(), ReserveDTO.class);
 
         } catch (RestClientException e) {
-            Log.e("ServiceReports", "sendReport()", e);
+            Log.e("ServiceReserves", "sendReserve", e);
             throw e;
         }
-        return report;
+        return reserve;
     }
 
 
     // Send answer to members
-    public ReportDTO SendAnswerReport(Long reportId, String answer, Boolean manage) throws RestClientException, WebServiceStatusFailException {
+    public ReserveDTO SendAnswerReserve(Long reserveId, String answer, Boolean manage) throws RestClientException, WebServiceStatusFailException {
 
-        ReportDTO report;
+        ReserveDTO reserve;
 
-        String url = sendAnswerReportURL + reportId;
+        String url = sendAnswerReserveURL + reserveId;
         ResponseEntity<String> response;
 
         try {
@@ -137,12 +139,12 @@ public class ServiceReports extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
 
-            report = new Gson().fromJson(response.getBody(), ReportDTO.class);
+            reserve = new Gson().fromJson(response.getBody(), ReserveDTO.class);
 
         } catch (RestClientException e) {
-            Log.e("ServiceReports", "sendReport()", e);
+            Log.e("ServiceReserves", "SendAnswerReserve", e);
             throw e;
         }
-        return report;
+        return reserve;
     }
 }

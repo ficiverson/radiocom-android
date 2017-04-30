@@ -1,8 +1,8 @@
 /*
  *
- *  * Copyright (C) 2017 @ Pablo Grela
+ *  * Copyright (C) 2016 @ Fernando Souto González
  *  *
- *  * Developer Pablo Grela
+ *  * Developer Fernando Souto
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -18,57 +18,55 @@
  *
  */
 
-package justforcommunity.radiocom.task.Report;
+package justforcommunity.radiocom.task;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.springframework.web.client.RestClientException;
 
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.fragments.ReportPageFragment;
-import justforcommunity.radiocom.model.ReportDTO;
-import justforcommunity.radiocom.service.ServiceReports;
+import justforcommunity.radiocom.activities.CreateReserve;
+import justforcommunity.radiocom.model.ElementDTO;
+import justforcommunity.radiocom.service.ServiceElements;
 import justforcommunity.radiocom.utils.InternetConnection;
 
-public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
 
-    private static final String TAG = "GetReserves";
+public class GetElements extends AsyncTask<Boolean, Float, Boolean> {
+
     private Context mContext;
-    private ReportPageFragment fragment;
-    private ServiceReports serviceReports;
+    private CreateReserve mActivity;
+    private ServiceElements serviceElements;
     private Locale locale;
+    private List<ElementDTO> elementsDTO;
     private String restURL;
-    private List<ReportDTO> reportsDTO;
 
-    public GetReports(Context context, ReportPageFragment fragment, String restURL) {
-        this.fragment = fragment;
-        this.mContext = context;
-        this.locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        this.serviceReports = new ServiceReports(locale);
+    public GetElements(Context mContext, CreateReserve mActivity, String restURL) {
+        this.mActivity = mActivity;
+        this.mContext = mContext;
+        locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
+        serviceElements = new ServiceElements(locale);
         this.restURL = restURL;
     }
 
     protected Boolean doInBackground(Boolean... urls) {
         boolean res = false;
+
         InternetConnection cnn = new InternetConnection();
 
         if (cnn.isConnected(mContext)) {
 
             try {
-                reportsDTO = serviceReports.getReports(restURL);
+                elementsDTO = serviceElements.getElements(restURL);
                 res = true;
 
             } catch (RestClientException e) {
-                Log.e(TAG, "doInBackground()", e);
-                reportsDTO = null;
+                elementsDTO = null;
                 res = false;
             } catch (Exception e) {
-                Log.e(TAG, "doInBackground()", e);
-                reportsDTO = null;
+                elementsDTO = null;
                 res = false;
             }
         }
@@ -76,11 +74,11 @@ public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
     }
 
     protected void onPostExecute(Boolean result) {
-
         if (result) {
-            fragment.setReportList(reportsDTO);
+            mActivity.setElementsReservable(elementsDTO);
         } else {
-            fragment.resultKO();
+            mActivity.failElementsReservable();
         }
     }
+
 }

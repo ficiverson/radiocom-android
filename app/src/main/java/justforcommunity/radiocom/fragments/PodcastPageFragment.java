@@ -49,7 +49,7 @@ import justforcommunity.radiocom.task.GetPrograms;
 import justforcommunity.radiocom.utils.GlobalValues;
 
 
-public class PodcastPageFragment extends Fragment {
+public class PodcastPageFragment extends FilterFragment {
 
     private Home mActivity;
     private Context mContext;
@@ -93,6 +93,7 @@ public class PodcastPageFragment extends Fragment {
         avi.setVisibility(View.GONE);
     }
 
+    @Override
     public void filterDataSearch(String query) {
         if (myAdapterPodcast != null) {
             myAdapterPodcast.getFilter().filter(query);

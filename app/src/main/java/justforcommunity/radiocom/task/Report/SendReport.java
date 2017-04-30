@@ -31,12 +31,12 @@ import java.util.Locale;
 import justforcommunity.radiocom.activities.CreateReport;
 import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.service.ServiceReports;
-import justforcommunity.radiocom.utils.ConexionInternet;
+import justforcommunity.radiocom.utils.InternetConnection;
 
 
 public class SendReport extends AsyncTask<Boolean, Float, Boolean> {
 
-    private static final String TAG = "SendReport";
+    private static final String TAG = "SendReserve";
     private Context mContext;
     private CreateReport activity;
     private ServiceReports serviceReports;
@@ -49,13 +49,13 @@ public class SendReport extends AsyncTask<Boolean, Float, Boolean> {
         this.mContext = context;
         this.report = report;
         this.photosGson = photosGson;
-        locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        serviceReports = new ServiceReports(locale);
+        this.locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
+        this.serviceReports = new ServiceReports(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
         boolean res = false;
-        ConexionInternet cnn = new ConexionInternet();
+        InternetConnection cnn = new InternetConnection();
 
         if (cnn.isConnected(mContext)) {
 

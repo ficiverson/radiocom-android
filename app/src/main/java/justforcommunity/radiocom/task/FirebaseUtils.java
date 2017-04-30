@@ -74,7 +74,7 @@ public class FirebaseUtils extends AsyncTask<Boolean, Float, Boolean> {
             }
         });
         try {
-            countDownLatch.await(50L, TimeUnit.SECONDS);
+            countDownLatch.await(30L, TimeUnit.SECONDS);
             return tokenAux.toString();
         } catch (InterruptedException ie) {
             return null;

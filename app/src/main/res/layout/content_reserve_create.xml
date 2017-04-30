@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ /*
+  ~  * Copyright (C) 2017 @ Pablo Grela
+  ~  *
+  ~  * Developer Pablo Grela
+  ~  *
+  ~  * Licensed under the Apache License, Version 2.0 (the "License");
+  ~  * you may not use this file except in compliance with the License.
+  ~  * You may obtain a copy of the License at
+  ~  *
+  ~  * http://www.apache.org/licenses/LICENSE-2.0
+  ~  *
+  ~  * Unless required by applicable law or agreed to in writing, software
+  ~  * distributed under the License is distributed on an "AS IS" BASIS,
+  ~  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  * See the License for the specific language governing permissions and
+  ~  * limitations under the License.
+  ~  */
+  -->
+
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/app_bar_marginTop"
+    android:background="@color/colorPrimaryDark">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="710dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bk_nav_header" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="710dp"
+            android:background="@color/colorPrimaryDark85" />
+
+        <RelativeLayout
+            android:id="@+id/report_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/transparent"
+            android:focusableInTouchMode="true">
+
+            <TextView
+                android:id="@+id/element_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/reserve_elementName"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/elementName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/element_head"
+                android:layout_marginLeft="20dp"
+                android:text="@string/report_programName"
+                android:textColor="@android:color/white"
+                android:textSize="20sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/dateStart_head"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/elementName"
+                android:layout_marginTop="10dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white">
+
+                <EditText
+                    android:id="@+id/dateStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    
+                    android:hint="@string/dateStart"
+                    android:inputType="datetime"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!--<TextView-->
+            <!--android:id="@+id/dateStart_head"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/elementName"-->
+            <!--android:layout_marginTop="15dp"-->
+            <!---->
+            <!--android:text="@string/reserve_dateStart"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="20sp"-->
+            <!--android:textStyle="bold" />-->
+
+            <!--<EditText-->
+            <!--android:id="@+id/dateStart"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_below="@+id/elementName"-->
+            <!--android:layout_marginLeft="22dp"-->
+            <!--android:layout_toRightOf="@+id/dateStart_head"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="20sp" />-->
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/dateEnd_head"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dateStart_head"
+                android:layout_marginTop="10dp"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white">
+
+                <EditText
+                    android:id="@+id/dateEnd"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:hint="@string/dateEnd"
+                    android:inputType="datetime"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@android:color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!--<TextView-->
+                <!--android:id="@+id/dateEnd_head"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/dateStart_head"-->
+                <!---->
+                <!--android:layout_marginTop="15dp"-->
+                <!--android:text="@string/reserve_dateEnd"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="20sp"-->
+                <!--android:textStyle="bold" />-->
+
+            <!--<EditText-->
+                <!--android:id="@+id/dateEnd"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/dateStart_head"-->
+                <!--android:layout_marginLeft="85dp"-->
+                <!--android:layout_toRightOf="@+id/dateEnd_head"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="20sp" />-->
+
+            <TextView
+                android:id="@+id/description_head"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dateEnd_head"
+                android:layout_marginTop="10dp"
+                android:text="@string/report_description"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/description_head"
+                android:background="@android:color/white"
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:lines="6"
+                android:maxLength="500"
+                android:maxLines="10"
+                android:minLines="6"
+                android:scrollbars="vertical"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/send"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/description"
+                android:layout_marginTop="10dp"
+                android:text="@string/report_send"
+                android:theme="@style/ThemeOverlay.ButtonApp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</android.support.v4.widget.NestedScrollView>

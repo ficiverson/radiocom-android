@@ -27,14 +27,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,48 +41,41 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import justforcommunity.radiocom.R;
-import justforcommunity.radiocom.model.ReportDTO;
-import justforcommunity.radiocom.task.FirebaseUtils;
-import justforcommunity.radiocom.task.Report.SendAnswerReport;
+import justforcommunity.radiocom.model.ReserveDTO;
+import justforcommunity.radiocom.task.Reserve.Reserve.SendAnswerReserve;
 import justforcommunity.radiocom.utils.DateUtils;
 import justforcommunity.radiocom.utils.FileUtils;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.PodcastingService;
 
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
-import static justforcommunity.radiocom.utils.GlobalValues.imageReportURL;
+import static justforcommunity.radiocom.utils.GlobalValues.RESERVE_JSON;
 
-public class Report extends FirebaseActivity {
+public class Reserve extends AppCompatActivity {
 
     public SharedPreferences prefs;
     public SharedPreferences.Editor edit;
-    private ReportDTO report;
+    private ReserveDTO reserve;
     private AVLoadingIndicatorView avi;
     private Context mContext;
-    private Report mActivity;
-    private LinearLayout imagesReport;
+    private Reserve mActivity;
     private Button answer_button;
     private Dialog myDialog;
 
     private TextView dateCreate;
-    private TextView programName;
+    private TextView elementName;
     private TextView accountName;
-    private TextView tidy;
-    private TextView dirt;
-    private TextView openDoor;
-    private TextView viewMembers;
-    private TextView configuration;
-    private TextView location;
-    private TextView description;
+    private TextView dateStart;
+    private TextView dateEnd;
     private TextView dateRevision;
+    private TextView dateApproval;
+    private TextView description;
+    private TextView state;
     private TextView active;
     private TextView answer;
-    private TextView photos_head;
     private EditText answer_view;
 
     @Override
@@ -91,7 +83,7 @@ public class Report extends FirebaseActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report);
+        setContentView(R.layout.activity_reserve);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -111,18 +103,17 @@ public class Report extends FirebaseActivity {
         prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         edit = prefs.edit();
 
-        String jsonReport = getIntent().getStringExtra(REPORT_JSON);
+        String jsonReserve = getIntent().getStringExtra(RESERVE_JSON);
         Gson gson = new Gson();
 
-        if (jsonReport != null && jsonReport != "") {
-            report = gson.fromJson(jsonReport, ReportDTO.class);
+        if (jsonReserve != null && jsonReserve != "") {
+            reserve = gson.fromJson(jsonReserve, ReserveDTO.class);
         } else {
-            //take last report selected
-            report = gson.fromJson(prefs.getString(REPORT_JSON, ""), ReportDTO.class);
+            //take last reserve selected
+            reserve = gson.fromJson(prefs.getString(RESERVE_JSON, ""), ReserveDTO.class);
         }
 
-
-        // Listener send report
+        // Listener send reserve
         answer_button = (Button) findViewById(R.id.answer_button);
         answer_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,56 +122,55 @@ public class Report extends FirebaseActivity {
             }
         });
 
-        Button down_button = (Button) this.findViewById(R.id.down_button);
+        Button accept_button = (Button) this.findViewById(R.id.accept_button);
+        Button deny_button = (Button) this.findViewById(R.id.deny_button);
+
         // Only manager
         if (getIntent().getBooleanExtra(MANAGE, false)) {
-            down_button.setOnClickListener(new View.OnClickListener() {
+            accept_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createAnswer(true);
+                }
+            });
+            deny_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     createAnswer(false);
                 }
             });
         } else {
-            down_button.setVisibility(View.GONE);
+            accept_button.setVisibility(View.GONE);
+            deny_button.setVisibility(View.GONE);
         }
 
         dateCreate = (TextView) findViewById(R.id.dateCreate);
-        programName = (TextView) findViewById(R.id.programName);
+        elementName = (TextView) findViewById(R.id.elementName);
         accountName = (TextView) findViewById(R.id.accountName);
-        tidy = (TextView) findViewById(R.id.tidy);
-        dirt = (TextView) findViewById(R.id.dirt);
-        configuration = (TextView) findViewById(R.id.configuration);
-        openDoor = (TextView) findViewById(R.id.openDoor);
-        viewMembers = (TextView) findViewById(R.id.viewMembers);
-        location = (TextView) findViewById(R.id.location);
         description = (TextView) findViewById(R.id.description);
+        dateStart = (TextView) findViewById(R.id.dateStart);
+        dateEnd = (TextView) findViewById(R.id.dateEnd);
         dateRevision = (TextView) findViewById(R.id.dateRevision);
+        dateApproval = (TextView) findViewById(R.id.dateApproval);
+        state = (TextView) findViewById(R.id.state);
         active = (TextView) findViewById(R.id.active);
         answer = (TextView) findViewById(R.id.answer);
         answer_view = (EditText) findViewById(R.id.answer_new);
-        imagesReport = (LinearLayout) findViewById(R.id.images_report);
-        photos_head = (TextView) findViewById(R.id.photos_head);
 
-        if (report != null) {
-            getSupportActionBar().setTitle(DateUtils.formatDate(report.getDateCreate(), DateUtils.FORMAT_DISPLAY));
+        if (reserve != null) {
+            getSupportActionBar().setTitle(DateUtils.formatDate(reserve.getDateCreate(), DateUtils.FORMAT_DISPLAY));
 
-            dateCreate.setText(DateUtils.formatDate(report.getDateCreate(), DateUtils.FORMAT_DISPLAY));
-            programName.setText(String.valueOf(report.getProgram().getName()));
-            accountName.setText(String.valueOf(report.getAccount().getFullName()));
-            tidy.setText(String.valueOf(report.getTidy()));
-            dirt.setText(String.valueOf(report.getDirt()));
-            configuration.setText(String.valueOf(report.getConfiguration()));
-            openDoor.setText(FileUtils.formatBoolean(mContext, report.isOpenDoor()));
-            viewMembers.setText(FileUtils.formatBoolean(mContext, report.isViewMembers()));
-            location.setText(report.getLocation());
-            description.setText(report.getDescription());
-            dateRevision.setText(DateUtils.formatDate(report.getDateRevision(), DateUtils.FORMAT_DISPLAY));
-            active.setText(FileUtils.formatBoolean(mContext, report.isActive()));
-            answer.setText(report.getAnswer());
-
-            // get token firebase
-            FirebaseUtils firebase = new FirebaseUtils(this);
-            firebase.execute();
+            dateCreate.setText(DateUtils.formatDate(reserve.getDateCreate(), DateUtils.FORMAT_DISPLAY));
+            elementName.setText(reserve.getElement().getName());
+            accountName.setText(reserve.getAccount().getFullName());
+            description.setText(reserve.getDescription());
+            dateStart.setText(DateUtils.formatDate(reserve.getDateStart(), DateUtils.FORMAT_DISPLAY));
+            dateEnd.setText(DateUtils.formatDate(reserve.getDateEnd(), DateUtils.FORMAT_DISPLAY));
+            dateRevision.setText(DateUtils.formatDate(reserve.getDateRevision(), DateUtils.FORMAT_DISPLAY));
+            dateApproval.setText(DateUtils.formatDate(reserve.getDateApproval(), DateUtils.FORMAT_DISPLAY));
+            state.setText(FileUtils.getState(mContext, reserve.getState()));
+            active.setText(FileUtils.formatBoolean(mContext, reserve.isActive()));
+            answer.setText(reserve.getAnswer());
 
             avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
             //avi.show();
@@ -189,31 +179,8 @@ public class Report extends FirebaseActivity {
 
         App application = (App) getApplication();
         Tracker mTracker = application.getDefaultTracker();
-        mTracker.setScreenName(getString(R.string.report_activity));
+        mTracker.setScreenName(getString(R.string.reserve_activity));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-    }
-
-    @Override
-    public void setToken(String token) {
-
-        //Put visibility photos head
-        if (report.getFiles() != null && !report.getFiles().isEmpty()) {
-            photos_head.setVisibility(View.VISIBLE);
-        }
-        for (String nameFile : report.getFiles()) {
-            String url = imageReportURL + report.getId() + "?imageName=" + nameFile + "&token=" + token;
-            ImageView image = newImageView();
-            imagesReport.addView(image);
-            Picasso.with(mContext).load(url).into(image);
-        }
-    }
-
-    // Create new ImageView with parameters
-    private ImageView newImageView() {
-        ImageView imageView = new ImageView(this);
-        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        imageView.setAdjustViewBounds(true);
-        return imageView;
     }
 
     @Override
@@ -228,14 +195,13 @@ public class Report extends FirebaseActivity {
         super.onStop();
     }
 
-
     @Override
     protected void onNewIntent(Intent intent) {
 
         if (intent != null) {//stop media player
             if (intent.getBooleanExtra("stopService", false)) {
                 if (!intent.getBooleanExtra("notificationSkip", false)) {
-                    Intent i = new Intent(Report.this, PodcastingService.class);
+                    Intent i = new Intent(Reserve.this, PodcastingService.class);
                     stopService(i);
                     //notifyAdapterToRefresh();
                 }
@@ -244,9 +210,8 @@ public class Report extends FirebaseActivity {
         super.onNewIntent(intent);
     }
 
-
     /**
-     * Function to show a dialog popup while async task is working
+     * function to show a dialog popup while async task is working
      *
      * @param stringId
      */
@@ -263,18 +228,18 @@ public class Report extends FirebaseActivity {
         myDialog.dismiss();
     }
 
-    // Show toast if send report is success
-    public void resultOK(ReportDTO report) {
-        Toast.makeText(this, getResources().getString(R.string.report_send_answer_success), Toast.LENGTH_SHORT).show();
+    // Show toast if send reserve is success
+    public void resultOK(ReserveDTO reserve) {
+        Toast.makeText(this, getResources().getString(R.string.reserve_send_answer_success), Toast.LENGTH_SHORT).show();
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(REPORT_JSON, new Gson().toJson(report));
+        returnIntent.putExtra(RESERVE_JSON, new Gson().toJson(reserve));
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
 
-    // Show toast if send report is fail
+    // Show toast if send reserve is fail
     public void resultKO() {
-        Toast.makeText(this, getResources().getString(R.string.report_send_answer_fail), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.reserve_send_answer_fail), Toast.LENGTH_SHORT).show();
     }
 
     // Create new answer with form
@@ -282,10 +247,10 @@ public class Report extends FirebaseActivity {
 
         if (TextUtils.isEmpty(answer_view.getText().toString())) {
             answer_view.setError(getResources().getString(R.string.required));
-            Toast.makeText(this, getResources().getString(R.string.report_complete_fields), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.reserve_complete_fields), Toast.LENGTH_SHORT).show();
         } else {
-            SendAnswerReport sendAnswerReport = new SendAnswerReport(mContext, mActivity, report.getId(), answer_view.getText().toString(), manage);
-            sendAnswerReport.execute();
+            SendAnswerReserve sendAnswerReserve = new SendAnswerReserve(mContext, mActivity, reserve.getId(), answer_view.getText().toString(), manage);
+            sendAnswerReserve.execute();
         }
     }
 

@@ -1,8 +1,8 @@
 /*
  *
- *  * Copyright (C) 2017 @ Pablo Grela
+ *  * Copyright (C) 2016 @ Fernando Souto González
  *  *
- *  * Developer Pablo Grela
+ *  * Developer Fernando Souto
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -20,7 +20,11 @@
 
 package justforcommunity.radiocom.service;
 
+
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -28,41 +32,46 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.model.AccountDTO;
+import justforcommunity.radiocom.model.ElementDTO;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
 
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
-import static justforcommunity.radiocom.utils.GlobalValues.accountURL;
 
-public class ServiceAccounts extends ServiceBase {
 
-    public ServiceAccounts(Locale language) {
+public class ServiceElements extends ServiceBase {
+
+    public ServiceElements(Locale language) {
         super(language);
     }
 
-    public AccountDTO getAccount() throws RestClientException, WebServiceStatusFailException {
+    public List<ElementDTO> getElements(String restURL) throws RestClientException, WebServiceStatusFailException {
 
-        String url = accountURL + "?token=" + getTokenFirebase();
-        ResponseEntity<AccountDTO> response;
+        String url = restURL + "?token=" + getTokenFirebase();
+        ResponseEntity<String> response;
 
         try {
             agregarCabeceras(getRequestHeaders());
             HttpEntity<?> request;
             request = new HttpEntity<Object>(getRequestHeaders());
 
-            response = getRestTemplate().exchange(url, HttpMethod.GET, request, AccountDTO.class);
-
+            response = getRestTemplate().exchange(url, HttpMethod.GET, request, String.class);
             if (response.getStatusCode() != HttpStatus.OK) {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
-            Log.e("ServiceReports", "getReports()", e);
+            Log.e("ServiceElements", "getElementsUser", e);
             throw e;
         }
 
-        return response.getBody();
-    }
+        Type listType = new TypeToken<ArrayList<ElementDTO>>() {
+        }.getType();
+        List<ElementDTO> elementsDTO = new Gson().fromJson(response.getBody(), listType);
 
+        return elementsDTO;
+    }
 }

@@ -21,7 +21,6 @@
 package justforcommunity.radiocom.activities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,7 +28,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -40,10 +38,8 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,13 +51,17 @@ import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 
 import justforcommunity.radiocom.R;
+import justforcommunity.radiocom.fragments.FilterFragment;
 import justforcommunity.radiocom.fragments.HomePageFragment;
 import justforcommunity.radiocom.fragments.NewsPageFragment;
 import justforcommunity.radiocom.fragments.PodcastPageFragment;
 import justforcommunity.radiocom.fragments.ReportPageFragment;
 import justforcommunity.radiocom.fragments.ReportUserPageFragment;
+import justforcommunity.radiocom.fragments.ReservePageFragment;
+import justforcommunity.radiocom.fragments.ReserveUserPageFragment;
 import justforcommunity.radiocom.model.AccountDTO;
 import justforcommunity.radiocom.model.StationDTO;
+import justforcommunity.radiocom.task.FirebaseUtils;
 import justforcommunity.radiocom.task.GetAccount;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.StreamingService;
@@ -69,8 +69,9 @@ import justforcommunity.radiocom.utils.StreamingService;
 import static justforcommunity.radiocom.utils.FileUtils.processBuilder;
 import static justforcommunity.radiocom.utils.GlobalValues.ACCOUNT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.ROLE_REPORT;
+import static justforcommunity.radiocom.utils.GlobalValues.ROLE_RESERVE;
 
-public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Home extends FirebaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private Context mContext;
     private StationDTO station;
@@ -86,15 +87,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     private ImageView nav_authenticate;
     // private FirebaseUser user;
     private AccountDTO accountDTO;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
 
         mContext = this;
@@ -103,8 +103,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -135,6 +134,16 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             station = gson.fromJson(prefs.getString("jsonStation", ""), StationDTO.class);
         }
 
+        // Refresh info account of user
+        AccountDTO accountDTO = new Gson().fromJson(prefs.getString(ACCOUNT_JSON, ""), AccountDTO.class);
+        if (accountDTO != null) {
+            GetAccount getAccount = new GetAccount(mContext);
+            getAccount.execute();
+        }
+        // get token firebase
+        FirebaseUtils firebase = new FirebaseUtils(this);
+        firebase.execute();
+
         //Load the fragment with the server configuration
         switch (station.getLaunch_screen()) {
             case 0:
@@ -162,16 +171,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             boolean hasPermission = (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED);
             if (!hasPermission) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_STORAGE);
             }
-        }
-
-        // Refresh info account of user
-        AccountDTO accountDTO = new Gson().fromJson(prefs.getString(ACCOUNT_JSON, ""), AccountDTO.class);
-        if (accountDTO != null) {
-            GetAccount getAccount = new GetAccount(mContext);
-            getAccount.execute();
         }
 
         App application = (App) getApplication();
@@ -326,26 +327,24 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         //Set the ontouch listener nav_authenticate
         nav_authenticate = (ImageView) findViewById(R.id.nav_authenticate);
-        nav_authenticate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadAuthenticate();
-            }
-        });
+        if (nav_authenticate != null) {
+            nav_authenticate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    loadAuthenticate();
+                }
+            });
+        }
         changeUserImage();
         return true;
     }
 
     public void filterSearch(String query) {
-        PodcastPageFragment podcastFragment = (PodcastPageFragment) getSupportFragmentManager().findFragmentByTag(mContext.getString(R.string.action_podcast));
-        if (podcastFragment != null && podcastFragment.isVisible()) {
-            podcastFragment.filterDataSearch(query);
-            return;
-        }
-        ReportPageFragment reportPageFragment = (ReportPageFragment) getSupportFragmentManager().findFragmentByTag(mContext.getString(R.string.action_user_report));
-        if (reportPageFragment != null && reportPageFragment.isVisible()) {
-            reportPageFragment.filterDataSearch(query);
-            return;
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment instanceof FilterFragment && fragment != null && fragment.isVisible()) {
+                ((FilterFragment) fragment).filterDataSearch(query);
+                return;
+            }
         }
     }
 
@@ -384,6 +383,15 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 break;
             case R.id.nav_report:
                 loadReport();
+                break;
+            case R.id.nav_user_reserve:
+                loadUserReserve();
+                break;
+            case R.id.nav_reserve:
+                loadReserve();
+                break;
+            case R.id.nav_members:
+                processBuilder(mContext, this, GlobalValues.membersAPI + "?token=" + token);
                 break;
             case R.id.nav_map:
                 loadMap();
@@ -460,15 +468,29 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     public void loadUserReport() {
         isSearchable = true;
         invalidateOptionsMenu();
-        ReportUserPageFragment reportsUserPageFragment = new ReportUserPageFragment();
-        processFragment(reportsUserPageFragment, mContext.getString(R.string.action_user_report));
+        ReportUserPageFragment reportUserPageFragment = new ReportUserPageFragment();
+        processFragment(reportUserPageFragment, mContext.getString(R.string.action_user_report));
     }
 
     public void loadReport() {
         isSearchable = true;
         invalidateOptionsMenu();
-        ReportPageFragment reportsPageFragment = new ReportPageFragment();
-        processFragment(reportsPageFragment, mContext.getString(R.string.action_report));
+        ReportPageFragment reportPageFragment = new ReportPageFragment();
+        processFragment(reportPageFragment, mContext.getString(R.string.action_report));
+    }
+
+    public void loadUserReserve() {
+        isSearchable = true;
+        invalidateOptionsMenu();
+        ReserveUserPageFragment reserveUserPageFragment = new ReserveUserPageFragment();
+        processFragment(reserveUserPageFragment, mContext.getString(R.string.action_user_reserve));
+    }
+
+    public void loadReserve() {
+        isSearchable = true;
+        invalidateOptionsMenu();
+        ReservePageFragment reservePageFragment = new ReservePageFragment();
+        processFragment(reservePageFragment, mContext.getString(R.string.action_reserve));
     }
 
     public void loadMap() {
@@ -584,17 +606,18 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         if (accountDTO != null) {
             navigationView.getMenu().findItem(R.id.management).setVisible(true);
-            navigationView.getMenu().findItem(R.id.management).setEnabled(true);
             if (accountDTO != null && accountDTO.getPermissions().contains(ROLE_REPORT)) {
                 navigationView.getMenu().findItem(R.id.nav_report).setVisible(true);
-                navigationView.getMenu().findItem(R.id.nav_report).setEnabled(true);
             } else {
                 navigationView.getMenu().findItem(R.id.nav_report).setVisible(false);
-                navigationView.getMenu().findItem(R.id.nav_report).setEnabled(false);
+            }
+            if (accountDTO != null && accountDTO.getPermissions().contains(ROLE_RESERVE)) {
+                navigationView.getMenu().findItem(R.id.nav_reserve).setVisible(true);
+            } else {
+                navigationView.getMenu().findItem(R.id.nav_reserve).setVisible(false);
             }
         } else {
             navigationView.getMenu().findItem(R.id.management).setVisible(false);
-            navigationView.getMenu().findItem(R.id.management).setEnabled(false);
         }
 
         changeUserImage();
@@ -610,5 +633,10 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
                 nav_authenticate.setImageResource(R.drawable.user_inactive);
             }
         }
+    }
+
+    @Override
+    public void setToken(String token) {
+        this.token = token;
     }
 }

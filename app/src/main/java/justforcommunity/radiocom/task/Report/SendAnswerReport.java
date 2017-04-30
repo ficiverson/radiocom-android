@@ -31,12 +31,12 @@ import java.util.Locale;
 import justforcommunity.radiocom.activities.Report;
 import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.service.ServiceReports;
-import justforcommunity.radiocom.utils.ConexionInternet;
+import justforcommunity.radiocom.utils.InternetConnection;
 
 
 public class SendAnswerReport extends AsyncTask<Boolean, Float, Boolean> {
 
-    private static final String TAG = "GetReports";
+    private static final String TAG = "GetReserves";
     private Context mContext;
     private Report activity;
     private ServiceReports serviceReports;
@@ -44,24 +44,26 @@ public class SendAnswerReport extends AsyncTask<Boolean, Float, Boolean> {
     private ReportDTO report;
     private Long reportId;
     private String answer;
+    private Boolean manage;
 
-    public SendAnswerReport(Context context, Report activity, Long reportId, String answer) {
+    public SendAnswerReport(Context context, Report activity, Long reportId, String answer, Boolean manage) {
         this.activity = activity;
         this.mContext = context;
         this.reportId = reportId;
         this.answer = answer;
-        locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        serviceReports = new ServiceReports(locale);
+        this.manage = manage;
+        this.locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
+        this.serviceReports = new ServiceReports(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
         boolean res = false;
-        ConexionInternet cnn = new ConexionInternet();
+        InternetConnection cnn = new InternetConnection();
 
         if (cnn.isConnected(mContext)) {
 
             try {
-                report = serviceReports.SendAnswerReport(reportId, answer);
+                report = serviceReports.SendAnswerReport(reportId, answer, manage);
                 res = true;
             } catch (RestClientException e) {
                 Log.e(TAG, "doInBackground()", e);

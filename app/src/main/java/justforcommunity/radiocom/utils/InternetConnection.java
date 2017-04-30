@@ -20,12 +20,6 @@
 
 package justforcommunity.radiocom.utils;
 
-/**
- * Created by appeiros on 7/3/16.
- */
-
-
-
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -33,74 +27,80 @@ import android.telephony.TelephonyManager;
 
 /**
  * Check device's network connectivity and speed
- * @author emil http://stackoverflow.com/users/220710/emil
  *
+ * @author emil http://stackoverflow.com/users/220710/emil
  */
-public class ConexionInternet {
+public class InternetConnection {
 
     /**
      * Get the network info
+     *
      * @param context
      * @return
      */
-    public static NetworkInfo getNetworkInfo(Context context){
+    public static NetworkInfo getNetworkInfo(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo();
     }
 
     /**
      * Check if there is any connectivity
+     *
      * @param context
      * @return
      */
-    public boolean isConnected(Context context){
-        NetworkInfo info = ConexionInternet.getNetworkInfo(context);
+    public boolean isConnected(Context context) {
+        NetworkInfo info = InternetConnection.getNetworkInfo(context);
         return (info != null && info.isConnected());
     }
 
     /**
      * Check if there is any connectivity to a Wifi network
+     *
      * @param context
      * @return
      */
-    public boolean isConnectedWifi(Context context){
-        NetworkInfo info = ConexionInternet.getNetworkInfo(context);
+    public boolean isConnectedWifi(Context context) {
+        NetworkInfo info = InternetConnection.getNetworkInfo(context);
         return (info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_WIFI);
     }
 
     /**
      * Check if there is any connectivity to a mobile network
+     *
      * @param context
      * @return
      */
-    public boolean isConnectedMobile(Context context){
-        NetworkInfo info = ConexionInternet.getNetworkInfo(context);
+    public boolean isConnectedMobile(Context context) {
+        NetworkInfo info = InternetConnection.getNetworkInfo(context);
         return (info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_MOBILE);
     }
 
     /**
      * Check if there is fast connectivity
+     *
      * @param context
      * @return
      */
-    public  boolean isConnectedFast(Context context){
+    public boolean isConnectedFast(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
         TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return (info != null && info.isConnected() && ConexionInternet.isConnectionFast(info.getType(), tm.getNetworkType()));
+        return (info != null && info.isConnected() && InternetConnection.isConnectionFast(info.getType(), tm.getNetworkType()));
     }
 
     /**
      * Check if the connection is fast
+     *
      * @param type
      * @param subType
      * @return
      */
-    public static boolean isConnectionFast(int type, int subType){
-        if(type==ConnectivityManager.TYPE_WIFI){
+    public static boolean isConnectionFast(int type, int subType) {
+        if (type == ConnectivityManager.TYPE_WIFI) {
             return true;
-        }else if(type==ConnectivityManager.TYPE_MOBILE){
-            switch(subType){
+        } else if (type == ConnectivityManager.TYPE_MOBILE) {
+            switch (subType) {
                 case TelephonyManager.NETWORK_TYPE_1xRTT:
                     return false; // ~ 50-100 kbps
                 case TelephonyManager.NETWORK_TYPE_CDMA:
@@ -140,7 +140,7 @@ public class ConexionInternet {
                 default:
                     return false;
             }
-        }else{
+        } else {
             return false;
         }
     }

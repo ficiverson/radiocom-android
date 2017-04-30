@@ -27,7 +27,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -35,35 +34,35 @@ import java.util.List;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.Home;
-import justforcommunity.radiocom.model.ReportDTO;
+import justforcommunity.radiocom.model.ReserveDTO;
 import justforcommunity.radiocom.utils.DateUtils;
+import justforcommunity.radiocom.utils.FileUtils;
 
-public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filterable {
+public class ReserveListAdapter extends ArrayAdapter<ReserveDTO> implements Filterable {
 
     private Context mContext;
     private Home mActivity;
     private ItemFilter mFilter = new ItemFilter();
-    private List<ReportDTO> originalData = null;
-    private List<ReportDTO> filteredData = null;
+    private List<ReserveDTO> originalData = null;
+    private List<ReserveDTO> filteredData = null;
     private boolean management;
 
-    public ReportListAdapter(Home mActivity, Context context, int resource, List<ReportDTO> reportDTOs, boolean management) {
-        super(context, resource, reportDTOs);
+    public ReserveListAdapter(Home mActivity, Context context, int resource, List<ReserveDTO> reserveDTOs, boolean management) {
+        super(context, resource, reserveDTOs);
+        this.management = management;
         this.mContext = context;
         this.mActivity = mActivity;
-        this.originalData = reportDTOs;
-        this.filteredData = reportDTOs;
-        this.management = management;
+        this.originalData = reserveDTOs;
+        this.filteredData = reserveDTOs;
     }
 
     static class ViewHolder {
-        TextView programName;
+        TextView elementName;
         TextView accountName;
         TextView dateCreate;
-        TextView tidy;
-        TextView dirt;
-        TextView configuration;
-        ImageView photoImageView;
+        TextView dateStart;
+        TextView dateEnd;
+        TextView state;
         View viewtrans;
     }
 
@@ -73,7 +72,7 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
     }
 
     @Override
-    public ReportDTO getItem(int position) {
+    public ReserveDTO getItem(int position) {
         return filteredData.get(position);
     }
 
@@ -86,16 +85,15 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.listitem_report, null);
+            v = vi.inflate(R.layout.listitem_reserve, null);
 
             holder = new ViewHolder();
-            holder.programName = (TextView) v.findViewById(R.id.programName);
-            holder.accountName = (TextView) v.findViewById(R.id.accountName);
             holder.dateCreate = (TextView) v.findViewById(R.id.dateCreate);
-            holder.tidy = (TextView) v.findViewById(R.id.tidy);
-            holder.dirt = (TextView) v.findViewById(R.id.dirt);
-            holder.configuration = (TextView) v.findViewById(R.id.configuration);
-            holder.photoImageView = (ImageView) v.findViewById(R.id.channel_image);
+            holder.elementName = (TextView) v.findViewById(R.id.elementName);
+            holder.accountName = (TextView) v.findViewById(R.id.accountName);
+            holder.dateStart = (TextView) v.findViewById(R.id.dateStart);
+            holder.dateEnd = (TextView) v.findViewById(R.id.dateEnd);
+            holder.state = (TextView) v.findViewById(R.id.state);
             holder.viewtrans = (View) v.findViewById(R.id.viewtrans);
 
             if (management) {
@@ -108,15 +106,15 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
             holder = (ViewHolder) v.getTag();
         }
 
-        ReportDTO reportDTO = getItem(position);
+        ReserveDTO reserveDTO = getItem(position);
 
-        if (reportDTO != null) {
-            holder.programName.setText(String.valueOf(reportDTO.getProgram().getName()));
-            holder.accountName.setText(String.valueOf(reportDTO.getAccount().getFullName()));
-            holder.dateCreate.setText(DateUtils.formatDate(reportDTO.getDateCreate(), DateUtils.FORMAT_DISPLAY));
-            holder.tidy.setText(String.valueOf(reportDTO.getTidy()));
-            holder.dirt.setText(String.valueOf(reportDTO.getDirt()));
-            holder.configuration.setText(String.valueOf(reportDTO.getConfiguration()));
+        if (reserveDTO != null) {
+            holder.elementName.setText(String.valueOf(reserveDTO.getElement().getName()));
+            holder.accountName.setText(String.valueOf(reserveDTO.getAccount().getFullName()));
+            holder.dateCreate.setText(DateUtils.formatDate(reserveDTO.getDateCreate(), DateUtils.FORMAT_DISPLAY));
+            holder.dateStart.setText(DateUtils.formatDate(reserveDTO.getDateStart(), DateUtils.FORMAT_DISPLAY));
+            holder.dateEnd.setText(DateUtils.formatDate(reserveDTO.getDateEnd(), DateUtils.FORMAT_DISPLAY));
+            holder.state.setText(FileUtils.getState(mContext, String.valueOf(reserveDTO.getState())));
         }
         return v;
     }
@@ -132,28 +130,27 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
 
             String filterString = constraint.toString().toLowerCase();
             FilterResults results = new FilterResults();
-            final List<ReportDTO> list = originalData;
+            final List<ReserveDTO> list = originalData;
             int count = list.size();
-            final ArrayList<ReportDTO> nlist = new ArrayList<>(count);
-            ReportDTO filterableString;
-
+            final ArrayList<ReserveDTO> nList = new ArrayList<>(count);
+            ReserveDTO filterableString;
             for (int i = 0; i < count; i++) {
                 filterableString = list.get(i);
-                if (filterableString.getProgram().getName().toLowerCase().contains(filterString) ||
+                if (filterableString.getElement().getName().toLowerCase().contains(filterString) ||
                         filterableString.getAccount().getFullName().toLowerCase().contains(filterString)) {
-                    nlist.add(filterableString);
+                    nList.add(filterableString);
                 }
             }
 
-            results.values = nlist;
-            results.count = nlist.size();
+            results.values = nList;
+            results.count = nList.size();
             return results;
         }
 
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            filteredData = (ArrayList<ReportDTO>) results.values;
+            filteredData = (ArrayList<ReserveDTO>) results.values;
             notifyDataSetChanged();
         }
     }

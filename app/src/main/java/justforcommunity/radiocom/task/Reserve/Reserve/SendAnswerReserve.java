@@ -18,7 +18,7 @@
  *
  */
 
-package justforcommunity.radiocom.task.Report;
+package justforcommunity.radiocom.task.Reserve.Reserve;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -26,30 +26,34 @@ import android.util.Log;
 
 import org.springframework.web.client.RestClientException;
 
-import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.fragments.ReportPageFragment;
-import justforcommunity.radiocom.model.ReportDTO;
-import justforcommunity.radiocom.service.ServiceReports;
+import justforcommunity.radiocom.activities.Reserve;
+import justforcommunity.radiocom.model.ReserveDTO;
+import justforcommunity.radiocom.service.ServiceReserves;
 import justforcommunity.radiocom.utils.InternetConnection;
 
-public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
+
+public class SendAnswerReserve extends AsyncTask<Boolean, Float, Boolean> {
 
     private static final String TAG = "GetReserves";
     private Context mContext;
-    private ReportPageFragment fragment;
-    private ServiceReports serviceReports;
+    private Reserve activity;
+    private ServiceReserves serviceReserves;
     private Locale locale;
-    private String restURL;
-    private List<ReportDTO> reportsDTO;
+    private ReserveDTO reserve;
+    private Long reserveId;
+    private String answer;
+    private Boolean manage;
 
-    public GetReports(Context context, ReportPageFragment fragment, String restURL) {
-        this.fragment = fragment;
+    public SendAnswerReserve(Context context, Reserve activity, Long reserveId, String answer, Boolean manage) {
+        this.activity = activity;
         this.mContext = context;
+        this.reserveId = reserveId;
+        this.answer = answer;
+        this.manage = manage;
         this.locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        this.serviceReports = new ServiceReports(locale);
-        this.restURL = restURL;
+        this.serviceReserves = new ServiceReserves(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
@@ -59,16 +63,13 @@ public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                reportsDTO = serviceReports.getReports(restURL);
+                reserve = serviceReserves.SendAnswerReserve(reserveId, answer, manage);
                 res = true;
-
             } catch (RestClientException e) {
                 Log.e(TAG, "doInBackground()", e);
-                reportsDTO = null;
                 res = false;
             } catch (Exception e) {
                 Log.e(TAG, "doInBackground()", e);
-                reportsDTO = null;
                 res = false;
             }
         }
@@ -76,11 +77,10 @@ public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
     }
 
     protected void onPostExecute(Boolean result) {
-
         if (result) {
-            fragment.setReportList(reportsDTO);
+            activity.resultOK(reserve);
         } else {
-            fragment.resultKO();
+            activity.resultKO();
         }
     }
 }
