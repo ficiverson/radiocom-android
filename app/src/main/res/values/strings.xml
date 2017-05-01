@@ -114,7 +114,7 @@
     <string name="reserve_send_answer_success">!Se ha enviado la respuesta¡</string>
     <string name="reserve_send_answer_fail">¡Hubo un fallo al enviar la respuesta!</string>
     <string name="reserve_send">Enviar</string>
-    <string name="reserve_send_success">!Se ha enviado el informe¡</string>
+    <string name="reserve_send_success">!Se ha enviado la petición de reserva¡</string>
     <string name="reserve_send_fail">¡Hubo un fallo al enviar la reserva!</string>
     <string name="reserve_send_fail_already">!Ya se ha reservado el elemento en un margen mayor!</string>
     <string name="reserve_fail_dates">!La fecha de fin ha de ser posterior que la de comienzo!</string>

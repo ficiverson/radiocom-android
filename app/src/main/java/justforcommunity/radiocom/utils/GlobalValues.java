@@ -22,8 +22,6 @@ package justforcommunity.radiocom.utils;
 
 import android.os.Environment;
 
-import com.google.firebase.auth.FirebaseUser;
-
 import justforcommunity.radiocom.activities.App;
 
 /**
@@ -39,37 +37,39 @@ public class GlobalValues {
     //public static final String baseURL = "https://cuacfm.org/radioco/api/1/radiocom/";
     public static final String prefName = "commradio";
 
-    // Test 10.0.2.2:8080, Real cuacfm.org
-    // public static final String membersURL = "https://cuacfm.org/members/";
+    // public static final String membersURL = baseURLWEB + "members/";
     public static final String membersURL = "http://10.0.2.2:8080/members/";
+    // public static final String membersURL = "http://192.168.137.111:8080/members/";
+
     public static final String signupURL = membersURL + "signup";
     public static final String membersAPI = membersURL + "api/";
+
     // Reports
-    public static final String reportsURL = membersURL + "api/reportList/";
-    public static final String reportsUserURL = membersURL + "api/reportUserList/";
+    public static final String reportsURL = membersAPI + "reportList/";
+    public static final String reportsUserURL = membersAPI + "reportUserList/";
     public static final String createReportURL = reportsURL + "reportCreate";
     public static final String imageReportURL = reportsURL + "image/";
     public static final String sendAnswerReportURL = reportsURL + "reportAnswer/";
 
     // Reserves
-    public static final String reservesURL = membersURL + "api/reserveList/";
-    public static final String reservesUserURL = membersURL + "api/reserveUserList/";
+    public static final String reservesURL = membersAPI + "reserveList/";
+    public static final String reservesUserURL = membersAPI + "reserveUserList/";
     public static final String createReserveURL = reservesURL + "reserveCreate";
     public static final String sendAnswerReserveURL = reservesURL + "reserveAnswer/";
 
     // Programs
-    public static final String programsURL = membersURL + "api/programList/";
-    public static final String programsUserURL = membersURL + "api/programUserList/";
+    public static final String programsURL = membersAPI + "programList/";
+    public static final String programsUserURL = membersAPI + "programUserList/";
 
     // Elements
-    public static final String elementsURL = membersURL + "api/elementList/";
+    public static final String elementsURL = membersAPI + "elementList/";
 
     // Accounts
-    public static final String accountsURL = membersURL + "api/accountList/";
+    public static final String accountsURL = membersAPI + "aaccountList/";
     public static final String accountURL = accountsURL + "account";
 
-    public static final String colorHTML = "#ff9900 !important";
 
+    public static final String colorHTML = "#ff9900 !important";
     public static final String city = "A Coruña";
 
     public static final String twitter = "https://twitter.com/";

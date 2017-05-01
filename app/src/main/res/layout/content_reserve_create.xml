@@ -31,13 +31,13 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="710dp"
+            android:layout_height="506dp"
             android:scaleType="centerCrop"
             android:src="@drawable/bk_nav_header" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="710dp"
+            android:layout_height="506dp"
             android:background="@color/colorPrimaryDark85" />
 
         <RelativeLayout

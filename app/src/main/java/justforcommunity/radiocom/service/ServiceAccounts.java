@@ -22,6 +22,8 @@ package justforcommunity.radiocom.service;
 
 import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -44,7 +46,7 @@ public class ServiceAccounts extends ServiceBase {
 
     public AccountDTO getAccount() throws RestClientException, WebServiceStatusFailException {
 
-        String url = accountURL + "?token=" + getTokenFirebase();
+        String url = accountURL + "?token=" + getTokenFirebase() + "&deviceToken=" + FirebaseInstanceId.getInstance().getToken();
         ResponseEntity<AccountDTO> response;
 
         try {
