@@ -37,8 +37,8 @@ public class GlobalValues {
     //public static final String baseURL = "https://cuacfm.org/radioco/api/1/radiocom/";
     public static final String prefName = "commradio";
 
-    // public static final String membersURL = baseURLWEB + "members/";
-    public static final String membersURL = "http://10.0.2.2:8080/members/";
+    public static final String membersURL = baseURLWEB + "members/";
+    // public static final String membersURL = "http://10.0.2.2:8080/members/";
     // public static final String membersURL = "http://192.168.137.111:8080/members/";
 
     public static final String signupURL = membersURL + "signup";
@@ -65,7 +65,7 @@ public class GlobalValues {
     public static final String elementsURL = membersAPI + "elementList/";
 
     // Accounts
-    public static final String accountsURL = membersAPI + "aaccountList/";
+    public static final String accountsURL = membersAPI + "accountList/";
     public static final String accountURL = accountsURL + "account";
 
 
@@ -90,6 +90,7 @@ public class GlobalValues {
 
     public static final String DOWNLOAD_DIR = Environment.getExternalStorageDirectory().toString() + "/Android/data/" + App.PACKAGE_NAME + "/downloaded/";
 
+    public static final int AUTH_REQUEST = 2000;
     public static final int REPORT_REQUEST = 3000;
     public static final int REPORT_ANSWER_REQUEST = 3001;
     public static final int RESERVE_REQUEST = 3010;

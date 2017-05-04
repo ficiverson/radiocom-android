@@ -21,6 +21,7 @@
 package justforcommunity.radiocom.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -68,6 +69,7 @@ import justforcommunity.radiocom.utils.StreamingService;
 
 import static justforcommunity.radiocom.utils.FileUtils.processBuilder;
 import static justforcommunity.radiocom.utils.GlobalValues.ACCOUNT_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.AUTH_REQUEST;
 import static justforcommunity.radiocom.utils.GlobalValues.ROLE_REPORT;
 import static justforcommunity.radiocom.utils.GlobalValues.ROLE_RESERVE;
 
@@ -134,15 +136,16 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
             station = gson.fromJson(prefs.getString("jsonStation", ""), StationDTO.class);
         }
 
-        // Refresh info account of user
+        // Recover user
         AccountDTO accountDTO = new Gson().fromJson(prefs.getString(ACCOUNT_JSON, ""), AccountDTO.class);
         if (accountDTO != null) {
-            GetAccount getAccount = new GetAccount(mContext);
+            // Refresh info account of user
+            GetAccount getAccount = new GetAccount(mContext, this);
             getAccount.execute();
+            // Get token firebase
+            FirebaseUtils firebase = new FirebaseUtils(this);
+            firebase.execute();
         }
-        // get token firebase
-        FirebaseUtils firebase = new FirebaseUtils(this);
-        firebase.execute();
 
         //Load the fragment with the server configuration
         switch (station.getLaunch_screen()) {
@@ -186,7 +189,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     public void onStart() {
         super.onStart();
         GoogleAnalytics.getInstance(this).reportActivityStart(this);
-        updateUserInfo();
+        //updateUserInfo();
     }
 
     @Override
@@ -219,7 +222,6 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                 }
             }
         }
-
     }
 
     @Override
@@ -260,9 +262,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                 finish();
             }
         }
-
         super.onNewIntent(intent);
-
     }
 
     @Override
@@ -421,6 +421,9 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if ((resultCode == Activity.RESULT_OK || resultCode == Activity.RESULT_CANCELED) && requestCode == AUTH_REQUEST) {
+            updateUserInfo();
+        }
     }
 
     public String getCityByCoords(String lat, String longi) {
@@ -438,8 +441,10 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     }
 
     public void loadAuthenticate() {
+        // Intent intent = new Intent(this, Authenticate.class);
+        // startActivity(intent);
         Intent intent = new Intent(this, Authenticate.class);
-        startActivity(intent);
+        startActivityForResult(intent, AUTH_REQUEST);
     }
 
     public void loadStation() {
@@ -597,7 +602,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         getSupportActionBar().setTitle(title);
     }
 
-    private void updateUserInfo() {
+    public void updateUserInfo() {
 
         // Get firebase user
         // user = FirebaseAuth.getInstance().getCurrentUser();
@@ -627,7 +632,6 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         if (nav_authenticate != null) {
             if (accountDTO != null) {
                 // Maybe put personal photo user
-                //accountDTO.getPhotoUrl();
                 nav_authenticate.setImageResource(R.drawable.user_active);
             } else {
                 nav_authenticate.setImageResource(R.drawable.user_inactive);

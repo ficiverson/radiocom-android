@@ -31,10 +31,11 @@ import org.springframework.web.client.RestClientException;
 
 import java.util.Locale;
 
+import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.model.AccountDTO;
 import justforcommunity.radiocom.service.ServiceAccounts;
-import justforcommunity.radiocom.utils.InternetConnection;
 import justforcommunity.radiocom.utils.GlobalValues;
+import justforcommunity.radiocom.utils.InternetConnection;
 
 import static justforcommunity.radiocom.utils.GlobalValues.ACCOUNT_JSON;
 
@@ -42,6 +43,7 @@ public class GetAccount extends AsyncTask<Boolean, Float, Boolean> {
 
     private static final String TAG = "GetAccount";
     private Context mContext;
+    private Home mActivity;
     private ServiceAccounts serviceAccounts;
     private Locale locale;
     private AccountDTO accountDTO;
@@ -50,10 +52,15 @@ public class GetAccount extends AsyncTask<Boolean, Float, Boolean> {
 
     public GetAccount(Context context) {
         this.mContext = context;
-        locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        serviceAccounts = new ServiceAccounts(locale);
-        prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
-        edit = prefs.edit();
+        this.locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
+        this.serviceAccounts = new ServiceAccounts(locale);
+        this.prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
+        this.edit = prefs.edit();
+    }
+
+    public GetAccount(Context context, Home mActivity) {
+        this(context);
+        this.mActivity = mActivity;
     }
 
     protected Boolean doInBackground(Boolean... urls) {
@@ -65,7 +72,6 @@ public class GetAccount extends AsyncTask<Boolean, Float, Boolean> {
             try {
                 accountDTO = serviceAccounts.getAccount();
                 res = true;
-
             } catch (RestClientException e) {
                 Log.e(TAG, "doInBackground()", e);
                 accountDTO = null;
@@ -81,11 +87,13 @@ public class GetAccount extends AsyncTask<Boolean, Float, Boolean> {
 
     protected void onPostExecute(Boolean result) {
         if (result) {
-            String accountJon = new Gson().toJson(accountDTO);
-            edit.putString(ACCOUNT_JSON, accountJon);
-            edit.apply();
+            edit.putString(ACCOUNT_JSON, new Gson().toJson(accountDTO));
         } else {
-            // todo....
+            edit.remove(ACCOUNT_JSON);
+        }
+        edit.apply();
+        if (mActivity != null) {
+            mActivity.updateUserInfo();
         }
     }
 

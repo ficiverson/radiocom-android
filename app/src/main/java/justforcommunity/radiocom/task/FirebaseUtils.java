@@ -27,6 +27,7 @@ import android.support.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 
 import java.util.concurrent.CountDownLatch;
@@ -40,14 +41,14 @@ public class FirebaseUtils extends AsyncTask<Boolean, Float, Boolean> {
     private String token;
     private FirebaseActivity firebaseActivity;
 
-    public FirebaseUtils(FirebaseActivity firebaseActivity){
+    public FirebaseUtils(FirebaseActivity firebaseActivity) {
         this.firebaseActivity = firebaseActivity;
     }
 
     // Do in background
     protected Boolean doInBackground(Boolean... urls) {
         token = getTokenFirebase();
-        if (token.isEmpty()) {
+        if (token == null || token.isEmpty()) {
             return false;
         }
         return true;
@@ -66,18 +67,22 @@ public class FirebaseUtils extends AsyncTask<Boolean, Float, Boolean> {
     public static String getTokenFirebase() {
         final StringBuilder tokenAux = new StringBuilder();
         final CountDownLatch countDownLatch = new CountDownLatch(1);
-        FirebaseAuth.getInstance().getCurrentUser().getToken(false).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-            @Override
-            public void onComplete(@NonNull Task<GetTokenResult> task) {
-                tokenAux.append(task.getResult().getToken());
-                countDownLatch.countDown();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            user.getToken(false).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                @Override
+                public void onComplete(@NonNull Task<GetTokenResult> task) {
+                    tokenAux.append(task.getResult().getToken());
+                    countDownLatch.countDown();
+                }
+            });
+            try {
+                countDownLatch.await(30L, TimeUnit.SECONDS);
+                return tokenAux.toString();
+            } catch (InterruptedException ie) {
+                return null;
             }
-        });
-        try {
-            countDownLatch.await(30L, TimeUnit.SECONDS);
-            return tokenAux.toString();
-        } catch (InterruptedException ie) {
-            return null;
         }
+        return null;
     }
 }

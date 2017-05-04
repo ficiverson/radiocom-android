@@ -20,6 +20,7 @@
 
 package justforcommunity.radiocom.activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -49,6 +50,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.gson.Gson;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import justforcommunity.radiocom.R;
@@ -56,6 +58,7 @@ import justforcommunity.radiocom.task.GetAccount;
 import justforcommunity.radiocom.utils.GlobalValues;
 
 import static justforcommunity.radiocom.utils.FileUtils.processBuilder;
+import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.signupURL;
 
 public class Authenticate extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
@@ -90,6 +93,9 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
             }
         });
 

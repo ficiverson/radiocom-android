@@ -23,6 +23,7 @@ package justforcommunity.radiocom.service;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import org.springframework.http.HttpEntity;
@@ -41,6 +42,7 @@ import java.util.Locale;
 import justforcommunity.radiocom.model.ReserveDTO;
 import justforcommunity.radiocom.service.exceptions.UserAlreadyReserveException;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
+import justforcommunity.radiocom.utils.DateUtils;
 
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
@@ -93,7 +95,8 @@ public class ServiceReserves extends ServiceBase {
             // Create the request body as a MultiValueMap
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("token", getTokenFirebase());
-            body.add(RESERVE_JSON, new Gson().toJson(reserve));
+            Gson gson = new GsonBuilder().setDateFormat(DateUtils.FORMAT_DISPLAY).create();
+            body.add(RESERVE_JSON, gson.toJson(reserve));
             request = new HttpEntity<Object>(body, getRequestHeaders());
 
             response = getRestTemplate().exchange(createReserveURL, HttpMethod.POST, request, String.class);

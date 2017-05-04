@@ -258,45 +258,41 @@ public class CreateReserve extends AppCompatActivity {
         boolean isValid = true;
 
         int pos = elementName.getChildCount() - 1;
-        if (elementName.getSelectedItem() != null && !TextUtils.isEmpty(elementName.getSelectedItem().toString())) {
-            reserve.setElement(new ElementDTO(elementName.getSelectedItem().toString()));
-            ((TextView) elementName.getChildAt(pos)).setError(null);
-        } else {
+        if (elementName.getSelectedItem() == null || TextUtils.isEmpty(elementName.getSelectedItem().toString())) {
             if (elementName.getChildAt(pos) != null) {
                 ((TextView) elementName.getChildAt(pos)).setError(getResources().getString(R.string.required));
             }
             isValid = false;
+        } else {
+            reserve.setElement(new ElementDTO(elementName.getSelectedItem().toString()));
+            ((TextView) elementName.getChildAt(pos)).setError(null);
         }
 
-        if (!TextUtils.isEmpty(dateStart.getText().toString())) {
-            reserve.setDateStart(DateUtils.formatDate(dateStart.getText().toString(), DateUtils.FORMAT_DISPLAY));
-        } else {
+        if (TextUtils.isEmpty(dateStart.getText().toString())) {
             dateStart.setError(getResources().getString(R.string.required));
             isValid = false;
-        }
-
-        if (!TextUtils.isEmpty(dateEnd.getText().toString())) {
-            reserve.setDateEnd(DateUtils.formatDate(dateEnd.getText().toString(), DateUtils.FORMAT_DISPLAY));
-        } else {
-            dateEnd.setError(getResources().getString(R.string.required));
-            isValid = false;
-        }
-
-        if (reserve.getDateStart().before(new Date())) {
+        } else if (DateUtils.formatDate(dateStart.getText().toString(), DateUtils.FORMAT_DISPLAY).before(new Date())) {
             Toast.makeText(this, getResources().getString(R.string.reserve_fail_dates_now), Toast.LENGTH_SHORT).show();
             isValid = false;
+        } else {
+            reserve.setDateStart(DateUtils.formatDate(dateStart.getText().toString(), DateUtils.FORMAT_DISPLAY));
         }
 
-        if (reserve.getDateEnd().before(reserve.getDateStart())) {
+        if (TextUtils.isEmpty(dateEnd.getText().toString())) {
+            dateEnd.setError(getResources().getString(R.string.required));
+            isValid = false;
+        } else if (reserve.getDateStart() != null && DateUtils.formatDate(dateEnd.getText().toString(), DateUtils.FORMAT_DISPLAY).before(reserve.getDateStart())) {
             Toast.makeText(this, getResources().getString(R.string.reserve_fail_dates), Toast.LENGTH_SHORT).show();
             isValid = false;
+        } else {
+            reserve.setDateEnd(DateUtils.formatDate(dateEnd.getText().toString(), DateUtils.FORMAT_DISPLAY));
         }
 
-        if (!TextUtils.isEmpty(description.getText().toString())) {
-            reserve.setDescription(description.getText().toString());
-        } else {
+        if (TextUtils.isEmpty(description.getText().toString())) {
             description.setError(getResources().getString(R.string.required));
             isValid = false;
+        } else {
+            reserve.setDescription(description.getText().toString());
         }
 
         if (!isValid) {
