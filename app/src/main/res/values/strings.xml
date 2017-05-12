@@ -54,7 +54,7 @@
     <string name="podcast_info_title">Descripción del programa:</string>
 
     <!--Reports-->
-    <string name="account">Account</string>
+    <string name="account">Cuenta</string>
     <string name="report_activity">Informe</string>
     <string name="report_activity_create">Crear informe</string>
     <string name="report_active">Activo:</string>
@@ -96,30 +96,30 @@
     <string name="dateStart">Fecha de comienzo</string>
     <string name="dateEnd">Fecha de finalización</string>
 
-    <!--Reserves-->
-    <string name="reserve_activity">Informe</string>
-    <string name="reserve_activity_create">Crear informe</string>
-    <string name="reserve_active">Activo:</string>
-    <string name="reserve_answer">Respuesta: </string>
-    <string name="reserve_dateCreate">Fecha de creación:</string>
-    <string name="reserve_dateRevision">Revisión:</string>
-    <string name="reserve_dateApproval">Aprovación:</string>
-    <string name="reserve_dateStart">Comienzo: </string>
-    <string name="reserve_dateEnd">Fin: </string>
-    <string name="reserve_elementName">Elemento</string>
-    <string name="reserve_description">Descripción</string>
-    <string name="reserve_location">Ubicación</string>
-    <string name="reserve_state">Estado: </string>
-    <string name="reserve_send_answer">Responder</string>
-    <string name="reserve_send_answer_success">!Se ha enviado la respuesta¡</string>
-    <string name="reserve_send_answer_fail">¡Hubo un fallo al enviar la respuesta!</string>
-    <string name="reserve_send">Enviar</string>
-    <string name="reserve_send_success">!Se ha enviado la petición de reserva¡</string>
-    <string name="reserve_send_fail">¡Hubo un fallo al enviar la reserva!</string>
-    <string name="reserve_send_fail_already">!Ya se ha reservado el elemento en un margen mayor!</string>
-    <string name="reserve_fail_dates">!La fecha de fin ha de ser posterior que la de comienzo!</string>
-    <string name="reserve_fail_dates_now">!No se pueden hacer reservas en el pasado!</string>
-    <string name="reserve_complete_fields">¡Rellena todos los campos!</string>
+    <!--books-->
+    <string name="book_activity">Informe</string>
+    <string name="book_activity_create">Crear informe</string>
+    <string name="book_active">Activo:</string>
+    <string name="book_answer">Respuesta: </string>
+    <string name="book_dateCreate">Fecha de creación:</string>
+    <string name="book_dateRevision">Revisión:</string>
+    <string name="book_dateApproval">Aprovación:</string>
+    <string name="book_dateStart">Comienzo: </string>
+    <string name="book_dateEnd">Fin: </string>
+    <string name="book_elementName">Elemento</string>
+    <string name="book_description">Descripción</string>
+    <string name="book_location">Ubicación</string>
+    <string name="book_state">Estado: </string>
+    <string name="book_send_answer">Responder</string>
+    <string name="book_send_answer_success">!Se ha enviado la respuesta¡</string>
+    <string name="book_send_answer_fail">¡Hubo un fallo al enviar la respuesta!</string>
+    <string name="book_send">Enviar</string>
+    <string name="book_send_success">!Se ha enviado la petición de reserva¡</string>
+    <string name="book_send_fail">¡Hubo un fallo al enviar la reserva!</string>
+    <string name="book_send_fail_already">!Ya se ha reservado el elemento en un margen mayor!</string>
+    <string name="book_fail_dates">!La fecha de fin ha de ser posterior que la de comienzo!</string>
+    <string name="book_fail_dates_now">!No se pueden hacer reservas en el pasado!</string>
+    <string name="book_complete_fields">¡Rellena todos los campos!</string>
     <string name="elements_reservable_fail">¡No se han recuperado los elementos reservables!</string>
 
     <string name="action_station">Emisora</string>
@@ -139,9 +139,10 @@
     <string name="action_management">Gestión</string>
     <string name="action_user_report">Mis informes</string>
     <string name="action_report">Informes</string>
-    <string name="action_user_reserve">Mis reservas</string>
-    <string name="action_reserve">Reservas</string>
+    <string name="action_user_book">Mis reservas</string>
+    <string name="action_book">Reservas</string>
     <string name="action_members">Ir a members</string>
+    <string name="action_radioco">Ir a radico</string>
 
 
     <string name="accept">Aceptar</string>
@@ -179,7 +180,7 @@
     <string name="news_view">News screen</string>
     <string name="podcast_view">Podcast screen</string>
     <string name="report_view">Report screen</string>
-    <string name="reserve_view">Report screen</string>
+    <string name="book_view">Report screen</string>
 
     <string name="auth_failed">Autenticación fallida</string>
     <string name="auth_success">Autenticación correcta</string>

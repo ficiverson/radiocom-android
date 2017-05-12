@@ -30,14 +30,17 @@ import justforcommunity.radiocom.activities.App;
 public class GlobalValues {
 
     //configurations you con update
-    public static final String baseURLCUACWEB = "https://cuacfm.org/asociacion-cuac/historia/";
-    public static final String baseURLWEB = "https://cuacfm.org/";
-    public static final String baseURL = "http://radiocom.stamplayapp.com/api/cobject/v1/";
-    //this will be the final url when we make changes on RADIOCO
-    //public static final String baseURL = "https://cuacfm.org/radioco/api/1/radiocom/";
     public static final String prefName = "commradio";
 
-    public static final String membersURL = baseURLWEB + "members/";
+    public static final String baseURLWEB = "https://cuacfm.org/";
+    public static final String baseURLCUACWEB = baseURLWEB + "asociacion-cuac/historia/";
+    public static final String baseURL = "http://radiocom.stamplayapp.com/api/cobject/v1/";
+
+    //this will be the final url when we make changes on RADIOCO
+    public static final String radiocoURL = baseURLWEB + "radioco/";
+    //public static final String baseURL = radiocoURL + /api/1/radiocom/";
+
+     public static final String membersURL = baseURLWEB + "members/";
     // public static final String membersURL = "http://10.0.2.2:8080/members/";
     // public static final String membersURL = "http://192.168.137.111:8080/members/";
 
@@ -51,11 +54,11 @@ public class GlobalValues {
     public static final String imageReportURL = reportsURL + "image/";
     public static final String sendAnswerReportURL = reportsURL + "reportAnswer/";
 
-    // Reserves
-    public static final String reservesURL = membersAPI + "reserveList/";
-    public static final String reservesUserURL = membersAPI + "reserveUserList/";
-    public static final String createReserveURL = reservesURL + "reserveCreate";
-    public static final String sendAnswerReserveURL = reservesURL + "reserveAnswer/";
+    // Books
+    public static final String booksURL = membersAPI + "bookList/";
+    public static final String booksUserURL = membersAPI + "bookUserList/";
+    public static final String createBookURL = booksURL + "bookCreate";
+    public static final String sendAnswerBookURL = booksURL + "bookAnswer/";
 
     // Programs
     public static final String programsURL = membersAPI + "programList/";
@@ -84,8 +87,11 @@ public class GlobalValues {
     public static final String EXTRA_CONTENT = "webviewContent";
     public static final String EXTRA_TITLE = "webviewTitle";
     public static final String REPORT_JSON = "reportJson";
-    public static final String RESERVE_JSON = "reserveJson";
+    public static final String BOOK_JSON = "bookJson";
     public static final String ACCOUNT_JSON = "accountJson";
+    public static final String REPORT = "REPORT";
+    public static final String BOOK = "BOOK";
+    public static final String MEMBERS = "MEMBERS";
     public static final String MANAGE = "manage";
 
     public static final String DOWNLOAD_DIR = Environment.getExternalStorageDirectory().toString() + "/Android/data/" + App.PACKAGE_NAME + "/downloaded/";
@@ -93,10 +99,13 @@ public class GlobalValues {
     public static final int AUTH_REQUEST = 2000;
     public static final int REPORT_REQUEST = 3000;
     public static final int REPORT_ANSWER_REQUEST = 3001;
-    public static final int RESERVE_REQUEST = 3010;
-    public static final int RESERVE_ANSWER_REQUEST = 3011;
+    public static final int BOOK_REQUEST = 3010;
+    public static final int BOOK_ANSWER_REQUEST = 3011;
     public static final int MAX_FILES = 10;
+
+    public static final String NOTIFICATION_COUNT = "notificationCount";
     public static final String ROLE_REPORT = "ROLE_REPORT";
-    public static final String ROLE_RESERVE = "ROLE_RESERVE";
+    public static final String ROLE_BOOK = "ROLE_BOOK";
+    public static final String ROLE_TRAINER = "ROLE_TRAINER";
     public static final String REST_URL = "REST_URL";
 }

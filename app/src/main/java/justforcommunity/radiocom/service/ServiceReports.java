@@ -81,19 +81,18 @@ public class ServiceReports extends ServiceBase {
     }
 
     // Send report to members
-    public ReportDTO sendReport(ReportDTO report, String photosGson) throws RestClientException, WebServiceStatusFailException {
+    public ReportDTO sendReport(ReportDTO report, String photosJson) throws RestClientException, WebServiceStatusFailException {
 
         ResponseEntity<String> response;
 
         try {
-            agregarCabeceras(getRequestHeaders());
             HttpEntity<?> request;
 
             // Create the request body as a MultiValueMap
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("token", getTokenFirebase());
             body.add(REPORT_JSON, new Gson().toJson(report));
-            body.add("photos", photosGson);
+            body.add("photos", photosJson);
             request = new HttpEntity<Object>(body, getRequestHeaders());
 
             response = getRestTemplate().exchange(createReportURL, HttpMethod.POST, request, String.class);

@@ -33,7 +33,7 @@
        >
 
         <RelativeLayout
-            android:id="@+id/reserve_info"
+            android:id="@+id/book_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="@string/reserve_elementName"
+                android:text="@string/book_elementName"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -72,7 +72,7 @@
                 android:layout_below="@+id/accountName"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:text="@string/reserve_dateCreate"
+                android:text="@string/book_dateCreate"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dateCreate"
-                android:text="@string/reserve_dateStart"
+                android:text="@string/book_dateStart"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -103,7 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dateStart_head"
-                android:text="@string/reserve_dateEnd"
+                android:text="@string/book_dateEnd"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dateEnd_head"
                 android:layout_marginTop="10dp"
-                android:text="@string/reserve_dateRevision"
+                android:text="@string/book_dateRevision"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -147,7 +147,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dateRevision"
-                android:text="@string/reserve_dateApproval"
+                android:text="@string/book_dateApproval"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -169,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/dateApproval"
                 android:layout_marginTop="10dp"
-                android:text="@string/reserve_description"
+                android:text="@string/book_description"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -190,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/description"
                 android:layout_marginTop="10dp"
-                android:text="@string/reserve_state"
+                android:text="@string/book_state"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -213,7 +213,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/state_head"
                 android:layout_marginBottom="10dp"
-                android:text="@string/reserve_active"
+                android:text="@string/book_active"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -234,7 +234,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/active_head"
-                android:text="@string/reserve_answer"
+                android:text="@string/book_answer"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -269,7 +269,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/answer"
                 android:layout_weight="1"
-                android:text="@string/reserve_send_answer"
+                android:text="@string/book_send_answer"
                 android:theme="@style/ThemeOverlay.ButtonApp" />
 
             <LinearLayout

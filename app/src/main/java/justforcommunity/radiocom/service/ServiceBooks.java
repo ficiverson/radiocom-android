@@ -39,30 +39,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.model.ReserveDTO;
-import justforcommunity.radiocom.service.exceptions.UserAlreadyReserveException;
+import justforcommunity.radiocom.model.BookDTO;
+import justforcommunity.radiocom.service.exceptions.UserAlreadyBookException;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
 import justforcommunity.radiocom.utils.DateUtils;
 
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
-import static justforcommunity.radiocom.utils.GlobalValues.RESERVE_JSON;
-import static justforcommunity.radiocom.utils.GlobalValues.createReserveURL;
-import static justforcommunity.radiocom.utils.GlobalValues.sendAnswerReserveURL;
+import static justforcommunity.radiocom.utils.GlobalValues.BOOK_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.createBookURL;
+import static justforcommunity.radiocom.utils.GlobalValues.sendAnswerBookURL;
 
-public class ServiceReserves extends ServiceBase {
+public class ServiceBooks extends ServiceBase {
 
-    public ServiceReserves(Locale language) {
+    public ServiceBooks(Locale language) {
         super(language);
     }
 
-    public List<ReserveDTO> getReserves(String restURL) throws RestClientException, WebServiceStatusFailException {
+    public List<BookDTO> getBooks(String restURL) throws RestClientException, WebServiceStatusFailException {
 
         String url = restURL + "?token=" + getTokenFirebase();
         ResponseEntity<String> response;
 
         try {
-            agregarCabeceras(getRequestHeaders());
             HttpEntity<?> request;
             request = new HttpEntity<Object>(getRequestHeaders());
 
@@ -72,57 +71,56 @@ public class ServiceReserves extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
-            Log.e("ServiceReserves", "getReserves", e);
+            Log.e("ServiceBooks", "getBooks", e);
             throw e;
         }
 
-        Type listType = new TypeToken<ArrayList<ReserveDTO>>() {
+        Type listType = new TypeToken<ArrayList<BookDTO>>() {
         }.getType();
-        List<ReserveDTO> reservesDTO = new Gson().fromJson(response.getBody(), listType);
+        List<BookDTO> booksDTO = new Gson().fromJson(response.getBody(), listType);
 
-        return reservesDTO;
+        return booksDTO;
     }
 
-    // Send reserve to members
-    public ReserveDTO sendReserve(ReserveDTO reserve) throws Exception {
+    // Send book to members
+    public BookDTO sendBook(BookDTO book) throws Exception {
 
         ResponseEntity<String> response;
 
         try {
-            agregarCabeceras(getRequestHeaders());
             HttpEntity<?> request;
 
             // Create the request body as a MultiValueMap
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("token", getTokenFirebase());
             Gson gson = new GsonBuilder().setDateFormat(DateUtils.FORMAT_DISPLAY).create();
-            body.add(RESERVE_JSON, gson.toJson(reserve));
+            body.add(BOOK_JSON, gson.toJson(book));
             request = new HttpEntity<Object>(body, getRequestHeaders());
 
-            response = getRestTemplate().exchange(createReserveURL, HttpMethod.POST, request, String.class);
+            response = getRestTemplate().exchange(createBookURL, HttpMethod.POST, request, String.class);
 
             if (response.getStatusCode() == HttpStatus.ALREADY_REPORTED) {
-                throw new UserAlreadyReserveException();
+                throw new UserAlreadyBookException();
             } else if (response.getStatusCode() != HttpStatus.CREATED) {
                 throw new WebServiceStatusFailException();
             }
 
-            reserve = new Gson().fromJson(response.getBody(), ReserveDTO.class);
+            book = new Gson().fromJson(response.getBody(), BookDTO.class);
 
         } catch (RestClientException e) {
-            Log.e("ServiceReserves", "sendReserve", e);
+            Log.e("ServiceBooks", "sendBook", e);
             throw e;
         }
-        return reserve;
+        return book;
     }
 
 
     // Send answer to members
-    public ReserveDTO SendAnswerReserve(Long reserveId, String answer, Boolean manage) throws RestClientException, WebServiceStatusFailException {
+    public BookDTO SendAnswerBook(Long bookId, String answer, Boolean manage) throws RestClientException, WebServiceStatusFailException {
 
-        ReserveDTO reserve;
+        BookDTO book;
 
-        String url = sendAnswerReserveURL + reserveId;
+        String url = sendAnswerBookURL + bookId;
         ResponseEntity<String> response;
 
         try {
@@ -142,12 +140,12 @@ public class ServiceReserves extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
 
-            reserve = new Gson().fromJson(response.getBody(), ReserveDTO.class);
+            book = new Gson().fromJson(response.getBody(), BookDTO.class);
 
         } catch (RestClientException e) {
-            Log.e("ServiceReserves", "SendAnswerReserve", e);
+            Log.e("ServiceBooks", "SendAnswerBook", e);
             throw e;
         }
-        return reserve;
+        return book;
     }
 }

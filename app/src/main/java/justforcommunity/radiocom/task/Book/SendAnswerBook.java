@@ -18,7 +18,7 @@
  *
  */
 
-package justforcommunity.radiocom.task.Reserve.Reserve;
+package justforcommunity.radiocom.task.Book;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -28,32 +28,32 @@ import org.springframework.web.client.RestClientException;
 
 import java.util.Locale;
 
-import justforcommunity.radiocom.activities.Reserve;
-import justforcommunity.radiocom.model.ReserveDTO;
-import justforcommunity.radiocom.service.ServiceReserves;
+import justforcommunity.radiocom.activities.Book;
+import justforcommunity.radiocom.model.BookDTO;
+import justforcommunity.radiocom.service.ServiceBooks;
 import justforcommunity.radiocom.utils.InternetConnection;
 
 
-public class SendAnswerReserve extends AsyncTask<Boolean, Float, Boolean> {
+public class SendAnswerBook extends AsyncTask<Boolean, Float, Boolean> {
 
-    private static final String TAG = "GetReserves";
+    private static final String TAG = "GetBooks";
     private Context mContext;
-    private Reserve activity;
-    private ServiceReserves serviceReserves;
+    private Book activity;
+    private ServiceBooks serviceBooks;
     private Locale locale;
-    private ReserveDTO reserve;
-    private Long reserveId;
+    private BookDTO book;
+    private Long bookId;
     private String answer;
     private Boolean manage;
 
-    public SendAnswerReserve(Context context, Reserve activity, Long reserveId, String answer, Boolean manage) {
+    public SendAnswerBook(Context context, Book activity, Long bookId, String answer, Boolean manage) {
         this.activity = activity;
         this.mContext = context;
-        this.reserveId = reserveId;
+        this.bookId = bookId;
         this.answer = answer;
         this.manage = manage;
         this.locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        this.serviceReserves = new ServiceReserves(locale);
+        this.serviceBooks = new ServiceBooks(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
@@ -63,7 +63,7 @@ public class SendAnswerReserve extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                reserve = serviceReserves.SendAnswerReserve(reserveId, answer, manage);
+                book = serviceBooks.SendAnswerBook(bookId, answer, manage);
                 res = true;
             } catch (RestClientException e) {
                 Log.e(TAG, "doInBackground()", e);
@@ -78,7 +78,7 @@ public class SendAnswerReserve extends AsyncTask<Boolean, Float, Boolean> {
 
     protected void onPostExecute(Boolean result) {
         if (result) {
-            activity.resultOK(reserve);
+            activity.resultOK(book);
         } else {
             activity.resultKO();
         }

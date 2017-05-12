@@ -58,8 +58,6 @@ public class FirebaseUtils extends AsyncTask<Boolean, Float, Boolean> {
     protected void onPostExecute(Boolean result) {
         if (result) {
             firebaseActivity.setToken(token);
-        } else {
-            //mActivity.resultKO();
         }
     }
 

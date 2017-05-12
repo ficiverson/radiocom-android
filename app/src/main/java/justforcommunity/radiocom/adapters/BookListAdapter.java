@@ -34,26 +34,26 @@ import java.util.List;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.Home;
-import justforcommunity.radiocom.model.ReserveDTO;
+import justforcommunity.radiocom.model.BookDTO;
 import justforcommunity.radiocom.utils.DateUtils;
 import justforcommunity.radiocom.utils.FileUtils;
 
-public class ReserveListAdapter extends ArrayAdapter<ReserveDTO> implements Filterable {
+public class BookListAdapter extends ArrayAdapter<BookDTO> implements Filterable {
 
     private Context mContext;
     private Home mActivity;
     private ItemFilter mFilter = new ItemFilter();
-    private List<ReserveDTO> originalData = null;
-    private List<ReserveDTO> filteredData = null;
+    private List<BookDTO> originalData = null;
+    private List<BookDTO> filteredData = null;
     private boolean management;
 
-    public ReserveListAdapter(Home mActivity, Context context, int resource, List<ReserveDTO> reserveDTOs, boolean management) {
-        super(context, resource, reserveDTOs);
+    public BookListAdapter(Home mActivity, Context context, int resource, List<BookDTO> bookDTOs, boolean management) {
+        super(context, resource, bookDTOs);
         this.management = management;
         this.mContext = context;
         this.mActivity = mActivity;
-        this.originalData = reserveDTOs;
-        this.filteredData = reserveDTOs;
+        this.originalData = bookDTOs;
+        this.filteredData = bookDTOs;
     }
 
     static class ViewHolder {
@@ -72,7 +72,7 @@ public class ReserveListAdapter extends ArrayAdapter<ReserveDTO> implements Filt
     }
 
     @Override
-    public ReserveDTO getItem(int position) {
+    public BookDTO getItem(int position) {
         return filteredData.get(position);
     }
 
@@ -85,7 +85,7 @@ public class ReserveListAdapter extends ArrayAdapter<ReserveDTO> implements Filt
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.listitem_reserve, null);
+            v = vi.inflate(R.layout.listitem_book, null);
 
             holder = new ViewHolder();
             holder.dateCreate = (TextView) v.findViewById(R.id.dateCreate);
@@ -106,15 +106,15 @@ public class ReserveListAdapter extends ArrayAdapter<ReserveDTO> implements Filt
             holder = (ViewHolder) v.getTag();
         }
 
-        ReserveDTO reserveDTO = getItem(position);
+        BookDTO bookDTO = getItem(position);
 
-        if (reserveDTO != null) {
-            holder.elementName.setText(String.valueOf(reserveDTO.getElement().getName()));
-            holder.accountName.setText(String.valueOf(reserveDTO.getAccount().getFullName()));
-            holder.dateCreate.setText(DateUtils.formatDate(reserveDTO.getDateCreate(), DateUtils.FORMAT_DISPLAY));
-            holder.dateStart.setText(DateUtils.formatDate(reserveDTO.getDateStart(), DateUtils.FORMAT_DISPLAY));
-            holder.dateEnd.setText(DateUtils.formatDate(reserveDTO.getDateEnd(), DateUtils.FORMAT_DISPLAY));
-            holder.state.setText(FileUtils.getState(mContext, String.valueOf(reserveDTO.getState())));
+        if (bookDTO != null) {
+            holder.elementName.setText(String.valueOf(bookDTO.getElement().getName()));
+            holder.accountName.setText(String.valueOf(bookDTO.getAccount().getFullName()));
+            holder.dateCreate.setText(DateUtils.formatDate(bookDTO.getDateCreate(), DateUtils.FORMAT_DISPLAY));
+            holder.dateStart.setText(DateUtils.formatDate(bookDTO.getDateStart(), DateUtils.FORMAT_DISPLAY));
+            holder.dateEnd.setText(DateUtils.formatDate(bookDTO.getDateEnd(), DateUtils.FORMAT_DISPLAY));
+            holder.state.setText(FileUtils.getState(mContext, String.valueOf(bookDTO.getState())));
         }
         return v;
     }
@@ -130,10 +130,10 @@ public class ReserveListAdapter extends ArrayAdapter<ReserveDTO> implements Filt
 
             String filterString = constraint.toString().toLowerCase();
             FilterResults results = new FilterResults();
-            final List<ReserveDTO> list = originalData;
+            final List<BookDTO> list = originalData;
             int count = list.size();
-            final ArrayList<ReserveDTO> nList = new ArrayList<>(count);
-            ReserveDTO filterableString;
+            final ArrayList<BookDTO> nList = new ArrayList<>(count);
+            BookDTO filterableString;
             for (int i = 0; i < count; i++) {
                 filterableString = list.get(i);
                 if (filterableString.getElement().getName().toLowerCase().contains(filterString) ||
@@ -150,7 +150,7 @@ public class ReserveListAdapter extends ArrayAdapter<ReserveDTO> implements Filt
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            filteredData = (ArrayList<ReserveDTO>) results.values;
+            filteredData = (ArrayList<BookDTO>) results.values;
             notifyDataSetChanged();
         }
     }

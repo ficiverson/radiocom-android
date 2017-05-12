@@ -54,7 +54,7 @@ public class Splash extends AppCompatActivity {
 
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        Bundle b = getIntent().getExtras();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
@@ -68,8 +68,8 @@ public class Splash extends AppCompatActivity {
 
         launchGetStations(mContext, mActivity);
 
-        App appliaction = (App) getApplication();
-        Tracker mTracker = appliaction.getDefaultTracker();
+        App application = (App) getApplication();
+        Tracker mTracker = application.getDefaultTracker();
         mTracker.setScreenName(getString(R.string.splash_activity));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 

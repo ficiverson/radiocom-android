@@ -36,7 +36,7 @@ import justforcommunity.radiocom.utils.InternetConnection;
 
 public class SendReport extends AsyncTask<Boolean, Float, Boolean> {
 
-    private static final String TAG = "SendReserve";
+    private static final String TAG = "SendBook";
     private Context mContext;
     private CreateReport activity;
     private ServiceReports serviceReports;

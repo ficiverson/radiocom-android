@@ -20,6 +20,6 @@
 
 package justforcommunity.radiocom.service.exceptions;
 
-public class UserAlreadyReserveException extends Exception {
+public class UserAlreadyBookException extends Exception {
 
 }

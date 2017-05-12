@@ -35,52 +35,52 @@ import com.wang.avi.AVLoadingIndicatorView;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.App;
-import justforcommunity.radiocom.activities.CreateReserve;
+import justforcommunity.radiocom.activities.CreateBook;
 import justforcommunity.radiocom.activities.Home;
-import justforcommunity.radiocom.task.Reserve.Reserve.GetReserves;
+import justforcommunity.radiocom.task.Book.GetBooks;
 
-import static justforcommunity.radiocom.utils.GlobalValues.RESERVE_REQUEST;
+import static justforcommunity.radiocom.utils.GlobalValues.BOOK_REQUEST;
 import static justforcommunity.radiocom.utils.GlobalValues.REST_URL;
 import static justforcommunity.radiocom.utils.GlobalValues.elementsURL;
-import static justforcommunity.radiocom.utils.GlobalValues.reservesUserURL;
+import static justforcommunity.radiocom.utils.GlobalValues.booksUserURL;
 
 
-public class ReserveUserPageFragment extends ReservePageFragment {
+public class BookUserPageFragment extends BookPageFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_reserves, container, false);
+        View v = inflater.inflate(R.layout.fragment_books, container, false);
 
         mActivity = (Home) getActivity();
         mContext = getContext();
 
-        reserveList = (ListView) v.findViewById(R.id.reserveList);
+        bookList = (ListView) v.findViewById(R.id.bookList);
         noElements = (TextView) v.findViewById(R.id.no_elements);
 
         avi = (AVLoadingIndicatorView) v.findViewById(R.id.avi);
         avi.show();
 
-        // Get Reserves
+        // Get Books
         this.manage = false;
-        GetReserves gp = new GetReserves(mContext, this, reservesUserURL);
+        GetBooks gp = new GetBooks(mContext, this, booksUserURL);
         gp.execute();
 
-        // Float button to create new reserve
+        // Float button to create new book
         mActivity.fab_media_hide();
         FloatingActionButton button_create = (FloatingActionButton) v.findViewById(R.id.button_create);
         button_create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity, CreateReserve.class);
+                Intent intent = new Intent(mActivity, CreateBook.class);
                 intent.putExtra(REST_URL, elementsURL);
-                startActivityForResult(intent, RESERVE_REQUEST);
+                startActivityForResult(intent, BOOK_REQUEST);
             }
         });
 
         App application = (App) getActivity().getApplication();
         Tracker mTracker = application.getDefaultTracker();
-        mTracker.setScreenName(getString(R.string.reserve_view));
+        mTracker.setScreenName(getString(R.string.book_view));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         return v;

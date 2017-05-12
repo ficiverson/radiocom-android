@@ -54,21 +54,21 @@ import java.util.List;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.model.ElementDTO;
-import justforcommunity.radiocom.model.ReserveDTO;
+import justforcommunity.radiocom.model.BookDTO;
+import justforcommunity.radiocom.task.Book.SendBook;
 import justforcommunity.radiocom.task.GetElements;
-import justforcommunity.radiocom.task.Reserve.Reserve.SendReserve;
 import justforcommunity.radiocom.utils.DateUtils;
 
-import static justforcommunity.radiocom.utils.GlobalValues.RESERVE_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.BOOK_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.REST_URL;
 
 
-public class CreateReserve extends AppCompatActivity {
+public class CreateBook extends AppCompatActivity {
 
     private Context mContext;
-    private CreateReserve mActivity;
+    private CreateBook mActivity;
 
-    private ReserveDTO reserve;
+    private BookDTO book;
     private AVLoadingIndicatorView avi;
 
     private Spinner elementName;
@@ -92,7 +92,7 @@ public class CreateReserve extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_reserve);
+        setContentView(R.layout.activity_create_book);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -107,12 +107,12 @@ public class CreateReserve extends AppCompatActivity {
             }
         });
 
-        // Listener send reserve
+        // Listener send book
         send_button = (Button) findViewById(R.id.send);
         send_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createReserve();
+                createBook();
             }
         });
 
@@ -138,7 +138,7 @@ public class CreateReserve extends AppCompatActivity {
 
         App application = (App) getApplication();
         Tracker mTracker = application.getDefaultTracker();
-        mTracker.setScreenName(getString(R.string.reserve_activity));
+        mTracker.setScreenName(getString(R.string.book_activity));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
@@ -154,24 +154,24 @@ public class CreateReserve extends AppCompatActivity {
         super.onStop();
     }
 
-    // Show toast if send reserve is success
-    public void resultOK(ReserveDTO reserve) {
+    // Show toast if send book is success
+    public void resultOK(BookDTO book) {
         avi.hide();
-        Toast.makeText(this, getResources().getString(R.string.reserve_send_success), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.book_send_success), Toast.LENGTH_SHORT).show();
 
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(RESERVE_JSON, new Gson().toJson(reserve));
+        returnIntent.putExtra(BOOK_JSON, new Gson().toJson(book));
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
 
-    // Show toast if send reserve is fail
+    // Show toast if send book is fail
     public void resultKO(String message) {
         avi.hide();
-        if (message != null && message.contains("UserAlreadyReserveException")) {
-            Toast.makeText(this, getResources().getString(R.string.reserve_send_fail_already), Toast.LENGTH_SHORT).show();
+        if (message != null && message.contains("UserAlreadyBookException")) {
+            Toast.makeText(this, getResources().getString(R.string.book_send_fail_already), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, getResources().getString(R.string.reserve_send_fail), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.book_send_fail), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -251,10 +251,10 @@ public class CreateReserve extends AppCompatActivity {
         }, newDateEnd.get(Calendar.HOUR_OF_DAY), newDateEnd.get(Calendar.MINUTE), false);
     }
 
-    // Create new reserve with form
-    private void createReserve() {
+    // Create new book with form
+    private void createBook() {
 
-        reserve = new ReserveDTO();
+        book = new BookDTO();
         boolean isValid = true;
 
         int pos = elementName.getChildCount() - 1;
@@ -264,7 +264,7 @@ public class CreateReserve extends AppCompatActivity {
             }
             isValid = false;
         } else {
-            reserve.setElement(new ElementDTO(elementName.getSelectedItem().toString()));
+            book.setElement(new ElementDTO(elementName.getSelectedItem().toString()));
             ((TextView) elementName.getChildAt(pos)).setError(null);
         }
 
@@ -272,36 +272,36 @@ public class CreateReserve extends AppCompatActivity {
             dateStart.setError(getResources().getString(R.string.required));
             isValid = false;
         } else if (DateUtils.formatDate(dateStart.getText().toString(), DateUtils.FORMAT_DISPLAY).before(new Date())) {
-            Toast.makeText(this, getResources().getString(R.string.reserve_fail_dates_now), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.book_fail_dates_now), Toast.LENGTH_SHORT).show();
             isValid = false;
         } else {
-            reserve.setDateStart(DateUtils.formatDate(dateStart.getText().toString(), DateUtils.FORMAT_DISPLAY));
+            book.setDateStart(DateUtils.formatDate(dateStart.getText().toString(), DateUtils.FORMAT_DISPLAY));
         }
 
         if (TextUtils.isEmpty(dateEnd.getText().toString())) {
             dateEnd.setError(getResources().getString(R.string.required));
             isValid = false;
-        } else if (reserve.getDateStart() != null && DateUtils.formatDate(dateEnd.getText().toString(), DateUtils.FORMAT_DISPLAY).before(reserve.getDateStart())) {
-            Toast.makeText(this, getResources().getString(R.string.reserve_fail_dates), Toast.LENGTH_SHORT).show();
+        } else if (book.getDateStart() != null && DateUtils.formatDate(dateEnd.getText().toString(), DateUtils.FORMAT_DISPLAY).before(book.getDateStart())) {
+            Toast.makeText(this, getResources().getString(R.string.book_fail_dates), Toast.LENGTH_SHORT).show();
             isValid = false;
         } else {
-            reserve.setDateEnd(DateUtils.formatDate(dateEnd.getText().toString(), DateUtils.FORMAT_DISPLAY));
+            book.setDateEnd(DateUtils.formatDate(dateEnd.getText().toString(), DateUtils.FORMAT_DISPLAY));
         }
 
         if (TextUtils.isEmpty(description.getText().toString())) {
             description.setError(getResources().getString(R.string.required));
             isValid = false;
         } else {
-            reserve.setDescription(description.getText().toString());
+            book.setDescription(description.getText().toString());
         }
 
         if (!isValid) {
-            Toast.makeText(this, getResources().getString(R.string.reserve_complete_fields), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.book_complete_fields), Toast.LENGTH_SHORT).show();
         } else {
-            // Send Reserve
+            // Send Book
             avi.show();
-            SendReserve sendReserve = new SendReserve(mContext, mActivity, reserve);
-            sendReserve.execute();
+            SendBook sendBook = new SendBook(mContext, mActivity, book);
+            sendBook.execute();
         }
     }
 }

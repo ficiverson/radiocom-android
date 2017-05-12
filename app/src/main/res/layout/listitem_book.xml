@@ -44,7 +44,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="@string/reserve_elementName"
+        android:text="@string/book_elementName"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -72,7 +72,7 @@
         android:layout_marginLeft="10dp"
 
         android:layout_marginTop="10dp"
-        android:text="@string/reserve_dateCreate"
+        android:text="@string/book_dateCreate"
         android:textColor="@android:color/white"
         android:textSize="20sp" />
 
@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/dateCreate"
         android:layout_marginLeft="10dp"
-        android:text="@string/reserve_dateStart"
+        android:text="@string/book_dateStart"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -106,7 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/dateStart_head"
         android:layout_marginLeft="10dp"
-        android:text="@string/reserve_dateEnd"
+        android:text="@string/book_dateEnd"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -130,7 +130,7 @@
         android:layout_below="@+id/dateEnd_head"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
-        android:text="@string/reserve_state"
+        android:text="@string/book_state"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold" />

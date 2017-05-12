@@ -28,7 +28,7 @@ import org.springframework.web.client.RestClientException;
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.activities.CreateReserve;
+import justforcommunity.radiocom.activities.CreateBook;
 import justforcommunity.radiocom.model.ElementDTO;
 import justforcommunity.radiocom.service.ServiceElements;
 import justforcommunity.radiocom.utils.InternetConnection;
@@ -37,13 +37,13 @@ import justforcommunity.radiocom.utils.InternetConnection;
 public class GetElements extends AsyncTask<Boolean, Float, Boolean> {
 
     private Context mContext;
-    private CreateReserve mActivity;
+    private CreateBook mActivity;
     private ServiceElements serviceElements;
     private Locale locale;
     private List<ElementDTO> elementsDTO;
     private String restURL;
 
-    public GetElements(Context mContext, CreateReserve mActivity, String restURL) {
+    public GetElements(Context mContext, CreateBook mActivity, String restURL) {
         this.mActivity = mActivity;
         this.mContext = mContext;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());

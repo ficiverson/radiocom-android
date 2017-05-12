@@ -349,12 +349,13 @@ public class CreateReport extends AppCompatActivity {
         }
     }
 
-    // Create new report with form
+    // Validate form and send report
     private void createReport() {
 
         report = new ReportDTO();
         boolean isValid = true;
 
+        // Validate program
         int pos = programName.getChildCount() - 1;
         if (programName.getSelectedItem() != null && !TextUtils.isEmpty(programName.getSelectedItem().toString())) {
             report.setProgram(new ProgramDTO(programName.getSelectedItem().toString()));
@@ -366,6 +367,7 @@ public class CreateReport extends AppCompatActivity {
             isValid = false;
         }
 
+        // Validate tidy punctuation
         pos = tidy_radioButtons.getChildCount() - 1;
         if (tidy_radioButtons.getCheckedRadioButtonId() != -1) {
             int radioButtonID_tidy = tidy_radioButtons.getCheckedRadioButtonId();
@@ -378,6 +380,7 @@ public class CreateReport extends AppCompatActivity {
             isValid = false;
         }
 
+        // Validate dirt punctuation
         pos = dirt_radioButtons.getChildCount() - 1;
         if (dirt_radioButtons.getCheckedRadioButtonId() != -1) {
             int radioButtonID_dirt = dirt_radioButtons.getCheckedRadioButtonId();
@@ -389,6 +392,7 @@ public class CreateReport extends AppCompatActivity {
             isValid = false;
         }
 
+        // Validate configuration punctuation
         pos = configuration_radioButtons.getChildCount() - 1;
         if (configuration_radioButtons.getCheckedRadioButtonId() != -1) {
             int radioButtonID_configuration = configuration_radioButtons.getCheckedRadioButtonId();
@@ -400,6 +404,7 @@ public class CreateReport extends AppCompatActivity {
             isValid = false;
         }
 
+        // Validate openDoor boolean
         pos = openDoor_radioButtons.getChildCount() - 1;
         if (openDoor_radioButtons.getCheckedRadioButtonId() != -1) {
             int radioButtonID_openDoor = openDoor_radioButtons.getCheckedRadioButtonId();
@@ -411,6 +416,7 @@ public class CreateReport extends AppCompatActivity {
             isValid = false;
         }
 
+        // Validate viewMembers boolean
         pos = viewMembers_radioButtons.getChildCount() - 1;
         if (viewMembers_radioButtons.getCheckedRadioButtonId() != -1) {
             int radioButtonID_viewMembers = viewMembers_radioButtons.getCheckedRadioButtonId();
@@ -422,6 +428,7 @@ public class CreateReport extends AppCompatActivity {
             isValid = false;
         }
 
+        // Validate location is not null
         if (!TextUtils.isEmpty(location.getText().toString())) {
             report.setLocation(location.getText().toString());
         } else {

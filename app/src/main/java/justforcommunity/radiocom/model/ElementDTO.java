@@ -27,7 +27,7 @@ public class ElementDTO {
     private Long id;
     private String name;
     private String description;
-    private boolean reservable;
+    private boolean book;
     private boolean location;
     private Date dateCreate;
 
@@ -59,12 +59,12 @@ public class ElementDTO {
         this.description = description;
     }
 
-    public boolean isReservable() {
-        return reservable;
+    public boolean isBook() {
+        return book;
     }
 
-    public void setReservable(boolean reservable) {
-        this.reservable = reservable;
+    public void setBook(boolean book) {
+        this.book = book;
     }
 
     public boolean isLocation() {

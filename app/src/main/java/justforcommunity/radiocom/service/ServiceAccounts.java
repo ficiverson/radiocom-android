@@ -50,7 +50,6 @@ public class ServiceAccounts extends ServiceBase {
         ResponseEntity<AccountDTO> response;
 
         try {
-            agregarCabeceras(getRequestHeaders());
             HttpEntity<?> request;
             request = new HttpEntity<Object>(getRequestHeaders());
 

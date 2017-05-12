@@ -61,6 +61,10 @@
                     android:icon="@drawable/webpage"
                     android:title="@string/action_members" />
                 <item
+                    android:id="@+id/nav_radioco"
+                    android:icon="@drawable/webpage"
+                    android:title="@string/action_radioco" />
+                <item
                     android:id="@+id/nav_user_report"
                     android:icon="@drawable/pen"
                     android:title="@string/action_user_report" />
@@ -69,13 +73,13 @@
                     android:icon="@drawable/manage_report"
                     android:title="@string/action_report" />
                 <item
-                    android:id="@+id/nav_user_reserve"
-                    android:icon="@drawable/reserve"
-                    android:title="@string/action_user_reserve" />
+                    android:id="@+id/nav_user_book"
+                    android:icon="@drawable/book"
+                    android:title="@string/action_user_book" />
                 <item
-                    android:id="@+id/nav_reserve"
-                    android:icon="@drawable/manage_reserve"
-                    android:title="@string/action_reserve" />
+                    android:id="@+id/nav_book"
+                    android:icon="@drawable/manage_book"
+                    android:title="@string/action_book" />
             </group>
 
         </menu>

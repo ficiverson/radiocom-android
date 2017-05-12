@@ -18,7 +18,7 @@
  *
  */
 
-package justforcommunity.radiocom.task.Reserve.Reserve;
+package justforcommunity.radiocom.task.Book;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -26,30 +26,31 @@ import android.util.Log;
 
 import org.springframework.web.client.RestClientException;
 
-import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.fragments.ReservePageFragment;
-import justforcommunity.radiocom.model.ReserveDTO;
-import justforcommunity.radiocom.service.ServiceReserves;
+import justforcommunity.radiocom.activities.CreateBook;
+import justforcommunity.radiocom.model.BookDTO;
+import justforcommunity.radiocom.service.ServiceBooks;
+import justforcommunity.radiocom.service.exceptions.UserAlreadyBookException;
 import justforcommunity.radiocom.utils.InternetConnection;
 
-public class GetReserves extends AsyncTask<Boolean, Float, Boolean> {
 
-    private static final String TAG = "GetReserves";
+public class SendBook extends AsyncTask<Boolean, Float, Boolean> {
+
+    private static final String TAG = "SendBook";
     private Context mContext;
-    private ReservePageFragment fragment;
-    private ServiceReserves serviceReserves;
+    private CreateBook activity;
+    private ServiceBooks serviceBooks;
     private Locale locale;
-    private String restURL;
-    private List<ReserveDTO> reservesDTO;
+    private BookDTO book;
+    private String message;
 
-    public GetReserves(Context context, ReservePageFragment fragment, String restURL) {
-        this.fragment = fragment;
+    public SendBook(Context context, CreateBook activity, BookDTO book) {
+        this.activity = activity;
         this.mContext = context;
+        this.book = book;
         this.locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        this.serviceReserves = new ServiceReserves(locale);
-        this.restURL = restURL;
+        this.serviceBooks = new ServiceBooks(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
@@ -59,16 +60,16 @@ public class GetReserves extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                reservesDTO = serviceReserves.getReserves(restURL);
+                book = serviceBooks.sendBook(book);
                 res = true;
-
+            } catch (UserAlreadyBookException e) {
+                message = "UserAlreadyBookException";
+                res = false;
             } catch (RestClientException e) {
                 Log.e(TAG, "doInBackground()", e);
-                reservesDTO = null;
                 res = false;
             } catch (Exception e) {
                 Log.e(TAG, "doInBackground()", e);
-                reservesDTO = null;
                 res = false;
             }
         }
@@ -77,9 +78,9 @@ public class GetReserves extends AsyncTask<Boolean, Float, Boolean> {
 
     protected void onPostExecute(Boolean result) {
         if (result) {
-            fragment.setReserveList(reservesDTO);
+            activity.resultOK(book);
         } else {
-            fragment.resultKO();
+            activity.resultKO(message);
         }
     }
 }

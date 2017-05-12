@@ -39,7 +39,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_reserve_create" />
+    <include layout="@layout/content_book_create" />
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/avi"

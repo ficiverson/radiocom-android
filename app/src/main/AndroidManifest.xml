@@ -106,16 +106,16 @@
         </activity>
 
         <activity
-            android:name=".activities.Reserve"
-            android:label="@string/reserve_activity"
+            android:name=".activities.Book"
+            android:label="@string/book_activity"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".activities.CreateReserve"
-            android:label="@string/reserve_activity_create"
+            android:name=".activities.CreateBook"
+            android:label="@string/book_activity_create"
             android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
@@ -156,6 +156,10 @@
             </intent-filter>
         </service>
 
+        <!-- Default image to notifications push -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_launcher" />
 
     </application>
 

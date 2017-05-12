@@ -22,7 +22,7 @@ package justforcommunity.radiocom.model;
 
 import java.util.Date;
 
-public class ReserveDTO {
+public class BookDTO {
 
     private Long id;
     private AccountDTO account;

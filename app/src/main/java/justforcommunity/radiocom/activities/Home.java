@@ -52,14 +52,14 @@ import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 
 import justforcommunity.radiocom.R;
+import justforcommunity.radiocom.fragments.BookPageFragment;
+import justforcommunity.radiocom.fragments.BookUserPageFragment;
 import justforcommunity.radiocom.fragments.FilterFragment;
 import justforcommunity.radiocom.fragments.HomePageFragment;
 import justforcommunity.radiocom.fragments.NewsPageFragment;
 import justforcommunity.radiocom.fragments.PodcastPageFragment;
 import justforcommunity.radiocom.fragments.ReportPageFragment;
 import justforcommunity.radiocom.fragments.ReportUserPageFragment;
-import justforcommunity.radiocom.fragments.ReservePageFragment;
-import justforcommunity.radiocom.fragments.ReserveUserPageFragment;
 import justforcommunity.radiocom.model.AccountDTO;
 import justforcommunity.radiocom.model.StationDTO;
 import justforcommunity.radiocom.task.FirebaseUtils;
@@ -70,8 +70,9 @@ import justforcommunity.radiocom.utils.StreamingService;
 import static justforcommunity.radiocom.utils.FileUtils.processBuilder;
 import static justforcommunity.radiocom.utils.GlobalValues.ACCOUNT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.AUTH_REQUEST;
+import static justforcommunity.radiocom.utils.GlobalValues.MEMBERS;
+import static justforcommunity.radiocom.utils.GlobalValues.ROLE_BOOK;
 import static justforcommunity.radiocom.utils.GlobalValues.ROLE_REPORT;
-import static justforcommunity.radiocom.utils.GlobalValues.ROLE_RESERVE;
 
 public class Home extends FirebaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -103,7 +104,6 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         edit = prefs.edit();
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -121,7 +121,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         });
 
 
-        if (prefs.getBoolean("isMediaPlaying", false)) {//playing is on so we neeed to put menu correctly
+        if (prefs.getBoolean("isMediaPlaying", false)) {//playing is on so we need to put menu correctly
             navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming_stop));
             navigationView.getMenu().getItem(2).setIcon(R.drawable.streamingstop);
             fab_media.setImageResource(R.drawable.streamingstopwhite);
@@ -142,9 +142,6 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
             // Refresh info account of user
             GetAccount getAccount = new GetAccount(mContext, this);
             getAccount.execute();
-            // Get token firebase
-            FirebaseUtils firebase = new FirebaseUtils(this);
-            firebase.execute();
         }
 
         //Load the fragment with the server configuration
@@ -182,6 +179,10 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         Tracker mTracker = application.getDefaultTracker();
         mTracker.setScreenName(getString(R.string.home_activity));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+        if ( getIntent().getStringExtra(MEMBERS) != null ) {
+            processBuilder(mContext, this, GlobalValues.membersAPI + "?token=" + token);
+        }
     }
 
 
@@ -196,7 +197,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     public void onResume() {
         super.onResume();
         //refresh state after changing from podcasting status
-        if (prefs.getBoolean("isMediaPlaying", false) == false) {//playing is off so we neeed to put menu correctly
+        if (prefs.getBoolean("isMediaPlaying", false) == false) {//playing is off so we need to put menu correctly
             navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming));
             navigationView.getMenu().getItem(2).setIcon(R.drawable.streaming);
             fab_media.setImageResource(R.drawable.streamingwhite);
@@ -384,14 +385,17 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
             case R.id.nav_report:
                 loadReport();
                 break;
-            case R.id.nav_user_reserve:
-                loadUserReserve();
+            case R.id.nav_user_book:
+                loadUserBook();
                 break;
-            case R.id.nav_reserve:
-                loadReserve();
+            case R.id.nav_book:
+                loadBook();
                 break;
             case R.id.nav_members:
                 processBuilder(mContext, this, GlobalValues.membersAPI + "?token=" + token);
+                break;
+            case R.id.nav_radioco:
+                processBuilder(mContext, this, GlobalValues.radiocoURL + "?token=" + token);
                 break;
             case R.id.nav_map:
                 loadMap();
@@ -441,8 +445,6 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     }
 
     public void loadAuthenticate() {
-        // Intent intent = new Intent(this, Authenticate.class);
-        // startActivity(intent);
         Intent intent = new Intent(this, Authenticate.class);
         startActivityForResult(intent, AUTH_REQUEST);
     }
@@ -484,18 +486,18 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         processFragment(reportPageFragment, mContext.getString(R.string.action_report));
     }
 
-    public void loadUserReserve() {
+    public void loadUserBook() {
         isSearchable = true;
         invalidateOptionsMenu();
-        ReserveUserPageFragment reserveUserPageFragment = new ReserveUserPageFragment();
-        processFragment(reserveUserPageFragment, mContext.getString(R.string.action_user_reserve));
+        BookUserPageFragment bookUserPageFragment = new BookUserPageFragment();
+        processFragment(bookUserPageFragment, mContext.getString(R.string.action_user_book));
     }
 
-    public void loadReserve() {
+    public void loadBook() {
         isSearchable = true;
         invalidateOptionsMenu();
-        ReservePageFragment reservePageFragment = new ReservePageFragment();
-        processFragment(reservePageFragment, mContext.getString(R.string.action_reserve));
+        BookPageFragment bookPageFragment = new BookPageFragment();
+        processFragment(bookPageFragment, mContext.getString(R.string.action_book));
     }
 
     public void loadMap() {
@@ -512,7 +514,6 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
             processBuilder(mContext, this, GlobalValues.baseURLWEB);
         }
     }
-
 
     public void loadTwitter() {
         try {
@@ -604,22 +605,26 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
 
     public void updateUserInfo() {
 
-        // Get firebase user
-        // user = FirebaseAuth.getInstance().getCurrentUser();
         // Get account of members
         accountDTO = new Gson().fromJson(prefs.getString(ACCOUNT_JSON, ""), AccountDTO.class);
 
         if (accountDTO != null) {
+
+            // Get token firebase
+            FirebaseUtils firebase = new FirebaseUtils(this);
+            firebase.execute();
+
+            // Shown or gone buttons in menu
             navigationView.getMenu().findItem(R.id.management).setVisible(true);
             if (accountDTO != null && accountDTO.getPermissions().contains(ROLE_REPORT)) {
                 navigationView.getMenu().findItem(R.id.nav_report).setVisible(true);
             } else {
                 navigationView.getMenu().findItem(R.id.nav_report).setVisible(false);
             }
-            if (accountDTO != null && accountDTO.getPermissions().contains(ROLE_RESERVE)) {
-                navigationView.getMenu().findItem(R.id.nav_reserve).setVisible(true);
+            if (accountDTO != null && accountDTO.getPermissions().contains(ROLE_BOOK)) {
+                navigationView.getMenu().findItem(R.id.nav_book).setVisible(true);
             } else {
-                navigationView.getMenu().findItem(R.id.nav_reserve).setVisible(false);
+                navigationView.getMenu().findItem(R.id.nav_book).setVisible(false);
             }
         } else {
             navigationView.getMenu().findItem(R.id.management).setVisible(false);

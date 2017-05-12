@@ -206,7 +206,6 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
                 break;
             case R.id.signup_button:
                 processBuilder(mContext, this, signupURL);
-                //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(signupURL)));
                 break;
         }
     }

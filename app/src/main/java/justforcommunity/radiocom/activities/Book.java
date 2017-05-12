@@ -44,26 +44,26 @@ import com.google.gson.Gson;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import justforcommunity.radiocom.R;
-import justforcommunity.radiocom.model.ReserveDTO;
-import justforcommunity.radiocom.task.Reserve.Reserve.SendAnswerReserve;
+import justforcommunity.radiocom.model.BookDTO;
+import justforcommunity.radiocom.task.Book.SendAnswerBook;
 import justforcommunity.radiocom.utils.DateUtils;
 import justforcommunity.radiocom.utils.FileUtils;
 import justforcommunity.radiocom.utils.GlobalValues;
-import justforcommunity.radiocom.utils.PodcastingService;
 
+import static justforcommunity.radiocom.utils.GlobalValues.BOOK_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
-import static justforcommunity.radiocom.utils.GlobalValues.RESERVE_JSON;
 
-public class Reserve extends AppCompatActivity {
+public class Book extends AppCompatActivity {
 
     public SharedPreferences prefs;
     public SharedPreferences.Editor edit;
-    private ReserveDTO reserve;
+    private BookDTO book;
     private AVLoadingIndicatorView avi;
     private Context mContext;
-    private Reserve mActivity;
+    private Book mActivity;
     private Button answer_button;
     private Dialog myDialog;
+    private boolean manage;
 
     private TextView dateCreate;
     private TextView elementName;
@@ -83,7 +83,7 @@ public class Reserve extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reserve);
+        setContentView(R.layout.activity_book);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -103,17 +103,17 @@ public class Reserve extends AppCompatActivity {
         prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         edit = prefs.edit();
 
-        String jsonReserve = getIntent().getStringExtra(RESERVE_JSON);
+        String jsonBook = getIntent().getStringExtra(BOOK_JSON);
         Gson gson = new Gson();
 
-        if (jsonReserve != null && jsonReserve != "") {
-            reserve = gson.fromJson(jsonReserve, ReserveDTO.class);
+        if (jsonBook != null && jsonBook != "") {
+            book = gson.fromJson(jsonBook, BookDTO.class);
         } else {
-            //take last reserve selected
-            reserve = gson.fromJson(prefs.getString(RESERVE_JSON, ""), ReserveDTO.class);
+            //take last book selected
+            book = gson.fromJson(prefs.getString(BOOK_JSON, ""), BookDTO.class);
         }
 
-        // Listener send reserve
+        // Listener send book
         answer_button = (Button) findViewById(R.id.answer_button);
         answer_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +126,8 @@ public class Reserve extends AppCompatActivity {
         Button deny_button = (Button) this.findViewById(R.id.deny_button);
 
         // Only manager
-        if (getIntent().getBooleanExtra(MANAGE, false)) {
+        manage = getIntent().getBooleanExtra(MANAGE, false);
+        if (manage) {
             accept_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -157,20 +158,20 @@ public class Reserve extends AppCompatActivity {
         answer = (TextView) findViewById(R.id.answer);
         answer_view = (EditText) findViewById(R.id.answer_new);
 
-        if (reserve != null) {
-            getSupportActionBar().setTitle(DateUtils.formatDate(reserve.getDateCreate(), DateUtils.FORMAT_DISPLAY));
+        if (book != null) {
+            getSupportActionBar().setTitle(DateUtils.formatDate(book.getDateCreate(), DateUtils.FORMAT_DISPLAY));
 
-            dateCreate.setText(DateUtils.formatDate(reserve.getDateCreate(), DateUtils.FORMAT_DISPLAY));
-            elementName.setText(reserve.getElement().getName());
-            accountName.setText(reserve.getAccount().getFullName());
-            description.setText(reserve.getDescription());
-            dateStart.setText(DateUtils.formatDate(reserve.getDateStart(), DateUtils.FORMAT_DISPLAY));
-            dateEnd.setText(DateUtils.formatDate(reserve.getDateEnd(), DateUtils.FORMAT_DISPLAY));
-            dateRevision.setText(DateUtils.formatDate(reserve.getDateRevision(), DateUtils.FORMAT_DISPLAY));
-            dateApproval.setText(DateUtils.formatDate(reserve.getDateApproval(), DateUtils.FORMAT_DISPLAY));
-            state.setText(FileUtils.getState(mContext, reserve.getState()));
-            active.setText(FileUtils.formatBoolean(mContext, reserve.isActive()));
-            answer.setText(reserve.getAnswer());
+            dateCreate.setText(DateUtils.formatDate(book.getDateCreate(), DateUtils.FORMAT_DISPLAY));
+            elementName.setText(book.getElement().getName());
+            accountName.setText(book.getAccount().getFullName());
+            description.setText(book.getDescription());
+            dateStart.setText(DateUtils.formatDate(book.getDateStart(), DateUtils.FORMAT_DISPLAY));
+            dateEnd.setText(DateUtils.formatDate(book.getDateEnd(), DateUtils.FORMAT_DISPLAY));
+            dateRevision.setText(DateUtils.formatDate(book.getDateRevision(), DateUtils.FORMAT_DISPLAY));
+            dateApproval.setText(DateUtils.formatDate(book.getDateApproval(), DateUtils.FORMAT_DISPLAY));
+            state.setText(FileUtils.getState(mContext, book.getState()));
+            active.setText(FileUtils.formatBoolean(mContext, book.isActive()));
+            answer.setText(book.getAnswer());
 
             avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
             //avi.show();
@@ -179,7 +180,7 @@ public class Reserve extends AppCompatActivity {
 
         App application = (App) getApplication();
         Tracker mTracker = application.getDefaultTracker();
-        mTracker.setScreenName(getString(R.string.reserve_activity));
+        mTracker.setScreenName(getString(R.string.book_activity));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
@@ -193,21 +194,6 @@ public class Reserve extends AppCompatActivity {
     public void onStop() {
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
         super.onStop();
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-
-        if (intent != null) {//stop media player
-            if (intent.getBooleanExtra("stopService", false)) {
-                if (!intent.getBooleanExtra("notificationSkip", false)) {
-                    Intent i = new Intent(Reserve.this, PodcastingService.class);
-                    stopService(i);
-                    //notifyAdapterToRefresh();
-                }
-            }
-        }
-        super.onNewIntent(intent);
     }
 
     /**
@@ -228,18 +214,18 @@ public class Reserve extends AppCompatActivity {
         myDialog.dismiss();
     }
 
-    // Show toast if send reserve is success
-    public void resultOK(ReserveDTO reserve) {
-        Toast.makeText(this, getResources().getString(R.string.reserve_send_answer_success), Toast.LENGTH_SHORT).show();
+    // Show toast if send book is success
+    public void resultOK(BookDTO book) {
+        Toast.makeText(this, getResources().getString(R.string.book_send_answer_success), Toast.LENGTH_SHORT).show();
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(RESERVE_JSON, new Gson().toJson(reserve));
+        returnIntent.putExtra(BOOK_JSON, new Gson().toJson(book));
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
 
-    // Show toast if send reserve is fail
+    // Show toast if send book is fail
     public void resultKO() {
-        Toast.makeText(this, getResources().getString(R.string.reserve_send_answer_fail), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.book_send_answer_fail), Toast.LENGTH_SHORT).show();
     }
 
     // Create new answer with form
@@ -247,10 +233,10 @@ public class Reserve extends AppCompatActivity {
 
         if (TextUtils.isEmpty(answer_view.getText().toString())) {
             answer_view.setError(getResources().getString(R.string.required));
-            Toast.makeText(this, getResources().getString(R.string.reserve_complete_fields), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.book_complete_fields), Toast.LENGTH_SHORT).show();
         } else {
-            SendAnswerReserve sendAnswerReserve = new SendAnswerReserve(mContext, mActivity, reserve.getId(), answer_view.getText().toString(), manage);
-            sendAnswerReserve.execute();
+            SendAnswerBook sendAnswerBook = new SendAnswerBook(mContext, mActivity, book.getId(), answer_view.getText().toString(), manage);
+            sendAnswerBook.execute();
         }
     }
 
