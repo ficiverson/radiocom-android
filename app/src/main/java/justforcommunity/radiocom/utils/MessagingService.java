@@ -33,7 +33,6 @@ import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 
 public class MessagingService extends FirebaseMessagingService {
 
-    // Review this method
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
@@ -42,32 +41,38 @@ public class MessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 
             Intent intent = null;
-            String packageName = null;
+           // String packageName = null;
+
             String type = remoteMessage.getData().get("type");
             switch (type) {
+
                 case BOOK:
+                    // Open book info
                     intent = new Intent(getApplicationContext(), Book.class);
                     intent.putExtra(BOOK_JSON, remoteMessage.getData().get("value"));
-                    packageName = Book.class.getPackage().toString() + ".Book";
+                    //packageName = Book.class.getPackage().toString() + ".Book";
                     break;
+
                 case REPORT:
+                    // Open report info
                     intent = new Intent(getApplicationContext(), Report.class);
                     intent.putExtra(REPORT_JSON, remoteMessage.getData().get("value"));
-                    packageName = Report.class.getPackage().toString() + ".Report";
+                    //packageName = Report.class.getPackage().toString() + ".Report";
                     break;
+
                 case MEMBERS:
+                    // Redirect to members
                     intent = new Intent(getApplicationContext(), Home.class);
                     intent.putExtra("servicio", true);
                     intent.putExtra("text", "");
                     intent.putExtra("title", "");
                     intent.putExtra("notificationSkip", true);
                     intent.putExtra("stopService", true);
-
-                    intent.putExtra("url", GlobalValues.membersAPI + "?token=");
-                    intent.putExtra(MEMBERS, MEMBERS);
-                    //processBuilder(getApplicationContext(), this, GlobalValues.membersAPI + "?token=" + token);
+                    intent.putExtra(MEMBERS, GlobalValues.membersAPI + "?token=");
                     break;
+
                 default:
+                    // Open home
                     intent = new Intent(getApplicationContext(), Home.class);
                     intent.putExtra("servicio", true);
                     intent.putExtra("text", "");
@@ -78,6 +83,7 @@ public class MessagingService extends FirebaseMessagingService {
             }
 
             // Detect is app in foreground
+            // TODO Maybe is not necessary
             if (isAppOnForeground(getApplicationContext())) {
                 // intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("update", true);
@@ -95,9 +101,8 @@ public class MessagingService extends FirebaseMessagingService {
             }
             edit.apply();
 
-            // Create Notification, no send put extras, for example url or new json
+            // Create Notification,
             PendingIntent localPendingIntent = PendingIntent.getActivity(this, 3, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            // PendingIntent localPendingIntent = PendingIntent.getBroadcast(this, 3, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
             NotificationCompat.Builder notification = new NotificationCompat.Builder(getApplicationContext())
                     .setSmallIcon(R.drawable.ic_launcher)
@@ -110,13 +115,12 @@ public class MessagingService extends FirebaseMessagingService {
                     // .setStyle(new NotificationCompat.BigTextStyle().bigText(this.text))
                     .setAutoCancel(true);
             //.addAction(R.drawable.ic_launcher, null, localPendingIntent);
-
             NotificationManager mNM = ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE));
             mNM.notify(notificationCount, notification.build());
         }
     }
 
-
+    // Detect is app in foreground
     private boolean isAppOnForeground(Context context) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();

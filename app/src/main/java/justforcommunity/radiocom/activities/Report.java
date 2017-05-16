@@ -55,6 +55,7 @@ import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.PodcastingService;
 
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
+import static justforcommunity.radiocom.utils.GlobalValues.REPORT_ANSWER_REQUEST;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.imageReportURL;
 
@@ -132,7 +133,8 @@ public class Report extends FirebaseActivity {
         });
 
         Button down_button = (Button) this.findViewById(R.id.down_button);
-        // Only manager
+
+        // Only manager report (ROLE_REPORT)
         if (getIntent().getBooleanExtra(MANAGE, false)) {
             down_button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -178,9 +180,9 @@ public class Report extends FirebaseActivity {
             active.setText(FileUtils.formatBoolean(mContext, report.isActive()));
             answer.setText(report.getAnswer());
 
-            // get token firebase
-            FirebaseUtils firebase = new FirebaseUtils(this);
-            firebase.execute();
+            // Get firebase token
+            FirebaseUtils firebaseUtils = new FirebaseUtils(this);
+            firebaseUtils.execute();
 
             avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
             //avi.show();
@@ -228,7 +230,6 @@ public class Report extends FirebaseActivity {
         super.onStop();
     }
 
-
     @Override
     protected void onNewIntent(Intent intent) {
 
@@ -239,11 +240,14 @@ public class Report extends FirebaseActivity {
                     stopService(i);
                     //notifyAdapterToRefresh();
                 }
+            } else if (intent.getStringExtra(REPORT_JSON) != null) {
+                Intent newIntent = new Intent(mActivity, Report.class);
+                newIntent.putExtra(REPORT_JSON, intent.getStringExtra(REPORT_JSON));
+                startActivityForResult(newIntent, REPORT_ANSWER_REQUEST);
             }
         }
         super.onNewIntent(intent);
     }
-
 
     /**
      * Function to show a dialog popup while async task is working

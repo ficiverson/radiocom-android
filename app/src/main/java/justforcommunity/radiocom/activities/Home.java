@@ -180,8 +180,8 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         mTracker.setScreenName(getString(R.string.home_activity));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
-        if ( getIntent().getStringExtra(MEMBERS) != null ) {
-            processBuilder(mContext, this, GlobalValues.membersAPI + "?token=" + token);
+        if (getIntent().getStringExtra(MEMBERS) != null) {
+            processBuilder(mContext, this, getIntent().getStringExtra(MEMBERS) + token);
         }
     }
 
@@ -238,7 +238,8 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     @Override
     protected void onNewIntent(Intent intent) {
 
-        if (intent != null) {//stop media player
+        if (intent != null) {
+            //stop media player
             if (intent.getBooleanExtra("stopService", false)) {
                 if (!intent.getBooleanExtra("notificationSkip", false)) {
                     Intent i = new Intent(Home.this, StreamingService.class);
@@ -251,7 +252,6 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                     edit.commit();
                 }
             } else {
-
                 Intent i = new Intent(Home.this, StreamingService.class);
                 stopService(i);
                 navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming));
@@ -261,6 +261,9 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                 edit.putBoolean("isMediaPlaying", playing);
                 edit.commit();
                 finish();
+            }
+            if (intent.getStringExtra(MEMBERS) != null) {
+                processBuilder(mContext, this, intent.getStringExtra(MEMBERS) + token);
             }
         }
         super.onNewIntent(intent);
@@ -610,9 +613,9 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
 
         if (accountDTO != null) {
 
-            // Get token firebase
-            FirebaseUtils firebase = new FirebaseUtils(this);
-            firebase.execute();
+            // Get firebase token
+            FirebaseUtils firebaseUtils = new FirebaseUtils(this);
+            firebaseUtils.execute();
 
             // Shown or gone buttons in menu
             navigationView.getMenu().findItem(R.id.management).setVisible(true);

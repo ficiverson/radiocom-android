@@ -49,7 +49,9 @@ import justforcommunity.radiocom.task.Book.SendAnswerBook;
 import justforcommunity.radiocom.utils.DateUtils;
 import justforcommunity.radiocom.utils.FileUtils;
 import justforcommunity.radiocom.utils.GlobalValues;
+import justforcommunity.radiocom.utils.PodcastingService;
 
+import static justforcommunity.radiocom.utils.GlobalValues.BOOK_ANSWER_REQUEST;
 import static justforcommunity.radiocom.utils.GlobalValues.BOOK_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
 
@@ -105,7 +107,6 @@ public class Book extends AppCompatActivity {
 
         String jsonBook = getIntent().getStringExtra(BOOK_JSON);
         Gson gson = new Gson();
-
         if (jsonBook != null && jsonBook != "") {
             book = gson.fromJson(jsonBook, BookDTO.class);
         } else {
@@ -125,7 +126,7 @@ public class Book extends AppCompatActivity {
         Button accept_button = (Button) this.findViewById(R.id.accept_button);
         Button deny_button = (Button) this.findViewById(R.id.deny_button);
 
-        // Only manager
+        // Only manager book (ROLE_BOOK)
         manage = getIntent().getBooleanExtra(MANAGE, false);
         if (manage) {
             accept_button.setOnClickListener(new View.OnClickListener() {
@@ -194,6 +195,24 @@ public class Book extends AppCompatActivity {
     public void onStop() {
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
         super.onStop();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (intent != null) {//stop media player
+            if (intent.getBooleanExtra("stopService", false)) {
+                if (!intent.getBooleanExtra("notificationSkip", false)) {
+                    Intent i = new Intent(Book.this, PodcastingService.class);
+                    stopService(i);
+                    //notifyAdapterToRefresh();
+                }
+            } else if (intent.getStringExtra(BOOK_JSON) != null) {
+                Intent newIntent = new Intent(mActivity, Report.class);
+                newIntent.putExtra(BOOK_JSON, intent.getStringExtra(BOOK_JSON));
+                startActivityForResult(newIntent, BOOK_ANSWER_REQUEST);
+            }
+        }
+        super.onNewIntent(intent);
     }
 
     /**

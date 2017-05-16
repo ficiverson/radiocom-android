@@ -162,8 +162,7 @@ public class ReportPageFragment extends FilterFragment {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     //serialize object report
-                    Gson gson = new Gson();
-                    String jsonInString = gson.toJson(myAdapterReports.getItem(position));
+                    String jsonInString = new Gson().toJson(myAdapterReports.getItem(position));
 
                     //save report object on prefs
                     SharedPreferences prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
