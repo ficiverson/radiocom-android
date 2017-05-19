@@ -40,9 +40,9 @@ public class GlobalValues {
     public static final String radiocoURL = baseURLWEB + "radioco/";
     //public static final String baseURL = radiocoURL + /api/1/radiocom/";
 
-     public static final String membersURL = baseURLWEB + "members/";
+//     public static final String membersURL = baseURLWEB + "members/";
     // public static final String membersURL = "http://10.0.2.2:8080/members/";
-    // public static final String membersURL = "http://192.168.137.111:8080/members/";
+     public static final String membersURL = "http://192.168.137.111:8080/members/";
 
     public static final String signupURL = membersURL + "signup";
     public static final String membersAPI = membersURL + "api/";
@@ -71,6 +71,10 @@ public class GlobalValues {
     public static final String accountsURL = membersAPI + "accountList/";
     public static final String accountURL = accountsURL + "account";
 
+    // Get variables
+    public static final String addToken = "?token=";
+    public static final String addDeviceToken = "&deviceToken=";
+    public static final String addImageName = "&imageName=";
 
     public static final String colorHTML = "#ff9900 !important";
     public static final String city = "A Coruña";

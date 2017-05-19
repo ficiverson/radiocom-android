@@ -63,11 +63,11 @@ public class GetBooks extends AsyncTask<Boolean, Float, Boolean> {
                 res = true;
 
             } catch (RestClientException e) {
-                Log.e(TAG, "doInBackground()", e);
+                Log.d(TAG, "doInBackground()", e);
                 booksDTO = null;
                 res = false;
             } catch (Exception e) {
-                Log.e(TAG, "doInBackground()", e);
+                Log.d(TAG, "doInBackground()", e);
                 booksDTO = null;
                 res = false;
             }

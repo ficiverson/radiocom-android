@@ -57,6 +57,8 @@ import justforcommunity.radiocom.utils.PodcastingService;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_ANSWER_REQUEST;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.addImageName;
+import static justforcommunity.radiocom.utils.GlobalValues.addToken;
 import static justforcommunity.radiocom.utils.GlobalValues.imageReportURL;
 
 public class Report extends FirebaseActivity {
@@ -203,7 +205,7 @@ public class Report extends FirebaseActivity {
             photos_head.setVisibility(View.VISIBLE);
         }
         for (String nameFile : report.getFiles()) {
-            String url = imageReportURL + report.getId() + "?imageName=" + nameFile + "&token=" + token;
+            String url = imageReportURL + report.getId() + addToken + token + addImageName + nameFile ;
             ImageView image = newImageView();
             imagesReport.addView(image);
             Picasso.with(mContext).load(url).into(image);

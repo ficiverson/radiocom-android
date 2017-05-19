@@ -315,7 +315,7 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
                             if (task.isSuccessful()) {
                                 Toast.makeText(Authenticate.this, "Verification email sent to " + user.getEmail(), Toast.LENGTH_SHORT).show();
                             } else {
-                                Log.e(TAG, "sendEmailVerification", task.getException());
+                                Log.d(TAG, "sendEmailVerification", task.getException());
                                 Toast.makeText(Authenticate.this, "Failed to send verification email.", Toast.LENGTH_SHORT).show();
                             }
                         }

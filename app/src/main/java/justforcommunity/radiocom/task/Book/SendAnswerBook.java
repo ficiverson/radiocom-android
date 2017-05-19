@@ -66,10 +66,10 @@ public class SendAnswerBook extends AsyncTask<Boolean, Float, Boolean> {
                 book = serviceBooks.SendAnswerBook(bookId, answer, manage);
                 res = true;
             } catch (RestClientException e) {
-                Log.e(TAG, "doInBackground()", e);
+                Log.d(TAG, "doInBackground()", e);
                 res = false;
             } catch (Exception e) {
-                Log.e(TAG, "doInBackground()", e);
+                Log.d(TAG, "doInBackground()", e);
                 res = false;
             }
         }

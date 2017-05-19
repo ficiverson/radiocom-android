@@ -52,13 +52,13 @@ import justforcommunity.radiocom.task.Book.GetBooks;
 import justforcommunity.radiocom.utils.FileUtils;
 import justforcommunity.radiocom.utils.GlobalValues;
 
-import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
 import static justforcommunity.radiocom.utils.GlobalValues.BOOK_ANSWER_REQUEST;
 import static justforcommunity.radiocom.utils.GlobalValues.BOOK_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.BOOK_REQUEST;
+import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
 import static justforcommunity.radiocom.utils.GlobalValues.REST_URL;
-import static justforcommunity.radiocom.utils.GlobalValues.elementsURL;
 import static justforcommunity.radiocom.utils.GlobalValues.booksURL;
+import static justforcommunity.radiocom.utils.GlobalValues.elementsURL;
 
 
 public class BookPageFragment extends FilterFragment {
@@ -164,8 +164,7 @@ public class BookPageFragment extends FilterFragment {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     //serialize object book
-                    Gson gson = new Gson();
-                    String jsonInString = gson.toJson(myAdapterBooks.getItem(position));
+                    String jsonInString = new Gson().toJson(myAdapterBooks.getItem(position));
 
                     //save book object on prefs
                     SharedPreferences prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);

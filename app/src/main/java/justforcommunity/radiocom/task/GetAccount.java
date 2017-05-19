@@ -73,11 +73,11 @@ public class GetAccount extends AsyncTask<Boolean, Float, Boolean> {
                 accountDTO = serviceAccounts.getAccount();
                 res = true;
             } catch (RestClientException e) {
-                Log.e(TAG, "doInBackground()", e);
+                Log.d(TAG, "doInBackground()", e);
                 accountDTO = null;
                 res = false;
             } catch (Exception e) {
-                Log.e(TAG, "doInBackground()", e);
+                Log.d(TAG, "doInBackground()", e);
                 accountDTO = null;
                 res = false;
             }

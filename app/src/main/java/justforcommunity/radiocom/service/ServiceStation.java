@@ -69,7 +69,7 @@ public class ServiceStation extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
-            Log.e("ServiceStation", "getStation", e);
+            Log.d("ServiceStation", "getStation", e);
             throw e;
         }
 

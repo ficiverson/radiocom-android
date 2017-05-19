@@ -73,6 +73,7 @@ import static justforcommunity.radiocom.utils.GlobalValues.AUTH_REQUEST;
 import static justforcommunity.radiocom.utils.GlobalValues.MEMBERS;
 import static justforcommunity.radiocom.utils.GlobalValues.ROLE_BOOK;
 import static justforcommunity.radiocom.utils.GlobalValues.ROLE_REPORT;
+import static justforcommunity.radiocom.utils.GlobalValues.addToken;
 
 public class Home extends FirebaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -395,10 +396,10 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                 loadBook();
                 break;
             case R.id.nav_members:
-                processBuilder(mContext, this, GlobalValues.membersAPI + "?token=" + token);
+                processBuilder(mContext, this, GlobalValues.membersAPI + addToken + token);
                 break;
             case R.id.nav_radioco:
-                processBuilder(mContext, this, GlobalValues.radiocoURL + "?token=" + token);
+                processBuilder(mContext, this, GlobalValues.radiocoURL + addToken + token);
                 break;
             case R.id.nav_map:
                 loadMap();

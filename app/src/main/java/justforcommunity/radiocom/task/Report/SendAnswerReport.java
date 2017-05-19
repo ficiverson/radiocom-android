@@ -66,10 +66,10 @@ public class SendAnswerReport extends AsyncTask<Boolean, Float, Boolean> {
                 report = serviceReports.SendAnswerReport(reportId, answer, manage);
                 res = true;
             } catch (RestClientException e) {
-                Log.e(TAG, "doInBackground()", e);
+                Log.d(TAG, "doInBackground()", e);
                 res = false;
             } catch (Exception e) {
-                Log.e(TAG, "doInBackground()", e);
+                Log.d(TAG, "doInBackground()", e);
                 res = false;
             }
         }

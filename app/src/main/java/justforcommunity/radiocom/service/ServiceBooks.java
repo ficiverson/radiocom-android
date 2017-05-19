@@ -47,6 +47,7 @@ import justforcommunity.radiocom.utils.DateUtils;
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
 import static justforcommunity.radiocom.utils.GlobalValues.BOOK_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.addToken;
 import static justforcommunity.radiocom.utils.GlobalValues.createBookURL;
 import static justforcommunity.radiocom.utils.GlobalValues.sendAnswerBookURL;
 
@@ -58,7 +59,7 @@ public class ServiceBooks extends ServiceBase {
 
     public List<BookDTO> getBooks(String restURL) throws RestClientException, WebServiceStatusFailException {
 
-        String url = restURL + "?token=" + getTokenFirebase();
+        String url = restURL + addToken + getTokenFirebase();
         ResponseEntity<String> response;
 
         try {
@@ -71,7 +72,7 @@ public class ServiceBooks extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
-            Log.e("ServiceBooks", "getBooks", e);
+            Log.d("ServiceBooks", "getBooks", e);
             throw e;
         }
 
@@ -108,7 +109,7 @@ public class ServiceBooks extends ServiceBase {
             book = new Gson().fromJson(response.getBody(), BookDTO.class);
 
         } catch (RestClientException e) {
-            Log.e("ServiceBooks", "sendBook", e);
+            Log.d("ServiceBooks", "sendBook", e);
             throw e;
         }
         return book;
@@ -143,7 +144,7 @@ public class ServiceBooks extends ServiceBase {
             book = new Gson().fromJson(response.getBody(), BookDTO.class);
 
         } catch (RestClientException e) {
-            Log.e("ServiceBooks", "SendAnswerBook", e);
+            Log.d("ServiceBooks", "SendAnswerBook", e);
             throw e;
         }
         return book;

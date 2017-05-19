@@ -41,6 +41,7 @@ import justforcommunity.radiocom.model.ElementDTO;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
 
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
+import static justforcommunity.radiocom.utils.GlobalValues.addToken;
 
 
 public class ServiceElements extends ServiceBase {
@@ -51,7 +52,7 @@ public class ServiceElements extends ServiceBase {
 
     public List<ElementDTO> getElements(String restURL) throws RestClientException, WebServiceStatusFailException {
 
-        String url = restURL + "?token=" + getTokenFirebase();
+        String url = restURL + addToken + getTokenFirebase();
         ResponseEntity<String> response;
 
         try {
@@ -64,7 +65,7 @@ public class ServiceElements extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
-            Log.e("ServiceElements", "getElementsUser", e);
+            Log.d("ServiceElements", "getElementsUser", e);
             throw e;
         }
 

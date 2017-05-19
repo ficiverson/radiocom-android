@@ -66,10 +66,10 @@ public class SendBook extends AsyncTask<Boolean, Float, Boolean> {
                 message = "UserAlreadyBookException";
                 res = false;
             } catch (RestClientException e) {
-                Log.e(TAG, "doInBackground()", e);
+                Log.d(TAG, "doInBackground()", e);
                 res = false;
             } catch (Exception e) {
-                Log.e(TAG, "doInBackground()", e);
+                Log.d(TAG, "doInBackground()", e);
                 res = false;
             }
         }

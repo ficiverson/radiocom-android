@@ -46,6 +46,7 @@ import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailExceptio
 import justforcommunity.radiocom.utils.GlobalValues;
 
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
+import static justforcommunity.radiocom.utils.GlobalValues.addToken;
 
 
 public class ServicePrograms extends ServiceBase {
@@ -65,7 +66,6 @@ public class ServicePrograms extends ServiceBase {
         ResponseEntity<ResponseProgramDTO> response = null;
 
         try {
-            agregarCabeceras(getRequestHeaders());
             HttpEntity<?> request;
             request = new HttpEntity<Object>(getRequestHeaders());
 
@@ -78,7 +78,7 @@ public class ServicePrograms extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
-            Log.e("ServicePrograms", "getPrograms", e);
+            Log.d("ServicePrograms", "getPrograms", e);
             throw e;
         }
 
@@ -88,11 +88,10 @@ public class ServicePrograms extends ServiceBase {
 
     public List<ProgramDTO> getPrograms(String restURL) throws RestClientException, WebServiceStatusFailException {
 
-        String url = restURL + "?token=" + getTokenFirebase();
+        String url = restURL + addToken + getTokenFirebase();
         ResponseEntity<String> response;
 
         try {
-            agregarCabeceras(getRequestHeaders());
             HttpEntity<?> request;
             request = new HttpEntity<Object>(getRequestHeaders());
 
@@ -101,7 +100,7 @@ public class ServicePrograms extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
-            Log.e("ServicePrograms", "getProgramsUser", e);
+            Log.d("ServicePrograms", "getProgramsUser", e);
             throw e;
         }
 

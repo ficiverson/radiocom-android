@@ -48,7 +48,7 @@ public class DateUtils {
             try {
                 return dateFormat.parse(date);
             } catch (ParseException e) {
-                Log.e("DateUtils", "format", e);
+                Log.d("DateUtils", "format", e);
             }
         }
         return null;

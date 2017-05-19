@@ -44,6 +44,7 @@ import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailExceptio
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.addToken;
 import static justforcommunity.radiocom.utils.GlobalValues.createReportURL;
 import static justforcommunity.radiocom.utils.GlobalValues.sendAnswerReportURL;
 
@@ -55,7 +56,7 @@ public class ServiceReports extends ServiceBase {
 
     public List<ReportDTO> getReports(String restURL) throws RestClientException, WebServiceStatusFailException {
 
-        String url = restURL + "?token=" + getTokenFirebase();
+        String url = restURL + addToken + getTokenFirebase();
         ResponseEntity<String> response;
 
         try {
@@ -69,7 +70,7 @@ public class ServiceReports extends ServiceBase {
                 throw new WebServiceStatusFailException();
             }
         } catch (RestClientException e) {
-            Log.e("ServiceReports", "getReports()", e);
+            Log.d("ServiceReports", "getReports()", e);
             throw e;
         }
 
@@ -104,7 +105,7 @@ public class ServiceReports extends ServiceBase {
             report = new Gson().fromJson(response.getBody(), ReportDTO.class);
 
         } catch (RestClientException e) {
-            Log.e("ServiceReports", "sendReport()", e);
+            Log.d("ServiceReports", "sendReport()", e);
             throw e;
         }
         return report;
@@ -139,7 +140,7 @@ public class ServiceReports extends ServiceBase {
             report = new Gson().fromJson(response.getBody(), ReportDTO.class);
 
         } catch (RestClientException e) {
-            Log.e("ServiceReports", "sendReport()", e);
+            Log.d("ServiceReports", "sendReport()", e);
             throw e;
         }
         return report;

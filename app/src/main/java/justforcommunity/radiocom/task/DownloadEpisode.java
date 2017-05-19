@@ -94,11 +94,11 @@ public class DownloadEpisode extends AsyncTask<Boolean, Float, Boolean> {
                     }
 
                 } catch (Exception e) {
-                    Log.e("Error====>", e + "");
+                    Log.d("Error====>", e + "");
                 }
 
             } catch (Exception e) {
-                Log.e("Error====>", e + "");
+                Log.d("Error====>", e + "");
             }
         }
 

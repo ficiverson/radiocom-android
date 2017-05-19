@@ -63,11 +63,11 @@ public class GetReports extends AsyncTask<Boolean, Float, Boolean> {
                 res = true;
 
             } catch (RestClientException e) {
-                Log.e(TAG, "doInBackground()", e);
+                Log.d(TAG, "doInBackground()", e);
                 reportsDTO = null;
                 res = false;
             } catch (Exception e) {
-                Log.e(TAG, "doInBackground()", e);
+                Log.d(TAG, "doInBackground()", e);
                 reportsDTO = null;
                 res = false;
             }
