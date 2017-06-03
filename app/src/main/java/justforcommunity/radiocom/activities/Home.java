@@ -60,16 +60,19 @@ import justforcommunity.radiocom.fragments.NewsPageFragment;
 import justforcommunity.radiocom.fragments.PodcastPageFragment;
 import justforcommunity.radiocom.fragments.ReportPageFragment;
 import justforcommunity.radiocom.fragments.ReportUserPageFragment;
+import justforcommunity.radiocom.fragments.TransmissionsPageFragment;
 import justforcommunity.radiocom.model.AccountDTO;
 import justforcommunity.radiocom.model.StationDTO;
+import justforcommunity.radiocom.model.TransmissionDTO;
 import justforcommunity.radiocom.task.FirebaseUtils;
 import justforcommunity.radiocom.task.GetAccount;
+import justforcommunity.radiocom.task.Transmissions.GetTransmissionNow;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.StreamingService;
 
 import static justforcommunity.radiocom.utils.FileUtils.processBuilder;
-import static justforcommunity.radiocom.utils.GlobalValues.ACCOUNT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.AUTH_REQUEST;
+import static justforcommunity.radiocom.utils.GlobalValues.JSON_ACCOUNT;
 import static justforcommunity.radiocom.utils.GlobalValues.MEMBERS;
 import static justforcommunity.radiocom.utils.GlobalValues.ROLE_BOOK;
 import static justforcommunity.radiocom.utils.GlobalValues.ROLE_REPORT;
@@ -137,13 +140,8 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
             station = gson.fromJson(prefs.getString("jsonStation", ""), StationDTO.class);
         }
 
-        // Recover user
-        AccountDTO accountDTO = new Gson().fromJson(prefs.getString(ACCOUNT_JSON, ""), AccountDTO.class);
-        if (accountDTO != null) {
-            // Refresh info account of user
-            GetAccount getAccount = new GetAccount(mContext, this);
-            getAccount.execute();
-        }
+        // Refresh user
+        new GetAccount(mContext, this).execute();
 
         //Load the fragment with the server configuration
         switch (station.getLaunch_screen()) {
@@ -374,10 +372,13 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
             case R.id.nav_galeria:
                 loadGallery();
                 break;
+            case R.id.nav_scheduler:
+                loadScheduler();
+                break;
             case R.id.nav_emision:
                 audioController();
                 break;
-            case R.id.nav_noticias:
+            case R.id.nav_news:
                 loadNews();
                 break;
             case R.id.nav_podcast:
@@ -464,9 +465,9 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     public void loadNews() {
         isSearchable = false;
         invalidateOptionsMenu();
-        NewsPageFragment noticiasFragment = new NewsPageFragment();
-        noticiasFragment.setStation(station);
-        processFragment(noticiasFragment, mContext.getString(R.string.action_news));
+        NewsPageFragment newsFragment = new NewsPageFragment();
+        newsFragment.setStation(station);
+        processFragment(newsFragment, mContext.getString(R.string.action_news));
     }
 
     public void loadPodcast() {
@@ -474,6 +475,13 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         invalidateOptionsMenu();
         PodcastPageFragment podcastFragment = new PodcastPageFragment();
         processFragment(podcastFragment, mContext.getString(R.string.action_podcast));
+    }
+
+    public void loadScheduler() {
+        isSearchable = true;
+        invalidateOptionsMenu();
+        TransmissionsPageFragment transmissionsPageFragment = new TransmissionsPageFragment();
+        processFragment(transmissionsPageFragment, mContext.getString(R.string.action_scheduler));
     }
 
     public void loadUserReport() {
@@ -569,17 +577,21 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
 
     private void audioController() {
         if (!playing) {
-            Intent localIntent2 = new Intent(Home.this, StreamingService.class);
-            localIntent2.putExtra("audio", station.getStream_url());
-            localIntent2.putExtra("text", getCityByCoords(station.getLatitude(), station.getLongitude()));
-            localIntent2.putExtra("title", station.getStation_name());
-            startService(localIntent2);
-            navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming_stop));
-            navigationView.getMenu().getItem(2).setIcon(R.drawable.streamingstop);
-            fab_media.setImageResource(R.drawable.streamingstopwhite);
-            playing = true;
-            edit.putBoolean("isMediaPlaying", playing);
-            edit.commit();
+
+            new GetTransmissionNow(mContext, this).execute();
+
+//            audioIntent = new Intent(Home.this, StreamingService.class);
+//            audioIntent.putExtra("audio", station.getStream_url());
+//            audioIntent.putExtra("text", getCityByCoords(station.getLatitude(), station.getLongitude()));
+//            audioIntent.putExtra("title", station.getStation_name());
+//            startService(audioIntent);
+//            navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming_stop));
+//            navigationView.getMenu().getItem(2).setIcon(R.drawable.streamingstop);
+//            fab_media.setImageResource(R.drawable.streamingstopwhite);
+//            playing = true;
+//            edit.putBoolean("isMediaPlaying", playing);
+//            edit.commit();
+
         } else {
             Intent i = new Intent(Home.this, StreamingService.class);
             stopService(i);
@@ -610,13 +622,12 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     public void updateUserInfo() {
 
         // Get account of members
-        accountDTO = new Gson().fromJson(prefs.getString(ACCOUNT_JSON, ""), AccountDTO.class);
+        accountDTO = new Gson().fromJson(prefs.getString(JSON_ACCOUNT, ""), AccountDTO.class);
 
         if (accountDTO != null) {
 
             // Get firebase token
-            FirebaseUtils firebaseUtils = new FirebaseUtils(this);
-            firebaseUtils.execute();
+            new FirebaseUtils(this).execute();
 
             // Shown or gone buttons in menu
             navigationView.getMenu().findItem(R.id.management).setVisible(true);
@@ -646,6 +657,26 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                 nav_authenticate.setImageResource(R.drawable.user_inactive);
             }
         }
+    }
+
+    public void setTransmissionDTO(TransmissionDTO transmissionDTO) {
+        Intent audioIntent = new Intent(Home.this, StreamingService.class);
+
+        if (transmissionDTO != null) {
+            audioIntent.putExtra("text", transmissionDTO.getName());
+        } else {
+            audioIntent.putExtra("text", getCityByCoords(station.getLatitude(), station.getLongitude()));
+        }
+
+        audioIntent.putExtra("audio", station.getStream_url());
+        audioIntent.putExtra("title", station.getStation_name());
+        startService(audioIntent);
+        navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming_stop));
+        navigationView.getMenu().getItem(2).setIcon(R.drawable.streamingstop);
+        fab_media.setImageResource(R.drawable.streamingstopwhite);
+        playing = true;
+        edit.putBoolean("isMediaPlaying", playing);
+        edit.commit();
     }
 
     @Override

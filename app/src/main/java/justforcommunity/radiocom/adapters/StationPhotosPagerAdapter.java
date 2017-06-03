@@ -42,15 +42,14 @@ public class StationPhotosPagerAdapter extends FragmentPagerAdapter {
     private ArrayList<StationPhotosPageFragment> fragments;
     private Gallery mActivity;
 
-    public StationPhotosPagerAdapter(FragmentManager fm, Gallery activity,
-                                     List<String> photos) {
+    public StationPhotosPagerAdapter(FragmentManager fm, Gallery activity, List<String> photos) {
         super(fm);
         this.photos = photos;
         mContext = activity;
         mActivity = activity;
         mCount = photos.size();
 
-        fragments = new ArrayList<StationPhotosPageFragment>();
+        fragments = new ArrayList<>();
 
         for (int i = 0; i < photos.size(); i++) {
             StationPhotosPageFragment f = StationPhotosPageFragment.newInstance(photos.get(i), mActivity);

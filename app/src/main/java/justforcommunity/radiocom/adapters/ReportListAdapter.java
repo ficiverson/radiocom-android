@@ -34,23 +34,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import justforcommunity.radiocom.R;
-import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.utils.DateUtils;
 
 public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filterable {
 
-    private Context mContext;
-    private Home mActivity;
     private ItemFilter mFilter = new ItemFilter();
     private List<ReportDTO> originalData = null;
     private List<ReportDTO> filteredData = null;
     private boolean management;
 
-    public ReportListAdapter(Home mActivity, Context context, int resource, List<ReportDTO> reportDTOs, boolean management) {
+    public ReportListAdapter(Context context, int resource, List<ReportDTO> reportDTOs, boolean management) {
         super(context, resource, reportDTOs);
-        this.mContext = context;
-        this.mActivity = mActivity;
         this.originalData = reportDTOs;
         this.filteredData = reportDTOs;
         this.management = management;
@@ -64,7 +59,7 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
         TextView dirt;
         TextView configuration;
         ImageView photoImageView;
-        View viewtrans;
+        View colorTransparency;
     }
 
     @Override
@@ -81,7 +76,7 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
     public View getView(int position, View convertView, ViewGroup parent) {
 
         View v = convertView;
-        ViewHolder holder = null;
+        ViewHolder holder;
 
         if (v == null) {
             LayoutInflater vi;
@@ -96,7 +91,7 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
             holder.dirt = (TextView) v.findViewById(R.id.dirt);
             holder.configuration = (TextView) v.findViewById(R.id.configuration);
             holder.photoImageView = (ImageView) v.findViewById(R.id.channel_image);
-            holder.viewtrans = (View) v.findViewById(R.id.viewtrans);
+            holder.colorTransparency = v.findViewById(R.id.viewtrans);
 
             if (management) {
                 holder.accountName.setVisibility(View.VISIBLE);
@@ -134,19 +129,19 @@ public class ReportListAdapter extends ArrayAdapter<ReportDTO> implements Filter
             FilterResults results = new FilterResults();
             final List<ReportDTO> list = originalData;
             int count = list.size();
-            final ArrayList<ReportDTO> nlist = new ArrayList<>(count);
+            final ArrayList<ReportDTO> nList = new ArrayList<>(count);
             ReportDTO filterableString;
 
             for (int i = 0; i < count; i++) {
                 filterableString = list.get(i);
                 if (filterableString.getProgram().getName().toLowerCase().contains(filterString) ||
                         filterableString.getAccount().getFullName().toLowerCase().contains(filterString)) {
-                    nlist.add(filterableString);
+                    nList.add(filterableString);
                 }
             }
 
-            results.values = nlist;
-            results.count = nlist.size();
+            results.values = nList;
+            results.count = nList.size();
             return results;
         }
 

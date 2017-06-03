@@ -33,6 +33,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -56,13 +57,15 @@ import justforcommunity.radiocom.model.ProgramDTO;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.PodcastingService;
 
+import static justforcommunity.radiocom.utils.GlobalValues.JSON_PODCAST;
+
 public class Podcast extends AppCompatActivity {
 
     public SharedPreferences prefs;
     public SharedPreferences.Editor edit;
     private ProgramDTO program;
     private AVLoadingIndicatorView avi;
-    private RecyclerView programslist;
+    private RecyclerView programsList;
     private TextView noElements;
     private ProgramListAdapter myAdapterProgram;
     private Context mContext;
@@ -98,7 +101,6 @@ public class Podcast extends AppCompatActivity {
         prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         edit = prefs.edit();
 
-
         String jsonPodcast = getIntent().getStringExtra(GlobalValues.EXTRA_PROGRAM);
         Gson gson = new Gson();
 
@@ -106,7 +108,7 @@ public class Podcast extends AppCompatActivity {
             program = gson.fromJson(jsonPodcast, ProgramDTO.class);
         } else {
             //take last podcast selected
-            program = gson.fromJson(prefs.getString("jsonPodcast", ""), ProgramDTO.class);
+            program = gson.fromJson(prefs.getString(JSON_PODCAST, ""), ProgramDTO.class);
         }
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
@@ -126,14 +128,15 @@ public class Podcast extends AppCompatActivity {
         });
 
         if (program != null) {
-            getSupportActionBar().setTitle(program.getTitle());
+            getSupportActionBar().setTitle(program.getName());
 
-            programslist = (RecyclerView) findViewById(R.id.programslist);
+            programsList = (RecyclerView) findViewById(R.id.programslist);
             noElements = (TextView) findViewById(R.id.no_elements);
             image_podcast_bck = (ImageView) findViewById(R.id.image_podcast_bck);
 
             if (program.getDescription() != null) {
-                description.setText(program.getDescription());
+                //description.setText(program.getDescription());
+                description.setText(Html.fromHtml(program.getDescription()));
             }
 
             Picasso.with(mContext).load(program.getLogo_url()).into(image_podcast_bck);
@@ -158,7 +161,11 @@ public class Podcast extends AppCompatActivity {
                 }
             };
 
-            PkRSS.with(this).load(program.getRss_url()).callback(callback).async();
+            if (program.getRss_url() != null && !program.getRss_url().isEmpty()) {
+                PkRSS.with(this).load(program.getRss_url()).callback(callback).async();
+            } else {
+                listEpisodes(null);
+            }
         }
 
         App application = (App) getApplication();
@@ -181,25 +188,26 @@ public class Podcast extends AppCompatActivity {
 
     public void listEpisodes(final List<Article> episodes) {
         avi.hide();
+
         if (episodes == null || episodes.size() == 0) {
             noElements.setVisibility(View.VISIBLE);
-            programslist.setVisibility(View.GONE);
-            avi.setVisibility(View.GONE);
-        } else {
-            noElements.setVisibility(View.GONE);
-            programslist.setVisibility(View.VISIBLE);
+            programsList.setVisibility(View.GONE);
             avi.setVisibility(View.GONE);
 
-            programslist.setNestedScrollingEnabled(false);
+        } else {
+            noElements.setVisibility(View.GONE);
+            programsList.setVisibility(View.VISIBLE);
+            avi.setVisibility(View.GONE);
+
+            programsList.setNestedScrollingEnabled(false);
 
             myAdapterProgram = new ProgramListAdapter(mActivity, mContext, episodes);
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            programslist.setLayoutManager(layoutManager);
-            programslist.setItemAnimator(new DefaultItemAnimator());
-            programslist.setAdapter(myAdapterProgram);
-
+            programsList.setLayoutManager(layoutManager);
+            programsList.setItemAnimator(new DefaultItemAnimator());
+            programsList.setAdapter(myAdapterProgram);
         }
     }
 
@@ -218,7 +226,6 @@ public class Podcast extends AppCompatActivity {
 
         super.onNewIntent(intent);
     }
-
 
     /**
      * function to show a dialog popup while asynctask is working

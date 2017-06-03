@@ -125,6 +125,7 @@
     <string name="action_station">Emisora</string>
     <string name="action_gallery">Galería</string>
     <string name="action_streaming">Escuchar emisión</string>
+    <string name="action_scheduler">Programación</string>
     <string name="action_news">Noticias</string>
     <string name="action_podcast">Podcast</string>
     <string name="action_map">Ubicación</string>
@@ -181,6 +182,7 @@
     <string name="podcast_view">Podcast screen</string>
     <string name="report_view">Report screen</string>
     <string name="book_view">Report screen</string>
+    <string name="transmisions_view">Programación</string>
 
     <string name="auth_failed">Autenticación fallida</string>
     <string name="auth_success">Autenticación correcta</string>

@@ -27,8 +27,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import org.springframework.web.client.RestClientException;
-
 import java.util.Locale;
 
 import justforcommunity.radiocom.activities.Home;
@@ -37,7 +35,7 @@ import justforcommunity.radiocom.service.ServiceAccounts;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.InternetConnection;
 
-import static justforcommunity.radiocom.utils.GlobalValues.ACCOUNT_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.JSON_ACCOUNT;
 
 public class GetAccount extends AsyncTask<Boolean, Float, Boolean> {
 
@@ -64,32 +62,26 @@ public class GetAccount extends AsyncTask<Boolean, Float, Boolean> {
     }
 
     protected Boolean doInBackground(Boolean... urls) {
-        boolean res = false;
         InternetConnection cnn = new InternetConnection();
 
         if (cnn.isConnected(mContext)) {
 
             try {
                 accountDTO = serviceAccounts.getAccount();
-                res = true;
-            } catch (RestClientException e) {
-                Log.d(TAG, "doInBackground()", e);
-                accountDTO = null;
-                res = false;
+                return true;
             } catch (Exception e) {
                 Log.d(TAG, "doInBackground()", e);
                 accountDTO = null;
-                res = false;
             }
         }
-        return res;
+        return false;
     }
 
     protected void onPostExecute(Boolean result) {
         if (result) {
-            edit.putString(ACCOUNT_JSON, new Gson().toJson(accountDTO));
+            edit.putString(JSON_ACCOUNT, new Gson().toJson(accountDTO));
         } else {
-            edit.remove(ACCOUNT_JSON);
+            edit.remove(JSON_ACCOUNT);
         }
         edit.apply();
         if (mActivity != null) {
@@ -98,7 +90,7 @@ public class GetAccount extends AsyncTask<Boolean, Float, Boolean> {
     }
 
     public void removeAccount() {
-        edit.remove(ACCOUNT_JSON);
+        edit.remove(JSON_ACCOUNT);
         edit.apply();
     }
 }

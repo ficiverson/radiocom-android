@@ -25,11 +25,11 @@ import justforcommunity.radiocom.activities.Report;
 
 import static android.content.ContentValues.TAG;
 import static justforcommunity.radiocom.utils.GlobalValues.BOOK;
-import static justforcommunity.radiocom.utils.GlobalValues.BOOK_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.JSON_BOOK;
+import static justforcommunity.radiocom.utils.GlobalValues.JSON_REPORT;
 import static justforcommunity.radiocom.utils.GlobalValues.MEMBERS;
 import static justforcommunity.radiocom.utils.GlobalValues.NOTIFICATION_COUNT;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT;
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.addToken;
 
 public class MessagingService extends FirebaseMessagingService {
@@ -42,7 +42,7 @@ public class MessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 
             Intent intent = null;
-           // String packageName = null;
+            // String packageName = null;
 
             String type = remoteMessage.getData().get("type");
             switch (type) {
@@ -50,14 +50,14 @@ public class MessagingService extends FirebaseMessagingService {
                 case BOOK:
                     // Open book info
                     intent = new Intent(getApplicationContext(), Book.class);
-                    intent.putExtra(BOOK_JSON, remoteMessage.getData().get("value"));
+                    intent.putExtra(JSON_BOOK, remoteMessage.getData().get("value"));
                     //packageName = Book.class.getPackage().toString() + ".Book";
                     break;
 
                 case REPORT:
                     // Open report info
                     intent = new Intent(getApplicationContext(), Report.class);
-                    intent.putExtra(REPORT_JSON, remoteMessage.getData().get("value"));
+                    intent.putExtra(JSON_REPORT, remoteMessage.getData().get("value"));
                     //packageName = Report.class.getPackage().toString() + ".Report";
                     break;
 

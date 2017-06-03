@@ -1,8 +1,8 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
+ *  * Copyright (C) 2016 @ Pablo Grela
  *  *
- *  * Developer Fernando Souto
+ *  * Developer Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,44 +42,43 @@ import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.App;
 import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.activities.Podcast;
-import justforcommunity.radiocom.adapters.PodcastListAdapter;
+import justforcommunity.radiocom.adapters.TransmissionListAdapter;
 import justforcommunity.radiocom.model.ProgramDTO;
-import justforcommunity.radiocom.task.GetPrograms;
+import justforcommunity.radiocom.model.TransmissionDTO;
+import justforcommunity.radiocom.task.Transmissions.GetTransmissions;
 import justforcommunity.radiocom.utils.GlobalValues;
 
 import static justforcommunity.radiocom.utils.GlobalValues.JSON_PODCAST;
 
-
-public class PodcastPageFragment extends FilterFragment {
+public class TransmissionsPageFragment extends FilterFragment {
 
     private Home mActivity;
     private Context mContext;
-    private ListView podcastList;
+    private ListView transmissionList;
     private TextView noElements;
-    private PodcastListAdapter myAdapterPodcast;
+    private TransmissionListAdapter transmissionListAdapter;
     private AVLoadingIndicatorView avi;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_podcast, container, false);
+        View v = inflater.inflate(R.layout.fragment_transmmisions, container, false);
 
         mActivity = (Home) getActivity();
         mContext = getContext();
 
-        podcastList = (ListView) v.findViewById(R.id.podcastlist);
+        transmissionList = (ListView) v.findViewById(R.id.transmissionsList);
         noElements = (TextView) v.findViewById(R.id.no_elements);
 
         avi = (AVLoadingIndicatorView) v.findViewById(R.id.avi);
         avi.show();
 
-        // Get Programs
-        new GetPrograms(mContext, this).execute();
+        // Get Transmissions
+        new GetTransmissions(mContext, this).execute();
 
         App application = (App) getActivity().getApplication();
         Tracker mTracker = application.getDefaultTracker();
-        mTracker.setScreenName(getString(R.string.podcast_view));
+        mTracker.setScreenName(getString(R.string.transmisions_view));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         return v;
@@ -89,43 +87,45 @@ public class PodcastPageFragment extends FilterFragment {
     public void resultKO() {
         avi.hide();
         noElements.setVisibility(View.VISIBLE);
-        podcastList.setVisibility(View.GONE);
+        transmissionList.setVisibility(View.GONE);
         avi.setVisibility(View.GONE);
     }
 
     @Override
     public void filterDataSearch(String query) {
-        if (myAdapterPodcast != null) {
-            myAdapterPodcast.getFilter().filter(query);
+        if (transmissionListAdapter != null) {
+            transmissionListAdapter.getFilter().filter(query);
         }
     }
 
-    public void listChannels(final List<ProgramDTO> programs) {
+    public void listChannels(final List<TransmissionDTO> transmissions) {
         avi.hide();
 
-        if (programs == null || programs.isEmpty()) {
+        if (transmissions == null || transmissions.isEmpty()) {
             noElements.setVisibility(View.VISIBLE);
-            podcastList.setVisibility(View.GONE);
+            transmissionList.setVisibility(View.GONE);
             avi.setVisibility(View.GONE);
 
         } else {
             noElements.setVisibility(View.GONE);
-            podcastList.setVisibility(View.VISIBLE);
+            transmissionList.setVisibility(View.VISIBLE);
             avi.setVisibility(View.GONE);
 
-            myAdapterPodcast = new PodcastListAdapter(mContext, R.layout.listitem_new, programs);
-            podcastList.setAdapter(myAdapterPodcast);
+            transmissionListAdapter = new TransmissionListAdapter(mContext, R.layout.listitem_new, transmissions);
+            transmissionList.setAdapter(transmissionListAdapter);
 
-            podcastList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            transmissionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    //serialize object
-                    String jsonInString = new Gson().toJson(myAdapterPodcast.getItem(position));
-
-                    //save json object on prefs
                     SharedPreferences prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = prefs.edit();
+
+                    //serialize object
+                    ProgramDTO program = new Gson().fromJson(prefs.getString(transmissionListAdapter.getItem(position).getSlug(), ""), ProgramDTO.class);
+                    String jsonInString = new Gson().toJson(program);
+
+                    //save json object on prefs
                     edit.putString(JSON_PODCAST, jsonInString);
                     edit.commit();
 

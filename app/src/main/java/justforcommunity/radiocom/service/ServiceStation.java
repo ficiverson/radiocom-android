@@ -31,14 +31,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 
 import justforcommunity.radiocom.model.ResponseStationDTO;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
-import justforcommunity.radiocom.utils.GlobalValues;
+
+import static justforcommunity.radiocom.utils.GlobalValues.radioStationURL;
 
 public class ServiceStation extends ServiceBase {
 
@@ -48,15 +47,9 @@ public class ServiceStation extends ServiceBase {
 
     public ResponseStationDTO getStation() throws RestClientException, WebServiceStatusFailException {
 
-        Object[] theValues = {};
-        String[] parameters = {};
-
-        List<Object> sendValues = new ArrayList<>();
-        String url = GlobalValues.baseURL + "radiostation" + restQueryString(parameters, theValues, sendValues);
-        ResponseEntity<ResponseStationDTO> response = null;
-
+        String url = radioStationURL;
+        ResponseEntity<ResponseStationDTO> response;
         try {
-            agregarCabeceras(getRequestHeaders());
             HttpEntity<?> request;
             request = new HttpEntity<Object>(getRequestHeaders());
 
@@ -64,7 +57,7 @@ public class ServiceStation extends ServiceBase {
             converter.setSupportedMediaTypes(Collections.singletonList(MediaType.TEXT_PLAIN));
             getRestTemplate().getMessageConverters().add(converter);
 
-            response = getRestTemplate().exchange(url, HttpMethod.GET, request, ResponseStationDTO.class, sendValues.toArray());
+            response = getRestTemplate().exchange(url, HttpMethod.GET, request, ResponseStationDTO.class);
             if (response.getStatusCode() != HttpStatus.OK) {
                 throw new WebServiceStatusFailException();
             }

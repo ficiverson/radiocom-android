@@ -52,7 +52,7 @@ import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.PodcastingService;
 
 import static justforcommunity.radiocom.utils.GlobalValues.BOOK_ANSWER_REQUEST;
-import static justforcommunity.radiocom.utils.GlobalValues.BOOK_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.JSON_BOOK;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
 
 public class Book extends AppCompatActivity {
@@ -105,13 +105,13 @@ public class Book extends AppCompatActivity {
         prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         edit = prefs.edit();
 
-        String jsonBook = getIntent().getStringExtra(BOOK_JSON);
+        String jsonBook = getIntent().getStringExtra(JSON_BOOK);
         Gson gson = new Gson();
         if (jsonBook != null && jsonBook != "") {
             book = gson.fromJson(jsonBook, BookDTO.class);
         } else {
             //take last book selected
-            book = gson.fromJson(prefs.getString(BOOK_JSON, ""), BookDTO.class);
+            book = gson.fromJson(prefs.getString(JSON_BOOK, ""), BookDTO.class);
         }
 
         // Listener send book
@@ -206,9 +206,9 @@ public class Book extends AppCompatActivity {
                     stopService(i);
                     //notifyAdapterToRefresh();
                 }
-            } else if (intent.getStringExtra(BOOK_JSON) != null) {
+            } else if (intent.getStringExtra(JSON_BOOK) != null) {
                 Intent newIntent = new Intent(mActivity, Report.class);
-                newIntent.putExtra(BOOK_JSON, intent.getStringExtra(BOOK_JSON));
+                newIntent.putExtra(JSON_BOOK, intent.getStringExtra(JSON_BOOK));
                 startActivityForResult(newIntent, BOOK_ANSWER_REQUEST);
             }
         }
@@ -237,7 +237,7 @@ public class Book extends AppCompatActivity {
     public void resultOK(BookDTO book) {
         Toast.makeText(this, getResources().getString(R.string.book_send_answer_success), Toast.LENGTH_SHORT).show();
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(BOOK_JSON, new Gson().toJson(book));
+        returnIntent.putExtra(JSON_BOOK, new Gson().toJson(book));
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
@@ -254,8 +254,7 @@ public class Book extends AppCompatActivity {
             answer_view.setError(getResources().getString(R.string.required));
             Toast.makeText(this, getResources().getString(R.string.book_complete_fields), Toast.LENGTH_SHORT).show();
         } else {
-            SendAnswerBook sendAnswerBook = new SendAnswerBook(mContext, mActivity, book.getId(), answer_view.getText().toString(), manage);
-            sendAnswerBook.execute();
+            new SendAnswerBook(mContext, mActivity, book.getId(), answer_view.getText().toString(), manage).execute();
         }
     }
 

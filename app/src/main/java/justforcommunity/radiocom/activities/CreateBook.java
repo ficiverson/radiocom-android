@@ -59,7 +59,7 @@ import justforcommunity.radiocom.task.Book.SendBook;
 import justforcommunity.radiocom.task.GetElements;
 import justforcommunity.radiocom.utils.DateUtils;
 
-import static justforcommunity.radiocom.utils.GlobalValues.BOOK_JSON;
+import static justforcommunity.radiocom.utils.GlobalValues.JSON_BOOK;
 import static justforcommunity.radiocom.utils.GlobalValues.REST_URL;
 
 
@@ -68,12 +68,8 @@ public class CreateBook extends AppCompatActivity {
     private Context mContext;
     private CreateBook mActivity;
 
-    private BookDTO book;
     private AVLoadingIndicatorView avi;
-
     private Spinner elementName;
-    private Button send_button;
-    private String restURL;
     private EditText description;
 
     private EditText dateStart;
@@ -108,7 +104,7 @@ public class CreateBook extends AppCompatActivity {
         });
 
         // Listener send book
-        send_button = (Button) findViewById(R.id.send);
+        Button send_button = (Button) findViewById(R.id.send);
         send_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,11 +116,10 @@ public class CreateBook extends AppCompatActivity {
         mContext = this;
 
         // restURL
-        restURL = getIntent().getExtras().getString(REST_URL);
+        String restURL = getIntent().getExtras().getString(REST_URL);
 
         // Get elements of user
-        GetElements elementsUser = new GetElements(mContext, mActivity, restURL);
-        elementsUser.execute();
+        new GetElements(mContext, mActivity, restURL).execute();
 
         elementName = (Spinner) findViewById(R.id.elementName);
         dateStart = (EditText) findViewById(R.id.dateStart);
@@ -160,7 +155,7 @@ public class CreateBook extends AppCompatActivity {
         Toast.makeText(this, getResources().getString(R.string.book_send_success), Toast.LENGTH_SHORT).show();
 
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(BOOK_JSON, new Gson().toJson(book));
+        returnIntent.putExtra(JSON_BOOK, new Gson().toJson(book));
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
@@ -254,7 +249,7 @@ public class CreateBook extends AppCompatActivity {
     // Create new book with form
     private void createBook() {
 
-        book = new BookDTO();
+        BookDTO book = new BookDTO();
         boolean isValid = true;
 
         int pos = elementName.getChildCount() - 1;
@@ -300,8 +295,7 @@ public class CreateBook extends AppCompatActivity {
         } else {
             // Send Book
             avi.show();
-            SendBook sendBook = new SendBook(mContext, mActivity, book);
-            sendBook.execute();
+            new SendBook(mContext, mActivity, book).execute();
         }
     }
 }

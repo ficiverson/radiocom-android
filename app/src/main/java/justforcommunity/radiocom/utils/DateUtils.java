@@ -33,6 +33,8 @@ public class DateUtils {
 
     public static final String FORMAT_DISPLAY = "dd/MM/yyyy HH:mm ";
     public static final String FORMAT_DATE = "dd/MM/yyyy";
+    public static final String FORMAT_DATE_GET = "yyyy-MM-dd";
+    public static final String FORMAT_HOUR = "HH:mm";
 
     public static String formatDate(Date date, String format) {
         if (date != null) {

@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,9 +51,9 @@ import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.task.Report.GetReports;
 import justforcommunity.radiocom.utils.GlobalValues;
 
+import static justforcommunity.radiocom.utils.GlobalValues.JSON_REPORT;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_ANSWER_REQUEST;
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_REQUEST;
 import static justforcommunity.radiocom.utils.GlobalValues.REST_URL;
 import static justforcommunity.radiocom.utils.GlobalValues.programsURL;
@@ -88,8 +87,7 @@ public class ReportPageFragment extends FilterFragment {
 
         // Get Reports
         manage = true;
-        GetReports gp = new GetReports(mContext, this, reportsURL);
-        gp.execute();
+        new GetReports(mContext, this, reportsURL).execute();
 
         // Float button to create new report
         mActivity.fab_media_hide();
@@ -114,7 +112,7 @@ public class ReportPageFragment extends FilterFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && (requestCode == REPORT_REQUEST || requestCode == REPORT_ANSWER_REQUEST)) {
-            ReportDTO report = new Gson().fromJson((String) data.getExtras().get(REPORT_JSON), ReportDTO.class);
+            ReportDTO report = new Gson().fromJson((String) data.getExtras().get(JSON_REPORT), ReportDTO.class);
             if (requestCode == REPORT_ANSWER_REQUEST) {
                 for (ReportDTO aux : new ArrayList<>(reports)) {
                     if (aux.getId().equals(report.getId())) {
@@ -145,16 +143,17 @@ public class ReportPageFragment extends FilterFragment {
         avi.hide();
         this.reports = reports;
 
-        if (reports == null || reports.size() == 0) {
+        if (reports == null || reports.isEmpty()) {
             noElements.setVisibility(View.VISIBLE);
             reportList.setVisibility(View.GONE);
             avi.setVisibility(View.GONE);
+
         } else {
             noElements.setVisibility(View.GONE);
             reportList.setVisibility(View.VISIBLE);
             avi.setVisibility(View.GONE);
 
-            myAdapterReports = new ReportListAdapter(mActivity, mContext, R.layout.listitem_new, reports, true);
+            myAdapterReports = new ReportListAdapter(mContext, R.layout.listitem_new, reports, true);
             reportList.setAdapter(myAdapterReports);
 
             reportList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -167,12 +166,12 @@ public class ReportPageFragment extends FilterFragment {
                     //save report object on prefs
                     SharedPreferences prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = prefs.edit();
-                    edit.putString(REPORT_JSON, jsonInString);
+                    edit.putString(JSON_REPORT, jsonInString);
                     edit.apply();
 
                     //launch next activity
                     Intent intent = new Intent(mActivity, Report.class);
-                    intent.putExtra(REPORT_JSON, jsonInString);
+                    intent.putExtra(JSON_REPORT, jsonInString);
                     intent.putExtra(MANAGE, manage);
                     startActivityForResult(intent, REPORT_ANSWER_REQUEST);
                 }

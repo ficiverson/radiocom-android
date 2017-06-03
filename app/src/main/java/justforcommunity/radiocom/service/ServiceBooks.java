@@ -45,8 +45,8 @@ import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailExceptio
 import justforcommunity.radiocom.utils.DateUtils;
 
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
+import static justforcommunity.radiocom.utils.GlobalValues.JSON_BOOK;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
-import static justforcommunity.radiocom.utils.GlobalValues.BOOK_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.addToken;
 import static justforcommunity.radiocom.utils.GlobalValues.createBookURL;
 import static justforcommunity.radiocom.utils.GlobalValues.sendAnswerBookURL;
@@ -95,7 +95,7 @@ public class ServiceBooks extends ServiceBase {
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("token", getTokenFirebase());
             Gson gson = new GsonBuilder().setDateFormat(DateUtils.FORMAT_DISPLAY).create();
-            body.add(BOOK_JSON, gson.toJson(book));
+            body.add(JSON_BOOK, gson.toJson(book));
             request = new HttpEntity<Object>(body, getRequestHeaders());
 
             response = getRestTemplate().exchange(createBookURL, HttpMethod.POST, request, String.class);

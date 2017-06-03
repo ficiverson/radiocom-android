@@ -18,7 +18,7 @@
  *
  */
 
-package justforcommunity.radiocom.task;
+package justforcommunity.radiocom.task.Transmissions;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -28,49 +28,56 @@ import org.springframework.web.client.RestClientException;
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.activities.CreateBook;
-import justforcommunity.radiocom.model.ElementDTO;
-import justforcommunity.radiocom.service.ServiceElements;
+import justforcommunity.radiocom.activities.CreateReport;
+import justforcommunity.radiocom.activities.Home;
+import justforcommunity.radiocom.model.TransmissionDTO;
+import justforcommunity.radiocom.service.ServiceTransmissions;
 import justforcommunity.radiocom.utils.InternetConnection;
 
 
-public class GetElements extends AsyncTask<Boolean, Float, Boolean> {
+public class GetTransmissionNow extends AsyncTask<Boolean, Float, Boolean> {
 
     private Context mContext;
-    private CreateBook mActivity;
-    private ServiceElements serviceElements;
+    private Home mActivity;
+    private ServiceTransmissions serviceTransmissions;
     private Locale locale;
-    private List<ElementDTO> elementsDTO;
-    private String restURL;
+    private TransmissionDTO transmissionDTO;
 
-    public GetElements(Context mContext, CreateBook mActivity, String restURL) {
+    public GetTransmissionNow(Context mContext, Home mActivity) {
         this.mActivity = mActivity;
         this.mContext = mContext;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        serviceElements = new ServiceElements(locale);
-        this.restURL = restURL;
+        serviceTransmissions = new ServiceTransmissions(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
+        boolean res = false;
+
         InternetConnection cnn = new InternetConnection();
 
         if (cnn.isConnected(mContext)) {
 
             try {
-                elementsDTO = serviceElements.getElements(restURL);
-                return true;
+                transmissionDTO = serviceTransmissions.getTransmissionNow();
+                res = true;
+
+            } catch (RestClientException e) {
+                transmissionDTO = null;
+                res = false;
             } catch (Exception e) {
-                elementsDTO = null;
+                transmissionDTO = null;
+                res = false;
             }
         }
-        return false;
+        return res;
     }
+
 
     protected void onPostExecute(Boolean result) {
         if (result) {
-            mActivity.setElementsReservable(elementsDTO);
+            mActivity.setTransmissionDTO(transmissionDTO);
         } else {
-            mActivity.failElementsReservable();
+            mActivity.setTransmissionDTO(null);
         }
     }
 

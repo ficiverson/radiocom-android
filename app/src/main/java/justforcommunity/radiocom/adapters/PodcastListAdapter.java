@@ -42,15 +42,13 @@ import justforcommunity.radiocom.model.ProgramDTO;
 public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filterable {
 
     private Context mContext;
-    private Home mActivity;
     private ItemFilter mFilter = new ItemFilter();
     private List<ProgramDTO> originalData = null;
     private List<ProgramDTO> filteredData = null;
 
-    public PodcastListAdapter(Home mActivity, Context context, int resource, List<ProgramDTO> podcast) {
+    public PodcastListAdapter(Context context, int resource, List<ProgramDTO> podcast) {
         super(context, resource, podcast);
         this.mContext = context;
-        this.mActivity = mActivity;
         originalData = podcast;
         filteredData = podcast;
     }
@@ -98,12 +96,11 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
 
         if (programDTO != null) {
 
-
             if (holder.nameTextView != null) {
-                if (programDTO.getTitle() == null) {
+                if (programDTO.getName() == null) {
                     holder.nameTextView.setText("");
                 } else {
-                    holder.nameTextView.setText(programDTO.getTitle());
+                    holder.nameTextView.setText(programDTO.getName());
                 }
             }
 
@@ -137,18 +134,18 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
             FilterResults results = new FilterResults();
             final List<ProgramDTO> list = originalData;
             int count = list.size();
-            final ArrayList<ProgramDTO> nlist = new ArrayList<ProgramDTO>(count);
+            final ArrayList<ProgramDTO> nList = new ArrayList<ProgramDTO>(count);
             ProgramDTO filterableString;
 
             for (int i = 0; i < count; i++) {
                 filterableString = list.get(i);
-                if (filterableString.getTitle().toLowerCase().contains(filterString)) {
-                    nlist.add(filterableString);
+                if (filterableString.getName().toLowerCase().contains(filterString)) {
+                    nList.add(filterableString);
                 }
             }
 
-            results.values = nlist;
-            results.count = nlist.size();
+            results.values = nList;
+            results.count = nList.size();
 
             return results;
         }

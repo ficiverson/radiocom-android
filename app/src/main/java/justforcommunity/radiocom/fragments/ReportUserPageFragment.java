@@ -20,39 +20,25 @@
 
 package justforcommunity.radiocom.fragments;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-import com.google.gson.Gson;
 import com.wang.avi.AVLoadingIndicatorView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.App;
 import justforcommunity.radiocom.activities.CreateReport;
 import justforcommunity.radiocom.activities.Home;
-import justforcommunity.radiocom.activities.Report;
-import justforcommunity.radiocom.adapters.ReportListAdapter;
-import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.task.Report.GetReports;
-import justforcommunity.radiocom.utils.GlobalValues;
 
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_ANSWER_REQUEST;
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_REQUEST;
 import static justforcommunity.radiocom.utils.GlobalValues.REST_URL;
 import static justforcommunity.radiocom.utils.GlobalValues.programsUserURL;
@@ -77,8 +63,7 @@ public class ReportUserPageFragment extends ReportPageFragment {
 
         // Get Reports
         manage = false;
-        GetReports gp = new GetReports(mContext, this, reportsUserURL);
-        gp.execute();
+        new GetReports(mContext, this, reportsUserURL).execute();
 
         // Float button to create new report
         mActivity.fab_media_hide();

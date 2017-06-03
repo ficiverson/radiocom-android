@@ -42,8 +42,8 @@ import justforcommunity.radiocom.model.ReportDTO;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
 
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
+import static justforcommunity.radiocom.utils.GlobalValues.JSON_REPORT;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.addToken;
 import static justforcommunity.radiocom.utils.GlobalValues.createReportURL;
 import static justforcommunity.radiocom.utils.GlobalValues.sendAnswerReportURL;
@@ -92,7 +92,7 @@ public class ServiceReports extends ServiceBase {
             // Create the request body as a MultiValueMap
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("token", getTokenFirebase());
-            body.add(REPORT_JSON, new Gson().toJson(report));
+            body.add(JSON_REPORT, new Gson().toJson(report));
             body.add("photos", photosJson);
             request = new HttpEntity<Object>(body, getRequestHeaders());
 

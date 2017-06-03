@@ -20,16 +20,25 @@
 
 package justforcommunity.radiocom.model;
 
-public class ProgramDTO {
+import java.util.Date;
 
+public class TransmissionDTO {
+
+    private String id;
     private String name;
     private String slug;
-    private String description;
-    private String logo_url;
-    private String rss_url;
+    private Date start;
+    private Date end;
+    private String programme_url;
+    private String type;
+    private String source;
 
-    public ProgramDTO(String name) {
-        this.name = name;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -48,28 +57,43 @@ public class ProgramDTO {
         this.slug = slug;
     }
 
-    public String getDescription() {
-        return description;
+    public Date getStart() {
+        return start;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setStart(Date start) {
+        this.start = start;
     }
 
-    public String getLogo_url() {
-        return logo_url;
+    public Date getEnd() {
+        return end;
     }
 
-    public void setLogo_url(String logo_url) {
-        this.logo_url = logo_url;
+    public void setEnd(Date end) {
+        this.end = end;
     }
 
-    public String getRss_url() {
-        return rss_url;
+    public String getProgramme_url() {
+        return programme_url;
     }
 
-    public void setRss_url(String rss_url) {
-        this.rss_url = rss_url;
+    public void setProgramme_url(String programme_url) {
+        this.programme_url = programme_url;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 }

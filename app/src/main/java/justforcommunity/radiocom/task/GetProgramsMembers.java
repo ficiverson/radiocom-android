@@ -23,8 +23,6 @@ package justforcommunity.radiocom.task;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import org.springframework.web.client.RestClientException;
-
 import java.util.List;
 import java.util.Locale;
 
@@ -52,25 +50,18 @@ public class GetProgramsMembers extends AsyncTask<Boolean, Float, Boolean> {
     }
 
     protected Boolean doInBackground(Boolean... urls) {
-        boolean res = false;
-
         InternetConnection cnn = new InternetConnection();
 
         if (cnn.isConnected(mContext)) {
 
             try {
                 programsDTO = servicePrograms.getPrograms(restURL);
-                res = true;
-
-            } catch (RestClientException e) {
-                programsDTO = null;
-                res = false;
+                return true;
             } catch (Exception e) {
                 programsDTO = null;
-                res = false;
             }
         }
-        return res;
+        return false;
     }
 
 

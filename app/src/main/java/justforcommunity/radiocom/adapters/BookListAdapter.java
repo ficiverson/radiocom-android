@@ -41,7 +41,6 @@ import justforcommunity.radiocom.utils.FileUtils;
 public class BookListAdapter extends ArrayAdapter<BookDTO> implements Filterable {
 
     private Context mContext;
-    private Home mActivity;
     private ItemFilter mFilter = new ItemFilter();
     private List<BookDTO> originalData = null;
     private List<BookDTO> filteredData = null;
@@ -51,7 +50,6 @@ public class BookListAdapter extends ArrayAdapter<BookDTO> implements Filterable
         super(context, resource, bookDTOs);
         this.management = management;
         this.mContext = context;
-        this.mActivity = mActivity;
         this.originalData = bookDTOs;
         this.filteredData = bookDTOs;
     }
@@ -63,7 +61,7 @@ public class BookListAdapter extends ArrayAdapter<BookDTO> implements Filterable
         TextView dateStart;
         TextView dateEnd;
         TextView state;
-        View viewtrans;
+        View colorTransparency;
     }
 
     @Override
@@ -94,7 +92,7 @@ public class BookListAdapter extends ArrayAdapter<BookDTO> implements Filterable
             holder.dateStart = (TextView) v.findViewById(R.id.dateStart);
             holder.dateEnd = (TextView) v.findViewById(R.id.dateEnd);
             holder.state = (TextView) v.findViewById(R.id.state);
-            holder.viewtrans = (View) v.findViewById(R.id.viewtrans);
+            holder.colorTransparency = v.findViewById(R.id.viewtrans);
 
             if (management) {
                 holder.accountName.setVisibility(View.VISIBLE);

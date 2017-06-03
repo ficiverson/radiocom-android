@@ -32,17 +32,25 @@ public class GlobalValues {
     //configurations you con update
     public static final String prefName = "commradio";
 
+    //public static final String baseURL = "http://radiocom.stamplayapp.com/api/cobject/v1/";
     public static final String baseURLWEB = "https://cuacfm.org/";
     public static final String baseURLCUACWEB = baseURLWEB + "asociacion-cuac/historia/";
-    public static final String baseURL = "http://radiocom.stamplayapp.com/api/cobject/v1/";
 
-    //this will be the final url when we make changes on RADIOCO
+
+    ///////////////    RADIOCO   ///////////////////////////
     public static final String radiocoURL = baseURLWEB + "radioco/";
-    //public static final String baseURL = radiocoURL + /api/1/radiocom/";
+    //public static final String radiocoURL = "http://192.168.137.247:9000/" + "radioco/";
 
-//     public static final String membersURL = baseURLWEB + "members/";
+    public static final String radioStationURL = radiocoURL + "api/1/radiocom/radiostation";
+    public static final String programmesURL = radiocoURL + "api/1/radiocom/programmes";
+    public static final String transmissionsURL = radiocoURL + "api/2/transmissions";
+    public static final String transmissionNowURL = radiocoURL + "api/2/transmissions/now";
+
+
+    ///////////////    MEMBERS   ///////////////////////////
+    public static final String membersURL = baseURLWEB + "members/";
     // public static final String membersURL = "http://10.0.2.2:8080/members/";
-     public static final String membersURL = "http://192.168.137.111:8080/members/";
+    // public static final String membersURL = "http://192.168.137.247:8080/members/";
 
     public static final String signupURL = membersURL + "signup";
     public static final String membersAPI = membersURL + "api/";
@@ -86,19 +94,22 @@ public class GlobalValues {
     //end configuration you can update
 
     //things that you may not change
+    public static final String DOWNLOAD_DIR = Environment.getExternalStorageDirectory().toString() + "/Android/data/" + App.PACKAGE_NAME + "/downloaded/";
+
     public static final String EXTRA_MESSAGE = "radioStation";
     public static final String EXTRA_PROGRAM = "programme";
     public static final String EXTRA_CONTENT = "webviewContent";
     public static final String EXTRA_TITLE = "webviewTitle";
-    public static final String REPORT_JSON = "reportJson";
-    public static final String BOOK_JSON = "bookJson";
-    public static final String ACCOUNT_JSON = "accountJson";
+
+    public static final String JSON_ACCOUNT = "jsonAccount";
+    public static final String JSON_PODCAST = "jsonPodcast";
+    public static final String JSON_BOOK = "jsonBook";
+    public static final String JSON_REPORT = "jsonReport";
+
     public static final String REPORT = "REPORT";
     public static final String BOOK = "BOOK";
     public static final String MEMBERS = "MEMBERS";
     public static final String MANAGE = "manage";
-
-    public static final String DOWNLOAD_DIR = Environment.getExternalStorageDirectory().toString() + "/Android/data/" + App.PACKAGE_NAME + "/downloaded/";
 
     public static final int AUTH_REQUEST = 2000;
     public static final int REPORT_REQUEST = 3000;

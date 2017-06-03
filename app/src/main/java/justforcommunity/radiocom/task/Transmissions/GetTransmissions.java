@@ -18,7 +18,7 @@
  *
  */
 
-package justforcommunity.radiocom.task;
+package justforcommunity.radiocom.task.Transmissions;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -28,50 +28,47 @@ import org.springframework.web.client.RestClientException;
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.activities.CreateBook;
-import justforcommunity.radiocom.model.ElementDTO;
-import justforcommunity.radiocom.service.ServiceElements;
+import justforcommunity.radiocom.activities.Home;
+import justforcommunity.radiocom.fragments.TransmissionsPageFragment;
+import justforcommunity.radiocom.model.TransmissionDTO;
+import justforcommunity.radiocom.service.ServiceTransmissions;
 import justforcommunity.radiocom.utils.InternetConnection;
 
 
-public class GetElements extends AsyncTask<Boolean, Float, Boolean> {
+public class GetTransmissions extends AsyncTask<Boolean, Float, Boolean> {
 
     private Context mContext;
-    private CreateBook mActivity;
-    private ServiceElements serviceElements;
+    private TransmissionsPageFragment mActivity;
+    private ServiceTransmissions serviceTransmissions;
     private Locale locale;
-    private List<ElementDTO> elementsDTO;
-    private String restURL;
+    private List<TransmissionDTO> transmissionsDTO;
 
-    public GetElements(Context mContext, CreateBook mActivity, String restURL) {
+    public GetTransmissions(Context mContext, TransmissionsPageFragment mActivity) {
         this.mActivity = mActivity;
         this.mContext = mContext;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        serviceElements = new ServiceElements(locale);
-        this.restURL = restURL;
+        serviceTransmissions = new ServiceTransmissions(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
+
         InternetConnection cnn = new InternetConnection();
 
         if (cnn.isConnected(mContext)) {
 
             try {
-                elementsDTO = serviceElements.getElements(restURL);
+                transmissionsDTO = serviceTransmissions.getTransmissions();
                 return true;
             } catch (Exception e) {
-                elementsDTO = null;
+                transmissionsDTO = null;
             }
         }
         return false;
     }
 
+
     protected void onPostExecute(Boolean result) {
-        if (result) {
-            mActivity.setElementsReservable(elementsDTO);
-        } else {
-            mActivity.failElementsReservable();
-        }
+            mActivity.listChannels(transmissionsDTO);
     }
 
 }

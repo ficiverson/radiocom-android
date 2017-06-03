@@ -23,6 +23,7 @@ package justforcommunity.radiocom.tutorial;
 import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -60,7 +61,7 @@ public class DiscrollvableYellowLayout extends LinearLayout implements Discrollv
 
         mYellowView1 = (TextView) findViewById(R.id.greenView1);
         mYellowView1TranslationY = mYellowView1.getTranslationY();
-        mYellowColor = getResources().getColor(R.color.colorThird);
+        mYellowColor = ContextCompat.getColor(getContext(), R.color.colorThird);
     }
 
     @Override

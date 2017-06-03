@@ -72,7 +72,7 @@ public class HomePageFragment extends Fragment {
         WebView wb = (WebView) v.findViewById(R.id.history_frame);
         wb.setBackgroundColor(Color.WHITE);
 
-//        String fontscript = "<style>@font-face {font-family : 'HelveticaNeue-Light';src:url('file:///android_asset/fonts/"+VariablesGlobalesActivity.GENERICFONT+"');}</style>";
+        // String fontscript = "<style>@font-face {font-family : 'HelveticaNeue-Light';src:url('file:///android_asset/fonts/"+VariablesGlobalesActivity.GENERICFONT+"');}</style>";
         String fontscript = "";
         String script = "<style type='text/css' >p{width:100%;}img{width:100%;height:auto;-webkit-transform: translate3d(0px,0px,0px);}a,h1,h2,h3,h4,h5,h6{color:" + GlobalValues.colorHTML + ";}div,p,span,a {max-width: 100%;}iframe{width:100%;height:auto;}</style>";
 
@@ -90,8 +90,8 @@ public class HomePageFragment extends Fragment {
         wb.getSettings().setDomStorageEnabled(true);
         wb.getSettings().setJavaScriptEnabled(true);
 
-        App appliaction = (App) getActivity().getApplication();
-        Tracker mTracker = appliaction.getDefaultTracker();
+        App application = (App) getActivity().getApplication();
+        Tracker mTracker = application.getDefaultTracker();
         mTracker.setScreenName(getString(R.string.home_view));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 

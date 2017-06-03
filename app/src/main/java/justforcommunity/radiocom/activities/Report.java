@@ -54,9 +54,9 @@ import justforcommunity.radiocom.utils.FileUtils;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.PodcastingService;
 
+import static justforcommunity.radiocom.utils.GlobalValues.JSON_REPORT;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT_ANSWER_REQUEST;
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.addImageName;
 import static justforcommunity.radiocom.utils.GlobalValues.addToken;
 import static justforcommunity.radiocom.utils.GlobalValues.imageReportURL;
@@ -114,14 +114,14 @@ public class Report extends FirebaseActivity {
         prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         edit = prefs.edit();
 
-        String jsonReport = getIntent().getStringExtra(REPORT_JSON);
+        String jsonReport = getIntent().getStringExtra(JSON_REPORT);
         Gson gson = new Gson();
 
-        if (jsonReport != null && jsonReport != "") {
+        if (jsonReport != null && !jsonReport.isEmpty()) {
             report = gson.fromJson(jsonReport, ReportDTO.class);
         } else {
             //take last report selected
-            report = gson.fromJson(prefs.getString(REPORT_JSON, ""), ReportDTO.class);
+            report = gson.fromJson(prefs.getString(JSON_REPORT, ""), ReportDTO.class);
         }
 
 
@@ -183,8 +183,7 @@ public class Report extends FirebaseActivity {
             answer.setText(report.getAnswer());
 
             // Get firebase token
-            FirebaseUtils firebaseUtils = new FirebaseUtils(this);
-            firebaseUtils.execute();
+            new FirebaseUtils(this).execute();
 
             avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
             //avi.show();
@@ -205,7 +204,7 @@ public class Report extends FirebaseActivity {
             photos_head.setVisibility(View.VISIBLE);
         }
         for (String nameFile : report.getFiles()) {
-            String url = imageReportURL + report.getId() + addToken + token + addImageName + nameFile ;
+            String url = imageReportURL + report.getId() + addToken + token + addImageName + nameFile;
             ImageView image = newImageView();
             imagesReport.addView(image);
             Picasso.with(mContext).load(url).into(image);
@@ -242,9 +241,9 @@ public class Report extends FirebaseActivity {
                     stopService(i);
                     //notifyAdapterToRefresh();
                 }
-            } else if (intent.getStringExtra(REPORT_JSON) != null) {
+            } else if (intent.getStringExtra(JSON_REPORT) != null) {
                 Intent newIntent = new Intent(mActivity, Report.class);
-                newIntent.putExtra(REPORT_JSON, intent.getStringExtra(REPORT_JSON));
+                newIntent.putExtra(JSON_REPORT, intent.getStringExtra(JSON_REPORT));
                 startActivityForResult(newIntent, REPORT_ANSWER_REQUEST);
             }
         }
@@ -273,7 +272,7 @@ public class Report extends FirebaseActivity {
     public void resultOK(ReportDTO report) {
         Toast.makeText(this, getResources().getString(R.string.report_send_answer_success), Toast.LENGTH_SHORT).show();
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(REPORT_JSON, new Gson().toJson(report));
+        returnIntent.putExtra(JSON_REPORT, new Gson().toJson(report));
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
@@ -290,8 +289,7 @@ public class Report extends FirebaseActivity {
             answer_view.setError(getResources().getString(R.string.required));
             Toast.makeText(this, getResources().getString(R.string.report_complete_fields), Toast.LENGTH_SHORT).show();
         } else {
-            SendAnswerReport sendAnswerReport = new SendAnswerReport(mContext, mActivity, report.getId(), answer_view.getText().toString(), manage);
-            sendAnswerReport.execute();
+            new SendAnswerReport(mContext, mActivity, report.getId(), answer_view.getText().toString(), manage).execute();
         }
     }
 

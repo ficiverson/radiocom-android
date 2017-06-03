@@ -40,8 +40,8 @@ import java.net.URL;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.Podcast;
-import justforcommunity.radiocom.utils.InternetConnection;
 import justforcommunity.radiocom.utils.GlobalValues;
+import justforcommunity.radiocom.utils.InternetConnection;
 
 
 public class DownloadEpisode extends AsyncTask<Boolean, Float, Boolean> {
@@ -72,48 +72,40 @@ public class DownloadEpisode extends AsyncTask<Boolean, Float, Boolean> {
     }
 
     protected Boolean doInBackground(Boolean... urls) {
-
         Boolean res = false;
 
         InternetConnection cnn = new InternetConnection();
         if (cnn.isConnected(mContext)) {
             try {
+                File file = new File(GlobalValues.DOWNLOAD_DIR, fileName);
+                if (!file.exists()) {
+                    file.delete();
+                }
+                file.getParentFile().mkdirs();
+                file.createNewFile();
 
-                try {
-                    File file = new File(GlobalValues.DOWNLOAD_DIR, fileName);
-                    if (!file.exists()) {
-                        file.delete();
-                    }
-                    file.getParentFile().mkdirs();
-                    file.createNewFile();
+                res = saveFile(url, GlobalValues.DOWNLOAD_DIR + fileName);
 
-                    res = saveFile(url, GlobalValues.DOWNLOAD_DIR + fileName);
-
-                    if (!res) {//if trouble we delete the file
-                        file.delete();
-                    }
-
-                } catch (Exception e) {
-                    Log.d("Error====>", e + "");
+                if (!res) {//if trouble we delete the file
+                    file.delete();
                 }
 
             } catch (Exception e) {
-                Log.d("Error====>", e + "");
+                Log.d("DownloadEpisode", "doInBackground", e);
             }
         }
-
 
         return res;
     }
 
 
-    private Boolean saveFile(String urldownload, String filename) throws Exception {
+    private Boolean saveFile(String urlDownload, String filename) throws Exception {
 
         InputStream input = null;
         OutputStream output = null;
         HttpURLConnection connection = null;
         try {
-            URL url = new URL(urldownload);
+            URL url = new URL(urlDownload);
             connection = (HttpURLConnection) url.openConnection();
             connection.connect();
 
@@ -131,21 +123,21 @@ public class DownloadEpisode extends AsyncTask<Boolean, Float, Boolean> {
 
             if (redirect) {
                 String newUrl = connection.getHeaderField("Location");
-                String cookies = connection.getHeaderField("Set-Cookie");
+                //String cookies = connection.getHeaderField("Set-Cookie");
                 connection = (HttpURLConnection) new URL(newUrl).openConnection();
             }
 
-            int fileLength = connection.getContentLength();
+            //int fileLength = connection.getContentLength();
 
             // download the file
             input = connection.getInputStream();
             output = new FileOutputStream(filename);
 
             byte data[] = new byte[4096];
-            long total = 0;
+            //long total = 0;
             int count;
             while ((count = input.read(data)) != -1) {
-                total += count;
+                //total += count;
                 output.write(data, 0, count);
             }
         } catch (Exception e) {

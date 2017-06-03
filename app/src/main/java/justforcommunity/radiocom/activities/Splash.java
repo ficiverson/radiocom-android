@@ -88,17 +88,14 @@ public class Splash extends AppCompatActivity {
     }
 
     public void launchGetStations(Context contex, Splash activity) {
-        GetStation stationTask = new GetStation(contex, activity);
-        stationTask.execute();
+        new GetStation(contex, activity).execute();
     }
-
 
     public void resultOK(StationDTO stationDTO) {
         avi.hide();
 
         //serialize object station
-        Gson gson = new Gson();
-        String jsonInString = gson.toJson(stationDTO);
+        String jsonInString = new Gson().toJson(stationDTO);
 
         //save station object on prefs
         SharedPreferences prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);

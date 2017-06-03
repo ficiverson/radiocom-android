@@ -66,8 +66,8 @@ import justforcommunity.radiocom.task.Report.SendReport;
 import justforcommunity.radiocom.utils.FileUtils;
 
 import static justforcommunity.radiocom.utils.FileUtils.bitmapToByte;
+import static justforcommunity.radiocom.utils.GlobalValues.JSON_REPORT;
 import static justforcommunity.radiocom.utils.GlobalValues.MAX_FILES;
-import static justforcommunity.radiocom.utils.GlobalValues.REPORT_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.REST_URL;
 
 
@@ -132,8 +132,8 @@ public class CreateReport extends AppCompatActivity {
         restURL = getIntent().getExtras().getString(REST_URL);
 
         // Get programs of user
-        GetProgramsMembers programsUser = new GetProgramsMembers(mContext, mActivity, restURL);
-        programsUser.execute();
+        new GetProgramsMembers(mContext, mActivity, restURL).execute();
+
         programName = (Spinner) findViewById(R.id.programName);
 
         dirt_radioButtons = (RadioGroup) findViewById(R.id.dirt_radioButtons);
@@ -260,7 +260,7 @@ public class CreateReport extends AppCompatActivity {
         Toast.makeText(this, getResources().getString(R.string.report_send_success), Toast.LENGTH_SHORT).show();
 
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(REPORT_JSON, new Gson().toJson(report));
+        returnIntent.putExtra(JSON_REPORT, new Gson().toJson(report));
         setResult(Activity.RESULT_OK, returnIntent);
         finish();
     }
@@ -448,8 +448,7 @@ public class CreateReport extends AppCompatActivity {
             photos.addAll(photosMap.values());
             String photosJson = new Gson().toJson(photos);
             avi.show();
-            SendReport sendReport = new SendReport(mContext, mActivity, report, photosJson);
-            sendReport.execute();
+            new SendReport(mContext, mActivity, report, photosJson).execute();
         }
     }
 }

@@ -63,8 +63,7 @@ public class BookUserPageFragment extends BookPageFragment {
 
         // Get Books
         this.manage = false;
-        GetBooks gp = new GetBooks(mContext, this, booksUserURL);
-        gp.execute();
+        new GetBooks(mContext, this, booksUserURL).execute();
 
         // Float button to create new book
         mActivity.fab_media_hide();

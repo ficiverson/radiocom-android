@@ -53,8 +53,8 @@ import justforcommunity.radiocom.utils.FileUtils;
 import justforcommunity.radiocom.utils.GlobalValues;
 
 import static justforcommunity.radiocom.utils.GlobalValues.BOOK_ANSWER_REQUEST;
-import static justforcommunity.radiocom.utils.GlobalValues.BOOK_JSON;
 import static justforcommunity.radiocom.utils.GlobalValues.BOOK_REQUEST;
+import static justforcommunity.radiocom.utils.GlobalValues.JSON_BOOK;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
 import static justforcommunity.radiocom.utils.GlobalValues.REST_URL;
 import static justforcommunity.radiocom.utils.GlobalValues.booksURL;
@@ -88,8 +88,7 @@ public class BookPageFragment extends FilterFragment {
 
         // Get Books
         this.manage = true;
-        GetBooks gp = new GetBooks(mContext, this, booksURL);
-        gp.execute();
+        new GetBooks(mContext, this, booksURL).execute();
 
         // Float button to create new book
         mActivity.fab_media_hide();
@@ -114,7 +113,7 @@ public class BookPageFragment extends FilterFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK && (requestCode == BOOK_REQUEST || requestCode == BOOK_ANSWER_REQUEST)) {
-            BookDTO book = new Gson().fromJson((String) data.getExtras().get(BOOK_JSON), BookDTO.class);
+            BookDTO book = new Gson().fromJson((String) data.getExtras().get(JSON_BOOK), BookDTO.class);
             if (requestCode == BOOK_ANSWER_REQUEST) {
                 for (BookDTO aux : new ArrayList<>(books)) {
                     if (aux.getId().equals(book.getId())) {
@@ -163,18 +162,18 @@ public class BookPageFragment extends FilterFragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    //serialize object book
+                    //serialize object
                     String jsonInString = new Gson().toJson(myAdapterBooks.getItem(position));
 
                     //save book object on prefs
                     SharedPreferences prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
                     SharedPreferences.Editor edit = prefs.edit();
-                    edit.putString(BOOK_JSON, jsonInString);
+                    edit.putString(JSON_BOOK, jsonInString);
                     edit.apply();
 
                     //launch next activity
                     Intent intent = new Intent(mActivity, Book.class);
-                    intent.putExtra(BOOK_JSON, jsonInString);
+                    intent.putExtra(JSON_BOOK, jsonInString);
                     intent.putExtra(MANAGE, manage);
                     startActivityForResult(intent, BOOK_ANSWER_REQUEST);
                 }

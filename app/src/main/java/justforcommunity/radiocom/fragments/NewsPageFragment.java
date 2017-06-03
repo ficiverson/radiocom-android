@@ -54,7 +54,7 @@ public class NewsPageFragment extends Fragment {
     private StationDTO station;
     private Home mActivity;
     private Context mContext;
-    private ListView newslist;
+    private ListView newsList;
     private TextView noElements;
     private NewsListAdapter myAdapterNews;
     private AVLoadingIndicatorView avi;
@@ -66,12 +66,12 @@ public class NewsPageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_noticias, container, false);
+        View v = inflater.inflate(R.layout.fragment_news, container, false);
 
         mActivity = (Home) getActivity();
         mContext = getContext();
 
-        newslist = (ListView) v.findViewById(R.id.newslist);
+        newsList = (ListView) v.findViewById(R.id.newslist);
         noElements = (TextView) v.findViewById(R.id.no_elements);
 
         avi = (AVLoadingIndicatorView) v.findViewById(R.id.avi);
@@ -94,7 +94,11 @@ public class NewsPageFragment extends Fragment {
             }
         };
 
-        PkRSS.with(mContext).load(station.getNews_rss()).callback(callback).async();
+        if (!station.getNews_rss().isEmpty()) {
+            PkRSS.with(mContext).load(station.getNews_rss()).callback(callback).async();
+        } else {
+            listChannels(null);
+        }
 
         App application = (App) getActivity().getApplication();
         Tracker mTracker = application.getDefaultTracker();
@@ -104,39 +108,39 @@ public class NewsPageFragment extends Fragment {
         return v;
     }
 
-    public void listChannels(final List<Article> noticias) {
+    public void listChannels(final List<Article> news) {
         avi.hide();
-        if (noticias == null || noticias.size() == 0) {
+
+        if (news == null || news.isEmpty()) {
             noElements.setVisibility(View.VISIBLE);
-            newslist.setVisibility(View.GONE);
+            newsList.setVisibility(View.GONE);
             avi.setVisibility(View.GONE);
+
         } else {
             noElements.setVisibility(View.GONE);
-            newslist.setVisibility(View.VISIBLE);
+            newsList.setVisibility(View.VISIBLE);
             avi.setVisibility(View.GONE);
 
+            myAdapterNews = new NewsListAdapter(mActivity, mContext, R.layout.listitem_new, news);
+            newsList.setAdapter(myAdapterNews);
 
-            myAdapterNews = new NewsListAdapter(mActivity, mContext, R.layout.listitem_new, noticias);
-            newslist.setAdapter(myAdapterNews);
-
-
-            newslist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            newsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    String content = noticias.get(position).getContent();
-                    if (noticias.get(position).getContent() == null) {
-                        if (noticias.get(position).getDescription() != null) {
-                            content = noticias.get(position).getDescription();
-                        } else if (noticias.get(position).getContent() != null) {
-                            content = noticias.get(position).getContent();
+                    String content = news.get(position).getContent();
+                    if (news.get(position).getContent() == null) {
+                        if (news.get(position).getDescription() != null) {
+                            content = news.get(position).getDescription();
+                        } else if (news.get(position).getContent() != null) {
+                            content = news.get(position).getContent();
                         } else {
                             content = getString(R.string.no_content);
                         }
                     }
                     Intent intent = new Intent(mActivity, ContentDetail.class);
                     intent.putExtra(GlobalValues.EXTRA_CONTENT, content);
-                    intent.putExtra(GlobalValues.EXTRA_TITLE, noticias.get(position).getTitle());
+                    intent.putExtra(GlobalValues.EXTRA_TITLE, news.get(position).getTitle());
                     startActivity(intent);
                 }
             });
