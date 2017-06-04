@@ -50,7 +50,8 @@ import justforcommunity.radiocom.activities.Home;
 public class StreamingService extends Service {
     private int NOTIFICATION = 1034;
     private String audio;
-    private String title, text;
+    private String title, text, logo_url;
+    private byte[] logo;
     private NotificationManager mNM;
     private int total;
     public SharedPreferences prefs;
@@ -86,7 +87,13 @@ public class StreamingService extends Service {
         pauseIntent.putExtra("stopService", true);
         PendingIntent pauseIntentPending = PendingIntent.getActivity(this, 3, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        Bitmap myIcon;
+        if (logo != null) {
+            myIcon = BitmapFactory.decodeByteArray(logo, 0, logo.length);
+        } else {
+            myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        }
+
         int smallIconId = 0;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             smallIconId = R.drawable.notification_transparent;
@@ -146,8 +153,10 @@ public class StreamingService extends Service {
             this.audio = paramIntent.getStringExtra("audio");
             this.title = paramIntent.getStringExtra("title");
             this.text = paramIntent.getStringExtra("text");
-
+            this.logo_url = paramIntent.getStringExtra("logo_url");
+            this.logo = paramIntent.getByteArrayExtra("logo");
             this.mNM = ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE));
+
             try {
                 // String with the url of the radio you want to play
                 Uri radioUri = Uri.parse(audio);

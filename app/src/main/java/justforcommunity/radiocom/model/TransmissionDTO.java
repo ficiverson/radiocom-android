@@ -22,14 +22,19 @@ package justforcommunity.radiocom.model;
 
 import java.util.Date;
 
+import static justforcommunity.radiocom.utils.GlobalValues.baseURLWEB;
+
 public class TransmissionDTO {
 
     private String id;
-    private String name;
     private String slug;
+    private String name;
+    private String description;
     private Date start;
     private Date end;
     private String programme_url;
+    private String logo_url;
+    private String rss_url;
     private String type;
     private String source;
 
@@ -41,6 +46,14 @@ public class TransmissionDTO {
         this.id = id;
     }
 
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
     public String getName() {
         return name;
     }
@@ -49,12 +62,12 @@ public class TransmissionDTO {
         this.name = name;
     }
 
-    public String getSlug() {
-        return slug;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSlug(String slug) {
-        this.slug = slug;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getStart() {
@@ -79,6 +92,22 @@ public class TransmissionDTO {
 
     public void setProgramme_url(String programme_url) {
         this.programme_url = programme_url;
+    }
+
+    public String getLogo_url() {
+        return logo_url;
+    }
+
+    public void setLogo_url(String logo_url) {
+        this.logo_url = baseURLWEB + logo_url;
+    }
+
+    public String getRss_url() {
+        return rss_url;
+    }
+
+    public void setRss_url(String rss_url) {
+        this.rss_url =  rss_url;
     }
 
     public String getType() {

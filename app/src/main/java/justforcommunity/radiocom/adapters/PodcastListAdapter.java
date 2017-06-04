@@ -36,8 +36,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import justforcommunity.radiocom.R;
-import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.model.ProgramDTO;
+
+import static justforcommunity.radiocom.utils.GlobalValues.radiocoURL;
 
 public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filterable {
 
@@ -111,7 +112,7 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
                     if (programDTO.getLogo_url() == "") {
                         Picasso.with(mContext).load(R.drawable.logo_nav_header).into(holder.photoImageView);
                     } else {
-                        Picasso.with(mContext).load(programDTO.getLogo_url()).into(holder.photoImageView);
+                        Picasso.with(mContext).load(radiocoURL + programDTO.getLogo_url()).into(holder.photoImageView);
                     }
                 }
 

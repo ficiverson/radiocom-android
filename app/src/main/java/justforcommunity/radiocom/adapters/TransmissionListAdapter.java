@@ -21,7 +21,6 @@
 package justforcommunity.radiocom.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +31,8 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,14 +41,18 @@ import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.model.TransmissionDTO;
 import justforcommunity.radiocom.utils.DateUtils;
 
+import static justforcommunity.radiocom.utils.GlobalValues.radiocoURL;
+
 public class TransmissionListAdapter extends ArrayAdapter<TransmissionDTO> implements Filterable {
 
+    private Context mContext;
     private ItemFilter mFilter = new ItemFilter();
     private List<TransmissionDTO> originalData = null;
     private List<TransmissionDTO> filteredData = null;
 
     public TransmissionListAdapter(Context context, int resource, List<TransmissionDTO> transmissions) {
         super(context, resource, transmissions);
+        mContext = context;
         originalData = transmissions;
         filteredData = transmissions;
     }
@@ -97,7 +102,7 @@ public class TransmissionListAdapter extends ArrayAdapter<TransmissionDTO> imple
 
             Date actualDate = new Date();
             if (transmissionDTO.getStart().before(actualDate) && transmissionDTO.getEnd().after(actualDate)) {
-                holder.colorTransparency.setBackgroundColor(Color.BLUE);
+                holder.colorTransparency.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorSecondary85));
             } else {
                 holder.colorTransparency.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark85));
             }
@@ -107,17 +112,17 @@ public class TransmissionListAdapter extends ArrayAdapter<TransmissionDTO> imple
                     + " - "
                     + DateUtils.formatDate(transmissionDTO.getEnd(), DateUtils.FORMAT_HOUR));
 
-//            if (holder.photoImageView != null) {
-//                if (transmissionDTO.getLogo_url() == null) {
-//                    Picasso.with(mContext).load(R.drawable.logo_nav_header).into(holder.photoImageView);
-//                } else {
-//                    if (transmissionDTO.getLogo_url() == "") {
-//                        Picasso.with(mContext).load(R.drawable.logo_nav_header).into(holder.photoImageView);
-//                    } else {
-//                        Picasso.with(mContext).load(transmissionDTO.getLogo_url()).into(holder.photoImageView);
-//                    }
-//                }
-//            }
+            if (holder.photoImageView != null) {
+                if (transmissionDTO.getLogo_url() == null) {
+                    Picasso.with(mContext).load(R.drawable.logo_nav_header).into(holder.photoImageView);
+                } else {
+                    if (transmissionDTO.getLogo_url() == "") {
+                        Picasso.with(mContext).load(R.drawable.logo_nav_header).into(holder.photoImageView);
+                    } else {
+                        Picasso.with(mContext).load(radiocoURL + transmissionDTO.getLogo_url()).into(holder.photoImageView);
+                    }
+                }
+            }
 
         }
         return v;

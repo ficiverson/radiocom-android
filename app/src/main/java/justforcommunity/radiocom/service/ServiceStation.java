@@ -49,6 +49,7 @@ public class ServiceStation extends ServiceBase {
 
         String url = radioStationURL;
         ResponseEntity<ResponseStationDTO> response;
+
         try {
             HttpEntity<?> request;
             request = new HttpEntity<Object>(getRequestHeaders());

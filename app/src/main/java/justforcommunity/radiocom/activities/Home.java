@@ -27,6 +27,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -50,6 +52,10 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.io.ByteArrayOutputStream;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.fragments.BookPageFragment;
@@ -77,6 +83,7 @@ import static justforcommunity.radiocom.utils.GlobalValues.MEMBERS;
 import static justforcommunity.radiocom.utils.GlobalValues.ROLE_BOOK;
 import static justforcommunity.radiocom.utils.GlobalValues.ROLE_REPORT;
 import static justforcommunity.radiocom.utils.GlobalValues.addToken;
+import static justforcommunity.radiocom.utils.GlobalValues.radiocoURL;
 
 public class Home extends FirebaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -400,7 +407,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                 processBuilder(mContext, this, GlobalValues.membersAPI + addToken + token);
                 break;
             case R.id.nav_radioco:
-                processBuilder(mContext, this, GlobalValues.radiocoURL + addToken + token);
+                processBuilder(mContext, this, radiocoURL + addToken + token);
                 break;
             case R.id.nav_map:
                 loadMap();
@@ -659,18 +666,45 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         }
     }
 
+    private Intent audioIntent;
+
     public void setTransmissionDTO(TransmissionDTO transmissionDTO) {
-        Intent audioIntent = new Intent(Home.this, StreamingService.class);
-
-        if (transmissionDTO != null) {
-            audioIntent.putExtra("text", transmissionDTO.getName());
-        } else {
-            audioIntent.putExtra("text", getCityByCoords(station.getLatitude(), station.getLongitude()));
-        }
-
+        audioIntent = new Intent(Home.this, StreamingService.class);
         audioIntent.putExtra("audio", station.getStream_url());
         audioIntent.putExtra("title", station.getStation_name());
-        startService(audioIntent);
+        audioIntent.putExtra("text", getCityByCoords(station.getLatitude(), station.getLongitude()));
+
+        // Get name of program
+        if (transmissionDTO != null && !transmissionDTO.getName().isEmpty()) {
+            audioIntent.putExtra("text", transmissionDTO.getName());
+        }
+
+        // Get logo of program
+        if (transmissionDTO != null && transmissionDTO.getLogo_url() != null) {
+            Picasso.with(this)
+                    .load(radiocoURL + transmissionDTO.getLogo_url())
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            audioIntent.putExtra("logo", stream.toByteArray());
+                            startService(audioIntent);
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                            startService(audioIntent);
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        }
+                    });
+        } else {
+            startService(audioIntent);
+        }
+
         navigationView.getMenu().getItem(2).setTitle(getResources().getString(R.string.drawer_item_streaming_stop));
         navigationView.getMenu().getItem(2).setIcon(R.drawable.streamingstop);
         fab_media.setImageResource(R.drawable.streamingstopwhite);

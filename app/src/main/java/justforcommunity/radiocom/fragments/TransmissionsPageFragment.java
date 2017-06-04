@@ -43,7 +43,6 @@ import justforcommunity.radiocom.activities.App;
 import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.activities.Podcast;
 import justforcommunity.radiocom.adapters.TransmissionListAdapter;
-import justforcommunity.radiocom.model.ProgramDTO;
 import justforcommunity.radiocom.model.TransmissionDTO;
 import justforcommunity.radiocom.task.Transmissions.GetTransmissions;
 import justforcommunity.radiocom.utils.GlobalValues;
@@ -118,14 +117,12 @@ public class TransmissionsPageFragment extends FilterFragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    SharedPreferences prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor edit = prefs.edit();
-
                     //serialize object
-                    ProgramDTO program = new Gson().fromJson(prefs.getString(transmissionListAdapter.getItem(position).getSlug(), ""), ProgramDTO.class);
-                    String jsonInString = new Gson().toJson(program);
+                    String jsonInString = new Gson().toJson(transmissionListAdapter.getItem(position));
 
                     //save json object on prefs
+                    SharedPreferences prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor edit = prefs.edit();
                     edit.putString(JSON_PODCAST, jsonInString);
                     edit.commit();
 

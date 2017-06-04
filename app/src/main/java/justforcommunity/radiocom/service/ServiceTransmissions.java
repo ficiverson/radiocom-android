@@ -55,14 +55,13 @@ public class ServiceTransmissions extends ServiceBase {
 
     public TransmissionDTO getTransmissionNow() throws RestClientException, WebServiceStatusFailException {
 
-        String url = transmissionNowURL;
         ResponseEntity<String> response;
         String decoded = "";
 
         try {
             HttpEntity<?> request = new HttpEntity<Object>(getRequestHeaders());
 
-            response = getRestTemplate().exchange(url, HttpMethod.GET, request, String.class);
+            response = getRestTemplate().exchange(transmissionNowURL, HttpMethod.GET, request, String.class);
             if (response.getStatusCode() != HttpStatus.OK) {
                 throw new WebServiceStatusFailException();
             }
@@ -117,8 +116,7 @@ public class ServiceTransmissions extends ServiceBase {
 
         Type listType = new TypeToken<ArrayList<TransmissionDTO>>() {
         }.getType();
-        List<TransmissionDTO> transmissionsDTO = new Gson().fromJson(decoded, listType);
 
-        return transmissionsDTO;
+        return new Gson().fromJson(decoded, listType);
     }
 }
