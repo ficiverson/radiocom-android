@@ -1,8 +1,8 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
+ *  * Copyright (C) 2016 @ Pablo Grela
  *  *
- *  * Developer Fernando Souto
+ *  * Developer Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -35,13 +35,11 @@ import org.springframework.web.client.RestClientException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 import justforcommunity.radiocom.model.TransmissionDTO;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
-import justforcommunity.radiocom.utils.DateUtils;
 
 import static justforcommunity.radiocom.utils.GlobalValues.transmissionNowURL;
 import static justforcommunity.radiocom.utils.GlobalValues.transmissionsURL;
@@ -84,14 +82,15 @@ public class ServiceTransmissions extends ServiceBase {
         return transmissionsDTO.get(0);
     }
 
-    public List<TransmissionDTO> getTransmissions() throws RestClientException, WebServiceStatusFailException {
+    public List<TransmissionDTO> getTransmissions(String dateSearch) throws RestClientException, WebServiceStatusFailException {
 
-        Calendar startDate = Calendar.getInstance();
-        startDate.add(Calendar.DAY_OF_MONTH, 0);
-        Calendar endDate = Calendar.getInstance();
-        endDate.add(Calendar.DAY_OF_MONTH, 0);
+//        Calendar startDate = Calendar.getInstance();
+//        startDate.add(Calendar.DAY_OF_MONTH, 0);
+//        Calendar endDate = Calendar.getInstance();
+//        endDate.add(Calendar.DAY_OF_MONTH, 0);
+//        String url = transmissionsURL + "?after=" + DateUtils.formatDate(startDate, DateUtils.FORMAT_DATE_GET) + "&before=" + DateUtils.formatDate(endDate, DateUtils.FORMAT_DATE_GET);
 
-        String url = transmissionsURL + "?after=" + DateUtils.formatDate(startDate, DateUtils.FORMAT_DATE_GET) + "&before=" + DateUtils.formatDate(endDate, DateUtils.FORMAT_DATE_GET);
+        String url = transmissionsURL + "?after=" + dateSearch + "&before=" + dateSearch;
         ResponseEntity<String> response;
         String decoded = "";
 

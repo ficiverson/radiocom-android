@@ -58,10 +58,22 @@ public class TransmissionsPageFragment extends FilterFragment {
     private TransmissionListAdapter transmissionListAdapter;
     private AVLoadingIndicatorView avi;
 
+    private static final String KEY_DAY = "day";
+
+    public static TransmissionsPageFragment newInstance(String date) {
+        Bundle bundle = new Bundle();
+        bundle.putString(KEY_DAY, date);
+
+        TransmissionsPageFragment fragment = new TransmissionsPageFragment();
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_transmmisions, container, false);
+        View v = inflater.inflate(R.layout.fragment_transmissions, container, false);
 
         mActivity = (Home) getActivity();
         mContext = getContext();
@@ -73,7 +85,7 @@ public class TransmissionsPageFragment extends FilterFragment {
         avi.show();
 
         // Get Transmissions
-        new GetTransmissions(mContext, this).execute();
+        new GetTransmissions(mContext, this, getArguments().getString(KEY_DAY)).execute();
 
         App application = (App) getActivity().getApplication();
         Tracker mTracker = application.getDefaultTracker();

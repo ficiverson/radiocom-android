@@ -1,8 +1,8 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
+ *  * Copyright (C) 2016 @ Pablo Grela
  *  *
- *  * Developer Fernando Souto
+ *  * Developer Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import android.os.AsyncTask;
 
 import org.springframework.web.client.RestClientException;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,12 +43,14 @@ public class GetTransmissions extends AsyncTask<Boolean, Float, Boolean> {
     private ServiceTransmissions serviceTransmissions;
     private Locale locale;
     private List<TransmissionDTO> transmissionsDTO;
+    private String mDateSearch;
 
-    public GetTransmissions(Context mContext, TransmissionsPageFragment mActivity) {
+    public GetTransmissions(Context mContext, TransmissionsPageFragment mActivity, String dateSearch) {
         this.mActivity = mActivity;
         this.mContext = mContext;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
         serviceTransmissions = new ServiceTransmissions(locale);
+        mDateSearch = dateSearch;
     }
 
     protected Boolean doInBackground(Boolean... urls) {
@@ -57,7 +60,7 @@ public class GetTransmissions extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                transmissionsDTO = serviceTransmissions.getTransmissions();
+                transmissionsDTO = serviceTransmissions.getTransmissions(mDateSearch);
                 return true;
             } catch (Exception e) {
                 transmissionsDTO = null;

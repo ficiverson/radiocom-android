@@ -50,6 +50,6 @@
         style="@style/AVLoadingIndicatorView"
         android:visibility="visible"
         app:indicatorName="LineScalePulseOutIndicator"
-        app:indicatorColor="@color/colorPrimary"
-        />
+        app:indicatorColor="@color/colorPrimary" />
+
 </RelativeLayout>

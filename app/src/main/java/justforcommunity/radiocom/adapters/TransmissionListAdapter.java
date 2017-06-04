@@ -85,7 +85,7 @@ public class TransmissionListAdapter extends ArrayAdapter<TransmissionDTO> imple
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
 
-            v = vi.inflate(R.layout.listitem_transmmissions, null);
+            v = vi.inflate(R.layout.listitem_transmissions, null);
             holder = new ViewHolder();
             holder.nameTextView = (TextView) v.findViewById(R.id.transmission_name);
             holder.hourTextView = (TextView) v.findViewById(R.id.transmission_hour);

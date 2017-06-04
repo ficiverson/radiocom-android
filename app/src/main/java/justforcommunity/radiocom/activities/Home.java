@@ -66,7 +66,7 @@ import justforcommunity.radiocom.fragments.NewsPageFragment;
 import justforcommunity.radiocom.fragments.PodcastPageFragment;
 import justforcommunity.radiocom.fragments.ReportPageFragment;
 import justforcommunity.radiocom.fragments.ReportUserPageFragment;
-import justforcommunity.radiocom.fragments.TransmissionsPageFragment;
+import justforcommunity.radiocom.fragments.TransmissionPagerFragment;
 import justforcommunity.radiocom.model.AccountDTO;
 import justforcommunity.radiocom.model.StationDTO;
 import justforcommunity.radiocom.model.TransmissionDTO;
@@ -487,8 +487,11 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     public void loadScheduler() {
         isSearchable = true;
         invalidateOptionsMenu();
-        TransmissionsPageFragment transmissionsPageFragment = new TransmissionsPageFragment();
-        processFragment(transmissionsPageFragment, mContext.getString(R.string.action_scheduler));
+//        TransmissionsPageFragment transmissionsPageFragment = new TransmissionsPageFragment();
+//        processFragment(transmissionsPageFragment, mContext.getString(R.string.action_scheduler));
+
+        processFragment(new TransmissionPagerFragment(), mContext.getString(R.string.action_scheduler));
+
     }
 
     public void loadUserReport() {
