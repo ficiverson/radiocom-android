@@ -22,11 +22,19 @@ package justforcommunity.radiocom.model;
 
 public class ProgramDTO {
 
+    private String id;
     private String name;
-    private String slug;
     private String description;
     private String logo_url;
     private String rss_url;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public ProgramDTO(String name) {
         this.name = name;
@@ -38,14 +46,6 @@ public class ProgramDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
     }
 
     public String getDescription() {

@@ -34,6 +34,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestClientException;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,9 +42,7 @@ import java.util.List;
 import java.util.Locale;
 
 import justforcommunity.radiocom.model.ProgramDTO;
-import justforcommunity.radiocom.model.ResponseProgramDTO;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
-import justforcommunity.radiocom.utils.GlobalValues;
 
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
 import static justforcommunity.radiocom.utils.GlobalValues.addToken;
@@ -56,10 +55,10 @@ public class ServicePrograms extends ServiceBase {
         super(language);
     }
 
-    public ResponseProgramDTO getPrograms() throws RestClientException, WebServiceStatusFailException {
+    public List<ProgramDTO> getPrograms() throws RestClientException, WebServiceStatusFailException {
 
-        String url = programmesURL;
-        ResponseEntity<ResponseProgramDTO> response;
+        ResponseEntity<String> response;
+        String decoded = "";
 
         try {
             HttpEntity<?> request;
@@ -69,16 +68,26 @@ public class ServicePrograms extends ServiceBase {
             converter.setSupportedMediaTypes(Collections.singletonList(MediaType.TEXT_PLAIN));
             getRestTemplate().getMessageConverters().add(converter);
 
-            response = getRestTemplate().exchange(url, HttpMethod.GET, request, ResponseProgramDTO.class);
+            response = getRestTemplate().exchange(programmesURL, HttpMethod.GET, request, String.class);
             if (response.getStatusCode() != HttpStatus.OK) {
                 throw new WebServiceStatusFailException();
             }
+
+            // Decode String, in some cases, it may not be necessary
+            decoded = response.getBody();
+            decoded = new String(response.getBody().getBytes("ISO-8859-1"));
+
         } catch (RestClientException e) {
             Log.d("ServicePrograms", "getPrograms", e);
             throw e;
+        } catch (UnsupportedEncodingException e) {
+            Log.d("ServiceTransmissions", "fail decoded", e);
         }
 
-        return response.getBody();
+        Type listType = new TypeToken<ArrayList<ProgramDTO>>() {
+        }.getType();
+
+        return new Gson().fromJson(decoded, listType);
     }
 
 

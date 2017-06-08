@@ -75,11 +75,7 @@ public class ServiceTransmissions extends ServiceBase {
             Log.d("ServiceTransmissions", "fail decoded", e);
         }
 
-        Type listType = new TypeToken<ArrayList<TransmissionDTO>>() {
-        }.getType();
-        List<TransmissionDTO> transmissionsDTO = new Gson().fromJson(decoded, listType);
-
-        return transmissionsDTO.get(0);
+        return new Gson().fromJson(decoded, TransmissionDTO.class);
     }
 
     public List<TransmissionDTO> getTransmissions(String dateSearch) throws RestClientException, WebServiceStatusFailException {

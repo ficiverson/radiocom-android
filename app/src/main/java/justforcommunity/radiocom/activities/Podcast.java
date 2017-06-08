@@ -58,7 +58,6 @@ import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.PodcastingService;
 
 import static justforcommunity.radiocom.utils.GlobalValues.JSON_PODCAST;
-import static justforcommunity.radiocom.utils.GlobalValues.radiocoURL;
 
 public class Podcast extends AppCompatActivity {
 
@@ -140,7 +139,7 @@ public class Podcast extends AppCompatActivity {
                 description.setText(Html.fromHtml(program.getDescription()));
             }
 
-            Picasso.with(mContext).load(radiocoURL + program.getLogo_url()).into(image_podcast_bck);
+            Picasso.with(mContext).load(program.getLogo_url()).into(image_podcast_bck);
 
             avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
             avi.show();
@@ -163,7 +162,7 @@ public class Podcast extends AppCompatActivity {
             };
 
             if (program.getRss_url() != null && !program.getRss_url().isEmpty()) {
-                PkRSS.with(this).load(radiocoURL + program.getRss_url()).callback(callback).async();
+                PkRSS.with(this).load(program.getRss_url()).callback(callback).async();
             } else {
                 listEpisodes(null);
             }

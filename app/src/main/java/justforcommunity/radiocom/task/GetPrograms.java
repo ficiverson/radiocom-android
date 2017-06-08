@@ -49,8 +49,8 @@ public class GetPrograms extends AsyncTask<Boolean, Float, Boolean> {
     public GetPrograms(Context context, PodcastPageFragment fragment) {
         this.fragment = fragment;
         this.mContext = context;
-        locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
-        servicePrograms = new ServicePrograms(locale);
+        this.locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
+        this.servicePrograms = new ServicePrograms(locale);
     }
 
     protected Boolean doInBackground(Boolean... urls) {
@@ -59,7 +59,7 @@ public class GetPrograms extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                programsDTO = servicePrograms.getPrograms().getData();
+                programsDTO = servicePrograms.getPrograms();
                 return true;
             } catch (Exception e) {
                 programsDTO = null;
@@ -72,17 +72,6 @@ public class GetPrograms extends AsyncTask<Boolean, Float, Boolean> {
     protected void onPostExecute(Boolean result) {
         if (result) {
             fragment.listChannels(programsDTO);
-
-            // Save programs in Shared preferences
-            SharedPreferences prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
-            SharedPreferences.Editor edit = prefs.edit();
-            Gson gson = new Gson();
-            for (ProgramDTO programDTO : programsDTO){
-                String jsonInString = gson.toJson(programDTO);
-                edit.putString(programDTO.getSlug(), jsonInString);
-            }
-
-            edit.commit();
         } else {
             fragment.resultKO();
         }

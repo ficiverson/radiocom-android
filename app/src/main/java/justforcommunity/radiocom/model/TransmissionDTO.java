@@ -27,7 +27,6 @@ import static justforcommunity.radiocom.utils.GlobalValues.baseURLWEB;
 public class TransmissionDTO {
 
     private String id;
-    private String slug;
     private String name;
     private String description;
     private Date start;
@@ -36,7 +35,6 @@ public class TransmissionDTO {
     private String logo_url;
     private String rss_url;
     private String type;
-    private String source;
 
     public String getId() {
         return id;
@@ -44,14 +42,6 @@ public class TransmissionDTO {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
     }
 
     public String getName() {
@@ -107,7 +97,7 @@ public class TransmissionDTO {
     }
 
     public void setRss_url(String rss_url) {
-        this.rss_url =  rss_url;
+        this.rss_url = rss_url;
     }
 
     public String getType() {
@@ -118,11 +108,4 @@ public class TransmissionDTO {
         this.type = type;
     }
 
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
 }

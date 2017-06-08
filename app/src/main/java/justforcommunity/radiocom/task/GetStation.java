@@ -55,7 +55,7 @@ public class GetStation extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                stationDTO = serviceStation.getStation().getData().get(0);//get first station
+                stationDTO = serviceStation.getStation();
                 return true;
             } catch (Exception e) {
                 stationDTO = null;

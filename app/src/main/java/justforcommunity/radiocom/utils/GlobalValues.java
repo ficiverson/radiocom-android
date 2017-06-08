@@ -37,18 +37,14 @@ public class GlobalValues {
     public static final String baseURLCUACWEB = baseURLWEB + "asociacion-cuac/historia/";
 
     ///////////////    RADIOCO   ///////////////////////////
-    // public static final String radiocoURL = baseURLWEB + "radioco/";
-    public static final String radiocoURL = "http://192.168.127.128:8000";
-    public static final String radioStationURL = radiocoURL + "/api/1/radiocom/radiostation";
-    public static final String programmesURL = radiocoURL + "/api/1/radiocom/programmes";
-    public static final String transmissionsURL = radiocoURL + "/api/1/radiocom/transmissions";
-    public static final String transmissionNowURL = radiocoURL + "/api/1/radiocom/transmissions/now";
+    public static final String radiocoURL = baseURLWEB + "radioco-beta/";
+    public static final String radioStationURL = radiocoURL + "api/2/radiocom/radiostation";
+    public static final String programmesURL = radiocoURL + "api/2/radiocom/programmes";
+    public static final String transmissionsURL = radiocoURL + "api/2/radiocom/transmissions";
+    public static final String transmissionNowURL = radiocoURL + "api/2/radiocom/transmissions/now";
 
     ///////////////    MEMBERS   ///////////////////////////
-    // public static final String membersURL = baseURLWEB + "members/";
-    // public static final String membersURL = "http://10.0.2.2:8080/members/";
-    public static final String membersURL = "http://192.168.137.247:8080/members/";
-
+    public static final String membersURL = baseURLWEB + "members/";
     public static final String signupURL = membersURL + "signup";
     public static final String membersAPI = membersURL + "api/";
 

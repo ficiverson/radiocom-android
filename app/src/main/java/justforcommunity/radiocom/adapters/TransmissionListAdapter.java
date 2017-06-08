@@ -119,7 +119,7 @@ public class TransmissionListAdapter extends ArrayAdapter<TransmissionDTO> imple
                     if (transmissionDTO.getLogo_url() == "") {
                         Picasso.with(mContext).load(R.drawable.logo_nav_header).into(holder.photoImageView);
                     } else {
-                        Picasso.with(mContext).load(radiocoURL + transmissionDTO.getLogo_url()).into(holder.photoImageView);
+                        Picasso.with(mContext).load(transmissionDTO.getLogo_url()).into(holder.photoImageView);
                     }
                 }
             }

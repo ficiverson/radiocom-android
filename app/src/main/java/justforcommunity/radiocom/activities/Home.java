@@ -685,7 +685,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         // Get logo of program
         if (transmissionDTO != null && transmissionDTO.getLogo_url() != null) {
             Picasso.with(this)
-                    .load(radiocoURL + transmissionDTO.getLogo_url())
+                    .load(transmissionDTO.getLogo_url())
                     .into(new Target() {
                         @Override
                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {

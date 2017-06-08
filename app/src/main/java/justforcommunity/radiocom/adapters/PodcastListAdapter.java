@@ -112,7 +112,7 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
                     if (programDTO.getLogo_url() == "") {
                         Picasso.with(mContext).load(R.drawable.logo_nav_header).into(holder.photoImageView);
                     } else {
-                        Picasso.with(mContext).load(radiocoURL + programDTO.getLogo_url()).into(holder.photoImageView);
+                        Picasso.with(mContext).load(programDTO.getLogo_url()).into(holder.photoImageView);
                     }
                 }
 
