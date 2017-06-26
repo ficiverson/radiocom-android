@@ -63,7 +63,7 @@ public class SendAnswerReport extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                report = serviceReports.SendAnswerReport(reportId, answer, manage);
+                report = serviceReports.sendAnswerReport(reportId, answer, manage);
                 res = true;
             } catch (RestClientException e) {
                 Log.d(TAG, "doInBackground()", e);

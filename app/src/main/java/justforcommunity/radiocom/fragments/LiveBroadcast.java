@@ -1,6 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @ Pablo Grela
+ *  * Copyright (C) 2017 @ Pablo Grela
  *  *
  *  * Developer Pablo Grela
  *  *
@@ -23,8 +23,6 @@ package justforcommunity.radiocom.fragments;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,57 +33,26 @@ import java.util.Calendar;
 import java.util.List;
 
 import justforcommunity.radiocom.R;
+import justforcommunity.radiocom.adapters.DayPage;
+import justforcommunity.radiocom.adapters.PageAdapter;
 import justforcommunity.radiocom.utils.DateUtils;
 import justforcommunity.radiocom.views.SlidingTabLayout;
 
 import static justforcommunity.radiocom.utils.DateUtils.formatDate;
 
 
-public class TransmissionPagerFragment extends Fragment {
+public class LiveBroadcast extends Fragment {
 
     private SlidingTabLayout mSlidingTabLayout;
     private ViewPager mViewPager;
-    private List<DayPage> mTabs = new ArrayList<>();
-
-    static class DayPage {
-        private final CharSequence mTitle;
-        private final int mIndicatorColor;
-        private final int mDividerColor;
-        private final String mDate;
-
-        DayPage(CharSequence title, int indicatorColor, int dividerColor, String date) {
-            mTitle = title;
-            mIndicatorColor = indicatorColor;
-            mDividerColor = dividerColor;
-            mDate = date;
-        }
-
-        Fragment createFragment(String date) {
-            return TransmissionsPageFragment.newInstance(date);
-        }
-
-        CharSequence getTitle() {
-            return mTitle;
-        }
-
-        int getIndicatorColor() {
-            return mIndicatorColor;
-        }
-
-        int getDividerColor() {
-            return mDividerColor;
-        }
-
-        String getDate() {
-            return mDate;
-        }
-    }
+    private List<DayPage> mTabs;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Calendar dateSearch = Calendar.getInstance();
         dateSearch.add(Calendar.DAY_OF_MONTH, -4);
+        mTabs = new ArrayList<>();
 
         // Add pages from previous days
         for (int i = 1; i < 4; i++) {
@@ -105,8 +72,7 @@ public class TransmissionPagerFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_pager_transmission, container, false);
     }
 
@@ -115,7 +81,7 @@ public class TransmissionPagerFragment extends Fragment {
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        mViewPager.setAdapter(new TransmissionPagerAdapter(getChildFragmentManager()));
+        mViewPager.setAdapter(new PageAdapter(getChildFragmentManager(), mTabs));
         mViewPager.setCurrentItem(3);
 
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
@@ -136,29 +102,4 @@ public class TransmissionPagerFragment extends Fragment {
 
         });
     }
-
-    // Class to control number of page
-    class TransmissionPagerAdapter extends FragmentPagerAdapter {
-
-        TransmissionPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-            return mTabs.get(i).createFragment(mTabs.get(i).getDate());
-        }
-
-        @Override
-        public int getCount() {
-            return mTabs.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mTabs.get(position).getTitle();
-        }
-
-    }
-
 }

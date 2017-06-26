@@ -97,8 +97,8 @@
     <string name="dateEnd">Fecha de finalización</string>
 
     <!--books-->
-    <string name="book_activity">Informe</string>
-    <string name="book_activity_create">Crear informe</string>
+    <string name="book_activity">Reserva</string>
+    <string name="book_activity_create">Crear Reserva</string>
     <string name="book_active">Activo:</string>
     <string name="book_answer">Respuesta: </string>
     <string name="book_dateCreate">Fecha de creación:</string>
@@ -142,8 +142,8 @@
     <string name="action_report">Informes</string>
     <string name="action_user_book">Mis reservas</string>
     <string name="action_book">Reservas</string>
-    <string name="action_members">Ir a members</string>
-    <string name="action_radioco">Ir a radico</string>
+    <string name="action_members">Ir a Members</string>
+    <string name="action_radioco">Ir a RadioCo</string>
 
 
     <string name="accept">Aceptar</string>

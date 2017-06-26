@@ -1,6 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @ Pablo Grela
+ *  * Copyright (C) 2017 @ Pablo Grela
  *  *
  *  * Developer Pablo Grela
  *  *
@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.model.TransmissionDTO;
+import justforcommunity.radiocom.model.LiveBroadcastDTO;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
 
 import static justforcommunity.radiocom.utils.GlobalValues.transmissionNowURL;
@@ -51,7 +51,7 @@ public class ServiceTransmissions extends ServiceBase {
         super(language);
     }
 
-    public TransmissionDTO getTransmissionNow() throws RestClientException, WebServiceStatusFailException {
+    public LiveBroadcastDTO getTransmissionNow() throws RestClientException, WebServiceStatusFailException {
 
         ResponseEntity<String> response;
         String decoded = "";
@@ -68,23 +68,17 @@ public class ServiceTransmissions extends ServiceBase {
             decoded = response.getBody();
             decoded = new String(response.getBody().getBytes("ISO-8859-1"));
 
-        } catch (RestClientException e) {
-            Log.d("ServiceTransmissions", "getTransmissionNow", e);
-            throw e;
+        } catch (RestClientException restClientException) {
+            Log.d("ServiceTransmissions", "getTransmissionNow", restClientException);
+            throw restClientException;
         } catch (UnsupportedEncodingException e) {
             Log.d("ServiceTransmissions", "fail decoded", e);
         }
 
-        return new Gson().fromJson(decoded, TransmissionDTO.class);
+        return new Gson().fromJson(decoded, LiveBroadcastDTO.class);
     }
 
-    public List<TransmissionDTO> getTransmissions(String dateSearch) throws RestClientException, WebServiceStatusFailException {
-
-//        Calendar startDate = Calendar.getInstance();
-//        startDate.add(Calendar.DAY_OF_MONTH, 0);
-//        Calendar endDate = Calendar.getInstance();
-//        endDate.add(Calendar.DAY_OF_MONTH, 0);
-//        String url = transmissionsURL + "?after=" + DateUtils.formatDate(startDate, DateUtils.FORMAT_DATE_GET) + "&before=" + DateUtils.formatDate(endDate, DateUtils.FORMAT_DATE_GET);
+    public List<LiveBroadcastDTO> getTransmissions(String dateSearch) throws RestClientException, WebServiceStatusFailException {
 
         String url = transmissionsURL + "?after=" + dateSearch + "&before=" + dateSearch;
         ResponseEntity<String> response;
@@ -102,14 +96,14 @@ public class ServiceTransmissions extends ServiceBase {
             decoded = response.getBody();
             decoded = new String(response.getBody().getBytes("ISO-8859-1"));
 
-        } catch (RestClientException e) {
-            Log.d("ServiceTransmissions", "getTransmissions", e);
-            throw e;
+        } catch (RestClientException restClientException) {
+            Log.d("ServiceTransmissions", "getTransmissions", restClientException);
+            throw restClientException;
         } catch (UnsupportedEncodingException e) {
             Log.d("ServiceTransmissions", "fail decoded", e);
         }
 
-        Type listType = new TypeToken<ArrayList<TransmissionDTO>>() {
+        Type listType = new TypeToken<ArrayList<LiveBroadcastDTO>>() {
         }.getType();
 
         return new Gson().fromJson(decoded, listType);

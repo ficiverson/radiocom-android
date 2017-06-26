@@ -113,7 +113,7 @@ public class ServiceReports extends ServiceBase {
 
 
     // Send answer to members
-    public ReportDTO SendAnswerReport(Long reportId, String answer, Boolean manage) throws RestClientException, WebServiceStatusFailException {
+    public ReportDTO sendAnswerReport(Long reportId, String answer, Boolean manage) throws RestClientException, WebServiceStatusFailException {
 
         ReportDTO report;
 

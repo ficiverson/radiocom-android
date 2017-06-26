@@ -42,8 +42,6 @@ public class MessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 
             Intent intent = null;
-            // String packageName = null;
-
             String type = remoteMessage.getData().get("type");
             switch (type) {
 
@@ -136,28 +134,5 @@ public class MessagingService extends FirebaseMessagingService {
         }
         return false;
     }
-
-//    private boolean isAppOnForeground(Context context, String packageName) {
-//        String[] activePackages;
-//        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-//        activePackages = getActivePackages(am);
-//
-//        if (activePackages != null) {
-//            return activePackages[0].equals(packageName);
-//        }
-//        return false;
-//    }
-//
-//
-//    private String[] getActivePackages(ActivityManager mActivityManager) {
-//        final Set<String> activePackages = new HashSet<>();
-//        final List<ActivityManager.RunningAppProcessInfo> processInfos = mActivityManager.getRunningAppProcesses();
-//        for (ActivityManager.RunningAppProcessInfo processInfo : processInfos) {
-//            if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-//                activePackages.addAll(Arrays.asList(processInfo.pkgList));
-//            }
-//        }
-//        return activePackages.toArray(new String[activePackages.size()]);
-//    }
 
 }

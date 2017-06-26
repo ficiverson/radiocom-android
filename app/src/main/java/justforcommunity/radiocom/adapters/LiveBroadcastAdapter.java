@@ -1,6 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @ Pablo Grela
+ *  * Copyright (C) 2017 @ Pablo Grela
  *  *
  *  * Developer Pablo Grela
  *  *
@@ -38,19 +38,17 @@ import java.util.Date;
 import java.util.List;
 
 import justforcommunity.radiocom.R;
-import justforcommunity.radiocom.model.TransmissionDTO;
+import justforcommunity.radiocom.model.LiveBroadcastDTO;
 import justforcommunity.radiocom.utils.DateUtils;
 
-import static justforcommunity.radiocom.utils.GlobalValues.radiocoURL;
-
-public class TransmissionListAdapter extends ArrayAdapter<TransmissionDTO> implements Filterable {
+public class LiveBroadcastAdapter extends ArrayAdapter<LiveBroadcastDTO> implements Filterable {
 
     private Context mContext;
     private ItemFilter mFilter = new ItemFilter();
-    private List<TransmissionDTO> originalData = null;
-    private List<TransmissionDTO> filteredData = null;
+    private List<LiveBroadcastDTO> originalData = null;
+    private List<LiveBroadcastDTO> filteredData = null;
 
-    public TransmissionListAdapter(Context context, int resource, List<TransmissionDTO> transmissions) {
+    public LiveBroadcastAdapter(Context context, int resource, List<LiveBroadcastDTO> transmissions) {
         super(context, resource, transmissions);
         mContext = context;
         originalData = transmissions;
@@ -70,7 +68,7 @@ public class TransmissionListAdapter extends ArrayAdapter<TransmissionDTO> imple
     }
 
     @Override
-    public TransmissionDTO getItem(int position) {
+    public LiveBroadcastDTO getItem(int position) {
         return filteredData.get(position);
     }
 
@@ -97,29 +95,29 @@ public class TransmissionListAdapter extends ArrayAdapter<TransmissionDTO> imple
             holder = (ViewHolder) v.getTag();
         }
 
-        TransmissionDTO transmissionDTO = getItem(position);
-        if (transmissionDTO != null) {
+        LiveBroadcastDTO liveBroadcastDTO = getItem(position);
+        if (liveBroadcastDTO != null) {
 
             Date actualDate = new Date();
-            if (transmissionDTO.getStart().before(actualDate) && transmissionDTO.getEnd().after(actualDate)) {
+            if (liveBroadcastDTO.getStart().before(actualDate) && liveBroadcastDTO.getEnd().after(actualDate)) {
                 holder.colorTransparency.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorSecondary85));
             } else {
                 holder.colorTransparency.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark85));
             }
 
-            holder.nameTextView.setText(transmissionDTO.getName());
-            holder.hourTextView.setText(DateUtils.formatDate(transmissionDTO.getStart(), DateUtils.FORMAT_HOUR)
+            holder.nameTextView.setText(liveBroadcastDTO.getName());
+            holder.hourTextView.setText(DateUtils.formatDate(liveBroadcastDTO.getStart(), DateUtils.FORMAT_HOUR)
                     + " - "
-                    + DateUtils.formatDate(transmissionDTO.getEnd(), DateUtils.FORMAT_HOUR));
+                    + DateUtils.formatDate(liveBroadcastDTO.getEnd(), DateUtils.FORMAT_HOUR));
 
             if (holder.photoImageView != null) {
-                if (transmissionDTO.getLogo_url() == null) {
+                if (liveBroadcastDTO.getLogo_url() == null) {
                     Picasso.with(mContext).load(R.drawable.logo_nav_header).into(holder.photoImageView);
                 } else {
-                    if (transmissionDTO.getLogo_url() == "") {
+                    if (liveBroadcastDTO.getLogo_url() == "") {
                         Picasso.with(mContext).load(R.drawable.logo_nav_header).into(holder.photoImageView);
                     } else {
-                        Picasso.with(mContext).load(transmissionDTO.getLogo_url()).into(holder.photoImageView);
+                        Picasso.with(mContext).load(liveBroadcastDTO.getLogo_url()).into(holder.photoImageView);
                     }
                 }
             }
@@ -140,10 +138,10 @@ public class TransmissionListAdapter extends ArrayAdapter<TransmissionDTO> imple
 
             String filterString = constraint.toString().toLowerCase();
             FilterResults results = new FilterResults();
-            final List<TransmissionDTO> list = originalData;
+            final List<LiveBroadcastDTO> list = originalData;
             int count = list.size();
-            final ArrayList<TransmissionDTO> nList = new ArrayList<>(count);
-            TransmissionDTO filterableString;
+            final ArrayList<LiveBroadcastDTO> nList = new ArrayList<>(count);
+            LiveBroadcastDTO filterableString;
 
             for (int i = 0; i < count; i++) {
                 filterableString = list.get(i);
@@ -161,7 +159,7 @@ public class TransmissionListAdapter extends ArrayAdapter<TransmissionDTO> imple
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            filteredData = (ArrayList<TransmissionDTO>) results.values;
+            filteredData = (ArrayList<LiveBroadcastDTO>) results.values;
             notifyDataSetChanged();
         }
 

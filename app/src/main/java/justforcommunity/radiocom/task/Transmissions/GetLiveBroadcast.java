@@ -25,25 +25,23 @@ import android.os.AsyncTask;
 
 import org.springframework.web.client.RestClientException;
 
-import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.activities.CreateReport;
 import justforcommunity.radiocom.activities.Home;
-import justforcommunity.radiocom.model.TransmissionDTO;
+import justforcommunity.radiocom.model.LiveBroadcastDTO;
 import justforcommunity.radiocom.service.ServiceTransmissions;
 import justforcommunity.radiocom.utils.InternetConnection;
 
 
-public class GetTransmissionNow extends AsyncTask<Boolean, Float, Boolean> {
+public class GetLiveBroadcast extends AsyncTask<Boolean, Float, Boolean> {
 
     private Context mContext;
     private Home mActivity;
     private ServiceTransmissions serviceTransmissions;
     private Locale locale;
-    private TransmissionDTO transmissionDTO;
+    private LiveBroadcastDTO liveBroadcastDTO;
 
-    public GetTransmissionNow(Context mContext, Home mActivity) {
+    public GetLiveBroadcast(Context mContext, Home mActivity) {
         this.mActivity = mActivity;
         this.mContext = mContext;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
@@ -58,14 +56,14 @@ public class GetTransmissionNow extends AsyncTask<Boolean, Float, Boolean> {
         if (cnn.isConnected(mContext)) {
 
             try {
-                transmissionDTO = serviceTransmissions.getTransmissionNow();
+                liveBroadcastDTO = serviceTransmissions.getTransmissionNow();
                 res = true;
 
             } catch (RestClientException e) {
-                transmissionDTO = null;
+                liveBroadcastDTO = null;
                 res = false;
             } catch (Exception e) {
-                transmissionDTO = null;
+                liveBroadcastDTO = null;
                 res = false;
             }
         }
@@ -75,7 +73,7 @@ public class GetTransmissionNow extends AsyncTask<Boolean, Float, Boolean> {
 
     protected void onPostExecute(Boolean result) {
         if (result) {
-            mActivity.setTransmissionDTO(transmissionDTO);
+            mActivity.setTransmissionDTO(liveBroadcastDTO);
         } else {
             mActivity.setTransmissionDTO(null);
         }

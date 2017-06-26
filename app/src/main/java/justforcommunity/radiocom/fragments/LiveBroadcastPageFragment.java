@@ -42,29 +42,29 @@ import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.App;
 import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.activities.Podcast;
-import justforcommunity.radiocom.adapters.TransmissionListAdapter;
-import justforcommunity.radiocom.model.TransmissionDTO;
+import justforcommunity.radiocom.adapters.LiveBroadcastAdapter;
+import justforcommunity.radiocom.model.LiveBroadcastDTO;
 import justforcommunity.radiocom.task.Transmissions.GetTransmissions;
 import justforcommunity.radiocom.utils.GlobalValues;
 
 import static justforcommunity.radiocom.utils.GlobalValues.JSON_PODCAST;
 
-public class TransmissionsPageFragment extends FilterFragment {
+public class LiveBroadcastPageFragment extends FilterFragment {
 
     private Home mActivity;
     private Context mContext;
     private ListView transmissionList;
     private TextView noElements;
-    private TransmissionListAdapter transmissionListAdapter;
+    private LiveBroadcastAdapter liveBroadcastAdapter;
     private AVLoadingIndicatorView avi;
 
     private static final String KEY_DAY = "day";
 
-    public static TransmissionsPageFragment newInstance(String date) {
+    public static LiveBroadcastPageFragment newInstance(String date) {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_DAY, date);
 
-        TransmissionsPageFragment fragment = new TransmissionsPageFragment();
+        LiveBroadcastPageFragment fragment = new LiveBroadcastPageFragment();
         fragment.setArguments(bundle);
 
         return fragment;
@@ -104,12 +104,12 @@ public class TransmissionsPageFragment extends FilterFragment {
 
     @Override
     public void filterDataSearch(String query) {
-        if (transmissionListAdapter != null) {
-            transmissionListAdapter.getFilter().filter(query);
+        if (liveBroadcastAdapter != null) {
+            liveBroadcastAdapter.getFilter().filter(query);
         }
     }
 
-    public void listChannels(final List<TransmissionDTO> transmissions) {
+    public void listChannels(final List<LiveBroadcastDTO> transmissions) {
         avi.hide();
 
         if (transmissions == null || transmissions.isEmpty()) {
@@ -122,15 +122,15 @@ public class TransmissionsPageFragment extends FilterFragment {
             transmissionList.setVisibility(View.VISIBLE);
             avi.setVisibility(View.GONE);
 
-            transmissionListAdapter = new TransmissionListAdapter(mContext, R.layout.listitem_new, transmissions);
-            transmissionList.setAdapter(transmissionListAdapter);
+            liveBroadcastAdapter = new LiveBroadcastAdapter(mContext, R.layout.listitem_new, transmissions);
+            transmissionList.setAdapter(liveBroadcastAdapter);
 
             transmissionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     //serialize object
-                    String jsonInString = new Gson().toJson(transmissionListAdapter.getItem(position));
+                    String jsonInString = new Gson().toJson(liveBroadcastAdapter.getItem(position));
 
                     //save json object on prefs
                     SharedPreferences prefs = mContext.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);

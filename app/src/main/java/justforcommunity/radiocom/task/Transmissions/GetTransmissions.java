@@ -23,15 +23,11 @@ package justforcommunity.radiocom.task.Transmissions;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import org.springframework.web.client.RestClientException;
-
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.activities.Home;
-import justforcommunity.radiocom.fragments.TransmissionsPageFragment;
-import justforcommunity.radiocom.model.TransmissionDTO;
+import justforcommunity.radiocom.fragments.LiveBroadcastPageFragment;
+import justforcommunity.radiocom.model.LiveBroadcastDTO;
 import justforcommunity.radiocom.service.ServiceTransmissions;
 import justforcommunity.radiocom.utils.InternetConnection;
 
@@ -39,13 +35,13 @@ import justforcommunity.radiocom.utils.InternetConnection;
 public class GetTransmissions extends AsyncTask<Boolean, Float, Boolean> {
 
     private Context mContext;
-    private TransmissionsPageFragment mActivity;
+    private LiveBroadcastPageFragment mActivity;
     private ServiceTransmissions serviceTransmissions;
     private Locale locale;
-    private List<TransmissionDTO> transmissionsDTO;
+    private List<LiveBroadcastDTO> transmissionsDTO;
     private String mDateSearch;
 
-    public GetTransmissions(Context mContext, TransmissionsPageFragment mActivity, String dateSearch) {
+    public GetTransmissions(Context mContext, LiveBroadcastPageFragment mActivity, String dateSearch) {
         this.mActivity = mActivity;
         this.mContext = mContext;
         locale = new Locale(mContext.getResources().getConfiguration().locale.toString());

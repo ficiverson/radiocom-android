@@ -75,6 +75,7 @@ public class CreateReport extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST = 1000;
     private static final int EXTERNAL_REQUEST = 2000;
+    public static final String DATA = "data";
 
     private Context mContext;
     private CreateReport mActivity;
@@ -225,7 +226,7 @@ public class CreateReport extends AppCompatActivity {
                 e.printStackTrace();
             }
         } else if (requestCode == CAMERA_REQUEST) {
-            photo = (Bitmap) data.getExtras().get("data");
+            photo = (Bitmap) data.getExtras().get(DATA);
         }
 
         // Add photo to view and list

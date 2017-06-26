@@ -204,10 +204,9 @@ public class Book extends AppCompatActivity {
                 if (!intent.getBooleanExtra("notificationSkip", false)) {
                     Intent i = new Intent(Book.this, PodcastingService.class);
                     stopService(i);
-                    //notifyAdapterToRefresh();
                 }
             } else if (intent.getStringExtra(JSON_BOOK) != null) {
-                Intent newIntent = new Intent(mActivity, Report.class);
+                Intent newIntent = new Intent(mActivity, Book.class);
                 newIntent.putExtra(JSON_BOOK, intent.getStringExtra(JSON_BOOK));
                 startActivityForResult(newIntent, BOOK_ANSWER_REQUEST);
             }

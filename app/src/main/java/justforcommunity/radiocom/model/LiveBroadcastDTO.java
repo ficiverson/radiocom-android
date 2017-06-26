@@ -24,7 +24,7 @@ import java.util.Date;
 
 import static justforcommunity.radiocom.utils.GlobalValues.baseURLWEB;
 
-public class TransmissionDTO {
+public class LiveBroadcastDTO {
 
     private String id;
     private String name;

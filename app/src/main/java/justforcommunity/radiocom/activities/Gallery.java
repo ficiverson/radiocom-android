@@ -43,7 +43,6 @@ import justforcommunity.radiocom.adapters.StationPhotosPagerAdapter;
 import justforcommunity.radiocom.model.StationDTO;
 import justforcommunity.radiocom.utils.GlobalValues;
 
-
 public class Gallery extends AppCompatActivity {
 
     private Gallery mActivity;

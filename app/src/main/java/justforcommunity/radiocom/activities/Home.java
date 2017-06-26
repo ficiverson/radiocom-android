@@ -66,13 +66,13 @@ import justforcommunity.radiocom.fragments.NewsPageFragment;
 import justforcommunity.radiocom.fragments.PodcastPageFragment;
 import justforcommunity.radiocom.fragments.ReportPageFragment;
 import justforcommunity.radiocom.fragments.ReportUserPageFragment;
-import justforcommunity.radiocom.fragments.TransmissionPagerFragment;
+import justforcommunity.radiocom.fragments.LiveBroadcast;
 import justforcommunity.radiocom.model.AccountDTO;
 import justforcommunity.radiocom.model.StationDTO;
-import justforcommunity.radiocom.model.TransmissionDTO;
+import justforcommunity.radiocom.model.LiveBroadcastDTO;
 import justforcommunity.radiocom.task.FirebaseUtils;
 import justforcommunity.radiocom.task.GetAccount;
-import justforcommunity.radiocom.task.Transmissions.GetTransmissionNow;
+import justforcommunity.radiocom.task.Transmissions.GetLiveBroadcast;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.StreamingService;
 
@@ -99,9 +99,9 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     private SearchView mSearchView;
     private String mSearchQuery;
     private ImageView nav_authenticate;
-    // private FirebaseUser user;
     private AccountDTO accountDTO;
     private String token;
+    private Intent audioIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -196,7 +196,6 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     public void onStart() {
         super.onStart();
         GoogleAnalytics.getInstance(this).reportActivityStart(this);
-        //updateUserInfo();
     }
 
     @Override
@@ -487,10 +486,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     public void loadScheduler() {
         isSearchable = true;
         invalidateOptionsMenu();
-//        TransmissionsPageFragment transmissionsPageFragment = new TransmissionsPageFragment();
-//        processFragment(transmissionsPageFragment, mContext.getString(R.string.action_scheduler));
-
-        processFragment(new TransmissionPagerFragment(), mContext.getString(R.string.action_scheduler));
+        processFragment(new LiveBroadcast(), mContext.getString(R.string.action_scheduler));
 
     }
 
@@ -588,7 +584,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     private void audioController() {
         if (!playing) {
 
-            new GetTransmissionNow(mContext, this).execute();
+            new GetLiveBroadcast(mContext, this).execute();
 
 //            audioIntent = new Intent(Home.this, StreamingService.class);
 //            audioIntent.putExtra("audio", station.getStream_url());
@@ -669,26 +665,27 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         }
     }
 
-    private Intent audioIntent;
 
-    public void setTransmissionDTO(TransmissionDTO transmissionDTO) {
+    public void setTransmissionDTO(LiveBroadcastDTO liveBroadcastDTO) {
         audioIntent = new Intent(Home.this, StreamingService.class);
         audioIntent.putExtra("audio", station.getStream_url());
         audioIntent.putExtra("title", station.getStation_name());
         audioIntent.putExtra("text", getCityByCoords(station.getLatitude(), station.getLongitude()));
 
         // Get name of program
-        if (transmissionDTO != null && !transmissionDTO.getName().isEmpty()) {
-            audioIntent.putExtra("text", transmissionDTO.getName());
+        if (liveBroadcastDTO != null && !liveBroadcastDTO.getName().isEmpty()) {
+            audioIntent.putExtra("text", liveBroadcastDTO.getName());
         }
 
         // Get logo of program
-        if (transmissionDTO != null && transmissionDTO.getLogo_url() != null) {
+        if (liveBroadcastDTO != null && liveBroadcastDTO.getLogo_url() != null) {
             Picasso.with(this)
-                    .load(transmissionDTO.getLogo_url())
+                    .load(liveBroadcastDTO.getLogo_url())
                     .into(new Target() {
                         @Override
                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            bitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, true);
+                            // bitmap = Bitmap.createBitmap(bitmap, 0, 0, 300, 300);
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
                             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                             audioIntent.putExtra("logo", stream.toByteArray());

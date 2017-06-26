@@ -54,7 +54,6 @@ public class Splash extends AppCompatActivity {
 
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        Bundle b = getIntent().getExtras();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 

@@ -34,6 +34,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.google.android.exoplayer.ExoPlayer;
 import com.google.android.exoplayer.MediaCodecAudioTrackRenderer;
@@ -172,7 +173,7 @@ public class StreamingService extends Service {
 
                 showNotification(text, title);
             } catch (Exception e) {
-
+                Log.d("Streaming", "onStart", e);
             }
         }
 
