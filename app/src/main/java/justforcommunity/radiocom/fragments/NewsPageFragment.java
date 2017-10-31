@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -47,7 +45,6 @@ import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.adapters.NewsListAdapter;
 import justforcommunity.radiocom.model.StationDTO;
 import justforcommunity.radiocom.utils.GlobalValues;
-
 
 public class NewsPageFragment extends Fragment {
 

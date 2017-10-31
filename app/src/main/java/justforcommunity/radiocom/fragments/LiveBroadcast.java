@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2017 @ Pablo Grela
- *  *
- *  * Developer Pablo Grela
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -39,7 +37,6 @@ import justforcommunity.radiocom.utils.DateUtils;
 import justforcommunity.radiocom.views.SlidingTabLayout;
 
 import static justforcommunity.radiocom.utils.DateUtils.formatDate;
-
 
 public class LiveBroadcast extends Fragment {
 

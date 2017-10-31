@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright (C) 2016 @ Fernando Souto González
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -26,13 +24,9 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 
-
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.views.discrollview.Discrollvable;
 
-/**
- *
- */
 public class DiscrollvableLastLayout extends RelativeLayout implements Discrollvable {
 
     private static final String TAG = "DiscrollvableLastLayout";

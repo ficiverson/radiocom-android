@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright (C) 2016 @ Fernando Souto González
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -35,10 +33,6 @@ import android.widget.LinearLayout;
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.views.discrollview.Discrollvable;
 
-
-/**
- *
- */
 public class DiscrollvablePathLayout extends LinearLayout implements Discrollvable {
 
     private float mRatio;
@@ -78,7 +72,7 @@ public class DiscrollvablePathLayout extends LinearLayout implements Discrollvab
     public void onDiscrollve(float ratio) {
         mRatio = ratio;
         mPathView.setAlpha(ratio);
-        mPathView.setTranslationY(-(mPathView.getHeight()/2) * ((ratio - 0.5f) / 0.5f));
+        mPathView.setTranslationY(-(mPathView.getHeight() / 2) * ((ratio - 0.5f) / 0.5f));
         invalidate();
     }
 
@@ -86,7 +80,7 @@ public class DiscrollvablePathLayout extends LinearLayout implements Discrollvab
     public void onResetDiscrollve() {
         mRatio = 0.0f;
         mPathView.setAlpha(0);
-        mPathView.setTranslationY(mPathView.getHeight()/2);
+        mPathView.setTranslationY(mPathView.getHeight() / 2);
         invalidate();
     }
 
@@ -96,10 +90,10 @@ public class DiscrollvablePathLayout extends LinearLayout implements Discrollvab
         super.onDraw(canvas);
         makeAndMeasurePath();
 
-        if(!isInEditMode()) {
+        if (!isInEditMode()) {
             // Apply the dash effect
             float length = mPathMeasure.getLength();
-            PathEffect effect = new DashPathEffect(new float[] {length, length }, length * (1 - mRatio));
+            PathEffect effect = new DashPathEffect(new float[]{length, length}, length * (1 - mRatio));
             mPaint.setPathEffect(effect);
         }
 

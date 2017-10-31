@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ /*
-  ~  * Copyright (C) 2017 @ Pablo Grela
-  ~  *
-  ~  * Developer Pablo Grela
+  ~  * Copyright © 2017 @ Pablo Grela
   ~  *
   ~  * Licensed under the Apache License, Version 2.0 (the "License");
   ~  * you may not use this file except in compliance with the License.
@@ -26,47 +25,6 @@
     android:fitsSystemWindows="true"
     tools:context="justforcommunity.radiocom.activities.Report">
 
-    <!--<android.support.design.widget.AppBarLayout-->
-    <!--android:id="@+id/app_bar"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/app_bar_height"-->
-    <!--android:fitsSystemWindows="true"-->
-    <!--android:theme="@style/AppTheme.AppBarOverlay">-->
-
-    <!--<android.support.design.widget.CollapsingToolbarLayout-->
-    <!--android:id="@+id/toolbar_layout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:fitsSystemWindows="true"-->
-    <!--app:contentScrim="?attr/colorPrimary"-->
-    <!--app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
-
-
-    <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
-    <!--&lt;!&ndash;android:id="@+id/image_podcast_bck"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:scaleType="centerCrop"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:src="@drawable/logo_nav_header"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:layout_collapseMode="parallax" />&ndash;&gt;-->
-
-    <!--&lt;!&ndash;<View&ndash;&gt;-->
-    <!--&lt;!&ndash;android:id="@+id/viewtrans"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:background="@color/colorPrimaryDark85" />&ndash;&gt;-->
-
-    <!--<android.support.v7.widget.Toolbar-->
-    <!--android:id="@+id/toolbar"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="?attr/actionBarSize"-->
-    <!--android:layout_gravity="center_horizontal"-->
-    <!--app:layout_collapseMode="parallax"-->
-    <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
-
-    <!--</android.support.design.widget.CollapsingToolbarLayout>-->
-    <!--</android.support.design.widget.AppBarLayout>-->
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,18 +38,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <!--<include layout="@layout/content_report_scrolling" />-->
     <include layout="@layout/content_report_info" />
-
-    <!--<android.support.design.widget.FloatingActionButton-->
-    <!--android:id="@+id/fab_info"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_margin="@dimen/fab_margin"-->
-    <!--android:src="@drawable/infowhite"-->
-    <!--app:backgroundTint="@color/colorPrimary"-->
-    <!--app:layout_anchor="@+id/bottom_sheet"-->
-    <!--app:layout_anchorGravity="top|center_horizontal" />-->
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/avi"

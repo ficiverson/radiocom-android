@@ -1,3 +1,21 @@
+/*
+ *
+ *  * Copyright © 2016 @ Fernando Souto González
+ *  *
+ *  * Licensed under the Apache License, Version 2.0 (the "License");
+ *  * you may not use this file except in compliance with the License.
+ *  * You may obtain a copy of the License at
+ *  *
+ *  * http://www.apache.org/licenses/LICENSE-2.0
+ *  *
+ *  * Unless required by applicable law or agreed to in writing, software
+ *  * distributed under the License is distributed on an "AS IS" BASIS,
+ *  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  * See the License for the specific language governing permissions and
+ *  * limitations under the License.
+ *
+ */
+
 package justforcommunity.radiocom.views.discrollview;
 
 import android.content.Context;
@@ -9,9 +27,6 @@ import android.widget.LinearLayout;
 
 import justforcommunity.radiocom.R;
 
-/**
- *
- */
 public class DiscrollViewContent extends LinearLayout {
 
     public DiscrollViewContent(Context context) {
@@ -35,7 +50,7 @@ public class DiscrollViewContent extends LinearLayout {
     }
 
     private View asDiscrollvable(View child, LayoutParams lp) {
-        if(! isDiscrollvable(lp)) {
+        if (!isDiscrollvable(lp)) {
             return child;
         }
         DiscrollvableView discrollvableChild = new DiscrollvableView(getContext());
@@ -52,10 +67,10 @@ public class DiscrollViewContent extends LinearLayout {
 
     private boolean isDiscrollvable(LayoutParams lp) {
         return lp.mDiscrollveAlpha ||
-               lp.mDiscrollveTranslation != -1 ||
-               lp.mDiscrollveScaleX ||
-               lp.mDiscrollveScaleY ||
-               (lp.mDiscrollveFromBgColor != -1 && lp.mDiscrollveToBgColor != -1);
+                lp.mDiscrollveTranslation != -1 ||
+                lp.mDiscrollveScaleX ||
+                lp.mDiscrollveScaleY ||
+                (lp.mDiscrollveFromBgColor != -1 && lp.mDiscrollveToBgColor != -1);
     }
 
     @Override

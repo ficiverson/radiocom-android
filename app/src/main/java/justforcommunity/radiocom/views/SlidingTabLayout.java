@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -33,9 +31,7 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
-
 public class SlidingTabLayout extends HorizontalScrollView {
-
 
     public interface TabColorizer {
         int getIndicatorColor(int position);

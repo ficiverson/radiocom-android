@@ -1,8 +1,7 @@
 /*
  *
  *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright (C) 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -47,7 +46,6 @@ import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailExceptio
 import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
 import static justforcommunity.radiocom.utils.GlobalValues.addToken;
 import static justforcommunity.radiocom.utils.GlobalValues.programmesURL;
-
 
 public class ServicePrograms extends ServiceBase {
 

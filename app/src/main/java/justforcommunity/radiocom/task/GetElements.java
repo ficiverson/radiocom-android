@@ -1,8 +1,7 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright © 2016 @ Fernando Souto González
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -32,7 +31,6 @@ import justforcommunity.radiocom.activities.CreateBook;
 import justforcommunity.radiocom.model.ElementDTO;
 import justforcommunity.radiocom.service.ServiceElements;
 import justforcommunity.radiocom.utils.InternetConnection;
-
 
 public class GetElements extends AsyncTask<Boolean, Float, Boolean> {
 

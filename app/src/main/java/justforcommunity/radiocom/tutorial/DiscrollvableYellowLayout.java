@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright (C) 2016 @ Fernando Souto González
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -31,10 +29,6 @@ import android.widget.TextView;
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.views.discrollview.Discrollvable;
 
-
-/**
- *
- */
 public class DiscrollvableYellowLayout extends LinearLayout implements Discrollvable {
 
     private TextView mYellowView1;
@@ -74,7 +68,7 @@ public class DiscrollvableYellowLayout extends LinearLayout implements Discrollv
     @Override
     public void onDiscrollve(float ratio) {
         mYellowView1.setTranslationY(mYellowView1TranslationY * (1 - ratio));
-        if(ratio >= 0.8f) {
+        if (ratio >= 0.8f) {
             ratio = (ratio - 0.5f) / 0.5f;
             mYellowView1.setTextColor((Integer) mArgbEvaluator.evaluate(ratio, mBlackColor, mYellowColor));
             setBackgroundColor((Integer) mArgbEvaluator.evaluate(ratio, mYellowColor, mBlackColor));

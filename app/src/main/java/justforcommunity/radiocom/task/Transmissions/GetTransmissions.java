@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @ Pablo Grela
- *  *
- *  * Developer Pablo Grela
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -30,7 +28,6 @@ import justforcommunity.radiocom.fragments.LiveBroadcastPageFragment;
 import justforcommunity.radiocom.model.LiveBroadcastDTO;
 import justforcommunity.radiocom.service.ServiceTransmissions;
 import justforcommunity.radiocom.utils.InternetConnection;
-
 
 public class GetTransmissions extends AsyncTask<Boolean, Float, Boolean> {
 
@@ -67,7 +64,7 @@ public class GetTransmissions extends AsyncTask<Boolean, Float, Boolean> {
 
 
     protected void onPostExecute(Boolean result) {
-            mActivity.listChannels(transmissionsDTO);
+        mActivity.listChannels(transmissionsDTO);
     }
 
 }

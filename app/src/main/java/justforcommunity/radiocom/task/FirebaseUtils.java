@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @ Pablo Grela
- *  *
- *  * Developer Pablo Grela
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -34,7 +32,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import justforcommunity.radiocom.activities.FirebaseActivity;
-
 
 public class FirebaseUtils extends AsyncTask<Boolean, Float, Boolean> {
 

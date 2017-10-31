@@ -1,8 +1,7 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright © 2016 @ Fernando Souto González
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -42,7 +41,6 @@ import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.Podcast;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.InternetConnection;
-
 
 public class DownloadEpisode extends AsyncTask<Boolean, Float, Boolean> {
 

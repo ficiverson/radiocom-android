@@ -1,8 +1,7 @@
 /*
  *
  *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright (C) 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -32,11 +31,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-
-
-
 public class ServiceBase {
-
 
     protected static final String PARAM_FORMAT = "_format";
 

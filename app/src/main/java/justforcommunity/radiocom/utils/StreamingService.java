@@ -1,8 +1,7 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright © 2016 @ Fernando Souto González
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -19,7 +18,6 @@
  */
 
 package justforcommunity.radiocom.utils;
-
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -54,7 +52,6 @@ public class StreamingService extends Service {
     private String title, text, logo_url;
     private byte[] logo;
     private NotificationManager mNM;
-    private int total;
     public SharedPreferences prefs;
     public SharedPreferences.Editor edit;
 

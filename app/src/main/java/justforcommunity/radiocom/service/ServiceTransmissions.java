@@ -2,8 +2,6 @@
  *
  *  * Copyright (C) 2017 @ Pablo Grela
  *  *
- *  * Developer Pablo Grela
- *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
  *  * You may obtain a copy of the License at
@@ -43,7 +41,6 @@ import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailExceptio
 
 import static justforcommunity.radiocom.utils.GlobalValues.transmissionNowURL;
 import static justforcommunity.radiocom.utils.GlobalValues.transmissionsURL;
-
 
 public class ServiceTransmissions extends ServiceBase {
 

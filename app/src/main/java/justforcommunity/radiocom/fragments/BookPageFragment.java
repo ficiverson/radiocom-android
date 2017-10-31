@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2017 @ Pablo Grela
- *  *
- *  * Developer Pablo Grela
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -59,7 +57,6 @@ import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
 import static justforcommunity.radiocom.utils.GlobalValues.REST_URL;
 import static justforcommunity.radiocom.utils.GlobalValues.booksURL;
 import static justforcommunity.radiocom.utils.GlobalValues.elementsURL;
-
 
 public class BookPageFragment extends FilterFragment {
 

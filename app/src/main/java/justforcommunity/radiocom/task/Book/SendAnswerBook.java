@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2017 @ Pablo Grela
- *  *
- *  * Developer Pablo Grela
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -32,7 +30,6 @@ import justforcommunity.radiocom.activities.Book;
 import justforcommunity.radiocom.model.BookDTO;
 import justforcommunity.radiocom.service.ServiceBooks;
 import justforcommunity.radiocom.utils.InternetConnection;
-
 
 public class SendAnswerBook extends AsyncTask<Boolean, Float, Boolean> {
 

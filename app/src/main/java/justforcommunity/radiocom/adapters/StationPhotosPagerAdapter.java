@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright © 2016 @ Fernando Souto González
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -30,9 +28,6 @@ import java.util.List;
 import justforcommunity.radiocom.activities.Gallery;
 import justforcommunity.radiocom.fragments.StationPhotosPageFragment;
 
-/**
- * Created by appeiros on 8/03/16.
- */
 public class StationPhotosPagerAdapter extends FragmentPagerAdapter {
 
     protected List<String> photos;

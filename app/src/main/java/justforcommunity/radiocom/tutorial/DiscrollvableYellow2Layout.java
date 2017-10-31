@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright (C) 2016 @ Fernando Souto González
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -28,9 +26,6 @@ import android.widget.LinearLayout;
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.views.discrollview.Discrollvable;
 
-/**
- *
- */
 public class DiscrollvableYellow2Layout extends LinearLayout implements Discrollvable {
 
     private static final String TAG = "DiscrollvablePurpleLayout";
@@ -73,7 +68,7 @@ public class DiscrollvableYellow2Layout extends LinearLayout implements Discroll
 
     @Override
     public void onDiscrollve(float ratio) {
-        if(ratio <= 0.5f) {
+        if (ratio <= 0.5f) {
             mYellowView2.setTranslationX(0);
             mYellowView2.setAlpha(0.0f);
             float rratio = ratio / 0.5f;
