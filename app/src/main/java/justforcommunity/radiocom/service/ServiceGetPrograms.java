@@ -67,6 +67,7 @@ public class ServiceGetPrograms extends ServiceBase {
 
         //String url = GlobalValues.baseURL + "programmes" + restQueryString(parameters, theValues, sendValues);
         String url = GlobalValues.baseURL + "program" + restQueryString(parameters, theValues, sendValues);
+        url = "https://cdn.rawgit.com/ficiverson/66baa598a246a812710b25519247183c/raw/43b760aac6a1ac6947c0840e4e6afdd19c53866c/program.json";
 
         ResponseEntity<ResponseProgramDTO> response = null;
 

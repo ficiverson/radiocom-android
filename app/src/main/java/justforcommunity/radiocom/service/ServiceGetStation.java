@@ -66,6 +66,7 @@ public class ServiceGetStation extends ServiceBase {
         List<Object> sendValues = new ArrayList<Object>();
 
         String url = GlobalValues.baseURL + "radiostation" + restQueryString(parameters, theValues, sendValues);
+        url = "https://cdn.rawgit.com/ficiverson/66825ca3a0ac74db67515595be7a9429/raw/bb5044afd0681e0e75508e2a476c1f3b140a42a8/station.json";
 
         ResponseEntity<ResponseStationDTO> response = null;
 

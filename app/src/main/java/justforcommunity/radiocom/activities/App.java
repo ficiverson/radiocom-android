@@ -54,7 +54,7 @@ public class App extends Application {
     synchronized public Tracker getDefaultTracker() {
         if (mTracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-            mTracker = analytics.newTracker("UA-86927262-1");
+            mTracker = analytics.newTracker("UA-86927262-4");
         }
         return mTracker;
     }

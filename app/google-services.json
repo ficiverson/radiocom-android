@@ -1,27 +1,34 @@
 {
   "project_info": {
-    "project_number": "355481542970",
-    "project_id": "firebase-radiocom"
+    "project_number": "268746913268",
+    "firebase_url": "https://cuac-fm.firebaseio.com",
+    "project_id": "cuac-fm",
+    "storage_bucket": "cuac-fm.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:355481542970:android:379ffbe469d8d98d",
+        "mobilesdk_app_id": "1:268746913268:android:b6cfcc5c4759ce15",
         "android_client_info": {
-          "package_name": "justforcommunity.radiocom"
+          "package_name": "com.app.cuacfm.radio.coruna"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "268746913268-ss01qbhv04opa7n2fb0q4eai7gkskhvs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyAU-cNJ62puSOFGpNAgHboNfZV9kh8g7pc"
+          "current_key": "AIzaSyCfTjBJuzlzKVTyACCqc4LWdPpNNTDDmrE"
         }
       ],
       "services": {
         "analytics_service": {
           "status": 2,
           "analytics_property": {
-            "tracking_id": "UA-86927262-1"
+            "tracking_id": "UA-86927262-4"
           }
         },
         "appinvite_service": {
@@ -29,7 +36,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
