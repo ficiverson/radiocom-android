@@ -47,6 +47,7 @@ import static justforcommunity.radiocom.utils.GlobalValues.MEMBERS;
 import static justforcommunity.radiocom.utils.GlobalValues.NOTIFICATION_COUNT;
 import static justforcommunity.radiocom.utils.GlobalValues.REPORT;
 import static justforcommunity.radiocom.utils.GlobalValues.addToken;
+import static justforcommunity.radiocom.utils.GlobalValues.membersURL;
 
 public class MessagingService extends FirebaseMessagingService {
 
@@ -83,7 +84,7 @@ public class MessagingService extends FirebaseMessagingService {
                     intent.putExtra("title", "");
                     intent.putExtra("notificationSkip", true);
                     intent.putExtra("stopService", true);
-                    intent.putExtra(MEMBERS, GlobalValues.membersAPI + addToken);
+                    intent.putExtra(MEMBERS, membersURL + GlobalValues.membersAPI + addToken);
                     break;
 
                 default:

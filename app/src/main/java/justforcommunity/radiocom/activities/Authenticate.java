@@ -53,6 +53,7 @@ import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.task.GetAccount;
 
 import static justforcommunity.radiocom.utils.FileUtils.processBuilder;
+import static justforcommunity.radiocom.utils.GlobalValues.membersURL;
 import static justforcommunity.radiocom.utils.GlobalValues.signupURL;
 
 public class Authenticate extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
@@ -199,7 +200,7 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
                 startActivity(new Intent(this, ResetPassword.class));
                 break;
             case R.id.signup_button:
-                processBuilder(mContext, this, signupURL);
+                processBuilder(mContext, this, membersURL + signupURL);
                 break;
         }
     }

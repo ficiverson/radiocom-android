@@ -44,6 +44,7 @@ import static justforcommunity.radiocom.utils.GlobalValues.JSON_REPORT;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
 import static justforcommunity.radiocom.utils.GlobalValues.addToken;
 import static justforcommunity.radiocom.utils.GlobalValues.createReportURL;
+import static justforcommunity.radiocom.utils.GlobalValues.membersURL;
 import static justforcommunity.radiocom.utils.GlobalValues.sendAnswerReportURL;
 
 public class ServiceReports extends ServiceBase {
@@ -54,7 +55,7 @@ public class ServiceReports extends ServiceBase {
 
     public List<ReportDTO> getReports(String restURL) throws RestClientException, WebServiceStatusFailException {
 
-        String url = restURL + addToken + getTokenFirebase();
+        String url = membersURL + restURL + addToken + getTokenFirebase();
         ResponseEntity<String> response;
 
         try {
@@ -94,7 +95,7 @@ public class ServiceReports extends ServiceBase {
             body.add("photos", photosJson);
             request = new HttpEntity<Object>(body, getRequestHeaders());
 
-            response = getRestTemplate().exchange(createReportURL, HttpMethod.POST, request, String.class);
+            response = getRestTemplate().exchange(membersURL + createReportURL, HttpMethod.POST, request, String.class);
 
             if (response.getStatusCode() != HttpStatus.CREATED) {
                 throw new WebServiceStatusFailException();
@@ -115,7 +116,7 @@ public class ServiceReports extends ServiceBase {
 
         ReportDTO report;
 
-        String url = sendAnswerReportURL + reportId;
+        String url = membersURL + sendAnswerReportURL + reportId;
         ResponseEntity<String> response;
 
         try {

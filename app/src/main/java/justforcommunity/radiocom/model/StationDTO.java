@@ -25,6 +25,7 @@ import justforcommunity.radiocom.utils.GlobalValues;
 
 public class StationDTO {
 
+    private String membersURL;
     private String big_icon_url;
     private String history;
     private String icon_url;
@@ -37,6 +38,14 @@ public class StationDTO {
     private String facebook_url;
     private String twitter_url;
     private int launch_screen=0;
+
+    public String getMembersURL() {
+        return membersURL;
+    }
+
+    public void setMembersURL(String membersURL) {
+        this.membersURL = membersURL;
+    }
 
     public String getBig_icon_url() {
         return big_icon_url;

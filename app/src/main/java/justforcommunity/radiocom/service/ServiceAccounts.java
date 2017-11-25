@@ -37,6 +37,7 @@ import static justforcommunity.radiocom.task.FirebaseUtils.getTokenFirebase;
 import static justforcommunity.radiocom.utils.GlobalValues.accountURL;
 import static justforcommunity.radiocom.utils.GlobalValues.addDeviceToken;
 import static justforcommunity.radiocom.utils.GlobalValues.addToken;
+import static justforcommunity.radiocom.utils.GlobalValues.membersURL;
 
 public class ServiceAccounts extends ServiceBase {
 
@@ -46,7 +47,7 @@ public class ServiceAccounts extends ServiceBase {
 
     public AccountDTO getAccount() throws RestClientException, WebServiceStatusFailException {
 
-        String url = accountURL + addToken + getTokenFirebase() + addDeviceToken + FirebaseInstanceId.getInstance().getToken();
+        String url = membersURL + accountURL + addToken + getTokenFirebase() + addDeviceToken + FirebaseInstanceId.getInstance().getToken();
         ResponseEntity<AccountDTO> response;
 
         try {

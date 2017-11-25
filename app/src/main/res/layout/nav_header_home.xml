@@ -59,6 +59,7 @@
                 android:src="@drawable/logo_nav_header" />
 
             <ImageView
+                android:visibility="gone"
                 android:id="@+id/nav_authenticate"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -66,7 +67,6 @@
                 android:gravity="center_horizontal"
                 android:clickable="true"
                 android:src="@drawable/user" />
-
         </LinearLayout>
 
     <TextView

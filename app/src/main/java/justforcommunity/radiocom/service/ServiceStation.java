@@ -36,6 +36,7 @@ import java.util.Locale;
 import justforcommunity.radiocom.model.StationDTO;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
 
+import static justforcommunity.radiocom.utils.GlobalValues.membersURL;
 import static justforcommunity.radiocom.utils.GlobalValues.radioStationURL;
 
 public class ServiceStation extends ServiceBase {
@@ -46,7 +47,6 @@ public class ServiceStation extends ServiceBase {
 
     public StationDTO getStation() throws RestClientException, WebServiceStatusFailException {
 
-        String url = radioStationURL;
         ResponseEntity<StationDTO> response;
 
         try {
@@ -57,7 +57,7 @@ public class ServiceStation extends ServiceBase {
             converter.setSupportedMediaTypes(Collections.singletonList(MediaType.TEXT_PLAIN));
             getRestTemplate().getMessageConverters().add(converter);
 
-            response = getRestTemplate().exchange(url, HttpMethod.GET, request, StationDTO.class);
+            response = getRestTemplate().exchange( membersURL + radioStationURL, HttpMethod.GET, request, StationDTO.class);
             if (response.getStatusCode() != HttpStatus.OK) {
                 throw new WebServiceStatusFailException();
             }

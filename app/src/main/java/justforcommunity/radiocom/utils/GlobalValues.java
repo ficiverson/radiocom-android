@@ -33,16 +33,16 @@ public class GlobalValues {
     public static final String baseURLCUACWEB = baseURLWEB + "asociacion-cuac/historia/";
 
     ///////////////    RADIOCO   ///////////////////////////
-    public static final String radiocoURL = baseURLWEB + "radioco-beta/";
+    public static final String radiocoURL = baseURLWEB + "radioco/";
     public static final String radioStationURL = radiocoURL + "api/2/radiocom/radiostation";
     public static final String programmesURL = radiocoURL + "api/2/radiocom/programmes";
     public static final String transmissionsURL = radiocoURL + "api/2/radiocom/transmissions";
     public static final String transmissionNowURL = radiocoURL + "api/2/radiocom/transmissions/now";
 
     ///////////////    MEMBERS   ///////////////////////////
-    public static final String membersURL = baseURLWEB + "members/";
-    public static final String signupURL = membersURL + "signup";
-    public static final String membersAPI = membersURL + "api/";
+    public static String membersURL = "";
+    public static final String signupURL = "signup";
+    public static final String membersAPI = "api/";
 
     // Reports
     public static final String reportsURL = membersAPI + "reportList/";

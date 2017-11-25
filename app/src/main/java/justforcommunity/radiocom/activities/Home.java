@@ -82,6 +82,8 @@ import static justforcommunity.radiocom.utils.GlobalValues.MEMBERS;
 import static justforcommunity.radiocom.utils.GlobalValues.ROLE_BOOK;
 import static justforcommunity.radiocom.utils.GlobalValues.ROLE_REPORT;
 import static justforcommunity.radiocom.utils.GlobalValues.addToken;
+import static justforcommunity.radiocom.utils.GlobalValues.membersAPI;
+import static justforcommunity.radiocom.utils.GlobalValues.membersURL;
 import static justforcommunity.radiocom.utils.GlobalValues.radiocoURL;
 
 public class Home extends FirebaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -147,7 +149,10 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         }
 
         // Refresh user
-        new GetAccount(mContext, this).execute();
+        if (station.getMembersURL() != null) {
+            GlobalValues.membersURL = station.getMembersURL();
+            new GetAccount(mContext, this).execute();
+        }
 
         //Load the fragment with the server configuration
         switch (station.getLaunch_screen()) {
@@ -189,7 +194,6 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
             processBuilder(mContext, this, getIntent().getStringExtra(MEMBERS) + token);
         }
     }
-
 
     @Override
     public void onStart() {
@@ -334,16 +338,18 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         }
 
         //Set the ontouch listener nav_authenticate
-        nav_authenticate = (ImageView) findViewById(R.id.nav_authenticate);
-        if (nav_authenticate != null) {
-            nav_authenticate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    loadAuthenticate();
-                }
-            });
+        if (station.getMembersURL() != null) {
+            nav_authenticate = (ImageView) findViewById(R.id.nav_authenticate);
+            if (nav_authenticate != null) {
+                nav_authenticate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        loadAuthenticate();
+                    }
+                });
+            }
+            changeUserImage();
         }
-        changeUserImage();
         return true;
     }
 
@@ -402,7 +408,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                 loadBook();
                 break;
             case R.id.nav_members:
-                processBuilder(mContext, this, GlobalValues.membersAPI + addToken + token);
+                processBuilder(mContext, this, membersURL + membersAPI + addToken + token);
                 break;
             case R.id.nav_radioco:
                 processBuilder(mContext, this, radiocoURL + addToken + token);
@@ -630,18 +636,17 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         accountDTO = new Gson().fromJson(prefs.getString(JSON_ACCOUNT, ""), AccountDTO.class);
 
         if (accountDTO != null) {
-
             // Get firebase token
             new FirebaseUtils(this).execute();
 
             // Shown or gone buttons in menu
             navigationView.getMenu().findItem(R.id.management).setVisible(true);
-            if (accountDTO != null && accountDTO.getPermissions().contains(ROLE_REPORT)) {
+            if (accountDTO.getPermissions().contains(ROLE_REPORT)) {
                 navigationView.getMenu().findItem(R.id.nav_report).setVisible(true);
             } else {
                 navigationView.getMenu().findItem(R.id.nav_report).setVisible(false);
             }
-            if (accountDTO != null && accountDTO.getPermissions().contains(ROLE_BOOK)) {
+            if (accountDTO.getPermissions().contains(ROLE_BOOK)) {
                 navigationView.getMenu().findItem(R.id.nav_book).setVisible(true);
             } else {
                 navigationView.getMenu().findItem(R.id.nav_book).setVisible(false);
@@ -649,12 +654,14 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         } else {
             navigationView.getMenu().findItem(R.id.management).setVisible(false);
         }
-
         changeUserImage();
     }
 
     private void changeUserImage() {
+
         if (nav_authenticate != null) {
+            nav_authenticate.setVisibility(View.VISIBLE);
+
             if (accountDTO != null) {
                 // Maybe put personal photo user
                 nav_authenticate.setImageResource(R.drawable.user_active);
@@ -663,7 +670,6 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
             }
         }
     }
-
 
     public void setTransmissionDTO(LiveBroadcastDTO liveBroadcastDTO) {
         audioIntent = new Intent(Home.this, StreamingService.class);

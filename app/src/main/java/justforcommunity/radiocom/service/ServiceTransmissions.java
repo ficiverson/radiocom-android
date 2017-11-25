@@ -39,6 +39,7 @@ import java.util.Locale;
 import justforcommunity.radiocom.model.LiveBroadcastDTO;
 import justforcommunity.radiocom.service.exceptions.WebServiceStatusFailException;
 
+import static justforcommunity.radiocom.utils.GlobalValues.membersURL;
 import static justforcommunity.radiocom.utils.GlobalValues.transmissionNowURL;
 import static justforcommunity.radiocom.utils.GlobalValues.transmissionsURL;
 
@@ -56,7 +57,7 @@ public class ServiceTransmissions extends ServiceBase {
         try {
             HttpEntity<?> request = new HttpEntity<Object>(getRequestHeaders());
 
-            response = getRestTemplate().exchange(transmissionNowURL, HttpMethod.GET, request, String.class);
+            response = getRestTemplate().exchange( membersURL + transmissionNowURL, HttpMethod.GET, request, String.class);
             if (response.getStatusCode() != HttpStatus.OK) {
                 throw new WebServiceStatusFailException();
             }

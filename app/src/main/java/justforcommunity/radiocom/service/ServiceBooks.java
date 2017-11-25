@@ -47,6 +47,7 @@ import static justforcommunity.radiocom.utils.GlobalValues.JSON_BOOK;
 import static justforcommunity.radiocom.utils.GlobalValues.MANAGE;
 import static justforcommunity.radiocom.utils.GlobalValues.addToken;
 import static justforcommunity.radiocom.utils.GlobalValues.createBookURL;
+import static justforcommunity.radiocom.utils.GlobalValues.membersURL;
 import static justforcommunity.radiocom.utils.GlobalValues.sendAnswerBookURL;
 
 public class ServiceBooks extends ServiceBase {
@@ -57,7 +58,7 @@ public class ServiceBooks extends ServiceBase {
 
     public List<BookDTO> getBooks(String restURL) throws RestClientException, WebServiceStatusFailException {
 
-        String url = restURL + addToken + getTokenFirebase();
+        String url = membersURL + restURL + addToken + getTokenFirebase();
         ResponseEntity<String> response;
 
         try {
