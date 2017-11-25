@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright © 2016 @ Fernando Souto González
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -25,14 +23,12 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.WindowCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -40,18 +36,12 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 
-import java.util.List;
-
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.adapters.StationPhotosPagerAdapter;
 import justforcommunity.radiocom.model.StationDTO;
 import justforcommunity.radiocom.utils.GlobalValues;
 
-
-/**
- * Created by iver on 5/9/16.
- */
-public class Gallery extends AppCompatActivity{
+public class Gallery extends AppCompatActivity {
 
     private Gallery mActivity;
     private Context mContext;
@@ -66,12 +56,9 @@ public class Gallery extends AppCompatActivity{
 
         supportRequestWindowFeature(AppCompatDelegate.FEATURE_SUPPORT_ACTION_BAR_OVERLAY);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_gallery);
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -85,21 +72,18 @@ public class Gallery extends AppCompatActivity{
             }
         });
 
-
-        mActivity =this;
+        mActivity = this;
         mContext = this;
-
 
         prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         edit = prefs.edit();
 
         String jsonStation = getIntent().getStringExtra(GlobalValues.EXTRA_MESSAGE);
         Gson gson = new Gson();
-        if(jsonStation!=null && jsonStation!="") {
+        if (jsonStation != null && jsonStation != "") {
             station = gson.fromJson(jsonStation, StationDTO.class);
-        }
-        else{
-            station = gson.fromJson(prefs.getString("jsonStation",""),StationDTO.class);
+        } else {
+            station = gson.fromJson(prefs.getString("jsonStation", ""), StationDTO.class);
         }
 
         getSupportActionBar().setTitle(mContext.getString(R.string.action_gallery));
@@ -127,21 +111,20 @@ public class Gallery extends AppCompatActivity{
             }
         });
 
-        App appliaction = (App) getApplication();
-        Tracker mTracker = appliaction.getDefaultTracker();
+        App application = (App) getApplication();
+        Tracker mTracker = application.getDefaultTracker();
         mTracker.setScreenName(getString(R.string.gallery_activity));
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         GoogleAnalytics.getInstance(this).reportActivityStart(this);
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
         super.onStop();
     }
@@ -162,15 +145,13 @@ public class Gallery extends AppCompatActivity{
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        switch(id){
-
+        switch (id) {
             case R.id.home:
                 finish();
                 break;
             default:
                 return true;
         }
-
 
         return super.onOptionsItemSelected(item);
     }

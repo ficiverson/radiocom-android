@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright (C) 2016 @ Fernando Souto González
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -28,9 +26,6 @@ import android.widget.FrameLayout;
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.views.discrollview.Discrollvable;
 
-/**
- *
- */
 public class DiscrollvableRedLayout extends FrameLayout implements Discrollvable {
 
     private static final String TAG = "DiscrollvableRedLayout";
@@ -68,12 +63,12 @@ public class DiscrollvableRedLayout extends FrameLayout implements Discrollvable
 
     @Override
     public void onDiscrollve(float ratio) {
-        if(ratio <= 0.65f) {
-            mRedView1.setTranslationY(-1 * (mRedView1.getHeight()/1.5f) * (ratio / 0.65f));
+        if (ratio <= 0.65f) {
+            mRedView1.setTranslationY(-1 * (mRedView1.getHeight() / 1.5f) * (ratio / 0.65f));
         } else {
             float rratio = (ratio - 0.65f) / 0.35f;
             rratio = Math.min(rratio, 1.0f);
-            mRedView1.setTranslationY(-1 * (mRedView1.getHeight()/1.5f));
+            mRedView1.setTranslationY(-1 * (mRedView1.getHeight() / 1.5f));
             mRedView2.setAlpha(1 * rratio);
             mRedView2.setScaleX(1.0f * rratio);
             mRedView2.setScaleY(1.0f * rratio);

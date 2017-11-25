@@ -1,8 +1,7 @@
 /*
  *
  *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright (C) 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -32,45 +31,39 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-
-/**
- * Created by iver on 7/3/16.
- */
-
 public class ServiceBase {
-
 
     protected static final String PARAM_FORMAT = "_format";
 
-    protected Locale _idioma;
+    protected Locale _language;
     private HttpHeaders _requestHeaders;
     private RestTemplate _restTemplate;
 
-    public ServiceBase(Locale idioma) {
-        _idioma = idioma;
+    public ServiceBase(Locale language) {
+        _language = language;
         _requestHeaders = new HttpHeaders();
         _restTemplate = new RestTemplate();
 
         if (_restTemplate.getRequestFactory() instanceof SimpleClientHttpRequestFactory) {
-            SimpleClientHttpRequestFactory  rf = (SimpleClientHttpRequestFactory)_restTemplate.getRequestFactory();
-            rf.setReadTimeout(20*1000); // 20 seconds
-            rf.setConnectTimeout(20*1000); // 20 seconds
+            SimpleClientHttpRequestFactory rf = (SimpleClientHttpRequestFactory) _restTemplate.getRequestFactory();
+            rf.setReadTimeout(20 * 1000); // 20 seconds
+            rf.setConnectTimeout(20 * 1000); // 20 seconds
         } else if (_restTemplate.getRequestFactory() instanceof HttpComponentsClientHttpRequestFactory) {
-            HttpComponentsClientHttpRequestFactory rf = (HttpComponentsClientHttpRequestFactory)_restTemplate.getRequestFactory();
-            rf.setReadTimeout(20*1000); // 20 seconds
-            rf.setConnectTimeout(20*1000); // 20 seconds
+            HttpComponentsClientHttpRequestFactory rf = (HttpComponentsClientHttpRequestFactory) _restTemplate.getRequestFactory();
+            rf.setReadTimeout(20 * 1000); // 20 seconds
+            rf.setConnectTimeout(20 * 1000); // 20 seconds
         }
     }
 
     /**
      * Establece las cabeceras por defecto de todas las llamadas a los servicios web.
+     *
      * @param cabeceras Cabeceras para la peticiÃ³n HTTP.
      */
-    protected void agregarCabeceras(HttpHeaders cabeceras)
-    {
-        cabeceras.setAccept(Collections.singletonList(new MediaType("application","json")));
+    protected void agregarCabeceras(HttpHeaders cabeceras) {
+        cabeceras.setAccept(Collections.singletonList(new MediaType("application", "json")));
         cabeceras.setAcceptCharset(Collections.singletonList(Charset.forName("UTF-8")));
-        cabeceras.setAcceptLanguage(_idioma.getLanguage());
+        cabeceras.setAcceptLanguage(_language.getLanguage());
         //cabeceras.add("Api-Key", API_KEY);
         //cabeceras.setContentType(new MediaType("multipart", "form-data"));
         //cabeceras.setContentType(new MediaType("application", "x-www-form-urlencoded"));
@@ -78,11 +71,11 @@ public class ServiceBase {
     }
 
     protected Locale getIdioma() {
-        return _idioma;
+        return _language;
     }
 
     protected void setIdioma(Locale idioma) {
-        this._idioma = idioma;
+        this._language = idioma;
     }
 
     protected HttpHeaders getRequestHeaders() {

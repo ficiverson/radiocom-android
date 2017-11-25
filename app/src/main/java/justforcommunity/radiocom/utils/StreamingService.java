@@ -1,8 +1,7 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright © 2016 @ Fernando Souto González
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -20,7 +19,6 @@
 
 package justforcommunity.radiocom.utils;
 
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -30,14 +28,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.res.ResourcesCompat;
-
+import android.util.Log;
 
 import com.google.android.exoplayer.ExoPlayer;
 import com.google.android.exoplayer.MediaCodecAudioTrackRenderer;
@@ -48,17 +43,15 @@ import com.google.android.exoplayer.upstream.DefaultAllocator;
 import com.google.android.exoplayer.upstream.DefaultUriDataSource;
 import com.google.android.exoplayer.util.Util;
 
-import java.io.IOException;
-
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.Home;
 
 public class StreamingService extends Service {
     private int NOTIFICATION = 1034;
     private String audio;
-    private String title, text;
+    private String title, text, logo_url;
+    private byte[] logo;
     private NotificationManager mNM;
-    private int total;
     public SharedPreferences prefs;
     public SharedPreferences.Editor edit;
 
@@ -92,7 +85,13 @@ public class StreamingService extends Service {
         pauseIntent.putExtra("stopService", true);
         PendingIntent pauseIntentPending = PendingIntent.getActivity(this, 3, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        Bitmap myIcon;
+        if (logo != null) {
+            myIcon = BitmapFactory.decodeByteArray(logo, 0, logo.length);
+        } else {
+            myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        }
+
         int smallIconId = 0;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             smallIconId = R.drawable.notification_transparent;
@@ -148,12 +147,14 @@ public class StreamingService extends Service {
         Intent i = new Intent(StreamingService.this, PodcastingService.class);
         stopService(i);
 
-        if(paramIntent!=null) {
+        if (paramIntent != null) {
             this.audio = paramIntent.getStringExtra("audio");
             this.title = paramIntent.getStringExtra("title");
             this.text = paramIntent.getStringExtra("text");
-
+            this.logo_url = paramIntent.getStringExtra("logo_url");
+            this.logo = paramIntent.getByteArrayExtra("logo");
             this.mNM = ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE));
+
             try {
                 // String with the url of the radio you want to play
                 Uri radioUri = Uri.parse(audio);
@@ -168,9 +169,8 @@ public class StreamingService extends Service {
                 exoPlayer.setPlayWhenReady(true);
 
                 showNotification(text, title);
-            }
-            catch (Exception e){
-
+            } catch (Exception e) {
+                Log.d("Streaming", "onStart", e);
             }
         }
 
@@ -178,12 +178,12 @@ public class StreamingService extends Service {
 
 
     private void destroyMediaPlayerAndNotification() {
-        if(exoPlayer!=null) {
+        if (exoPlayer != null) {
             exoPlayer.stop();
             exoPlayer.release();
-            exoPlayer=null;
+            exoPlayer = null;
         }
-        if(mNM!=null) {
+        if (mNM != null) {
             this.mNM.cancel(1034);
         }
 

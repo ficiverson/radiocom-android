@@ -1,8 +1,7 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright © 2016 @ Fernando Souto González
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -21,81 +20,59 @@
 package justforcommunity.radiocom.task;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
-import org.springframework.web.client.RestClientException;
+import com.google.gson.Gson;
 
 import java.util.List;
 import java.util.Locale;
 
-import justforcommunity.radiocom.activities.Home;
-import justforcommunity.radiocom.activities.Splash;
 import justforcommunity.radiocom.fragments.PodcastPageFragment;
 import justforcommunity.radiocom.model.ProgramDTO;
-import justforcommunity.radiocom.model.StationDTO;
-import justforcommunity.radiocom.service.ServiceGetPrograms;
-import justforcommunity.radiocom.service.ServiceGetStation;
-import justforcommunity.radiocom.utils.ConexionInternet;
+import justforcommunity.radiocom.service.ServicePrograms;
+import justforcommunity.radiocom.utils.GlobalValues;
+import justforcommunity.radiocom.utils.InternetConnection;
+
+import static justforcommunity.radiocom.utils.GlobalValues.JSON_PODCAST;
+
+public class GetPrograms extends AsyncTask<Boolean, Float, Boolean> {
+
+    private Context mContext;
+    private PodcastPageFragment fragment;
+    private ServicePrograms servicePrograms;
+    private Locale locale;
+    private List<ProgramDTO> programsDTO;
+
+    public GetPrograms(Context context, PodcastPageFragment fragment) {
+        this.fragment = fragment;
+        this.mContext = context;
+        this.locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
+        this.servicePrograms = new ServicePrograms(locale);
+    }
+
+    protected Boolean doInBackground(Boolean... urls) {
+        InternetConnection cnn = new InternetConnection();
+
+        if (cnn.isConnected(mContext)) {
+
+            try {
+                programsDTO = servicePrograms.getPrograms();
+                return true;
+            } catch (Exception e) {
+                programsDTO = null;
+            }
+        }
+        return false;
+    }
 
 
-public class GetPrograms extends AsyncTask<Boolean, Float, Boolean>{
+    protected void onPostExecute(Boolean result) {
+        if (result) {
+            fragment.listChannels(programsDTO);
+        } else {
+            fragment.resultKO();
+        }
+    }
 
-
-	private Context mContext;
-	private PodcastPageFragment fragment;
-	private ServiceGetPrograms serviceGetPrograms;
-	private Locale locale;
-	private List<ProgramDTO> programsDTO;
-
-	public GetPrograms(Context context, PodcastPageFragment fragment){
-		this.fragment = fragment;
-		this.mContext = context;
-
-		locale= new Locale(mContext.getResources().getConfiguration().locale.toString());
-		serviceGetPrograms = new ServiceGetPrograms(locale);
-		
-	}
-
-	
-	protected Boolean doInBackground(Boolean... urls) {
-		boolean res = false;
-
-
-
-
-		ConexionInternet cnn = new ConexionInternet();
-
-		if (cnn.isConnected(mContext)) {
-
-				try {
-					programsDTO = serviceGetPrograms.getPrograms().getData();
-					res = true;
-
-				} catch (RestClientException e) {
-					programsDTO = null;
-					res = false;
-				} catch (Exception e) {
-					programsDTO = null;
-					res = false;
-				}
-		}
-
-		return res;
-	}
-	
-	
-	
-	protected void onPostExecute(Boolean result){
-
-			if(result) {
-				fragment.listChannels(programsDTO);
-			}
-			else{
-				fragment.resultKO();
-			}
-
-	}
-	
-
-	
 }

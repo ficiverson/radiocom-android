@@ -1,8 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /*
-  ~  * Copyright (C) 2016 @ Fernando Souto González
-  ~  *
-  ~  * Developer Fernando Souto
+  ~  * Copyright © 2016 @ Fernando Souto González
   ~  *
   ~  * Licensed under the Apache License, Version 2.0 (the "License");
   ~  * you may not use this file except in compliance with the License.
@@ -25,5 +24,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:textAllCaps">false</item>
     </style>
+
 </resources>

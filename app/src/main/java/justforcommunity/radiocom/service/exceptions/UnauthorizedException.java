@@ -2,8 +2,6 @@
  *
  *  * Copyright (C) 2016 @ Fernando Souto González
  *  *
- *  * Developer Fernando Souto
- *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
  *  * You may obtain a copy of the License at
@@ -20,9 +18,6 @@
 
 package justforcommunity.radiocom.service.exceptions;
 
-/**
- * Created by iver on 7/3/16.
- */
 public class UnauthorizedException extends Exception {
 
 }

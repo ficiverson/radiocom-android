@@ -1,8 +1,7 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright © 2016 @ Fernando Souto González
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -19,7 +18,6 @@
  */
 
 package justforcommunity.radiocom.utils;
-
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -57,7 +55,6 @@ public class PodcastingService extends Service {
     private String audio;
     private String title, text;
     private NotificationManager mNM;
-    private int total;
     public SharedPreferences prefs;
     public SharedPreferences.Editor edit;
 
@@ -139,7 +136,7 @@ public class PodcastingService extends Service {
         Intent i = new Intent(PodcastingService.this, StreamingService.class);
         stopService(i);
 
-        if(paramIntent!=null) {
+        if (paramIntent != null) {
             this.audio = paramIntent.getStringExtra("audio");
             this.title = paramIntent.getStringExtra("title");
             this.text = paramIntent.getStringExtra("text");
@@ -158,7 +155,7 @@ public class PodcastingService extends Service {
                 // Settings for exoPlayer
                 Allocator allocator = new DefaultAllocator(BUFFER_SEGMENT_SIZE);
                 String userAgent = Util.getUserAgent(this, "ComRadioPlayer");
-                DataSource dataSource = new DefaultUriDataSource(this, null, userAgent,true);
+                DataSource dataSource = new DefaultUriDataSource(this, null, userAgent, true);
                 ExtractorSampleSource sampleSource = new ExtractorSampleSource(radioUri, dataSource, allocator, BUFFER_SEGMENT_SIZE * BUFFER_SEGMENT_COUNT);
                 audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource);
                 // Prepare ExoPlayer
@@ -166,8 +163,7 @@ public class PodcastingService extends Service {
                 exoPlayer.setPlayWhenReady(true);
 
                 showNotification(text, title);
-            }
-            catch (Exception e){
+            } catch (Exception e) {
 
             }
 
@@ -177,17 +173,17 @@ public class PodcastingService extends Service {
     }
 
     private void destroyMediaPlayerAndNotification() {
-        if(exoPlayer!=null) {
+        if (exoPlayer != null) {
             exoPlayer.stop();
             exoPlayer.release();
-            exoPlayer=null;
+            exoPlayer = null;
         }
-        if(mNM!=null) {
+        if (mNM != null) {
             this.mNM.cancel(1035);
         }
 
         //reset preference value
-        edit.putString("currentTitlePlaying","");
+        edit.putString("currentTitlePlaying", "");
         edit.putBoolean("isMediaPlaying", false);
         edit.commit();
     }

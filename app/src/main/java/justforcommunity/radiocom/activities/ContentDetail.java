@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright © 2016 @ Fernando Souto González
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -47,11 +45,7 @@ import com.google.android.gms.analytics.Tracker;
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.utils.GlobalValues;
 
-/**
- * Created by iver on 5/9/16.
- */
 public class ContentDetail extends AppCompatActivity {
-
 
     private String content;
     private WebView detail_web;
@@ -81,7 +75,7 @@ public class ContentDetail extends AppCompatActivity {
         prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         edit = prefs.edit();
 
-        detail_web = (WebView)findViewById(R.id.detail_web);
+        detail_web = (WebView) findViewById(R.id.detail_web);
 
         content = getIntent().getStringExtra(GlobalValues.EXTRA_CONTENT);
 
@@ -95,21 +89,21 @@ public class ContentDetail extends AppCompatActivity {
             WebView.setWebContentsDebuggingEnabled(true);
         }
 
-        try{
-            content = content.replaceAll("style=\".+?\"", "");}
-        catch(Exception e){
+        try {
+            content = content.replaceAll("style=\".+?\"", "");
+        } catch (Exception e) {
 
         }
 
-        String fontscript="";
-        String script = "<style type='text/css' >p{width:100%;}img{width:100%;height:auto;-webkit-transform: translate3d(0px,0px,0px);}a,h1,h2,h3,h4,h5,h6{color:"+GlobalValues.colorHTML+";}div,p,span,a {max-width: 100%;}iframe{width:100%;height:auto;}</style>";
+        String fontscript = "";
+        String script = "<style type='text/css' >p{width:100%;}img{width:100%;height:auto;-webkit-transform: translate3d(0px,0px,0px);}a,h1,h2,h3,h4,h5,h6{color:" + GlobalValues.colorHTML + ";}div,p,span,a {max-width: 100%;}iframe{width:100%;height:auto;}</style>";
 
 
-        detail_web.loadDataWithBaseURL(GlobalValues.baseURLWEB,"<html><head>"+fontscript+script+"</head><body style=\"font-family:HelveticaNeue-Light; \">"+content+"</body></html>", "text/html", "utf-8","");
+        detail_web.loadDataWithBaseURL(GlobalValues.baseURLWEB, "<html><head>" + fontscript + script + "</head><body style=\"font-family:HelveticaNeue-Light; \">" + content + "</body></html>", "text/html", "utf-8", "");
         detail_web.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
-                if ((url != null && url.startsWith("http://") )||( url != null && url.startsWith("https://") )) {
+                if ((url != null && url.startsWith("http://")) || (url != null && url.startsWith("https://"))) {
                     view.getContext().startActivity(
                             new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
                     return true;
@@ -136,13 +130,13 @@ public class ContentDetail extends AppCompatActivity {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         GoogleAnalytics.getInstance(this).reportActivityStart(this);
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         GoogleAnalytics.getInstance(this).reportActivityStop(this);
         super.onStop();
     }
@@ -174,7 +168,7 @@ public class ContentDetail extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        switch(id){
+        switch (id) {
 
             case R.id.home:
                 finish();
@@ -203,7 +197,6 @@ public class ContentDetail extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }

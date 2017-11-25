@@ -1,8 +1,7 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright © 2016 @ Fernando Souto González
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -21,80 +20,56 @@
 package justforcommunity.radiocom.task;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.util.Log;
-
-
-import org.springframework.web.client.RestClientException;
 
 import java.util.Locale;
 
 import justforcommunity.radiocom.activities.Splash;
 import justforcommunity.radiocom.model.StationDTO;
-import justforcommunity.radiocom.service.ServiceGetStation;
-import justforcommunity.radiocom.utils.ConexionInternet;
-import justforcommunity.radiocom.utils.GlobalValues;
+import justforcommunity.radiocom.service.ServiceStation;
+import justforcommunity.radiocom.utils.InternetConnection;
+
+public class GetStation extends AsyncTask<Boolean, Float, Boolean> {
 
 
-public class GetStation extends AsyncTask<Boolean, Float, Boolean>{
+    private Context mContext;
+    private Splash mActivity;
+    private ServiceStation serviceStation;
+    private Locale locale;
+    private StationDTO stationDTO;
+
+    public GetStation(Context context, Splash activity) {
+        this.mActivity = activity;
+        this.mContext = context;
+
+        locale = new Locale(mContext.getResources().getConfiguration().locale.toString());
+        serviceStation = new ServiceStation(locale);
+    }
 
 
-	private Context mContext;
-	private Splash mActivity;
-	private ServiceGetStation serviceGetStation;
-	private Locale locale;
-	private StationDTO stationDTO;
+    protected Boolean doInBackground(Boolean... urls) {
+        InternetConnection cnn = new InternetConnection();
 
-	public GetStation(Context context, Splash activity){
-		this.mActivity = activity;
-		this.mContext = context;
+        if (cnn.isConnected(mContext)) {
 
-		locale= new Locale(mContext.getResources().getConfiguration().locale.toString());
-		serviceGetStation = new ServiceGetStation(locale);
-		
-	}
+            try {
+                stationDTO = serviceStation.getStation();
+                return true;
+            } catch (Exception e) {
+                stationDTO = null;
+            }
+        }
 
-	
-	protected Boolean doInBackground(Boolean... urls) {
-		boolean res = false;
+        return false;
+    }
 
 
+    protected void onPostExecute(Boolean result) {
+        if (result) {
+            mActivity.resultOK(stationDTO);
+        } else {
+            mActivity.resultKO();
+        }
+    }
 
-
-		ConexionInternet cnn = new ConexionInternet();
-
-		if (cnn.isConnected(mContext)) {
-
-				try {
-					stationDTO = serviceGetStation.getStation().getData().get(0);//get first station
-					res = true;
-
-				} catch (RestClientException e) {
-					stationDTO = null;
-					res = false;
-				} catch (Exception e) {
-					stationDTO = null;
-					res = false;
-				}
-		}
-
-		return res;
-	}
-	
-	
-	
-	protected void onPostExecute(Boolean result){
-
-			if(result) {
-				mActivity.resultOK(stationDTO);
-			}
-			else{
-				mActivity.resultKO();
-			}
-
-	}
-	
-
-	
 }
