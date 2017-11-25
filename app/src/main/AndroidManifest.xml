@@ -89,6 +89,7 @@
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+<<<<<<< HEAD
 
         <activity
             android:name=".activities.Report"
@@ -138,6 +139,8 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+=======
+>>>>>>> development
         <service
             android:name=".utils.StreamingService"
             android:configChanges="orientation|screenSize"
@@ -149,6 +152,7 @@
             android:configChanges="orientation|screenSize"
             android:stopWithTask="false"
             android:enabled="true" />
+<<<<<<< HEAD
 
         <service
             android:name=".utils.MessagingService">
@@ -162,6 +166,8 @@
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_launcher" />
 
+=======
+>>>>>>> development
     </application>
 
 </manifest>

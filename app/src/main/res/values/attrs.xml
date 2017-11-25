@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <!--
   ~ /*
   ~  * Copyright © 2016 @ Fernando Souto González
@@ -18,6 +19,8 @@
   ~  */
   -->
 
+=======
+>>>>>>> development
 <resources>
     <declare-styleable name="DiscrollView_LayoutParams">
         <attr name="discrollve_alpha" format="boolean"/>

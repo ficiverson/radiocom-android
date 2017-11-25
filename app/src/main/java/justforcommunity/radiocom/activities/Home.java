@@ -40,6 +40,10 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+<<<<<<< HEAD
+=======
+import android.support.v7.app.AppCompatActivity;
+>>>>>>> development
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -99,10 +103,13 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     private Boolean isSearchable = false;
     private SearchView mSearchView;
     private String mSearchQuery;
+<<<<<<< HEAD
     private ImageView nav_authenticate;
     private AccountDTO accountDTO;
     private String token;
     private Intent audioIntent;
+=======
+>>>>>>> development
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -280,7 +287,11 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+<<<<<<< HEAD
         if (!isSearchable) {
+=======
+        if(!isSearchable) {
+>>>>>>> development
             getMenuInflater().inflate(R.menu.home, menu);
         } else {
             getMenuInflater().inflate(R.menu.home_search, menu);
@@ -305,7 +316,10 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                 public boolean onMenuItemActionCollapse(MenuItem item) {
                     return true;
                 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
                 @Override
                 public boolean onMenuItemActionExpand(MenuItem item) {
                     if (mSearchQuery != null && !mSearchQuery.isEmpty()) {
@@ -329,7 +343,10 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                     mSearchView.setQuery(mSearchQuery, false);
                     return false;
                 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
                 @Override
                 public boolean onQueryTextChange(String newText) {
                     return true;
@@ -337,6 +354,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
             });
         }
 
+<<<<<<< HEAD
         //Set the ontouch listener nav_authenticate
         if (station.getMembersURL() != null) {
             nav_authenticate = (ImageView) findViewById(R.id.nav_authenticate);
@@ -359,6 +377,16 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                 ((FilterFragment) fragment).filterDataSearch(query);
                 return;
             }
+=======
+
+        return true;
+    }
+
+    public void filterSearch(String query){
+        PodcastPageFragment currentFragment = (PodcastPageFragment)getSupportFragmentManager().findFragmentByTag(mContext.getString(R.string.action_podcast));
+        if (currentFragment != null && currentFragment.isVisible()) {
+            currentFragment.filterDataSearch(query);
+>>>>>>> development
         }
     }
 
@@ -476,9 +504,15 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     public void loadNews() {
         isSearchable = false;
         invalidateOptionsMenu();
+<<<<<<< HEAD
         NewsPageFragment newsFragment = new NewsPageFragment();
         newsFragment.setStation(station);
         processFragment(newsFragment, mContext.getString(R.string.action_news));
+=======
+        NewsPageFragment noticiasFragment = new NewsPageFragment();
+        noticiasFragment.setStation(station);
+        processFragment(noticiasFragment, mContext.getString(R.string.action_news));
+>>>>>>> development
     }
 
     public void loadPodcast() {
@@ -625,7 +659,11 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
 
     private void processFragment(Fragment fragment, String title) {
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+<<<<<<< HEAD
         fragmentTransaction.replace(R.id.content_frame, fragment, title);
+=======
+        fragmentTransaction.replace(R.id.content_frame, fragment,title);
+>>>>>>> development
         fragmentTransaction.commit();
         getSupportActionBar().setTitle(title);
     }
