@@ -28,7 +28,6 @@ public class GlobalValues {
     //configurations you con update
     public static final String prefName = "commradio";
 
-    //public static final String baseURL = "http://radiocom.stamplayapp.com/api/cobject/v1/";
     public static final String baseURLWEB = "https://cuacfm.org/";
     public static final String baseURLCUACWEB = baseURLWEB + "asociacion-cuac/historia/";
 

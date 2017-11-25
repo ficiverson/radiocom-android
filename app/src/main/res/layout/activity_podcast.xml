@@ -68,7 +68,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_podcast_scrolling" />
-    <include layout="@layout/content_podcast_info" />
+    <include layout="@layout/content_podcast_info"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_info"

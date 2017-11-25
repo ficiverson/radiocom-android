@@ -115,7 +115,7 @@ public class Authenticate extends AppCompatActivity implements GoogleApiClient.O
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken("268746913268-ss01qbhv04opa7n2fb0q4eai7gkskhvs.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 

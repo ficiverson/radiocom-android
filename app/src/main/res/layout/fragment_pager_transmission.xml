@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ /*
   ~  * Copyright © 2017 @ Pablo Grela
   ~  *
@@ -18,20 +17,21 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
 
     <justforcommunity.radiocom.views.SlidingTabLayout
-          android:id="@+id/sliding_tabs"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content" />
+        android:id="@+id/sliding_tabs"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <android.support.v4.view.ViewPager
-          android:id="@+id/viewpager"
-          android:layout_width="match_parent"
-          android:layout_height="0px"
-          android:layout_weight="1"
-          android:background="@android:color/white" />
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white" />
 
 </LinearLayout>

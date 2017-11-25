@@ -45,28 +45,7 @@ public class ServiceStation extends ServiceBase {
         super(language);
     }
 
-<<<<<<< HEAD:app/src/main/java/justforcommunity/radiocom/service/ServiceGetStation.java
-    /**
-
-     */
-    public ResponseStationDTO getStation()
-            throws RestClientException, WebServiceStatusFailException
-    {
-
-
-        Object[] theValues = {
-        };
-        String[] parameters = {
-        };
-
-
-        List<Object> sendValues = new ArrayList<Object>();
-
-        String url = GlobalValues.baseURL + "radiostation" + restQueryString(parameters, theValues, sendValues);
-        url = "https://cdn.rawgit.com/ficiverson/66825ca3a0ac74db67515595be7a9429/raw/bb5044afd0681e0e75508e2a476c1f3b140a42a8/station.json";
-=======
     public StationDTO getStation() throws RestClientException, WebServiceStatusFailException {
->>>>>>> pr/10:app/src/main/java/justforcommunity/radiocom/service/ServiceStation.java
 
         ResponseEntity<StationDTO> response;
 

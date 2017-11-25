@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 /*
  *
  *  * Copyright © 2016 @ Fernando Souto González
@@ -18,10 +16,6 @@
  *
  */
 
-=======
->>>>>>> development
-=======
->>>>>>> development
 package justforcommunity.radiocom.views.discrollview;
 
 import android.content.Context;
@@ -33,18 +27,6 @@ import android.widget.LinearLayout;
 
 import justforcommunity.radiocom.R;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-/**
- *
- */
->>>>>>> development
-=======
-/**
- *
- */
->>>>>>> development
 public class DiscrollViewContent extends LinearLayout {
 
     public DiscrollViewContent(Context context) {
@@ -68,15 +50,7 @@ public class DiscrollViewContent extends LinearLayout {
     }
 
     private View asDiscrollvable(View child, LayoutParams lp) {
-<<<<<<< HEAD
-<<<<<<< HEAD
         if (!isDiscrollvable(lp)) {
-=======
-        if(! isDiscrollvable(lp)) {
->>>>>>> development
-=======
-        if(! isDiscrollvable(lp)) {
->>>>>>> development
             return child;
         }
         DiscrollvableView discrollvableChild = new DiscrollvableView(getContext());
@@ -93,23 +67,10 @@ public class DiscrollViewContent extends LinearLayout {
 
     private boolean isDiscrollvable(LayoutParams lp) {
         return lp.mDiscrollveAlpha ||
-<<<<<<< HEAD
-<<<<<<< HEAD
                 lp.mDiscrollveTranslation != -1 ||
                 lp.mDiscrollveScaleX ||
                 lp.mDiscrollveScaleY ||
                 (lp.mDiscrollveFromBgColor != -1 && lp.mDiscrollveToBgColor != -1);
-=======
-=======
->>>>>>> development
-               lp.mDiscrollveTranslation != -1 ||
-               lp.mDiscrollveScaleX ||
-               lp.mDiscrollveScaleY ||
-               (lp.mDiscrollveFromBgColor != -1 && lp.mDiscrollveToBgColor != -1);
-<<<<<<< HEAD
->>>>>>> development
-=======
->>>>>>> development
     }
 
     @Override

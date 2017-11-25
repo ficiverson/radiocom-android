@@ -35,10 +35,6 @@
             android:id="@+id/nav_emision"
             android:icon="@drawable/streaming"
             android:title="@string/action_streaming" />
-        <item
-            android:id="@+id/nav_scheduler"
-            android:icon="@drawable/scheduler"
-            android:title="@string/action_scheduler" />
     </group>
 
     <group
@@ -48,6 +44,10 @@
             android:id="@+id/nav_news"
             android:icon="@drawable/news"
             android:title="@string/action_news" />
+        <item
+            android:id="@+id/nav_scheduler"
+            android:icon="@drawable/scheduler"
+            android:title="@string/action_scheduler" />
         <item
             android:id="@+id/nav_podcast"
             android:icon="@drawable/podcast"

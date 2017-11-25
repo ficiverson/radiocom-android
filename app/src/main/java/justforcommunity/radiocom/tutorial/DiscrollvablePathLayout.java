@@ -32,14 +32,6 @@ import android.widget.LinearLayout;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.views.discrollview.Discrollvable;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> development
-=======
-
->>>>>>> development
 
 public class DiscrollvablePathLayout extends LinearLayout implements Discrollvable {
 

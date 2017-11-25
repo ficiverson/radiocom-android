@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /*
-  ~  * Copyright © 2016 @ Appeiros Mobile Development S.L.
-  ~  *  Copyright © 2017 @ Pablo Grela
+  ~  *  Copyright © 2016 @ Fernando Souto Gonzalez
+  ~  *  Copyright © 2017 @ Pablo Grela, Fernando Souto Gonzalez
   ~  *
   ~  * Developer Fernando Souto
   ~  *
@@ -89,9 +89,6 @@
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-<<<<<<< HEAD
-<<<<<<< HEAD
-
         <activity
             android:name=".activities.Report"
             android:label="@string/report_activity"
@@ -139,11 +136,6 @@
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-
-=======
->>>>>>> development
-=======
->>>>>>> development
         <service
             android:name=".utils.StreamingService"
             android:configChanges="orientation|screenSize"
@@ -155,9 +147,6 @@
             android:configChanges="orientation|screenSize"
             android:stopWithTask="false"
             android:enabled="true" />
-<<<<<<< HEAD
-<<<<<<< HEAD
-
         <service
             android:name=".utils.MessagingService">
             <intent-filter>
@@ -170,10 +159,6 @@
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_launcher" />
 
-=======
->>>>>>> development
-=======
->>>>>>> development
     </application>
 
 </manifest>

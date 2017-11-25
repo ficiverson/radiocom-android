@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 /*
  *
  *  * Copyright © 2016 @ Fernando Souto González
@@ -18,10 +16,6 @@
  *
  */
 
-=======
->>>>>>> development
-=======
->>>>>>> development
 package justforcommunity.radiocom.views.discrollview;
 
 /**
@@ -31,13 +25,6 @@ public interface Discrollvable {
 
     /**
      * Called to discrollve the View.
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-=======
->>>>>>> development
-=======
->>>>>>> development
      * @param ratio discrollve ratio between 0.0 and 1.0.
      *              1.0 means the View is totally discrollved
      */

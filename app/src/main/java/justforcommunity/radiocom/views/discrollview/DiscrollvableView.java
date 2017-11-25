@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 /*
  *
  *  * Copyright © 2016 @ Fernando Souto González
@@ -18,10 +16,6 @@
  *
  */
 
-=======
->>>>>>> development
-=======
->>>>>>> development
 package justforcommunity.radiocom.views.discrollview;
 
 import android.animation.ArgbEvaluator;
@@ -29,31 +23,11 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-/**
- *
- */
->>>>>>> development
-=======
-/**
- *
- */
->>>>>>> development
 public class DiscrollvableView extends FrameLayout implements Discrollvable {
 
     private static final int TRANSLATION_FROM_TOP = 0x01;
     private static final int TRANSLATION_FROM_BOTTOM = 0x02;
-<<<<<<< HEAD
-<<<<<<< HEAD
     private static final int TRANSLATION_FROM_LEFT = 0x04;
-=======
-    private static final int TRANSLATION_FROM_LEFT = 0x04;;
->>>>>>> development
-=======
-    private static final int TRANSLATION_FROM_LEFT = 0x04;;
->>>>>>> development
     private static final int TRANSLATION_FROM_RIGHT = 0x08;
 
     private static ArgbEvaluator sArgbEvaluator = new ArgbEvaluator();
@@ -96,37 +70,16 @@ public class DiscrollvableView extends FrameLayout implements Discrollvable {
 
     public void setDiscrollveTranslation(int discrollveTranslation) {
         mDiscrollveTranslation = discrollveTranslation;
-<<<<<<< HEAD
-<<<<<<< HEAD
         if (isDiscrollveTranslationFrom(TRANSLATION_FROM_BOTTOM) && isDiscrollveTranslationFrom(TRANSLATION_FROM_TOP)) {
             throw new IllegalArgumentException("cannot translate from bottom and top");
         }
         if (isDiscrollveTranslationFrom(TRANSLATION_FROM_LEFT) && isDiscrollveTranslationFrom(TRANSLATION_FROM_RIGHT)) {
-=======
-=======
->>>>>>> development
-        if(isDiscrollveTranslationFrom(TRANSLATION_FROM_BOTTOM) && isDiscrollveTranslationFrom(TRANSLATION_FROM_TOP)) {
-            throw new IllegalArgumentException("cannot translate from bottom and top");
-        }
-        if(isDiscrollveTranslationFrom(TRANSLATION_FROM_LEFT) && isDiscrollveTranslationFrom(TRANSLATION_FROM_RIGHT)) {
-<<<<<<< HEAD
->>>>>>> development
-=======
->>>>>>> development
             throw new IllegalArgumentException("cannot translate from left and right");
         }
     }
 
     public void setDiscrollveThreshold(float discrollveThreshold) {
-<<<<<<< HEAD
-<<<<<<< HEAD
         if (discrollveThreshold < 0.0f || discrollveThreshold > 1.0f) {
-=======
-        if(discrollveThreshold < 0.0f || discrollveThreshold > 1.0f) {
->>>>>>> development
-=======
-        if(discrollveThreshold < 0.0f || discrollveThreshold > 1.0f) {
->>>>>>> development
             throw new IllegalArgumentException("threshold must be >= 0.0f and <= 1.0f");
         }
         mDiscrollveThreshold = discrollveThreshold;
@@ -154,8 +107,6 @@ public class DiscrollvableView extends FrameLayout implements Discrollvable {
 
     @Override
     public void onDiscrollve(float ratio) {
-<<<<<<< HEAD
-<<<<<<< HEAD
         if (ratio >= mDiscrollveThreshold) {
             ratio = withThreshold(ratio);
             float ratioInverse = 1 - ratio;
@@ -182,39 +133,6 @@ public class DiscrollvableView extends FrameLayout implements Discrollvable {
                 setScaleY(ratio);
             }
             if (mDiscrollveFromBgColor != -1 && mDiscrollveToBgColor != -1) {
-=======
-=======
->>>>>>> development
-        if(ratio >= mDiscrollveThreshold) {
-            ratio = withThreshold(ratio);
-            float ratioInverse = 1 - ratio;
-
-            if(mDiscrollveAlpha) {
-                setAlpha(ratio);
-            }
-            if(isDiscrollveTranslationFrom(TRANSLATION_FROM_BOTTOM)) {
-                setTranslationY(mHeight * ratioInverse);
-            }
-            if(isDiscrollveTranslationFrom(TRANSLATION_FROM_TOP)) {
-                setTranslationY(-mHeight * ratioInverse);
-            }
-            if(isDiscrollveTranslationFrom(TRANSLATION_FROM_LEFT)) {
-                setTranslationX(-mWidth * ratioInverse);
-            }
-            if(isDiscrollveTranslationFrom(TRANSLATION_FROM_RIGHT)) {
-                setTranslationX(mWidth * ratioInverse);
-            }
-            if(mDiscrollveScaleX) {
-                setScaleX(ratio);
-            }
-            if(mDiscrollveScaleY) {
-                setScaleY(ratio);
-            }
-            if(mDiscrollveFromBgColor != -1 && mDiscrollveToBgColor != -1) {
-<<<<<<< HEAD
->>>>>>> development
-=======
->>>>>>> development
                 setBackgroundColor((Integer) sArgbEvaluator.evaluate(ratio, mDiscrollveFromBgColor, mDiscrollveToBgColor));
             }
         }
@@ -226,8 +144,6 @@ public class DiscrollvableView extends FrameLayout implements Discrollvable {
 
     @Override
     public void onResetDiscrollve() {
-<<<<<<< HEAD
-<<<<<<< HEAD
         if (mDiscrollveAlpha) {
             setAlpha(0.0f);
         }
@@ -250,49 +166,12 @@ public class DiscrollvableView extends FrameLayout implements Discrollvable {
             setScaleY(0.0f);
         }
         if (mDiscrollveFromBgColor != -1 && mDiscrollveToBgColor != -1) {
-=======
-=======
->>>>>>> development
-        if(mDiscrollveAlpha) {
-            setAlpha(0.0f);
-        }
-        if(isDiscrollveTranslationFrom(TRANSLATION_FROM_BOTTOM)) {
-            setTranslationY(mHeight);
-        }
-        if(isDiscrollveTranslationFrom(TRANSLATION_FROM_TOP)) {
-            setTranslationY(-mHeight);
-        }
-        if(isDiscrollveTranslationFrom(TRANSLATION_FROM_LEFT)) {
-            setTranslationX(-mWidth);
-        }
-        if(isDiscrollveTranslationFrom(TRANSLATION_FROM_RIGHT)) {
-            setTranslationX(mWidth);
-        }
-        if(mDiscrollveScaleX) {
-            setScaleX(0.0f);
-        }
-        if(mDiscrollveScaleY) {
-            setScaleY(0.0f);
-        }
-        if(mDiscrollveFromBgColor != -1 && mDiscrollveToBgColor != -1) {
-<<<<<<< HEAD
->>>>>>> development
-=======
->>>>>>> development
             setBackgroundColor(mDiscrollveFromBgColor);
         }
     }
 
     private boolean isDiscrollveTranslationFrom(int translationMask) {
-<<<<<<< HEAD
-<<<<<<< HEAD
         if (mDiscrollveTranslation == -1) {
-=======
-        if(mDiscrollveTranslation == -1) {
->>>>>>> development
-=======
-        if(mDiscrollveTranslation == -1) {
->>>>>>> development
             return false;
         }
         return (mDiscrollveTranslation & translationMask) == translationMask;

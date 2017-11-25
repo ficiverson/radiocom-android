@@ -92,6 +92,8 @@ public class StreamingService extends Service {
             myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
         }
 
+        Bitmap cuacIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+
         int smallIconId = 0;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             smallIconId = R.drawable.notification_transparent;
@@ -101,12 +103,12 @@ public class StreamingService extends Service {
 
         NotificationCompat.Builder noti = new NotificationCompat.Builder(getApplicationContext())
                 .setSmallIcon(smallIconId)
-                .setLargeIcon(myIcon)
+                .setLargeIcon(cuacIcon)
                 .setColor(getResources().getColor(R.color.colorPrimary))
                 .setContentIntent(localPendingIntent)
                 .setContentTitle(this.title)
                 .setContentText(this.text)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(this.text))
+                .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(myIcon))
                 .setAutoCancel(false)
                 .addAction(R.drawable.stoppodcast, getResources().getString(R.string.drawer_item_streaming_stop), pauseIntentPending)
                 .addAction(R.drawable.exitpodcast, getResources().getString(R.string.drawer_item_streaming_close), stopIntentPending);

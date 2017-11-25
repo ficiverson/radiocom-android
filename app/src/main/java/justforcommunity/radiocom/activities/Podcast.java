@@ -112,16 +112,17 @@ public class Podcast extends AppCompatActivity {
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
         description = (TextView) bottomSheet.findViewById(R.id.info_data);
 
         fab_info = (FloatingActionButton) findViewById(R.id.fab_info);
         fab_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+                if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
                     mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 } else {
-                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
                 }
             }
         });
@@ -134,8 +135,11 @@ public class Podcast extends AppCompatActivity {
             image_podcast_bck = (ImageView) findViewById(R.id.image_podcast_bck);
 
             if (program.getDescription() != null) {
-                //description.setText(program.getDescription());
-                description.setText(Html.fromHtml(program.getDescription()));
+                if (program.getDescription().length() > 500) {
+                    description.setText(Html.fromHtml(program.getDescription().substring(0, 500)));
+                } else {
+                    description.setText(Html.fromHtml(program.getDescription()));
+                }
             }
 
             Picasso.with(mContext).load(program.getLogo_url()).into(image_podcast_bck);

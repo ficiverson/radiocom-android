@@ -23,14 +23,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
->>>>>>> development
-=======
-
->>>>>>> development
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.views.discrollview.Discrollvable;

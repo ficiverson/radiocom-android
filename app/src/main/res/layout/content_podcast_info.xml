@@ -24,6 +24,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/app_bar_height"
+    app:behavior_hideable="true"
     android:background="@android:color/transparent"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
     >
@@ -56,6 +57,7 @@
                 android:layout_height="match_parent"
                 android:textSize="22sp"
                 android:textStyle="bold"
+                android:maxLines="15"
                 android:textColor="@android:color/white"
                 android:text="@string/podcast_info_title"
                 />

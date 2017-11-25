@@ -64,7 +64,7 @@ public class GetTransmissions extends AsyncTask<Boolean, Float, Boolean> {
 
 
     protected void onPostExecute(Boolean result) {
-        mActivity.listChannels(transmissionsDTO);
+        mActivity.listTransmissions(transmissionsDTO);
     }
 
 }

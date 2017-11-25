@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.util.Date;
 import java.util.List;
 
 import justforcommunity.radiocom.R;
@@ -107,7 +109,7 @@ public class LiveBroadcastPageFragment extends FilterFragment {
         }
     }
 
-    public void listChannels(final List<LiveBroadcastDTO> transmissions) {
+    public void listTransmissions(final List<LiveBroadcastDTO> transmissions) {
         avi.hide();
 
         if (transmissions == null || transmissions.isEmpty()) {
@@ -122,6 +124,22 @@ public class LiveBroadcastPageFragment extends FilterFragment {
 
             liveBroadcastAdapter = new LiveBroadcastAdapter(mContext, R.layout.listitem_new, transmissions);
             transmissionList.setAdapter(liveBroadcastAdapter);
+
+            Date actualDate = new Date();
+            for (int i = 0; i < transmissions.size(); i++) {
+                if (transmissions.get(i).getStart().before(actualDate) && transmissions.get(i).getEnd().after(actualDate)) {
+                    Handler handler = new Handler();
+                    final int finalI = i;
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            try {
+                                transmissionList.smoothScrollToPosition(finalI);
+                            } catch (Exception e) {
+                            }
+                        }
+                    }, 1);
+                }
+            }
 
             transmissionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

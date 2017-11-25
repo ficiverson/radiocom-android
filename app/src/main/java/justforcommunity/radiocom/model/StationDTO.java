@@ -38,8 +38,6 @@ public class StationDTO {
     private String facebook_url;
     private String twitter_url;
     private int launch_screen=0;
-<<<<<<< HEAD
-<<<<<<< HEAD
 
     public String getMembersURL() {
         return membersURL;
@@ -48,10 +46,6 @@ public class StationDTO {
     public void setMembersURL(String membersURL) {
         this.membersURL = membersURL;
     }
-=======
->>>>>>> development
-=======
->>>>>>> development
 
     public String getBig_icon_url() {
         return big_icon_url;
