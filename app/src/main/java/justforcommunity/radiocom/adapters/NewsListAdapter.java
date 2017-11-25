@@ -1,8 +1,7 @@
 /*
  *
- *  * Copyright (C) 2016 @ Fernando Souto González
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright © 2016 @ Fernando Souto González
+ *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -45,16 +44,16 @@ public class NewsListAdapter extends ArrayAdapter<Article> {
     public NewsListAdapter(Home mActivity, Context context, int textViewResourceId) {
         super(context, textViewResourceId);
         this.mContext = context;
-        this.mActivity=mActivity;
+        this.mActivity = mActivity;
     }
 
     public NewsListAdapter(Home mActivity, Context context, int resource, List<Article> articles) {
         super(context, resource, articles);
         this.mContext = context;
-        this.mActivity=mActivity;
+        this.mActivity = mActivity;
     }
 
-    static class ViewHolder{
+    static class ViewHolder {
         TextView nameTextView;
         ImageView photoImageView;
     }
@@ -70,14 +69,14 @@ public class NewsListAdapter extends ArrayAdapter<Article> {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
 
-            v=vi.inflate(R.layout.listitem_new, null);
+            v = vi.inflate(R.layout.listitem_new, null);
             holder = new ViewHolder();
             holder.nameTextView = (TextView) v.findViewById(R.id.channel_name);
             holder.photoImageView = (ImageView) v.findViewById(R.id.channel_image);
 
             v.setTag(holder);
 
-        }else{
+        } else {
             holder = (ViewHolder) v.getTag();
         }
 
@@ -86,19 +85,18 @@ public class NewsListAdapter extends ArrayAdapter<Article> {
 
         if (article != null) {
 
-
             if (holder.nameTextView != null) {
-                if(article.getTitle() == null){
+                if (article.getTitle() == null) {
                     holder.nameTextView.setText("");
-                }else{
+                } else {
                     holder.nameTextView.setText(article.getTitle());
                 }
             }
 
             if (holder.photoImageView != null) {
-                if(article.getImage() == null) {
+                if (article.getImage() == null) {
                     Picasso.with(mContext).load(R.drawable.logo_nav_header).transform(new CircleTransform()).into(holder.photoImageView);
-                }else{
+                } else {
                     if (article.getImage().toString() == "") {
                         Picasso.with(mContext).load(R.drawable.logo_nav_header).transform(new CircleTransform()).into(holder.photoImageView);
                     } else {
@@ -109,7 +107,6 @@ public class NewsListAdapter extends ArrayAdapter<Article> {
             }
 
         }
-
         return v;
     }
 

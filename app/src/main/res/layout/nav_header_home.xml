@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /*
-  ~  * Copyright (C) 2016 @ Fernando Souto González
-  ~  *
-  ~  * Developer Fernando Souto
+  ~  * Copyright © 2016 @ Fernando Souto González
+  ~  * Copyright © 2017 @ Pablo Grela
   ~  *
   ~  * Licensed under the Apache License, Version 2.0 (the "License");
   ~  * you may not use this file except in compliance with the License.
@@ -44,11 +43,31 @@
         android:paddingRight="@dimen/activity_vertical_margin_header"
         android:paddingTop="@dimen/activity_vertical_margin_header">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@drawable/logo_nav_header" />
+
+        <LinearLayout
+            android:id="@+id/nav_buttons"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/email_password_fields"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:gravity="left"
+                android:src="@drawable/logo_nav_header" />
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/nav_authenticate"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="100dp"
+                android:gravity="center_horizontal"
+                android:clickable="true"
+                android:src="@drawable/user" />
+        </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"

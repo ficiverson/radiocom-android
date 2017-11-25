@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /*
-  ~  * Copyright (C) 2016 @ Fernando Souto González
-  ~  *
-  ~  * Developer Fernando Souto
+  ~  * Copyright © 2016 @ Fernando Souto González
+  ~  * Copyright © 2017 @ Pablo Grela
   ~  *
   ~  * Licensed under the Apache License, Version 2.0 (the "License");
   ~  * you may not use this file except in compliance with the License.
@@ -24,17 +23,18 @@
     <color name="colorPrimary">#ff9900</color>
     <color name="colorPrimaryDark">#a56300</color>
     <color name="colorAccent">#5f3900</color>
+    <color name="colorCreate">#0adf3f</color>
 
-    <!-- same colors wiyh 85% opacity -->
+    <!-- same colors with 85% opacity -->
     <color name="colorPrimary85">#D9ff9900</color>
     <color name="colorPrimaryDark85">#D9a56300</color>
     <color name="colorAccent85">#D95f3900</color>
+    <color name="colorSecondary85">#d9447ad4</color>
     <!-- end color configuration to change -->
 
     <color name="colorSecondary">#447ad4</color>
     <color name="colorOther">#D9D9D9</color>
     <color name="colorThird">#FFCC00</color>
     <color name="coloFourth">#FA0004</color>
-
-    <color name="colorBlack85">#D9000000</color>
+    <color name="yellow">#edfd05</color>
 </resources>

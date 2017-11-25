@@ -1,8 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /*
-  ~  * Copyright (C) 2016 @ Fernando Souto González
-  ~  *
-  ~  * Developer Fernando Souto
+  ~  * Copyright © 2016 @ Fernando Souto González
+  ~  * Copyright © 2017 @ Pablo Grela
   ~  *
   ~  * Licensed under the Apache License, Version 2.0 (the "License");
   ~  * you may not use this file except in compliance with the License.
@@ -53,10 +53,79 @@
 
     <string name="podcast_info_title">Descripción del programa:</string>
 
+    <!--Reports-->
+    <string name="account">Cuenta</string>
+    <string name="report_activity">Informe</string>
+    <string name="report_activity_create">Crear informe</string>
+    <string name="report_active">Activo:</string>
+    <string name="report_answer">Respuesta: </string>
+    <string name="report_dateCreate">Fecha de creación:</string>
+    <string name="report_dateRevision">Fecha de revisión:</string>
+    <string name="report_tidy">Ordenación:</string>
+    <string name="report_dirt">Suciedad:</string>
+    <string name="report_configuration">Configuración:</string>
+    <string name="report_configuration_full">Configuración de los equipos:</string>
+    <string name="report_openDoor">¿Estaba abierta la emisora cuando llegaste?</string>
+    <string name="report_viewMembers">¿Llegaste a ver la/s persona/s que hacen el siguiente programa? </string>
+    <string name="report_photos">Fotos de las incidencias: </string>
+    <string name="report_add_photos">Añadir fotos: </string>
+    <string name="report_add_photos_info">Puedes añadir fotos si hay algún desperfecto</string>
+    <string name="report_location">Ubicación: </string>
+    <string name="report_description">Descripción: </string>
+    <string name="report_programName">Programa:</string>
+    <string name="report_send_answer">Responder</string>
+    <string name="report_send_down">Marcar como revisado</string>
+    <string name="report_send_answer_success">!Se ha enviado la respuesta¡</string>
+    <string name="report_send_answer_fail">¡Hubo un fallo al enviar la respuesta!</string>
+    <string name="report_send">Enviar</string>
+    <string name="report_send_success">!Se ha enviado el informe¡</string>
+    <string name="report_send_fail">¡Hubo un fallo al enviar el informe!</string>
+    <string name="report_remove_success">!Se ha eliminado la imagen¡</string>
+    <string name="report_complete_fields">¡Rellena todos los campos!</string>
+    <string name="report_low_tidy">Nivel bajo de ordenación</string>
+    <string name="report_low_dirt">Nivel bajo de limpieza</string>
+    <string name="report_low_configration">Nivel bajo de configuración de los equipos</string>
+    <string name="report_max_photos">¡Alcanzado el número máximo de fotos!</string>
+    <string name="report_info_title">Descripción de la informe:</string>
+    <string name="programs_user_fail">¡No se han recuperado los programas!</string>
+    <string name="default_value">0</string>
+    <string name="take_photo">Sacar foto</string>
+    <string name="choose_photo">Buscar foto</string>
+
+
+    <string name="dateStart">Fecha de comienzo</string>
+    <string name="dateEnd">Fecha de finalización</string>
+
+    <!--books-->
+    <string name="book_activity">Reserva</string>
+    <string name="book_activity_create">Crear Reserva</string>
+    <string name="book_active">Activo:</string>
+    <string name="book_answer">Respuesta: </string>
+    <string name="book_dateCreate">Fecha de creación:</string>
+    <string name="book_dateRevision">Revisión:</string>
+    <string name="book_dateApproval">Aprovación:</string>
+    <string name="book_dateStart">Comienzo: </string>
+    <string name="book_dateEnd">Fin: </string>
+    <string name="book_elementName">Elemento</string>
+    <string name="book_description">Descripción</string>
+    <string name="book_location">Ubicación</string>
+    <string name="book_state">Estado: </string>
+    <string name="book_send_answer">Responder</string>
+    <string name="book_send_answer_success">!Se ha enviado la respuesta¡</string>
+    <string name="book_send_answer_fail">¡Hubo un fallo al enviar la respuesta!</string>
+    <string name="book_send">Enviar</string>
+    <string name="book_send_success">!Se ha enviado la petición de reserva¡</string>
+    <string name="book_send_fail">¡Hubo un fallo al enviar la reserva!</string>
+    <string name="book_send_fail_already">!Ya se ha reservado el elemento en un margen mayor!</string>
+    <string name="book_fail_dates">!La fecha de fin ha de ser posterior que la de comienzo!</string>
+    <string name="book_fail_dates_now">!No se pueden hacer reservas en el pasado!</string>
+    <string name="book_complete_fields">¡Rellena todos los campos!</string>
+    <string name="elements_reservable_fail">¡No se han recuperado los elementos reservables!</string>
 
     <string name="action_station">Emisora</string>
     <string name="action_gallery">Galería</string>
     <string name="action_streaming">Escuchar emisión</string>
+    <string name="action_scheduler">Programación</string>
     <string name="action_news">Noticias</string>
     <string name="action_podcast">Podcast</string>
     <string name="action_map">Ubicación</string>
@@ -68,7 +137,25 @@
     <string name="action_thanks">Agradecimientos</string>
     <string name="action_cuac">CUAC FM</string>
     <string name="action_dev">Desarrollo</string>
+<<<<<<< HEAD
+<<<<<<< HEAD
+    <string name="action_management">Gestión</string>
+    <string name="action_user_report">Mis informes</string>
+    <string name="action_report">Informes</string>
+    <string name="action_user_book">Mis reservas</string>
+    <string name="action_book">Reservas</string>
+    <string name="action_members">Ir a Members</string>
+    <string name="action_radioco">Ir a RadioCo</string>
 
+
+    <string name="accept">Aceptar</string>
+    <string name="deny">Rechazar</string>
+=======
+
+>>>>>>> development
+=======
+
+>>>>>>> development
     <string name="search">Buscar</string>
     <string name="share">Compartir</string>
     <string name="share_send_to">Compartir desde app de CUAC FM</string>
@@ -101,4 +188,48 @@
     <string name="home_view">Home Screen</string>
     <string name="news_view">News screen</string>
     <string name="podcast_view">Podcast screen</string>
+    <string name="report_view">Report screen</string>
+    <string name="book_view">Report screen</string>
+    <string name="transmisions_view">Programación</string>
+
+    <string name="auth_failed">Autenticación fallida</string>
+    <string name="auth_success">Autenticación correcta</string>
+    <string name="google_services_failed">Error de Google Play Services</string>
+    <string name="required">Obligatorio</string>
+    <string name="required_email">Introduce el email</string>
+    <string name="authenticate">Autenticarse</string>
+    <string name="reset_password">Reinciar Contraseña</string>
+    <string name="resend_password">Resetear Contraseña</string>
+    <string name="resend_password_success">!Se ha enviado un email para resetear la contraseña¡</string>
+    <string name="resend_password_fail">¡Hubo un fallo al enviar el email para resetear la contraseña!</string>
+
+    <string name="signin">Autenticarse</string>
+    <string name="back">Atras</string>
+    <string name="signout">Desconectarse</string>
+    <string name="signup">¿Eres nuevo? Registrate</string>
+    <string name="verify_email">Verificar email</string>
+    <string name="email_input">Email</string>
+    <string name="password_input">Contraseña</string>
+    <string name="forgot_password">¿Olvidaste la contraseña?</string>
+    <string name="forgot_password_info">¿Contraseña olvidada?</string>
+    <string name="forgot_password_msg">Se enviará un email al correo indicado</string>
+
+    <string name="true_value">Sí</string>
+    <string name="false_value">No</string>
+
+    <!--States-->
+    <string name="MANAGEMENT">En Gestión</string>
+    <string name="ACCEPT">Aceptado</string>
+    <string name="DENY">Rechazado</string>
+
+    <!--Days-->
+    <string name="tab_today">hoy</string>
+    <string name="tab_monday">Lunes</string>
+    <string name="tab_tuesday">Martes</string>
+    <string name="tab_wednesday">Miércoles</string>
+    <string name="tab_thursday">Jueves</string>
+    <string name="tab_friday">Viernes</string>
+    <string name="tab_saturday">Sábado</string>
+    <string name="tab_sunday">Domingo</string>
+
 </resources>

@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ /*
-  ~  * Copyright (C) 2016 @ Fernando Souto González
-  ~  *
-  ~  * Developer Fernando Souto
+  ~  * Copyright © 2016 @ Fernando Souto González
+  ~  * Copyright © 2017 @ Pablo Grela
   ~  *
   ~  * Licensed under the Apache License, Version 2.0 (the "License");
   ~  * you may not use this file except in compliance with the License.
@@ -35,13 +35,17 @@
             android:id="@+id/nav_emision"
             android:icon="@drawable/streaming"
             android:title="@string/action_streaming" />
+        <item
+            android:id="@+id/nav_scheduler"
+            android:icon="@drawable/scheduler"
+            android:title="@string/action_scheduler" />
     </group>
 
     <group
         android:id="@+id/rsss"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_noticias"
+            android:id="@+id/nav_news"
             android:icon="@drawable/news"
             android:title="@string/action_news" />
         <item
@@ -49,6 +53,43 @@
             android:icon="@drawable/podcast"
             android:title="@string/action_podcast" />
     </group>
+
+    <item
+        android:id="@+id/management"
+        android:title="@string/action_management"
+        android:visible="false">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_members"
+                    android:icon="@drawable/webpage"
+                    android:title="@string/action_members" />
+                <item
+                    android:id="@+id/nav_radioco"
+                    android:icon="@drawable/webpage"
+                    android:title="@string/action_radioco" />
+                <item
+                    android:id="@+id/nav_user_report"
+                    android:icon="@drawable/pen"
+                    android:title="@string/action_user_report" />
+                <item
+                    android:id="@+id/nav_report"
+                    android:icon="@drawable/manage_report"
+                    android:title="@string/action_report"
+                    android:visible="false" />
+                <item
+                    android:id="@+id/nav_user_book"
+                    android:icon="@drawable/book"
+                    android:title="@string/action_user_book" />
+                <item
+                    android:id="@+id/nav_book"
+                    android:icon="@drawable/manage_book"
+                    android:title="@string/action_book"
+                    android:visible="false" />
+            </group>
+
+        </menu>
+    </item>
 
     <item android:title="@string/action_social">
         <menu>

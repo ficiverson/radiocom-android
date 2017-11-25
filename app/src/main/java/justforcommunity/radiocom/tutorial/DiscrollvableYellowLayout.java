@@ -1,8 +1,6 @@
 /*
  *
- *  * Copyright (C) 2016 @
- *  *
- *  * Developer Fernando Souto
+ *  * Copyright (C) 2016 @ Fernando Souto González
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
  *  * you may not use this file except in compliance with the License.
@@ -23,6 +21,7 @@ package justforcommunity.radiocom.tutorial;
 import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,10 +29,6 @@ import android.widget.TextView;
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.views.discrollview.Discrollvable;
 
-
-/**
- *
- */
 public class DiscrollvableYellowLayout extends LinearLayout implements Discrollvable {
 
     private TextView mYellowView1;
@@ -60,7 +55,7 @@ public class DiscrollvableYellowLayout extends LinearLayout implements Discrollv
 
         mYellowView1 = (TextView) findViewById(R.id.greenView1);
         mYellowView1TranslationY = mYellowView1.getTranslationY();
-        mYellowColor = getResources().getColor(R.color.colorThird);
+        mYellowColor = ContextCompat.getColor(getContext(), R.color.colorThird);
     }
 
     @Override
@@ -73,7 +68,7 @@ public class DiscrollvableYellowLayout extends LinearLayout implements Discrollv
     @Override
     public void onDiscrollve(float ratio) {
         mYellowView1.setTranslationY(mYellowView1TranslationY * (1 - ratio));
-        if(ratio >= 0.8f) {
+        if (ratio >= 0.8f) {
             ratio = (ratio - 0.5f) / 0.5f;
             mYellowView1.setTextColor((Integer) mArgbEvaluator.evaluate(ratio, mBlackColor, mYellowColor));
             setBackgroundColor((Integer) mArgbEvaluator.evaluate(ratio, mYellowColor, mBlackColor));

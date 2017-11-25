@@ -38,11 +38,14 @@ We need two server call to work properly.
 
 ## Contributing
 
+**Pablo Grela** - *Helper* - [pablogrela](https://github.com/pablogrela)
+
 Any help is welcome
 
 ## License
 
   Copyright 2016 Fernando Souto González
+  Copyright 2017 Pablo Grela Palleiro
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
