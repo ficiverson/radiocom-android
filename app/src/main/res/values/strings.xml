@@ -138,6 +138,7 @@
     <string name="action_cuac">CUAC FM</string>
     <string name="action_dev">Desarrollo</string>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <string name="action_management">Gestión</string>
     <string name="action_user_report">Mis informes</string>
     <string name="action_report">Informes</string>
@@ -149,6 +150,9 @@
 
     <string name="accept">Aceptar</string>
     <string name="deny">Rechazar</string>
+=======
+
+>>>>>>> development
 =======
 
 >>>>>>> development

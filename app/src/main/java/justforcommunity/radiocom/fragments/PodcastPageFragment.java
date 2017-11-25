@@ -90,6 +90,7 @@ public class PodcastPageFragment extends FilterFragment {
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     @Override
     public void filterDataSearch(String query) {
         if (myAdapterPodcast != null) {
@@ -97,12 +98,17 @@ public class PodcastPageFragment extends FilterFragment {
         }
     }
 =======
+=======
+>>>>>>> development
     public void filterDataSearch(String query){
         if(myAdapterPodcast!=null) {
             myAdapterPodcast.getFilter().filter(query);
         }
     }
 
+<<<<<<< HEAD
+>>>>>>> development
+=======
 >>>>>>> development
 
     public void listChannels(final List<ProgramDTO> programs) {

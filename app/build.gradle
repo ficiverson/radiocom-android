@@ -29,8 +29,13 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
 <<<<<<< HEAD
+<<<<<<< HEAD
         versionCode 2
         versionName "1.1"
+=======
+        versionCode 7
+        versionName "2.0"
+>>>>>>> development
 =======
         versionCode 7
         versionName "2.0"
@@ -77,6 +82,9 @@ dependencies {
     compile 'com.android.support:customtabs:23.3.0'
     compile 'com.google.android.gms:play-services-analytics:9.0.0'
     compile 'com.google.android.exoplayer:exoplayer:r1.5.3'
+<<<<<<< HEAD
+>>>>>>> development
+=======
 >>>>>>> development
 }
 

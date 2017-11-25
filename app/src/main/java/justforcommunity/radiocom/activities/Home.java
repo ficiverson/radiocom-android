@@ -43,6 +43,9 @@ import android.support.v7.app.AlertDialog;
 <<<<<<< HEAD
 =======
 import android.support.v7.app.AppCompatActivity;
+<<<<<<< HEAD
+>>>>>>> development
+=======
 >>>>>>> development
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -104,10 +107,13 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     private SearchView mSearchView;
     private String mSearchQuery;
 <<<<<<< HEAD
+<<<<<<< HEAD
     private ImageView nav_authenticate;
     private AccountDTO accountDTO;
     private String token;
     private Intent audioIntent;
+=======
+>>>>>>> development
 =======
 >>>>>>> development
 
@@ -288,7 +294,11 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (!isSearchable) {
+=======
+        if(!isSearchable) {
+>>>>>>> development
 =======
         if(!isSearchable) {
 >>>>>>> development
@@ -317,7 +327,10 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                     return true;
                 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
 =======
 >>>>>>> development
                 @Override
@@ -344,7 +357,10 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                     return false;
                 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
 =======
 >>>>>>> development
                 @Override
@@ -354,6 +370,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
             });
         }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
         //Set the ontouch listener nav_authenticate
         if (station.getMembersURL() != null) {
@@ -382,10 +399,19 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         return true;
     }
 
+=======
+
+        return true;
+    }
+
+>>>>>>> development
     public void filterSearch(String query){
         PodcastPageFragment currentFragment = (PodcastPageFragment)getSupportFragmentManager().findFragmentByTag(mContext.getString(R.string.action_podcast));
         if (currentFragment != null && currentFragment.isVisible()) {
             currentFragment.filterDataSearch(query);
+<<<<<<< HEAD
+>>>>>>> development
+=======
 >>>>>>> development
         }
     }
@@ -505,10 +531,13 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         isSearchable = false;
         invalidateOptionsMenu();
 <<<<<<< HEAD
+<<<<<<< HEAD
         NewsPageFragment newsFragment = new NewsPageFragment();
         newsFragment.setStation(station);
         processFragment(newsFragment, mContext.getString(R.string.action_news));
 =======
+=======
+>>>>>>> development
         NewsPageFragment noticiasFragment = new NewsPageFragment();
         noticiasFragment.setStation(station);
         processFragment(noticiasFragment, mContext.getString(R.string.action_news));
@@ -660,7 +689,11 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     private void processFragment(Fragment fragment, String title) {
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 <<<<<<< HEAD
+<<<<<<< HEAD
         fragmentTransaction.replace(R.id.content_frame, fragment, title);
+=======
+        fragmentTransaction.replace(R.id.content_frame, fragment,title);
+>>>>>>> development
 =======
         fragmentTransaction.replace(R.id.content_frame, fragment,title);
 >>>>>>> development

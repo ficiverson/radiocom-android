@@ -37,6 +37,7 @@ import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.model.ProgramDTO;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import static justforcommunity.radiocom.utils.GlobalValues.radiocoURL;
 
 public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filterable {
@@ -49,10 +50,18 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
 public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filterable {
 
     private Context mContext;
+=======
+public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filterable {
+
+    private Context mContext;
+>>>>>>> development
     private Home mActivity;
     private ItemFilter mFilter = new ItemFilter();
     private List<ProgramDTO>originalData = null;
     private List<ProgramDTO>filteredData = null;
+<<<<<<< HEAD
+>>>>>>> development
+=======
 >>>>>>> development
 
     public PodcastListAdapter(Context context, int resource, List<ProgramDTO> podcast) {
@@ -61,6 +70,9 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
 <<<<<<< HEAD
 =======
         this.mActivity=mActivity;
+<<<<<<< HEAD
+>>>>>>> development
+=======
 >>>>>>> development
         originalData = podcast;
         filteredData = podcast;
@@ -77,7 +89,10 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
         return filteredData.size();
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
 =======
 >>>>>>> development
     @Override
@@ -86,6 +101,10 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> development
 =======
 
 >>>>>>> development
@@ -166,6 +185,45 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
 
             results.values = nList;
             results.count = nList.size();
+
+            return results;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            filteredData = (ArrayList<ProgramDTO>) results.values;
+            notifyDataSetChanged();
+        }
+
+    }
+
+    @Override
+    public Filter getFilter() {
+        return mFilter;
+    }
+
+
+    private class ItemFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            String filterString = constraint.toString().toLowerCase();
+            FilterResults results = new FilterResults();
+            final List<ProgramDTO> list = originalData;
+            int count = list.size();
+            final ArrayList<ProgramDTO> nlist = new ArrayList<ProgramDTO>(count);
+            ProgramDTO filterableString ;
+
+            for (int i = 0; i < count; i++) {
+                filterableString = list.get(i);
+                if (filterableString.getTitle().toLowerCase().contains(filterString)) {
+                    nlist.add(filterableString);
+                }
+            }
+
+            results.values = nlist;
+            results.count = nlist.size();
 
             return results;
         }
