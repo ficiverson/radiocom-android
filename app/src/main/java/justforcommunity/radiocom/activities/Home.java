@@ -41,9 +41,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import android.support.v7.app.AppCompatActivity;
 <<<<<<< HEAD
+>>>>>>> development
+=======
 >>>>>>> development
 =======
 >>>>>>> development
@@ -108,10 +111,16 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     private String mSearchQuery;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> development
     private ImageView nav_authenticate;
     private AccountDTO accountDTO;
     private String token;
     private Intent audioIntent;
+<<<<<<< HEAD
+=======
+>>>>>>> development
 =======
 >>>>>>> development
 =======
@@ -177,6 +186,9 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                 break;
             case 2:
                 loadPodcast();
+                break;
+            case 3:
+                loadScheduler();
                 break;
             default:
                 loadStation();
@@ -295,12 +307,16 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         // Inflate the menu; this adds items to the action bar if it is present.
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (!isSearchable) {
 =======
         if(!isSearchable) {
 >>>>>>> development
 =======
         if(!isSearchable) {
+>>>>>>> development
+=======
+        if (!isSearchable) {
 >>>>>>> development
             getMenuInflater().inflate(R.menu.home, menu);
         } else {
@@ -328,10 +344,14 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                 }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> development
 =======
+>>>>>>> development
+=======
+
 >>>>>>> development
                 @Override
                 public boolean onMenuItemActionExpand(MenuItem item) {
@@ -358,10 +378,14 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
                 }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> development
 =======
+>>>>>>> development
+=======
+
 >>>>>>> development
                 @Override
                 public boolean onQueryTextChange(String newText) {
@@ -372,6 +396,9 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> development
         //Set the ontouch listener nav_authenticate
         if (station.getMembersURL() != null) {
             nav_authenticate = (ImageView) findViewById(R.id.nav_authenticate);
@@ -385,6 +412,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
             }
             changeUserImage();
         }
+<<<<<<< HEAD
         return true;
     }
 
@@ -412,6 +440,17 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
 <<<<<<< HEAD
 >>>>>>> development
 =======
+>>>>>>> development
+=======
+        return true;
+    }
+
+    public void filterSearch(String query) {
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment instanceof FilterFragment && fragment != null && fragment.isVisible()) {
+                ((FilterFragment) fragment).filterDataSearch(query);
+                return;
+            }
 >>>>>>> development
         }
     }
@@ -532,6 +571,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         invalidateOptionsMenu();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         NewsPageFragment newsFragment = new NewsPageFragment();
         newsFragment.setStation(station);
         processFragment(newsFragment, mContext.getString(R.string.action_news));
@@ -541,6 +581,11 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         NewsPageFragment noticiasFragment = new NewsPageFragment();
         noticiasFragment.setStation(station);
         processFragment(noticiasFragment, mContext.getString(R.string.action_news));
+>>>>>>> development
+=======
+        NewsPageFragment newsFragment = new NewsPageFragment();
+        newsFragment.setStation(station);
+        processFragment(newsFragment, mContext.getString(R.string.action_news));
 >>>>>>> development
     }
 
@@ -552,7 +597,11 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
     }
 
     public void loadScheduler() {
+<<<<<<< HEAD
         isSearchable = true;
+=======
+        isSearchable = false;
+>>>>>>> development
         invalidateOptionsMenu();
         processFragment(new LiveBroadcast(), mContext.getString(R.string.action_scheduler));
 
@@ -654,6 +703,7 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
 
             new GetLiveBroadcast(mContext, this).execute();
 
+<<<<<<< HEAD
 //            audioIntent = new Intent(Home.this, StreamingService.class);
 //            audioIntent.putExtra("audio", station.getStream_url());
 //            audioIntent.putExtra("text", getCityByCoords(station.getLatitude(), station.getLongitude()));
@@ -666,6 +716,8 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
 //            edit.putBoolean("isMediaPlaying", playing);
 //            edit.commit();
 
+=======
+>>>>>>> development
         } else {
             Intent i = new Intent(Home.this, StreamingService.class);
             stopService(i);
@@ -690,12 +742,16 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         fragmentTransaction.replace(R.id.content_frame, fragment, title);
 =======
         fragmentTransaction.replace(R.id.content_frame, fragment,title);
 >>>>>>> development
 =======
         fragmentTransaction.replace(R.id.content_frame, fragment,title);
+>>>>>>> development
+=======
+        fragmentTransaction.replace(R.id.content_frame, fragment, title);
 >>>>>>> development
         fragmentTransaction.commit();
         getSupportActionBar().setTitle(title);

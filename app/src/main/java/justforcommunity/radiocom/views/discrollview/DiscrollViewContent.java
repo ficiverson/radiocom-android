@@ -1,5 +1,8 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> development
 /*
  *
  *  * Copyright © 2016 @ Fernando Souto González
@@ -18,6 +21,9 @@
  *
  */
 
+<<<<<<< HEAD
+=======
+>>>>>>> development
 =======
 >>>>>>> development
 =======
@@ -35,6 +41,7 @@ import justforcommunity.radiocom.R;
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 /**
  *
@@ -44,6 +51,8 @@ import justforcommunity.radiocom.R;
 /**
  *
  */
+>>>>>>> development
+=======
 >>>>>>> development
 public class DiscrollViewContent extends LinearLayout {
 
@@ -70,12 +79,16 @@ public class DiscrollViewContent extends LinearLayout {
     private View asDiscrollvable(View child, LayoutParams lp) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (!isDiscrollvable(lp)) {
 =======
         if(! isDiscrollvable(lp)) {
 >>>>>>> development
 =======
         if(! isDiscrollvable(lp)) {
+>>>>>>> development
+=======
+        if (!isDiscrollvable(lp)) {
 >>>>>>> development
             return child;
         }
@@ -95,10 +108,14 @@ public class DiscrollViewContent extends LinearLayout {
         return lp.mDiscrollveAlpha ||
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> development
                 lp.mDiscrollveTranslation != -1 ||
                 lp.mDiscrollveScaleX ||
                 lp.mDiscrollveScaleY ||
                 (lp.mDiscrollveFromBgColor != -1 && lp.mDiscrollveToBgColor != -1);
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> development
@@ -107,6 +124,8 @@ public class DiscrollViewContent extends LinearLayout {
                lp.mDiscrollveScaleY ||
                (lp.mDiscrollveFromBgColor != -1 && lp.mDiscrollveToBgColor != -1);
 <<<<<<< HEAD
+>>>>>>> development
+=======
 >>>>>>> development
 =======
 >>>>>>> development

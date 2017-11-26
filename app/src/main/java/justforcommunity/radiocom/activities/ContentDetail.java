@@ -96,7 +96,11 @@ public class ContentDetail extends AppCompatActivity {
         }
 
         String fontscript = "";
+<<<<<<< HEAD
         String script = "<style type='text/css' >p{width:100%;}img{width:100%;height:auto;-webkit-transform: translate3d(0px,0px,0px);}a,h1,h2,h3,h4,h5,h6{color:" + GlobalValues.colorHTML + ";}div,p,span,a {max-width: 100%;}iframe{width:100%;height:auto;}</style>";
+=======
+        String script = "<style type='text/css'>p{width:100%;}img{width:100%;height:auto;-webkit-transform: translate3d(0px,0px,0px);}a,h1,h2,h3,h4,h5,h6{color:" + GlobalValues.colorHTML + ";}div,p,span,a {max-width: 100%;}iframe{width:100%;height:auto;}</style>";
+>>>>>>> development
 
 
         detail_web.loadDataWithBaseURL(GlobalValues.baseURLWEB, "<html><head>" + fontscript + script + "</head><body style=\"font-family:HelveticaNeue-Light; \">" + content + "</body></html>", "text/html", "utf-8", "");

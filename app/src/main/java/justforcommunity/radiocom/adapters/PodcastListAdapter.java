@@ -35,6 +35,11 @@ import java.util.List;
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.model.ProgramDTO;
+<<<<<<< HEAD
+=======
+
+import static justforcommunity.radiocom.utils.GlobalValues.radiocoURL;
+>>>>>>> development
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -50,6 +55,7 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
 public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filterable {
 
     private Context mContext;
+<<<<<<< HEAD
 =======
 public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filterable {
 
@@ -63,14 +69,22 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
 >>>>>>> development
 =======
 >>>>>>> development
+=======
+    private ItemFilter mFilter = new ItemFilter();
+    private List<ProgramDTO> originalData = null;
+    private List<ProgramDTO> filteredData = null;
+>>>>>>> development
 
     public PodcastListAdapter(Context context, int resource, List<ProgramDTO> podcast) {
         super(context, resource, podcast);
         this.mContext = context;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         this.mActivity=mActivity;
 <<<<<<< HEAD
+>>>>>>> development
+=======
 >>>>>>> development
 =======
 >>>>>>> development
@@ -90,10 +104,14 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> development
 =======
+>>>>>>> development
+=======
+
 >>>>>>> development
     @Override
     public ProgramDTO getItem(int position) {
@@ -107,8 +125,11 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
 >>>>>>> development
 =======
 
+<<<<<<< HEAD
 >>>>>>> development
 
+=======
+>>>>>>> development
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -155,6 +176,7 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
                 }
 
             }
+<<<<<<< HEAD
         }
         return v;
     }
@@ -235,6 +257,10 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
             notifyDataSetChanged();
         }
 
+=======
+        }
+        return v;
+>>>>>>> development
     }
 
     @Override
@@ -251,18 +277,18 @@ public class PodcastListAdapter extends ArrayAdapter<ProgramDTO> implements Filt
             FilterResults results = new FilterResults();
             final List<ProgramDTO> list = originalData;
             int count = list.size();
-            final ArrayList<ProgramDTO> nlist = new ArrayList<ProgramDTO>(count);
-            ProgramDTO filterableString ;
+            final ArrayList<ProgramDTO> nList = new ArrayList<ProgramDTO>(count);
+            ProgramDTO filterableString;
 
             for (int i = 0; i < count; i++) {
                 filterableString = list.get(i);
-                if (filterableString.getTitle().toLowerCase().contains(filterString)) {
-                    nlist.add(filterableString);
+                if (filterableString.getName().toLowerCase().contains(filterString)) {
+                    nList.add(filterableString);
                 }
             }
 
-            results.values = nlist;
-            results.count = nlist.size();
+            results.values = nList;
+            results.count = nList.size();
 
             return results;
         }

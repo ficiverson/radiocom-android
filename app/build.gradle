@@ -1,6 +1,10 @@
 /*
  *
+<<<<<<< HEAD
  *  * Copyright © 2016 @ Appeiros Mobile Development S.L.
+=======
+ *  * Copyright © 2016 @ Fernando Souto Gonzalez
+>>>>>>> development
  *  * Copyright © 2017 @ Pablo Grela
  *  *
  *  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,13 +25,19 @@ apply plugin: 'com.android.application'
 
 android {
 
+<<<<<<< HEAD
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
+=======
+    compileSdkVersion 27
+    buildToolsVersion '27.0.1'
+>>>>>>> development
 
     defaultConfig {
-        applicationId "justforcommunity.radiocom"
+        applicationId "com.app.cuacfm.radio.coruna"
         minSdkVersion 16
         targetSdkVersion 23
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         versionCode 2
@@ -39,6 +49,11 @@ android {
 =======
         versionCode 7
         versionName "2.0"
+>>>>>>> development
+=======
+        versionCode 9
+        versionName "1.0"
+
 >>>>>>> development
     }
     buildTypes {
@@ -59,9 +74,15 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+<<<<<<< HEAD
     compile 'com.android.support:appcompat-v7:25.4.0'
     compile 'com.android.support:customtabs:25.4.0'
     compile 'com.android.support:design:25.4.0'
+=======
+    compile 'com.android.support:appcompat-v7:27.0.1'
+    compile 'com.android.support:customtabs:27.0.1'
+    compile 'com.android.support:design:27.0.1'
+>>>>>>> development
     compile 'com.google.android.exoplayer:exoplayer:r1.5.3'
     compile 'com.google.android.gms:play-services-analytics:11.6.0'
     compile 'com.google.android.gms:play-services-auth:11.6.0'
@@ -74,6 +95,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+<<<<<<< HEAD
 <<<<<<< HEAD
     compile 'com.wang.avi:library:2.1.3'
     compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
@@ -89,3 +111,12 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+=======
+    compile 'com.wang.avi:library:2.1.3'
+    compile 'org.springframework.android:spring-android-rest-template:2.0.0.M3'
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:customtabs:27.0.1'
+    compile 'com.google.android.gms:play-services-analytics:9.0.0'
+    compile 'com.google.android.exoplayer:exoplayer:r1.5.3'
+}
+>>>>>>> development

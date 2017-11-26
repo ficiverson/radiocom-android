@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ /*
+<<<<<<< HEAD
   ~  * Copyright © 2016 @ Appeiros Mobile Development S.L.
   ~  *  Copyright © 2017 @ Pablo Grela
+=======
+  ~  *  Copyright © 2016 @ Fernando Souto Gonzalez
+  ~  *  Copyright © 2017 @ Pablo Grela, Fernando Souto Gonzalez
+>>>>>>> development
   ~  *
   ~  * Developer Fernando Souto
   ~  *
@@ -91,7 +96,10 @@
         </activity>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
         <activity
             android:name=".activities.Report"
             android:label="@string/report_activity"
@@ -139,7 +147,10 @@
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
 =======
 >>>>>>> development
 =======
@@ -157,7 +168,10 @@
             android:enabled="true" />
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> development
         <service
             android:name=".utils.MessagingService">
             <intent-filter>
@@ -170,6 +184,9 @@
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_launcher" />
 
+<<<<<<< HEAD
+=======
+>>>>>>> development
 =======
 >>>>>>> development
 =======

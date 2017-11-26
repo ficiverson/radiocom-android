@@ -52,6 +52,7 @@ public class ServiceElements extends ServiceBase {
     public List<ElementDTO> getElements(String restURL) throws RestClientException, WebServiceStatusFailException {
 
 <<<<<<< HEAD:app/src/main/java/justforcommunity/radiocom/service/ServiceElements.java
+<<<<<<< HEAD:app/src/main/java/justforcommunity/radiocom/service/ServiceElements.java
         String url = membersURL + restURL + addToken + getTokenFirebase();
         ResponseEntity<String> response;
 =======
@@ -69,6 +70,10 @@ public class ServiceElements extends ServiceBase {
 
         ResponseEntity<ResponseProgramDTO> response = null;
 >>>>>>> development:app/src/main/java/justforcommunity/radiocom/service/ServiceGetPrograms.java
+=======
+        String url = membersURL + restURL + addToken + getTokenFirebase();
+        ResponseEntity<String> response;
+>>>>>>> development:app/src/main/java/justforcommunity/radiocom/service/ServiceElements.java
 
         try {
             agregarCabeceras(getRequestHeaders());

@@ -1,5 +1,8 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> development
 /*
  *
  *  * Copyright © 2016 @ Fernando Souto González
@@ -18,6 +21,9 @@
  *
  */
 
+<<<<<<< HEAD
+=======
+>>>>>>> development
 =======
 >>>>>>> development
 =======

@@ -112,16 +112,27 @@ public class Podcast extends AppCompatActivity {
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
         mBottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+<<<<<<< HEAD
+=======
+        mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+>>>>>>> development
         description = (TextView) bottomSheet.findViewById(R.id.info_data);
 
         fab_info = (FloatingActionButton) findViewById(R.id.fab_info);
         fab_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
                 if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
                     mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 } else {
                     mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+=======
+                if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_HIDDEN) {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                } else {
+                    mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+>>>>>>> development
                 }
             }
         });
@@ -134,8 +145,13 @@ public class Podcast extends AppCompatActivity {
             image_podcast_bck = (ImageView) findViewById(R.id.image_podcast_bck);
 
             if (program.getDescription() != null) {
+<<<<<<< HEAD
                 //description.setText(program.getDescription());
                 description.setText(Html.fromHtml(program.getDescription()));
+=======
+                String content  = "<small><font color=\"" + GlobalValues.colorHTMLDescription + "\">" + program.getDescription() + "</font></small>";
+                description.setText(Html.fromHtml(content).toString());
+>>>>>>> development
             }
 
             Picasso.with(mContext).load(program.getLogo_url()).into(image_podcast_bck);

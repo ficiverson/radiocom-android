@@ -18,9 +18,15 @@
 
 package justforcommunity.radiocom.fragments;
 
+<<<<<<< HEAD
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+=======
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+>>>>>>> development
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +35,10 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+<<<<<<< HEAD
+=======
+import java.util.Locale;
+>>>>>>> development
 
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.adapters.DayPage;
@@ -37,6 +47,10 @@ import justforcommunity.radiocom.utils.DateUtils;
 import justforcommunity.radiocom.views.SlidingTabLayout;
 
 import static justforcommunity.radiocom.utils.DateUtils.formatDate;
+<<<<<<< HEAD
+=======
+import static justforcommunity.radiocom.utils.DateUtils.formatDateWithLocale;
+>>>>>>> development
 
 public class LiveBroadcast extends Fragment {
 
@@ -47,24 +61,41 @@ public class LiveBroadcast extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< HEAD
         Calendar dateSearch = Calendar.getInstance();
+=======
+        Locale locale = new Locale("es", "ES");
+        Calendar dateSearch = Calendar.getInstance(locale);
+>>>>>>> development
         dateSearch.add(Calendar.DAY_OF_MONTH, -4);
         mTabs = new ArrayList<>();
 
         // Add pages from previous days
         for (int i = 1; i < 4; i++) {
             dateSearch.add(Calendar.DAY_OF_MONTH, 1);
+<<<<<<< HEAD
             mTabs.add(new DayPage(formatDate(dateSearch, DateUtils.FORMAT_DAY_WEEK), Color.RED, Color.GRAY, formatDate(dateSearch, DateUtils.FORMAT_DATE_GET)));
+=======
+            mTabs.add(new DayPage(formatDateWithLocale(dateSearch, DateUtils.FORMAT_DAY_WEEK, locale), ContextCompat.getColor(getContext(), R.color.colorPrimaryDark), ContextCompat.getColor(getContext(), R.color.colorPrimary85), formatDate(dateSearch, DateUtils.FORMAT_DATE_GET)));
+>>>>>>> development
         }
 
         // Add page of actual day
         dateSearch.add(Calendar.DAY_OF_MONTH, 1);
+<<<<<<< HEAD
         mTabs.add(new DayPage(getString(R.string.tab_today), Color.BLUE, Color.GRAY, formatDate(dateSearch, DateUtils.FORMAT_DATE_GET)));
+=======
+        mTabs.add(new DayPage(getString(R.string.tab_today), ContextCompat.getColor(getContext(), R.color.colorAccent), ContextCompat.getColor(getContext(), R.color.colorPrimary85), formatDate(dateSearch, DateUtils.FORMAT_DATE_GET)));
+>>>>>>> development
 
         // Add pages from next days
         for (int i = 1; i < 4; i++) {
             dateSearch.add(Calendar.DAY_OF_MONTH, 1);
+<<<<<<< HEAD
             mTabs.add(new DayPage(formatDate(dateSearch, DateUtils.FORMAT_DAY_WEEK), Color.GREEN, Color.GRAY, formatDate(dateSearch, DateUtils.FORMAT_DATE_GET)));
+=======
+            mTabs.add(new DayPage(formatDateWithLocale(dateSearch, DateUtils.FORMAT_DAY_WEEK, locale), ContextCompat.getColor(getContext(), R.color.colorPrimaryDark), ContextCompat.getColor(getContext(), R.color.colorPrimary85), formatDate(dateSearch, DateUtils.FORMAT_DATE_GET)));
+>>>>>>> development
         }
     }
 
@@ -78,8 +109,15 @@ public class LiveBroadcast extends Fragment {
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
+<<<<<<< HEAD
         mViewPager.setAdapter(new PageAdapter(getChildFragmentManager(), mTabs));
         mViewPager.setCurrentItem(3);
+=======
+        PageAdapter pageAdapter = new PageAdapter(getChildFragmentManager(), mTabs);
+        mViewPager.setAdapter(pageAdapter);
+        mViewPager.setCurrentItem(3);
+        mViewPager.setOffscreenPageLimit(pageAdapter.getCount());
+>>>>>>> development
 
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setViewPager(mViewPager);

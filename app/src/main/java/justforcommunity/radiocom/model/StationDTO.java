@@ -37,9 +37,13 @@ public class StationDTO {
     private String stream_url;
     private String facebook_url;
     private String twitter_url;
+<<<<<<< HEAD
     private int launch_screen=0;
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+    private int launch_screen=3;
+>>>>>>> development
 
     public String getMembersURL() {
         return membersURL;
@@ -48,6 +52,9 @@ public class StationDTO {
     public void setMembersURL(String membersURL) {
         this.membersURL = membersURL;
     }
+<<<<<<< HEAD
+=======
+>>>>>>> development
 =======
 >>>>>>> development
 =======

@@ -1,5 +1,8 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> development
 /*
  *
  *  * Copyright © 2016 @ Fernando Souto González
@@ -18,6 +21,9 @@
  *
  */
 
+<<<<<<< HEAD
+=======
+>>>>>>> development
 =======
 >>>>>>> development
 =======
@@ -40,11 +46,14 @@ import android.widget.ScrollView;
  * @see justforcommunity.radiocom.views.discrollview.DiscrollViewContent
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
  *
 >>>>>>> development
 =======
  *
+>>>>>>> development
+=======
 >>>>>>> development
  */
 public class DiscrollView extends ScrollView {
@@ -75,6 +84,7 @@ public class DiscrollView extends ScrollView {
         super.onFinishInflate();
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (getChildCount() != 1) {
             throw new IllegalStateException("Discrollview must host one child.");
         }
@@ -88,17 +98,24 @@ public class DiscrollView extends ScrollView {
 =======
 >>>>>>> development
         if(getChildCount() != 1) {
+=======
+        if (getChildCount() != 1) {
+>>>>>>> development
             throw new IllegalStateException("Discrollview must host one child.");
         }
         View content = getChildAt(0);
-        if(!(content instanceof DiscrollViewContent)) {
+        if (!(content instanceof DiscrollViewContent)) {
             throw new IllegalStateException("Discrollview must host a DiscrollViewContent.");
         }
         mContent = (DiscrollViewContent) content;
+<<<<<<< HEAD
         if(mContent.getChildCount() < 2) {
 <<<<<<< HEAD
 >>>>>>> development
 =======
+>>>>>>> development
+=======
+        if (mContent.getChildCount() < 2) {
 >>>>>>> development
             throw new IllegalStateException("Discrollview must have at least 2 children.");
         }
@@ -109,12 +126,16 @@ public class DiscrollView extends ScrollView {
         View first = mContent.getChildAt(0);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (first != null) {
 =======
         if(first != null) {
 >>>>>>> development
 =======
         if(first != null) {
+>>>>>>> development
+=======
+        if (first != null) {
 >>>>>>> development
             first.getLayoutParams().height = getHeight();
         }
@@ -134,12 +155,16 @@ public class DiscrollView extends ScrollView {
         View last = getChildAt(getChildCount() - 1);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         if (last == null) {
 =======
         if(last == null) {
 >>>>>>> development
 =======
         if(last == null) {
+>>>>>>> development
+=======
+        if (last == null) {
 >>>>>>> development
             return 0;
         }
@@ -155,6 +180,7 @@ public class DiscrollView extends ScrollView {
         // view.
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         for (int index = 1; index < mContent.getChildCount(); index++) {
             View child = mContent.getChildAt(index);
             if (!(child instanceof Discrollvable)) {
@@ -168,6 +194,11 @@ public class DiscrollView extends ScrollView {
             View child = mContent.getChildAt(index);
             if(! (child instanceof Discrollvable)) {
 >>>>>>> development
+=======
+        for (int index = 1; index < mContent.getChildCount(); index++) {
+            View child = mContent.getChildAt(index);
+            if (!(child instanceof Discrollvable)) {
+>>>>>>> development
                 //it's a static view, doesn't care about
                 continue;
             }
@@ -178,6 +209,7 @@ public class DiscrollView extends ScrollView {
 
             //the Discrollvable is too big to be discrollved when its center is reached
             //the Discrollvable center. Discrollve it by its top.
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
             if (scrollViewBottom - child.getBottom() < discrollvableHeight + scrollViewHalfHeight) {
@@ -193,6 +225,11 @@ public class DiscrollView extends ScrollView {
                 //the Discrollvable top reaches the DiscrollView bottom
                 if(discrollvableAbsoluteTop <= scrollViewHeight) {
 >>>>>>> development
+=======
+            if (scrollViewBottom - child.getBottom() < discrollvableHeight + scrollViewHalfHeight) {
+                //the Discrollvable top reaches the DiscrollView bottom
+                if (discrollvableAbsoluteTop <= scrollViewHeight) {
+>>>>>>> development
                     int visibleGap = scrollViewHeight - discrollvableAbsoluteTop;
                     discrollvable.onDiscrollve(clamp(visibleGap / (float) discrollvableHeight, 0.0f, 1.0f));
                 } else {
@@ -201,12 +238,16 @@ public class DiscrollView extends ScrollView {
             } else {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
                 if (discrollvableAbsoluteTop <= scrollViewHalfHeight) {
 =======
                 if(discrollvableAbsoluteTop <= scrollViewHalfHeight) {
 >>>>>>> development
 =======
                 if(discrollvableAbsoluteTop <= scrollViewHalfHeight) {
+>>>>>>> development
+=======
+                if (discrollvableAbsoluteTop <= scrollViewHalfHeight) {
 >>>>>>> development
                     //the Discrollvable center reaches the DiscrollView center
                     int visibleGap = scrollViewHalfHeight - discrollvableAbsoluteTop;

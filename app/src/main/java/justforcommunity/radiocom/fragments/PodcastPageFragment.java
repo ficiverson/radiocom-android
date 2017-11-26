@@ -91,6 +91,7 @@ public class PodcastPageFragment extends FilterFragment {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     @Override
     public void filterDataSearch(String query) {
         if (myAdapterPodcast != null) {
@@ -102,15 +103,23 @@ public class PodcastPageFragment extends FilterFragment {
 >>>>>>> development
     public void filterDataSearch(String query){
         if(myAdapterPodcast!=null) {
+=======
+    @Override
+    public void filterDataSearch(String query) {
+        if (myAdapterPodcast != null) {
+>>>>>>> development
             myAdapterPodcast.getFilter().filter(query);
         }
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> development
 =======
 >>>>>>> development
 
+=======
+>>>>>>> development
     public void listChannels(final List<ProgramDTO> programs) {
         avi.hide();
 
@@ -132,6 +141,7 @@ public class PodcastPageFragment extends FilterFragment {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                     //serialize object
                     String jsonInString = new Gson().toJson(myAdapterPodcast.getItem(position));
 =======
@@ -139,6 +149,10 @@ public class PodcastPageFragment extends FilterFragment {
                     Gson gson = new Gson();
                     String jsonInString = gson.toJson(myAdapterPodcast.getItem(position));
 
+>>>>>>> development
+=======
+                    //serialize object
+                    String jsonInString = new Gson().toJson(myAdapterPodcast.getItem(position));
 >>>>>>> development
 
                     //save json object on prefs

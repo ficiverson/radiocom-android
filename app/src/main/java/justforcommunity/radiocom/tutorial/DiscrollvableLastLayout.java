@@ -30,8 +30,11 @@ import android.widget.RelativeLayout;
 >>>>>>> development
 =======
 
+<<<<<<< HEAD
 >>>>>>> development
 
+=======
+>>>>>>> development
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.views.discrollview.Discrollvable;
 

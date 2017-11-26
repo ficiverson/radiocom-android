@@ -49,6 +49,10 @@
             android:icon="@drawable/news"
             android:title="@string/action_news" />
         <item
+            android:id="@+id/nav_scheduler"
+            android:icon="@drawable/scheduler"
+            android:title="@string/action_scheduler" />
+        <item
             android:id="@+id/nav_podcast"
             android:icon="@drawable/podcast"
             android:title="@string/action_podcast" />

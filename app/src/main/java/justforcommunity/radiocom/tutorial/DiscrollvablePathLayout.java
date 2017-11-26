@@ -36,11 +36,14 @@ import justforcommunity.radiocom.views.discrollview.Discrollvable;
 <<<<<<< HEAD
 =======
 
+<<<<<<< HEAD
 >>>>>>> development
 =======
 
 >>>>>>> development
 
+=======
+>>>>>>> development
 public class DiscrollvablePathLayout extends LinearLayout implements Discrollvable {
 
     private float mRatio;

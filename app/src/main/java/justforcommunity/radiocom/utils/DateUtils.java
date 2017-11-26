@@ -20,10 +20,18 @@ package justforcommunity.radiocom.utils;
 
 import android.util.Log;
 
+<<<<<<< HEAD
+=======
+import java.text.DateFormat;
+>>>>>>> development
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+<<<<<<< HEAD
+=======
+import java.util.Locale;
+>>>>>>> development
 
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
@@ -62,4 +70,15 @@ public class DateUtils {
         }
         return null;
     }
+<<<<<<< HEAD
+=======
+
+    public static String formatDateWithLocale(Calendar date, String format, Locale locale) {
+        if (date != null) {
+            DateFormat formatter = new SimpleDateFormat(format, locale);
+            return formatter.format(date.getTime());
+        }
+        return "";
+    }
+>>>>>>> development
 }

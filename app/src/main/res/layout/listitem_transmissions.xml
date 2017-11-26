@@ -18,19 +18,31 @@
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+<<<<<<< HEAD
     android:layout_height="250dp">
+=======
+    android:layout_height="150dp">
+>>>>>>> development
 
     <ImageView
         android:id="@+id/transmission_image"
         android:layout_width="match_parent"
+<<<<<<< HEAD
         android:layout_height="100dp"
+=======
+        android:layout_height="150dp"
+>>>>>>> development
         android:layout_gravity="center"
         android:scaleType="centerCrop" />
 
     <View
         android:id="@+id/transmission_color"
         android:layout_width="match_parent"
+<<<<<<< HEAD
         android:layout_height="100dp"
+=======
+        android:layout_height="150dp"
+>>>>>>> development
         android:background="@color/colorPrimaryDark85"
         />
 
@@ -38,9 +50,14 @@
         android:id="@+id/transmission_hour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:textSize="20sp"
+=======
+        android:layout_centerInParent="true"
+        android:textSize="23sp"
+>>>>>>> development
         android:text="@string/report_programName"
         android:textColor="@android:color/white" />
 
@@ -48,9 +65,15 @@
         android:id="@+id/transmission_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_marginLeft="10dp"
         android:layout_below="@+id/transmission_hour"
         android:textSize="20sp"
+=======
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/transmission_hour"
+        android:textSize="18sp"
+>>>>>>> development
         android:text="@string/report_programName"
         android:textColor="@android:color/white" />
 
