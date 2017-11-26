@@ -98,11 +98,7 @@ public class LiveBroadcastAdapter extends ArrayAdapter<LiveBroadcastDTO> impleme
 
             Date actualDate = new Date();
             if (liveBroadcastDTO.getStart().before(actualDate) && liveBroadcastDTO.getEnd().after(actualDate)) {
-<<<<<<< HEAD
-                holder.colorTransparency.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorSecondary85));
-=======
                 holder.colorTransparency.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAccent85));
->>>>>>> development
             } else {
                 holder.colorTransparency.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark85));
             }

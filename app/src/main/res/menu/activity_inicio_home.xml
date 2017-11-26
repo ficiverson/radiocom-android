@@ -35,10 +35,6 @@
             android:id="@+id/nav_emision"
             android:icon="@drawable/streaming"
             android:title="@string/action_streaming" />
-        <item
-            android:id="@+id/nav_scheduler"
-            android:icon="@drawable/scheduler"
-            android:title="@string/action_scheduler" />
     </group>
 
     <group

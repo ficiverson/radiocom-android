@@ -92,11 +92,8 @@ public class StreamingService extends Service {
             myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
         }
 
-<<<<<<< HEAD
-=======
         Bitmap cuacIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
 
->>>>>>> development
         int smallIconId = 0;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             smallIconId = R.drawable.notification_transparent;

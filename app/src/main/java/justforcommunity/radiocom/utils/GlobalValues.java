@@ -28,21 +28,13 @@ public class GlobalValues {
     //configurations you con update
     public static final String prefName = "commradio";
 
-<<<<<<< HEAD
-    //public static final String baseURL = "http://radiocom.stamplayapp.com/api/cobject/v1/";
-=======
->>>>>>> development
     public static final String baseURLWEB = "https://cuacfm.org/";
     public static final String baseURLCUACWEB = baseURLWEB + "asociacion-cuac/historia/";
 
     ///////////////    RADIOCO   ///////////////////////////
     public static final String radiocoURL = baseURLWEB + "radioco/";
     public static final String radioStationURL = radiocoURL + "api/2/radiocom/radiostation";
-<<<<<<< HEAD
-    public static final String programmesURL = radiocoURL + "api/2/radiocom/programmes";
-=======
     public static final String programmesURL = radiocoURL + "api/2/radiocom/programmes?ordering=name";
->>>>>>> development
     public static final String transmissionsURL = radiocoURL + "api/2/radiocom/transmissions";
     public static final String transmissionNowURL = radiocoURL + "api/2/radiocom/transmissions/now";
 
@@ -81,10 +73,7 @@ public class GlobalValues {
     public static final String addImageName = "&imageName=";
 
     public static final String colorHTML = "#ff9900 !important";
-<<<<<<< HEAD
-=======
     public static final String colorHTMLDescription = "#ffffff !important";
->>>>>>> development
     public static final String city = "A Coruña";
 
     public static final String twitter = "https://twitter.com/";
@@ -123,8 +112,4 @@ public class GlobalValues {
     public static final String ROLE_BOOK = "ROLE_BOOK";
     public static final String ROLE_TRAINER = "ROLE_TRAINER";
     public static final String REST_URL = "REST_URL";
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> development

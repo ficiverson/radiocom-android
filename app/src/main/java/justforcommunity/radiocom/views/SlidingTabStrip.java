@@ -30,15 +30,9 @@ import android.widget.LinearLayout;
 
 class SlidingTabStrip extends LinearLayout {
 
-<<<<<<< HEAD
-    private static final int DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS = 2;
-    private static final byte DEFAULT_BOTTOM_BORDER_COLOR_ALPHA = 0x26;
-    private static final int SELECTED_INDICATOR_THICKNESS_DIPS = 8;
-=======
     private static final int DEFAULT_BOTTOM_BORDER_THICKNESS_DIPS = 1;
     private static final byte DEFAULT_BOTTOM_BORDER_COLOR_ALPHA = 0x26;
     private static final int SELECTED_INDICATOR_THICKNESS_DIPS = 4;
->>>>>>> development
     private static final int DEFAULT_SELECTED_INDICATOR_COLOR = 0xFF33B5E5;
 
     private static final int DEFAULT_DIVIDER_THICKNESS_DIPS = 1;
@@ -143,20 +137,12 @@ class SlidingTabStrip extends LinearLayout {
 
             mSelectedIndicatorPaint.setColor(color);
 
-<<<<<<< HEAD
-            canvas.drawRect(left, height - mSelectedIndicatorThickness, right,
-=======
             canvas.drawRect(left, height - mSelectedIndicatorThickness , right,
->>>>>>> development
                     height, mSelectedIndicatorPaint);
         }
 
         // Thin underline along the entire bottom edge
-<<<<<<< HEAD
-        canvas.drawRect(0, height - mBottomBorderThickness, getWidth(), height, mBottomBorderPaint);
-=======
         canvas.drawRect(0, height - mBottomBorderThickness, getWidth(), height, mSelectedIndicatorPaint);
->>>>>>> development
 
         // Vertical separators between the titles
         int separatorTop = (height - dividerHeightPx) / 2;

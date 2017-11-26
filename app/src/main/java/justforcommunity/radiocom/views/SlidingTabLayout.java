@@ -19,10 +19,7 @@
 package justforcommunity.radiocom.views;
 
 import android.content.Context;
-<<<<<<< HEAD
-=======
 import android.graphics.Color;
->>>>>>> development
 import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v4.view.PagerAdapter;
@@ -113,10 +110,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     protected TextView createDefaultTabView(Context context) {
         TextView textView = new TextView(context);
         textView.setGravity(Gravity.CENTER);
-<<<<<<< HEAD
-=======
         textView.setTextColor(Color.WHITE);
->>>>>>> development
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
         textView.setTypeface(Typeface.DEFAULT_BOLD);
 
@@ -125,12 +119,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
             getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground,
                     outValue, true);
             textView.setBackgroundResource(outValue.resourceId);
-<<<<<<< HEAD
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-=======
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
->>>>>>> development
             textView.setAllCaps(true);
         }
 

@@ -51,29 +51,8 @@ public class ServiceElements extends ServiceBase {
 
     public List<ElementDTO> getElements(String restURL) throws RestClientException, WebServiceStatusFailException {
 
-<<<<<<< HEAD:app/src/main/java/justforcommunity/radiocom/service/ServiceElements.java
-<<<<<<< HEAD:app/src/main/java/justforcommunity/radiocom/service/ServiceElements.java
         String url = membersURL + restURL + addToken + getTokenFirebase();
         ResponseEntity<String> response;
-=======
-        Object[] theValues = {
-        };
-        String[] parameters = {
-        };
-
-
-        List<Object> sendValues = new ArrayList<Object>();
-
-        //String url = GlobalValues.baseURL + "programmes" + restQueryString(parameters, theValues, sendValues);
-        //temporary we use stamplay and rawgit static
-        String url = GlobalValues.baseURL + "program" + restQueryString(parameters, theValues, sendValues);
-
-        ResponseEntity<ResponseProgramDTO> response = null;
->>>>>>> development:app/src/main/java/justforcommunity/radiocom/service/ServiceGetPrograms.java
-=======
-        String url = membersURL + restURL + addToken + getTokenFirebase();
-        ResponseEntity<String> response;
->>>>>>> development:app/src/main/java/justforcommunity/radiocom/service/ServiceElements.java
 
         try {
             agregarCabeceras(getRequestHeaders());
