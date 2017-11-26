@@ -34,7 +34,7 @@ public class GlobalValues {
     ///////////////    RADIOCO   ///////////////////////////
     public static final String radiocoURL = baseURLWEB + "radioco/";
     public static final String radioStationURL = radiocoURL + "api/2/radiocom/radiostation";
-    public static final String programmesURL = radiocoURL + "api/2/radiocom/programmes";
+    public static final String programmesURL = radiocoURL + "api/2/radiocom/programmes?ordering=name";
     public static final String transmissionsURL = radiocoURL + "api/2/radiocom/transmissions";
     public static final String transmissionNowURL = radiocoURL + "api/2/radiocom/transmissions/now";
 
@@ -73,6 +73,7 @@ public class GlobalValues {
     public static final String addImageName = "&imageName=";
 
     public static final String colorHTML = "#ff9900 !important";
+    public static final String colorHTMLDescription = "#ffffff !important";
     public static final String city = "A Coruña";
 
     public static final String twitter = "https://twitter.com/";

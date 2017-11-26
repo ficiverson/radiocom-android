@@ -37,7 +37,7 @@ public class StationDTO {
     private String stream_url;
     private String facebook_url;
     private String twitter_url;
-    private int launch_screen=0;
+    private int launch_screen=3;
 
     public String getMembersURL() {
         return membersURL;

@@ -81,8 +81,10 @@ public class LiveBroadcast extends Fragment {
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        mViewPager.setAdapter(new PageAdapter(getChildFragmentManager(), mTabs));
+        PageAdapter pageAdapter = new PageAdapter(getChildFragmentManager(), mTabs);
+        mViewPager.setAdapter(pageAdapter);
         mViewPager.setCurrentItem(3);
+        mViewPager.setOffscreenPageLimit(pageAdapter.getCount());
 
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setViewPager(mViewPager);

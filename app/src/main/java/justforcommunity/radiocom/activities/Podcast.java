@@ -135,11 +135,8 @@ public class Podcast extends AppCompatActivity {
             image_podcast_bck = (ImageView) findViewById(R.id.image_podcast_bck);
 
             if (program.getDescription() != null) {
-                if (program.getDescription().length() > 500) {
-                    description.setText(Html.fromHtml(program.getDescription().substring(0, 500)));
-                } else {
-                    description.setText(Html.fromHtml(program.getDescription()));
-                }
+                String content  = "<small><font color=\"" + GlobalValues.colorHTMLDescription + "\">" + program.getDescription() + "</font></small>";
+                description.setText(Html.fromHtml(content).toString());
             }
 
             Picasso.with(mContext).load(program.getLogo_url()).into(image_podcast_bck);

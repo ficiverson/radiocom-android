@@ -22,29 +22,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/app_bar_height"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="?android:attr/actionBarSize"
     app:behavior_hideable="true"
     android:background="@android:color/transparent"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
     >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
+            android:layout_alignBottom="@+id/contentid"
+            android:layout_alignTop="@+id/contentid"
             android:layout_width="match_parent"
-            android:layout_height="520dp"
+            android:layout_height="wrap_content"
             android:src="@drawable/bk_nav_header"
             android:scaleType="centerCrop"
             />
         <View
             android:layout_width="match_parent"
-            android:layout_height="520dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/contentid"
+            android:layout_alignTop="@+id/contentid"
             android:background="@color/colorPrimaryDark85"
             />
 
         <RelativeLayout
+            android:id="@+id/contentid"
             android:background="@android:color/transparent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -70,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/info_data_title"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:textColor="@android:color/white"
                 android:text="@string/no_content"
                 />

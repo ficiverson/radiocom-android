@@ -72,12 +72,12 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_info"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@+id/bottom_sheet"
-        app:layout_anchorGravity="top|center_horizontal"
+        app:layout_anchorGravity="top|left"
         android:src="@drawable/infowhite" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -134,6 +134,7 @@ public class LiveBroadcastPageFragment extends FilterFragment {
                         public void run() {
                             try {
                                 transmissionList.smoothScrollToPosition(finalI);
+                                transmissionList.setSelection(finalI);
                             } catch (Exception e) {
                             }
                         }

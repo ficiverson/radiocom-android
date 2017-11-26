@@ -165,6 +165,9 @@ public class Home extends FirebaseActivity implements NavigationView.OnNavigatio
             case 2:
                 loadPodcast();
                 break;
+            case 3:
+                loadScheduler();
+                break;
             default:
                 loadStation();
                 break;
