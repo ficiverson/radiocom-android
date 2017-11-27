@@ -53,6 +53,12 @@
 
     <string name="podcast_info_title">Descripción del programa:</string>
 
+    <!-- popup to continue with audio playback -->
+    <string name="podcast_popup_title">Continuar reproducción</string>
+    <string name="podcast_popup_content">Este audio lo empezaste a escuchar en otro momento. ¿Deseas continuar?</string>
+    <string name="podcast_popup_button_yes">Si</string>
+    <string name="podcast_popup_button_no">No</string>
+
     <!--Reports-->
     <string name="account">Cuenta</string>
     <string name="report_activity">Informe</string>

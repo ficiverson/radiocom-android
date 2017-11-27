@@ -31,6 +31,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -62,6 +63,14 @@ public class PodcastingService extends Service {
     private static final int BUFFER_SEGMENT_COUNT = 256;
     private MediaCodecAudioTrackRenderer audioRenderer;
     private ExoPlayer exoPlayer;
+    private long mCurrentPosition;
+    private PodcastBinder binder;
+
+    public class PodcastBinder extends android.os.Binder {
+        public PodcastingService getService() {
+            return PodcastingService.this;
+        }
+    }
 
     private void showNotification(String paramString1, String paramString2) {
         String str = paramString2;
@@ -83,7 +92,7 @@ public class PodcastingService extends Service {
         pauseIntent.putExtra("stopService", true);
         PendingIntent pauseIntentPending = PendingIntent.getActivity(this, 3, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        Bitmap myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_cuac);
         int smallIconId = 0;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             smallIconId = R.drawable.notification_transparent;
@@ -107,7 +116,7 @@ public class PodcastingService extends Service {
 
     @Override
     public IBinder onBind(Intent paramIntent) {
-        return null;
+        return binder;
     }
 
     @Override
@@ -116,6 +125,7 @@ public class PodcastingService extends Service {
 
         prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         edit = prefs.edit();
+        binder = new PodcastBinder();
     }
 
     @Override
@@ -132,15 +142,17 @@ public class PodcastingService extends Service {
     @Override
     public void onStart(Intent paramIntent, int paramInt) {
 
-        //stop the streaming
-        Intent i = new Intent(PodcastingService.this, StreamingService.class);
-        stopService(i);
+        if (paramIntent != null && paramIntent.getExtras()!=null) {
 
-        if (paramIntent != null) {
+            //stop the streaming only when we want to start this service
+            Intent i = new Intent(PodcastingService.this, StreamingService.class);
+            stopService(i);
+
+
             this.audio = paramIntent.getStringExtra("audio");
             this.title = paramIntent.getStringExtra("title");
             this.text = paramIntent.getStringExtra("text");
-
+            this.mCurrentPosition = paramIntent.getLongExtra("currentPosition",0);
 
             //set title
             edit.putString("currentTitlePlaying", title);
@@ -161,6 +173,7 @@ public class PodcastingService extends Service {
                 // Prepare ExoPlayer
                 exoPlayer.prepare(audioRenderer);
                 exoPlayer.setPlayWhenReady(true);
+                exoPlayer.seekTo(mCurrentPosition);
 
                 showNotification(text, title);
             } catch (Exception e) {
@@ -172,8 +185,16 @@ public class PodcastingService extends Service {
 
     }
 
+    public long getCurrentPosition(){
+        return exoPlayer.getCurrentPosition();
+    }
+
     private void destroyMediaPlayerAndNotification() {
         if (exoPlayer != null) {
+            if(title!= null) {
+                //save state of player
+                edit.putLong(title.trim(), exoPlayer.getCurrentPosition());
+            }
             exoPlayer.stop();
             exoPlayer.release();
             exoPlayer = null;

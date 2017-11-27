@@ -42,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.activities.ContentDetail;
 import justforcommunity.radiocom.activities.Podcast;
@@ -111,32 +112,11 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
                         public void onClick(View v) {
 
                             if (mActivity.prefs.getString("currentTitlePlaying", "").equals(articles.get(position).getTitle())) {
-                                Intent i = new Intent(mActivity, PodcastingService.class);
-                                mActivity.stopService(i);
-
-                                mActivity.edit.putString("currentTitlePlaying", "");
-                                mActivity.edit.commit();
-
-                                holder.playView.setBackground(mContext.getResources().getDrawable(R.drawable.play));
-                                holder.downloadView.setBackground(mContext.getResources().getDrawable(R.drawable.download));//play
-                                holder.nameTextView.setTextColor(Color.BLACK);
+                                stopPodcastService(position, holder);
+                                notifyDataSetChanged();
                             } else {
-
-                                Intent localIntent2 = new Intent(mActivity, PodcastingService.class);
-                                localIntent2.putExtra("audio", f.toString());
-                                localIntent2.putExtra("text", getDate(articles.get(position).getDate()));
-                                localIntent2.putExtra("title", articles.get(position).getTitle());
-                                mActivity.startService(localIntent2);
-
-                                mActivity.edit.putString("currentTitlePlaying", articles.get(position).getTitle());
-                                mActivity.edit.commit();
-
-                                holder.playView.setBackground(mContext.getResources().getDrawable(R.drawable.stopcolored));//stop
-                                holder.downloadView.setBackground(mContext.getResources().getDrawable(R.drawable.downloadcolored));
-                                holder.nameTextView.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+                                startPodcastService(position, holder, f.toString());
                             }
-                            notifyDataSetChanged();
-
                         }
                     });
                     //take off download
@@ -154,30 +134,12 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
                         public void onClick(View v) {
 
                             if (mActivity.prefs.getString("currentTitlePlaying", "").equals(articles.get(position).getTitle())) {
-                                Intent i = new Intent(mActivity, PodcastingService.class);
-                                mActivity.stopService(i);
-
-                                mActivity.edit.putString("currentTitlePlaying", "");
-                                mActivity.edit.commit();
-
-                                holder.playView.setBackground(mContext.getResources().getDrawable(R.drawable.play));
-                                holder.downloadView.setBackground(mContext.getResources().getDrawable(R.drawable.download));//play
-                                holder.nameTextView.setTextColor(Color.BLACK);
+                                stopPodcastService(position, holder);
+                                notifyDataSetChanged();
                             } else {
-                                Intent localIntent2 = new Intent(mActivity, PodcastingService.class);
-                                localIntent2.putExtra("audio", articles.get(position).getEnclosure().getUrl());
-                                localIntent2.putExtra("text", getDate(articles.get(position).getDate()));
-                                localIntent2.putExtra("title", articles.get(position).getTitle());
-                                mActivity.startService(localIntent2);
-
-                                mActivity.edit.putString("currentTitlePlaying", articles.get(position).getTitle());
-                                mActivity.edit.commit();
-
-                                holder.playView.setBackground(mContext.getResources().getDrawable(R.drawable.stopcolored));//stop
-                                holder.downloadView.setBackground(mContext.getResources().getDrawable(R.drawable.downloadcolored));
-                                holder.nameTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+                                startPodcastService(position, holder, articles.get(position).getEnclosure().getUrl());
                             }
-                            notifyDataSetChanged();
+
                         }
                     });
                     holder.downloadView.setOnClickListener(new View.OnClickListener() {
@@ -207,12 +169,83 @@ public class ProgramListAdapter extends RecyclerView.Adapter<ProgramListAdapter.
         }
     }
 
-
     @Override
     public int getItemCount() {
         return articles.size();
     }
 
+    private void stopPodcastService(int position, ViewHolder holder) {
+
+        holder.playView.setBackground(mContext.getResources().getDrawable(R.drawable.play));
+        holder.downloadView.setBackground(mContext.getResources().getDrawable(R.drawable.download));//play
+        holder.nameTextView.setTextColor(Color.BLACK);
+
+        mActivity.edit.putString("currentTitlePlaying", "");
+        mActivity.edit.putLong(articles.get(position).getTitle().trim(), mActivity.mService.getCurrentPosition());
+        mActivity.edit.commit();
+
+        Intent i = new Intent(mActivity, PodcastingService.class);
+        mActivity.unbindService(mActivity.mConntection);
+        mActivity.stopService(i);
+        mActivity.mService = null;
+
+    }
+
+    private void startPodcastService(final int position, final ViewHolder holder, final String audioPath) {
+
+        //check if there is a current position to handle a backup
+        final long currentPosition = mActivity.prefs.getLong(articles.get(position).getTitle().trim(), 0);
+        if (currentPosition != 0) {
+            final SweetAlertDialog pDialog = new SweetAlertDialog(mActivity, SweetAlertDialog.WARNING_TYPE);
+            pDialog.setTitleText(mContext.getString(R.string.podcast_popup_title));
+            pDialog.setContentText(mContext.getString(R.string.podcast_popup_content));
+            pDialog.setCancelable(false);
+            pDialog.setConfirmText(mContext.getString(R.string.podcast_popup_button_yes));
+            pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sDialog) {
+                    pDialog.dismissWithAnimation();
+                    launchPodcastService(currentPosition, audioPath, position, holder);
+                }
+            });
+            pDialog.setCancelText(mContext.getString(R.string.podcast_popup_button_no));
+            pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sDialog) {
+                    pDialog.dismissWithAnimation();
+                    //reset state
+                    mActivity.edit.putLong(String.valueOf(articles.get(position).getId()), 0);
+                    mActivity.edit.commit();
+                    launchPodcastService(0, audioPath, position, holder);
+                }
+            });
+            pDialog.show();
+        } else {
+            launchPodcastService(0, audioPath, position, holder);
+        }
+    }
+
+    private void launchPodcastService(long currentPosition, String path, int position, ViewHolder holder) {
+
+        holder.playView.setBackground(mContext.getResources().getDrawable(R.drawable.stopcolored));//stop
+        holder.downloadView.setBackground(mContext.getResources().getDrawable(R.drawable.downloadcolored));
+        holder.nameTextView.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+
+        notifyDataSetChanged();
+
+        Intent localIntent2 = new Intent(mActivity, PodcastingService.class);
+        localIntent2.putExtra("audio", path.toString());
+        localIntent2.putExtra("text", getDate(articles.get(position).getDate()));
+        localIntent2.putExtra("title", articles.get(position).getTitle());
+        localIntent2.putExtra("currentPosition", currentPosition);
+        mActivity.startService(localIntent2);
+        mActivity.bindService(localIntent2, mActivity.mConntection, Context.BIND_AUTO_CREATE);
+
+        mActivity.edit.putString("currentTitlePlaying", articles.get(position).getTitle());
+        mActivity.edit.commit();
+
+
+    }
 
     public String getDate(long date) {
 

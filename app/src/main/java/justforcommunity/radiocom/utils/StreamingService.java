@@ -89,10 +89,10 @@ public class StreamingService extends Service {
         if (logo != null) {
             myIcon = BitmapFactory.decodeByteArray(logo, 0, logo.length);
         } else {
-            myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+            myIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_cuac);
         }
 
-        Bitmap cuacIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+        Bitmap cuacIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_cuac);
 
         int smallIconId = 0;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

@@ -20,10 +20,13 @@
 package justforcommunity.radiocom.activities;
 
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -43,8 +46,6 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.pkmmte.pkrss.Article;
-import com.pkmmte.pkrss.Callback;
-import com.pkmmte.pkrss.PkRSS;
 import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -53,6 +54,7 @@ import java.util.List;
 import justforcommunity.radiocom.R;
 import justforcommunity.radiocom.adapters.ProgramListAdapter;
 import justforcommunity.radiocom.model.ProgramDTO;
+import justforcommunity.radiocom.task.GetEpisodes;
 import justforcommunity.radiocom.utils.GlobalValues;
 import justforcommunity.radiocom.utils.PodcastingService;
 
@@ -74,6 +76,18 @@ public class Podcast extends AppCompatActivity {
     private BottomSheetBehavior mBottomSheetBehavior;
     private FloatingActionButton fab_info;
     private TextView description;
+    public PodcastingService mService;
+
+    public ServiceConnection mConntection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder binder) {
+            mService = ((PodcastingService.PodcastBinder)binder).getService();
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            mService = null;
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +95,9 @@ public class Podcast extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_podcast);
+
+        mActivity = this;
+        mContext = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -94,8 +111,7 @@ public class Podcast extends AppCompatActivity {
             }
         });
 
-        mActivity = this;
-        mContext = this;
+
 
         prefs = this.getSharedPreferences(GlobalValues.prefName, Context.MODE_PRIVATE);
         edit = prefs.edit();
@@ -135,7 +151,7 @@ public class Podcast extends AppCompatActivity {
             image_podcast_bck = (ImageView) findViewById(R.id.image_podcast_bck);
 
             if (program.getDescription() != null) {
-                String content  = "<small><font color=\"" + GlobalValues.colorHTMLDescription + "\">" + program.getDescription() + "</font></small>";
+                String content = "<small><font color=\"" + GlobalValues.colorHTMLDescription + "\">" + program.getDescription() + "</font></small>";
                 description.setText(Html.fromHtml(content).toString());
             }
 
@@ -144,25 +160,8 @@ public class Podcast extends AppCompatActivity {
             avi = (AVLoadingIndicatorView) findViewById(R.id.avi);
             avi.show();
 
-            Callback callback = new Callback() {
-
-                @Override
-                public void onPreload() {
-                }
-
-                @Override
-                public void onLoaded(List<Article> newArticles) {
-                    listEpisodes(newArticles);
-                }
-
-                @Override
-                public void onLoadFailed() {
-                    listEpisodes(null);
-                }
-            };
-
             if (program.getRss_url() != null && !program.getRss_url().isEmpty()) {
-                PkRSS.with(this).load(program.getRss_url()).callback(callback).async();
+                new GetEpisodes(this,mActivity,program.getRss_url()).execute();
             } else {
                 listEpisodes(null);
             }
@@ -175,10 +174,28 @@ public class Podcast extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Intent intentService = new Intent(mActivity, PodcastingService.class);
+        startService(intentService);
+        bindService(intentService, mConntection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         GoogleAnalytics.getInstance(this).reportActivityStart(this);
     }
+
+    @Override
+    protected void onPause() {
+        if (mService != null && mConntection!= null) {
+            unbindService(mConntection);
+            mService = null;
+        }
+        super.onPause();
+    }
+
 
     @Override
     public void onStop() {

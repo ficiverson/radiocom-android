@@ -31,8 +31,10 @@
     <uses-feature android:name="android.hardware.camera" android:required="false"></uses-feature>
 
     <application
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:replace="android:icon"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher_cuac"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:name="justforcommunity.radiocom.activities.App"

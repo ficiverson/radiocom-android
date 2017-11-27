@@ -32,8 +32,6 @@ import android.widget.TextView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.pkmmte.pkrss.Article;
-import com.pkmmte.pkrss.Callback;
-import com.pkmmte.pkrss.PkRSS;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.List;
@@ -44,6 +42,7 @@ import justforcommunity.radiocom.activities.ContentDetail;
 import justforcommunity.radiocom.activities.Home;
 import justforcommunity.radiocom.adapters.NewsListAdapter;
 import justforcommunity.radiocom.model.StationDTO;
+import justforcommunity.radiocom.task.GetNews;
 import justforcommunity.radiocom.utils.GlobalValues;
 
 public class NewsPageFragment extends Fragment {
@@ -74,25 +73,8 @@ public class NewsPageFragment extends Fragment {
         avi = (AVLoadingIndicatorView) v.findViewById(R.id.avi);
         avi.show();
 
-        Callback callback = new Callback() {
-
-            @Override
-            public void onPreload() {
-            }
-
-            @Override
-            public void onLoaded(List<Article> newArticles) {
-                listChannels(newArticles);
-            }
-
-            @Override
-            public void onLoadFailed() {
-                listChannels(null);
-            }
-        };
-
         if (!station.getNews_rss().isEmpty()) {
-            PkRSS.with(mContext).load(station.getNews_rss()).callback(callback).async();
+            new GetNews(mActivity.getBaseContext(), this, station.getNews_rss()).execute();
         } else {
             listChannels(null);
         }
